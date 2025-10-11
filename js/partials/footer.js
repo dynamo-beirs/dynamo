@@ -108,7 +108,7 @@ function configureFooter(isRootPage) {
         logoRed.src = 'img/logos/red-outlined-logo.png';
     } else {
         logoLink.href = '../index.html';
-        logoGrey.src = '/Dynamo/img/logos/gray-outlined-logo.png';
-        logoRed.src = '/Dynamo/img/logos/red-outlined-logo.png';
+        logoGrey.src = '/dynamo/img/logos/gray-outlined-logo.png';
+        logoRed.src = '/dynamo/img/logos/red-outlined-logo.png';
     }
 }

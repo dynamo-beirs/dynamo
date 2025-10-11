@@ -114,7 +114,7 @@ To view or edit the website locally:
 
 1. **Clone this repository**:
    ```bash
-   git clone https://github.com/woutaerts/Dynamo.git
+   git clone https://github.com/dynamo-beirs/dynamo.git
    cd Dynamo
    ```
 
@@ -135,4 +135,4 @@ To view or edit the website locally:
 ## 📄 License
 
 This project is for educational and demonstrative purposes only.  
-© 2025 [Dynamo Beirs](https://github.com/woutaerts/Dynamo) – All rights reserved.
+© 2025 [Dynamo Beirs](https://github.com/dynamo-beirs/dynamo) – All rights reserved.

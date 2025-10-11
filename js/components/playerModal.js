@@ -13,7 +13,7 @@ class PlayerModal {
         if (this.isInitialized) return;
 
         try {
-            const response = await fetch('/Dynamo/html/components/playerModal.html');
+            const response = await fetch('/dynamo/html/components/playerModal.html');
             const modalHTML = await response.text();
 
             const placeholder = document.getElementById('player-modal-placeholder');
