@@ -500,9 +500,9 @@ function getSortKeyFromIndex(index) {
 
 function getLabelFromKey(key) {
     switch (key) {
-        case 'goals': return 'Total Goals';
-        case 'matches': return 'Matches Played';
-        case 'avg-goals': return 'Average Goals per Match';
+        case 'goals': return 'Totaal Doelpunten';
+        case 'matches': return 'Gespeelde Wedstrijden';
+        case 'avg-goals': return 'Gemiddelde Doelpunten per Wedstrijd';
         default: return '';
     }
 }

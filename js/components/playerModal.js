@@ -110,11 +110,19 @@ class PlayerModal {
 
     /* Content Updates */
     updateContent(name, position, flagSrc, gamesThisSeason, gamesTotal, goalsThisSeason, goalsTotal) {
+        // Mapping for Dutch translations of positions
+        const positionDisplayMap = {
+            'goalkeeper': 'Doelman',
+            'defender': 'Verdediger',
+            'midfielder': 'Middenvelder',
+            'attacker': 'Aanvaller'
+        };
+
         const nameEl = this.modal.querySelector('#modalPlayerName');
         if (nameEl) nameEl.textContent = name;
 
         const positionEl = this.modal.querySelector('#playerPosition');
-        if (positionEl) positionEl.textContent = position;
+        if (positionEl) positionEl.textContent = positionDisplayMap[position.toLowerCase()] || position;
 
         const flagEl = this.modal.querySelector('#nationalityFlag');
         if (flagEl) {

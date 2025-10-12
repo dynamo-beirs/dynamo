@@ -4,7 +4,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 50px 0 15px 0; /* Reduced padding */
+    padding: 50px 0 15px 0;
     color: var(--dark-gray);
 }
 
@@ -67,7 +67,7 @@
     align-items: center;
     justify-content: center;
     text-decoration: none;
-    width: 80px; /* Reduced from 100px */
+    width: 80px;
     height: 80px;
 }
 
@@ -113,13 +113,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 36px; /* Reduced from 40px */
+    width: 36px;
     height: 36px;
     color: var(--medium-gray);
-    font-size: 1.4rem; /* Reduced from 1.6rem */
+    font-size: 1.4rem;
     text-decoration: none;
     transition: color 0.3s ease;
-    min-height: 44px; /* WCAG touch target */
+    min-height: 44px;
 }
 
 /* Social Icon Hover */
@@ -135,7 +135,7 @@
 /* Copyright Text */
 .footer-copyright p {
     margin: 0;
-    font-size: 0.7rem; /* Reduced from 0.75rem */
+    font-size: 0.7rem;
     color: var(--medium-gray);
     font-weight: 400;
 }

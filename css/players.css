@@ -56,7 +56,7 @@ body.filter-all { --hero-accent-color: var(--medium-gray); }
     position: relative;
     overflow: hidden;
     z-index: 1;
-    min-height: 44px; /* WCAG touch target */
+    min-height: 44px;
 }
 
 .filter-btn i {
@@ -119,7 +119,7 @@ body.filter-all { --hero-accent-color: var(--medium-gray); }
     position: relative;
     display: inline-block;
     width: 90%;
-    max-width: 280px; /* Reduced from 300px */
+    max-width: 280px;
 }
 
 .search-icon {
@@ -144,7 +144,7 @@ body.filter-all { --hero-accent-color: var(--medium-gray); }
     transition: all 0.3s ease;
     outline: none;
     box-shadow: var(--shadow-medium);
-    min-height: 44px; /* WCAG touch target */
+    min-height: 44px;
 }
 
 .player-search:focus {
@@ -163,7 +163,7 @@ body.filter-all { --hero-accent-color: var(--medium-gray); }
 
 .players-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Adjusted from 280px */
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 1.5rem;
 }
 
@@ -176,9 +176,11 @@ body.filter-all { --hero-accent-color: var(--medium-gray); }
     border: 2px solid transparent;
     opacity: 0;
     transform: translateY(50px);
+    transform: translateZ(0);
     position: relative;
     overflow: hidden;
-    transition: all 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    will-change: transform, box-shadow, border-color;
 }
 
 .player-card:hover {
@@ -205,7 +207,7 @@ body.filter-all { --hero-accent-color: var(--medium-gray); }
 }
 
 .player-name {
-    font-size: 1.2rem; /* Reduced from 1.4rem */
+    font-size: 1.2rem;
     font-weight: 700;
     color: var(--dark-gray);
     margin-bottom: 0.4rem;
@@ -215,7 +217,7 @@ body.filter-all { --hero-accent-color: var(--medium-gray); }
 .player-position {
     text-transform: uppercase;
     color: var(--dynamo-red);
-    font-size: 0.8rem; /* Reduced from 0.9rem */
+    font-size: 0.8rem;
     font-weight: 800;
     margin-bottom: 0.8rem;
 }
@@ -258,7 +260,7 @@ body.filter-all { --hero-accent-color: var(--medium-gray); }
 
     .filter-controls {
         gap: 0.6rem;
-        flex-direction: row; /* Changed to row for horizontal layout */
+        flex-direction: row;
         flex-wrap: wrap;
         justify-content: center;
     }
@@ -266,8 +268,8 @@ body.filter-all { --hero-accent-color: var(--medium-gray); }
     .filter-btn {
         padding: 0.5rem 1rem;
         font-size: 0.8rem;
-        width: auto; /* Changed from 90% to auto to allow natural sizing */
-        max-width: 150px; /* Reduced max-width for better fit */
+        width: auto;
+        max-width: 150px;
         justify-content: center;
     }
 
@@ -293,8 +295,8 @@ body.filter-all { --hero-accent-color: var(--medium-gray); }
     .players-grid {
         grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
         gap: 1rem;
-        max-width: 90%; /* Added to limit grid width */
-        margin: 0 auto; /* Center the grid */
+        max-width: 90%;
+        margin: 0 auto;
     }
 
     .player-card {
@@ -319,7 +321,7 @@ body.filter-all { --hero-accent-color: var(--medium-gray); }
     }
 }
 
-/* Replace the existing @media (max-width: 480px) */
+/* Mobile View */
 @media (max-width: 480px) {
     .filter-section {
         padding: 0.8rem 0 0.4rem 0;
@@ -327,10 +329,10 @@ body.filter-all { --hero-accent-color: var(--medium-gray); }
 
     .filter-controls {
         display: grid;
-        grid-template-columns: repeat(2, 1fr); /* Two columns for buttons */
-        row-gap: 0.5rem; /* Vertical gap between rows */
-        column-gap: 0.3rem; /* Reduced horizontal gap between paired buttons */
-        justify-items: center; /* Center buttons horizontally */
+        grid-template-columns: repeat(2, 1fr);
+        row-gap: 0.5rem;
+        column-gap: 0.3rem;
+        justify-items: center;
         padding: 0 0.5rem;
     }
 
@@ -338,14 +340,14 @@ body.filter-all { --hero-accent-color: var(--medium-gray); }
         padding: 0.5rem 0.9rem;
         font-size: 0.75rem;
         max-width: 140px;
-        min-height: 40px; /* WCAG-compliant */
-        width: 100%; /* Fill grid cell */
+        min-height: 40px;
+        width: 100%;
         box-sizing: border-box;
     }
 
     .filter-btn:first-child {
-        grid-column: 1 / -1; /* "All Players" spans both columns */
-        max-width: 160px; /* Significantly smaller width */
+        grid-column: 1 / -1;
+        max-width: 160px;
     }
 
     .filter-btn i {
@@ -406,11 +408,10 @@ body.filter-all { --hero-accent-color: var(--medium-gray); }
 @media (max-width: 400px) and (min-width: 360px) {
     .filter-controls {
         display: grid;
-        grid-template-columns: repeat(2, 1fr); /* Two columns for buttons */
-        row-gap: 0.5rem; /* Vertical gap between rows */
-        column-gap: 0.25rem; /* Further reduced horizontal gap for iPhone 15 */
+        grid-template-columns: repeat(2, 1fr);
+        row-gap: 0.75rem;
         justify-items: center;
-        padding: 0 0.75rem;
+        padding: 0 2.5rem;
     }
 
     .filter-btn {
@@ -423,8 +424,8 @@ body.filter-all { --hero-accent-color: var(--medium-gray); }
     }
 
     .filter-btn:first-child {
-        grid-column: 1 / -1; /* "All Players" spans both columns */
-        max-width: 160px; /* Smaller width */
+        grid-column: 1 / -1;
+        max-width: 160px;
     }
 
     .filter-btn i {

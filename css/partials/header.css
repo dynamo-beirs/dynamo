@@ -70,11 +70,11 @@ body {
 .scroll-progress-bar::after {
     content: '';
     position: absolute;
-    right: -1px;
+    right: -0.6px;
     top: 50%;
-    transform: translateY(-50%);
-    width: 14px;
-    height: 14px;
+    transform: translateY(-55%);
+    width: 12px;
+    height: 12px;
     background-image: url('../../img/icons/white-football-icon.png');
     background-size: contain;
     background-repeat: no-repeat;
@@ -245,68 +245,69 @@ body {
         justify-content: center;
     }
 }
-/* Responsive Design - Mobile (optimized for iPhone 15) */
+/* Responsive Design */
 @media (max-width: 480px) {
     body {
-        padding-top: 60px; /* Reduced slightly for compact mobile header */
+        padding-top: 60px;
     }
     .header {
-        width: 92%; /* Slightly wider to fit iPhone 15 viewport */
-        top: 8px; /* Closer to top for better screen utilization */
+        width: 92%;
+        top: 8px;
         padding: 6px 8px;
-        border-radius: 40px; /* Slightly smaller radius for mobile */
-        background: rgba(255, 255, 255, 0.92); /* Slightly more opaque */
-        backdrop-filter: blur(20px); /* Reduced blur for performance */
+        border-radius: 40px;
+        background: rgba(255, 255, 255, 0.92);
+        backdrop-filter: blur(20px);
     }
     .scroll-progress-container {
-        height: 8px; /* Slimmer progress bar for mobile */
+        height: 8px;
     }
     .scroll-progress-bar::after {
-        width: 10px;
-        height: 10px;
-        right: -3px;
+        width: 8px;
+        height: 8px;
+        right: -0.4px;
+        transform: translateY(-50%);
     }
     .nav-container {
         padding: 0;
-        justify-content: space-between; /* Space out toggle and logo (if added) */
+        justify-content: space-between;
     }
     .mobile-menu-toggle {
-        padding: 8px 10px; /* Larger touch target */
+        padding: 8px 10px;
         border-radius: 8px;
     }
     .mobile-menu-toggle span {
-        width: 24px; /* Larger for visibility */
-        height: 3px; /* Thicker lines for better tap recognition */
+        width: 24px;
+        height: 3px;
         margin: 3px 0;
     }
     .nav-links {
         left: 6px;
         right: 6px;
-        top: calc(100% + 8px); /* Tighter to header */
+        top: calc(100% + 8px);
         padding: 12px;
-        border-radius: 16px; /* Smaller radius for compact look */
-        background: rgba(255, 255, 255, 0.98); /* More solid background */
-        backdrop-filter: blur(15px); /* Reduced blur for performance */
+        border-radius: 16px;
+        background: rgba(255, 255, 255, 0.98);
+        backdrop-filter: blur(15px);
         gap: 8px;
     }
     .nav-links.active {
         transform: translateY(0);
         opacity: 1;
         visibility: visible;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* Subtle shadow for depth */
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     }
     .nav-link {
         background: transparent;
         border: none;
         color: var(--dark-gray);
-        padding: 8px 16px; /* Match desktop padding */
-        border-radius: 22px; /* Match desktop border-radius */
+        padding: 8px 16px;
+        border-radius: 22px;
         font-family: 'Poppins', sans-serif;
-        font-weight: 600; /* Match desktop font-weight */
-        letter-spacing: 1px; /* Match desktop letter-spacing */
-        font-size: 1rem; /* Match desktop font-size */
+        font-weight: 600;
+        letter-spacing: 1px;
+        font-size: 1rem;
         cursor: pointer;
-        transition: all 0.3s ease; /* Match desktop transition */
+        transition: all 0.3s ease;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -314,8 +315,8 @@ body {
         overflow: hidden;
         z-index: 1;
         text-decoration: none;
-        width: 100%; /* Keep full-width for mobile */
-        min-height: 44px; /* Ensure touch target size */
+        width: 100%;
+        min-height: 44px;
     }
     .nav-link span {
         position: absolute;
@@ -324,7 +325,7 @@ body {
         height: 0;
         border-radius: 50%;
         background-color: var(--dynamo-red);
-        transition: width 0.4s ease-in-out, height 0.4s ease-in-out; /* Match desktop ripple effect */
+        transition: width 0.4s ease-in-out, height 0.4s ease-in-out;
         transform: translate(-50%, -50%);
         z-index: -1;
     }
@@ -332,20 +333,20 @@ body {
         color: var(--off-white);
     }
     .nav-link:hover span {
-        width: 200%; /* Match desktop ripple effect */
-        height: 165px; /* Match desktop ripple effect */
+        width: 200%;
+        height: 165px;
     }
     .nav-link.active {
         color: var(--off-white);
-        background: var(--dynamo-red); /* Match desktop active state */
+        background: var(--dynamo-red);
     }
     .nav-link:focus {
         color: var(--off-white);
         outline: none;
     }
     .nav-link:focus span {
-        width: 200%; /* Match desktop focus ripple effect */
-        height: 165px; /* Match desktop focus ripple effect */
+        width: 200%;
+        height: 165px;
     }
 }
 /* Accessibility Enhancements */

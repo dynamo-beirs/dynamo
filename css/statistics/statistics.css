@@ -206,6 +206,10 @@ body.team-alltime, body.player-alltime {
     --underline-color: var(--alltime-color);
 }
 
+.section-title {
+    white-space: normal;
+}
+
 .section-title::after, .section-subtitle::after {
     background: var(--underline-color);
     transition: background 0.3s ease, transform 0.6s ease-out 0.3s;
@@ -352,6 +356,9 @@ body.team-alltime, body.player-alltime {
     justify-content: center;
     font-weight: 700;
     margin: 0 auto;
+    padding: 0;
+    font-size: 1rem;
+    line-height: normal;
 }
 
 .scorer-position i, .player-position i {
@@ -387,12 +394,8 @@ body.team-alltime, body.player-alltime {
         padding: 1.5rem 0.8rem;
     }
 
-    .page-hero h1 {
-        font-size: 1.6rem;
-    }
-
-    .section-title {
-        font-size: 1.5rem;
+    .section-title br {
+        display: block;
     }
 
     .toggles-container {
@@ -422,7 +425,7 @@ body.team-alltime, body.player-alltime {
         margin: 5px;
         border-radius: 6px;
         background: transparent;
-        box-shadow: none; /* Remove shadow to eliminate box effect */
+        box-shadow: none;
     }
 
     .btn {
@@ -489,12 +492,12 @@ body.team-alltime, body.player-alltime {
         max-width: 95%;
         margin: 0 auto;
         border-radius: 12px;
-        box-shadow: var(--shadow-medium); /* Updated to medium shadow */
+        box-shadow: var(--shadow-medium);
         background: linear-gradient(145deg, white, var(--nested-box));
     }
 
     .table-header, .scorer-row, .player-row {
-        grid-template-columns: 35px 1fr 50px 50px 50px;
+        grid-template-columns: 33px 1fr 50px 50px 50px;
         gap: 0.8rem;
         padding: 0.8rem;
         font-size: 0.75rem;
@@ -522,7 +525,12 @@ body.team-alltime, body.player-alltime {
         width: 22px;
         height: 22px;
         font-size: 0.75rem;
-        line-height: 1; /* Added to center vertically */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto;
+        padding: 0;
+        line-height: normal;
     }
 
     .desktop-only {
@@ -583,14 +591,6 @@ body.team-alltime, body.player-alltime {
         padding: 1.2rem 0.6rem;
     }
 
-    .page-hero h1 {
-        font-size: 1.4rem;
-    }
-
-    .section-title {
-        font-size: 1.3rem;
-    }
-
     .toggles-container {
         gap: 0.6rem;
         padding: 0 0.6rem;
@@ -611,7 +611,7 @@ body.team-alltime, body.player-alltime {
         margin: 4px;
         border-radius: 5px;
         background: transparent;
-        box-shadow: none; /* Remove shadow to eliminate box effect */
+        box-shadow: none;
     }
 
     .btn {
@@ -641,12 +641,12 @@ body.team-alltime, body.player-alltime {
         width: 25px;
         height: 31px;
         top: 40%;
-        transform: translateY(-39%); /* Adjust to fine-tune vertical position (e.g., -70% for higher) */
-        left: 2px; /* Change to adjust horizontal position (unchecked) */
+        transform: translateY(-39%);
+        left: 2px;
     }
 
     #button .checkbox:checked + .knob:before, #button2 .checkbox:checked + .knob:before {
-        left: 35px; /* Change to adjust horizontal position (checked) */
+        left: 35px;
     }
 
     #button .checkbox:active + .knob:before, #button2 .checkbox:active + .knob:before {
@@ -665,12 +665,12 @@ body.team-alltime, body.player-alltime {
     .top-scorers-table, .player-stats-table {
         max-width: 98%;
         border-radius: 10px;
-        box-shadow: var(--shadow-medium); /* Updated to medium shadow */
+        box-shadow: var(--shadow-medium);
         background: linear-gradient(145deg, white, var(--nested-box));
     }
 
     .table-header, .scorer-row, .player-row {
-        grid-template-columns: 30px 1fr 45px 45px 45px;
+        grid-template-columns: 35px 1fr 45px 45px 45px;
         gap: 0.6rem;
         padding: 0.6rem;
         font-size: 0.7rem;
@@ -689,10 +689,15 @@ body.team-alltime, body.player-alltime {
     }
 
     .scorer-rank, .player-rank {
-        width: 20px;
-        height: 20px;
+        width: 22px;
+        height: 22px;
         font-size: 0.7rem;
-        line-height: 1; /* Updated to center vertically */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto;
+        padding: 0;
+        line-height: 5;
     }
 
     .header-icon {
@@ -720,5 +725,11 @@ body.team-alltime, body.player-alltime {
     .custom-dropdown .options li {
         padding: 0.4rem 0.7rem;
         font-size: 0.8rem;
+    }
+}
+
+@media (min-width: 769px) {
+    .section-title br {
+        display: none;
     }
 }

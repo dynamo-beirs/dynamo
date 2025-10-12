@@ -37,7 +37,7 @@ body {
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 15px; /* Reduced padding for mobile */
+    padding: 0 15px;
 }
 
 /* Page Hero (Non-homepage) */
@@ -46,11 +46,11 @@ body {
     text-align: center;
     background: transparent;
     color: var(--dynamo-red);
-    margin-top: 20px; /* Adjusted for mobile header */
+    margin-top: 20px;
 }
 
 .page-hero h1 {
-    font-size: 3rem; /* Reduced from 4rem */
+    font-size: 3rem;
     font-weight: 900;
     color: var(--dark-gray);
     font-family: sans-serif;
@@ -69,7 +69,7 @@ body {
     position: relative;
     top: 1px;
     height: 100%;
-    font-size: 1.2em; /* Slightly smaller for mobile */
+    font-size: 1.2em;
     color: var(--dynamo-red);
     opacity: 0;
     transform: scaleY(0);
@@ -114,12 +114,12 @@ body {
 }
 
 .section-title {
-    font-size: 2.5rem; /* Reduced from 3rem */
+    font-size: 2.5rem;
     margin: 1.5rem 0 2rem;
 }
 
 .section-subtitle {
-    font-size: 1.6rem; /* Reduced from 1.8rem */
+    font-size: 1.6rem;
     margin-bottom: 1.5rem;
 }
 
@@ -137,13 +137,13 @@ body {
 
 .section-title::after {
     bottom: -8px;
-    width: 60px; /* Reduced from 80px */
+    width: 60px;
     height: 4px;
 }
 
 .section-subtitle::after {
     bottom: -6px;
-    width: 40px; /* Reduced from 50px */
+    width: 40px;
     height: 3px;
 }
 
@@ -164,8 +164,8 @@ body {
 .countdown {
     display: flex;
     justify-content: center;
-    gap: 1rem; /* Reduced gap for mobile */
-    font-size: 1.2rem; /* Reduced from 1.5rem */
+    gap: 1rem;
+    font-size: 1.2rem;
 }
 
 .countdown-block {
@@ -173,7 +173,7 @@ body {
     flex-shrink: 0;
     transition: opacity 0.6s ease-out, transform 0.6s ease-out;
     opacity: 0;
-    transform: translateY(50px); /* Reduced from 100px */
+    transform: translateY(50px);
 }
 
 .countdown-box {
@@ -182,7 +182,7 @@ body {
     border-radius: 12px;
     box-shadow: var(--shadow-medium);
     transition: transform 0.3s, box-shadow 0.3s ease;
-    width: 80px; /* Reduced from 100px */
+    width: 80px;
 }
 
 .countdown-box:hover {
@@ -192,7 +192,7 @@ body {
 
 .countdown-box span {
     display: block;
-    font-size: 1.8rem; /* Reduced from 2rem */
+    font-size: 1.8rem;
     font-weight: bold;
     color: var(--dynamo-red);
     font-family: 'Poppins', sans-serif;
@@ -200,7 +200,7 @@ body {
 
 .countdown-block small {
     display: block;
-    font-size: 0.8rem; /* Reduced from 0.9rem */
+    font-size: 0.8rem;
     color: var(--medium-gray);
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -217,7 +217,7 @@ body {
 }
 
 .upcoming-match-name h3 {
-    font-size: 1.3rem; /* Reduced from 1.5rem */
+    font-size: 1.3rem;
     color: var(--dark-gray);
     margin: 0;
     font-family: 'Poppins', sans-serif;
@@ -242,27 +242,27 @@ body {
 }
 
 .form-result {
-    width: 40px; /* Reduced from 50px */
-    height: 40px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     font-weight: 900;
     color: var(--off-white);
-    font-size: 1.2rem; /* Reduced from 1.4rem */
+    font-size: 1.6rem;
     box-shadow: var(--shadow-medium);
     cursor: default;
     display: flex;
     justify-content: center;
     align-items: center;
     font-family: 'Poppins', sans-serif;
-    transition: opacity 0.6s ease-out, transform 0.6s ease-out, box-shadow 0.3s ease;
+    transition: opacity 0.3s ease-out, transform 0.3s ease-out, box-shadow 0.3s ease;
     opacity: 0;
-    transform: translateY(50px); /* Reduced from 100px */
+    transform: translateY(50px);
 }
 
 .form-result:last-child {
-    border: 2px solid var(--off-white);
-    width: calc(40px + 4px);
-    height: calc(40px + 4px);
+    border: 3px solid var(--off-white);
+    width: calc(50px + 5px);
+    height: calc(50px + 5px);
     margin: -2px;
 }
 
@@ -285,12 +285,12 @@ body {
 
 .form-result:last-child:hover {
     transform: translateY(-5px);
-    border: 2px solid var(--off-white);
+    border: 3px solid var(--off-white);
 }
 
 .form-description {
     display: block;
-    font-size: 0.8rem; /* Reduced from 0.9rem */
+    font-size: 0.8rem;
     color: var(--medium-gray);
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -326,7 +326,7 @@ body {
 .upcoming-match-name,
 .form-description {
     opacity: 0;
-    transform: translateY(50px); /* Reduced from 100px */
+    transform: translateY(50px);
     transition: opacity 0.6s ease-out, transform 0.6s ease-out, box-shadow 0.3s ease;
 }
 
@@ -340,14 +340,14 @@ body {
     background: var(--nested-box);
     color: var(--dark-gray);
     display: inline-block;
-    padding: 0.8rem 1.5rem; /* Adjusted for mobile */
+    padding: 0.8rem 1.5rem;
     text-decoration: none;
     border-radius: 40px;
     font-weight: 600;
-    font-size: 0.9rem; /* Added for consistency */
+    font-size: 0.9rem;
     transition: all 0.3s ease;
     box-shadow: var(--shadow-medium);
-    min-height: 44px; /* WCAG touch target size */
+    min-height: 44px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -357,7 +357,6 @@ body {
     color: var(--dynamo-red);
 }
 
-/* Add to main CSS (outside media query) for desktop */
 .desktop-only {
     display: inline-block;
 }
@@ -425,7 +424,7 @@ body {
 @media (max-width: 480px) {
     .page-hero h1::before,
     .page-hero h1::after {
-        top: 0px;
+        top: -2px;
         font-size: 1em;
         margin: 6px;
     }
@@ -451,7 +450,7 @@ body {
     .form-result {
         width: 30px;
         height: 30px;
-        font-size: 0.9rem;
+        font-size: 1rem;
     }
     .form-result:last-child {
         width: calc(30px + 4px);

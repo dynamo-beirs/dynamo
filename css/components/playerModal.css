@@ -311,7 +311,6 @@ body.modal-open {
         top: 10px;
         right: 10px;
     }
-    /* NEW: Stack games and goals horizontally, each 50% width */
     .stats-container {
         flex-direction: row;
         flex-wrap: wrap;

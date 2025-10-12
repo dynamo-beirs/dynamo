@@ -96,15 +96,24 @@ function parseCSV(csvText) {
 }
 
 // Render player cards dynamically
+// Render player cards dynamically
 function renderPlayerCards(players) {
     const playersGrid = document.querySelector('.players-grid');
     if (!playersGrid) return;
+
+    // Mapping for Dutch translations of positions
+    const positionDisplayMap = {
+        'goalkeeper': 'Doelman',
+        'defender': 'Verdediger',
+        'midfielder': 'Middenvelder',
+        'attacker': 'Aanvaller'
+    };
 
     playersGrid.innerHTML = ''; // Clear existing cards
     players.forEach(player => {
         const card = document.createElement('div');
         card.className = 'player-card';
-        card.setAttribute('data-position', player.position);
+        card.setAttribute('data-position', player.position); // Keep English for internal use
         card.setAttribute('data-name', player.name);
         card.setAttribute('data-nationality', player.nationality);
         card.setAttribute('data-flag-src', player.flagSrc);
@@ -116,7 +125,7 @@ function renderPlayerCards(players) {
         card.innerHTML = `
             <div class="player-info">
                 <div class="player-name">${player.name}</div>
-                <div class="player-position">${player.position.charAt(0).toUpperCase() + player.position.slice(1)}</div>
+                <div class="player-position">${positionDisplayMap[player.position]}</div>
                 <div class="player-nationality">
                     <img src="${player.flagSrc}" alt="${player.nationality} Flag" class="flag-icon">
                 </div>
@@ -294,9 +303,4 @@ function animatePlayerCards() {
     }, { root: null, rootMargin: '0px', threshold: 0.1 });
 
     document.querySelectorAll('.player-card').forEach(item => observer.observe(item));
-}
-
-// Update hero accent color (optional, keep if used in CSS)
-function updateHeroAccentColor(position) {
-    // This function can be removed if not needed, as it's already handled by CSS
 }
