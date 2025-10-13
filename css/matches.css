@@ -198,7 +198,7 @@
     font-family: "Font Awesome 6 Free", serif;
     font-weight: 900;
     position: absolute;
-    top: 50.6%;
+    top: 50.4%;
     right: 1.29rem;
     transform: translate(50%, -50%);
     font-size: 26px;
@@ -379,7 +379,7 @@
     .timeline::after {
         font-size: 20px;
         right: 0.8rem;
-        top: 50.8%;
+        top: 50.5%;
     }
 
     .timeline-item {
