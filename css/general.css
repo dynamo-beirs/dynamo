@@ -53,12 +53,13 @@ body {
     font-size: 3rem;
     font-weight: 900;
     color: var(--dark-gray);
-    font-family: sans-serif;
+    font-family: 'Poppins', sans-serif;
     position: relative;
     display: inline-block;
     opacity: 0;
     transform: translateY(20px);
     transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
 }
 
 .page-hero h1::before,
