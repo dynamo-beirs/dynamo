@@ -202,7 +202,7 @@
     right: 1.29rem;
     transform: translate(50%, -50%);
     font-size: 26px;
-    color: var(--dynamo-red);
+    color: var(--light-gray);
     pointer-events: none;
     user-select: none;
     z-index: 3;
@@ -380,7 +380,6 @@
         font-size: 20px;
         right: 0.8rem;
         top: 49.7%;
-        color: var(--light-green);
     }
 
     .timeline-item {
