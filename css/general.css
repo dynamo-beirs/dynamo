@@ -424,7 +424,7 @@ body {
 @media (max-width: 480px) {
     .page-hero h1::before,
     .page-hero h1::after {
-        top: -2px;
+        top: -1px;
         font-size: 1em;
         margin: 6px;
     }
