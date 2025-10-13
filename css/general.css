@@ -420,8 +420,9 @@ body {
 @media (max-width: 480px) {
     .page-hero h1::before,
     .page-hero h1::after {
-        font-size: 3em;
+        font-size: 1em;
         margin: 6px;
+        top: 100px;
     }
     .container {
         padding: 0 8px;
