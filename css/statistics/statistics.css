@@ -227,9 +227,12 @@ body.team-alltime, body.player-alltime {
 .sort-controls {
     margin-bottom: 1.5rem;
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
     align-items: center;
     gap: 1rem;
+    max-width: 70%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .custom-dropdown {
@@ -308,6 +311,8 @@ body.team-alltime, body.player-alltime {
     border-radius: 15px;
     box-shadow: var(--shadow-medium);
     overflow: hidden;
+    max-width: 70%;
+    margin: 0 auto;
 }
 
 .table-header, .scorer-row, .player-row {

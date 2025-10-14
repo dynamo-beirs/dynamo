@@ -7,6 +7,9 @@
     overflow: hidden;
     background-size: cover;
     margin-bottom: -3rem;
+    width: 70%; /* Updated for desktop */
+    margin-left: auto; /* Center the section */
+    margin-right: auto;
 }
 
 .hero-content {
@@ -78,7 +81,7 @@
 
 .stats-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, 180px);
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* Updated to match contact-grid behavior */
     gap: 1.5rem;
     justify-content: center;
     text-align: center;
@@ -129,7 +132,7 @@
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 1.5rem;
-    width: 70%;
+    width: 70%; /* Updated for desktop */
     margin: 0 auto;
 }
 
@@ -190,7 +193,7 @@
     opacity: 0;
     transform: translateY(50px);
     transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-    width: 70%;
+    width: 70%; /* Updated for desktop */
     margin: 0 auto;
 }
 
@@ -225,6 +228,8 @@
         height: 35vh;
         margin-bottom: -2rem;
         padding: 1.2rem 0.6rem;
+        width: 95%; /* Unchanged for mobile */
+        margin: 0 auto; /* Ensure centering */
     }
 
     .hero-content {
@@ -253,7 +258,7 @@
     .stats-grid {
         grid-template-columns: repeat(auto-fit, 150px);
         gap: 0.8rem;
-        width: 95%;
+        width: 95%; /* Unchanged for mobile */
     }
 
     .stat-card {
@@ -278,7 +283,7 @@
     .contact-grid {
         grid-template-columns: 1fr;
         gap: 0.8rem;
-        width: 95%;
+        width: 95%; /* Unchanged for mobile */
     }
 
     .contact-card {
@@ -306,7 +311,7 @@
 
     .map-container {
         height: 250px;
-        width: 95%;
+        width: 95%; /* Unchanged for mobile */
         border-radius: 10px;
         box-shadow: var(--shadow-medium);
     }
@@ -317,6 +322,8 @@
         height: 30vh;
         padding: 1rem 0.6rem;
         margin-bottom: -1.5rem;
+        width: 90%; /* Unchanged for mobile */
+        margin: 0 auto; /* Ensure centering */
     }
 
     .hero-content {
@@ -374,7 +381,7 @@
     .stats-grid {
         grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
         gap: 0.6rem;
-        width: 90%;
+        width: 90%; /* Unchanged for mobile */
     }
 
     .stat-card {
@@ -399,7 +406,7 @@
     .contact-grid {
         grid-template-columns: 1fr;
         gap: 0.6rem;
-        width: 90%;
+        width: 90%; /* Unchanged for mobile */
     }
 
     .contact-card {
