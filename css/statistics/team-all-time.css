@@ -4,14 +4,18 @@
 }
 
 .team-records-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    display: flex;
+    flex-wrap: wrap;
     gap: 2rem;
+    justify-content: space-between;
+    width: 70%;
+    margin: 0 auto;
 }
 
 .record-category {
+    flex: 1 1 300px;
     background: white;
-    padding: 2rem;
+    padding: 1.5rem;
     border-radius: 15px;
     box-shadow: var(--shadow-medium);
 }
@@ -28,7 +32,7 @@
     text-align: center;
     font-family: 'Poppins', sans-serif;
     font-weight: 700;
-    font-size: 1.4rem;
+    font-size: 1.3rem;
     transition: opacity 0.6s ease-out, transform 0.6s ease-out, box-shadow 0.3s ease;
 }
 
@@ -58,7 +62,7 @@
 .record-value {
     font-weight: 700;
     color: var(--primary-theme-color);
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     transition: opacity 0.6s ease-out, transform 0.6s ease-out, box-shadow 0.3s ease;
 }
 
@@ -72,4 +76,41 @@
     font-size: 0.8em;
     color: var(--line-gray);
     margin-left: 5px;
+}
+
+@media (max-width: 400px) and (min-width: 360px) {
+    .all-time-stats {
+        padding: 1.2rem 0;
+    }
+
+    .team-records-grid {
+        flex-direction: column;
+        gap: 0.8rem;
+        width: 90%;
+        margin: 0 auto;
+    }
+
+    .record-category {
+        flex: none;
+        height: auto;
+        padding: 1rem;
+        border-radius: 12px;
+        box-shadow: var(--shadow-medium);
+        min-height: 44px;
+    }
+
+    .record-category h3 {
+        font-size: 1.2rem;
+    }
+
+    .record-item {
+        padding: 0.6rem;
+        margin-bottom: 0.5rem;
+        border-radius: 8px;
+        min-height: 44px;
+    }
+
+    .record-value {
+        font-size: 0.9rem;
+    }
 }

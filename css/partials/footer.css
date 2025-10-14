@@ -180,7 +180,8 @@
 /* Mobile Responsive */
 @media (max-width: 480px) {
     .footer-content {
-        padding: 0 10px;
+        padding: 0 10px
+        width: 90vw;
     }
 
     .logo-link,
@@ -191,7 +192,7 @@
     }
 
     .footer-social-line {
-        max-width: 250px;
+        max-width: 93%;
     }
 
     .footer-social {

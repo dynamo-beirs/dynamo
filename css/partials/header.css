@@ -259,13 +259,7 @@ body {
         backdrop-filter: blur(20px);
     }
     .scroll-progress-container {
-        height: 8px;
-    }
-    .scroll-progress-bar::after {
-        width: 8px;
-        height: 8px;
-        right: -0.4px;
-        transform: translateY(-50%);
+        display: none; /* Hide progress bar on mobile */
     }
     .nav-container {
         padding: 0;

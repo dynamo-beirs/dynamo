@@ -266,18 +266,18 @@ body {
 .form-result.draw { background: var(--golden-yellow); }
 .form-result.loss { background: var(--soft-coral); }
 
-.form-result.win:last-child { box-shadow: 0 0 0 2px var(--light-green); }
-.form-result.draw:last-child { box-shadow: 0 0 0 2px var(--golden-yellow); }
-.form-result.loss:last-child { box-shadow: 0 0 0 2px var(--soft-coral); }
+.form-result.win:last-child { box-shadow: 0 0 0 3px var(--light-green); }
+.form-result.draw:last-child { box-shadow: 0 0 0 3px var(--golden-yellow); }
+.form-result.loss:last-child { box-shadow: 0 0 0 3px var(--soft-coral); }
 
 .form-result:hover {
     box-shadow: var(--shadow-hover);
     transform: translateY(-5px);
 }
 
-.form-result.win:last-child:hover { box-shadow: 0 0 0 2px var(--light-green), var(--shadow-hover); }
-.form-result.draw:last-child:hover { box-shadow: 0 0 0 2px var(--golden-yellow), var(--shadow-hover); }
-.form-result.loss:last-child:hover { box-shadow: 0 0 0 2px var(--soft-coral), var(--shadow-hover); }
+.form-result.win:last-child:hover { box-shadow: 0 0 0 3px var(--light-green), var(--shadow-hover); }
+.form-result.draw:last-child:hover { box-shadow: 0 0 0 3px var(--golden-yellow), var(--shadow-hover); }
+.form-result.loss:last-child:hover { box-shadow: 0 0 0 3px var(--soft-coral), var(--shadow-hover); }
 
 .form-result:last-child:hover {
     transform: translateY(-5px);
@@ -420,6 +420,7 @@ body {
 @media (max-width: 480px) {
     .page-hero h1::before,
     .page-hero h1::after {
+        top: 3px;
         font-size: 1em;
         margin: 6px;
     }
@@ -435,6 +436,11 @@ body {
     .section-subtitle {
         font-size: 1.2rem;
     }
+
+    .upcoming-match-name h3 {
+        font-size: 1rem;
+    }
+
     .countdown-box {
         width: 60px;
         padding: 0.6rem;
@@ -450,5 +456,10 @@ body {
     .form-result:last-child {
         width: calc(30px + 4px);
         height: calc(30px + 4px);
+        border: 2px solid var(--off-white);
     }
+
+    .form-result.win:last-child { box-shadow: 0 0 0 2px var(--light-green); }
+    .form-result.draw:last-child { box-shadow: 0 0 0 2px var(--golden-yellow); }
+    .form-result.loss:last-child { box-shadow: 0 0 0 2px var(--soft-coral); }
 }

@@ -278,7 +278,7 @@ body.filter-all { --hero-accent-color: var(--medium-gray); }
     }
 
     .search-wrapper {
-        width: 95%;
+        width: 100%;
         max-width: 250px;
     }
 
@@ -355,8 +355,8 @@ body.filter-all { --hero-accent-color: var(--medium-gray); }
     }
 
     .search-wrapper {
-        width: 90%;
-        max-width: 240px;
+        width: 100%;
+        max-width: 291px;
     }
 
     .player-search {
@@ -373,9 +373,9 @@ body.filter-all { --hero-accent-color: var(--medium-gray); }
     .players-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 0.8rem;
-        max-width: 100%;
+        max-width: 90%; /* Changed to 90% of viewport width */
         margin: 0 auto;
-        padding: 0 0.5rem;
+        padding: 0; /* Removed padding to maximize grid width */
     }
 
     .player-card {
@@ -404,7 +404,7 @@ body.filter-all { --hero-accent-color: var(--medium-gray); }
     }
 }
 
-/* Replace the iPhone 15-specific media query */
+/* iPhone 15-specific media query */
 @media (max-width: 400px) and (min-width: 360px) {
     .filter-controls {
         display: grid;
@@ -435,7 +435,9 @@ body.filter-all { --hero-accent-color: var(--medium-gray); }
     .players-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 0.75rem;
-        padding: 0 0.75rem;
+        max-width: 90%;
+        margin: 0 auto;
+        padding: 0;
     }
 
     .player-card {
@@ -444,7 +446,7 @@ body.filter-all { --hero-accent-color: var(--medium-gray); }
     }
 
     .player-name {
-        font-size: 0.9rem;
+        font-size: 0.8rem;
     }
 
     .player-position {

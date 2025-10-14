@@ -367,13 +367,13 @@ body.team-alltime, body.player-alltime {
 
 .scorer-name, .player-name {
     font-size: 1.1rem;
-    font-weight: 600;
+    font-weight: 700;
     color: var(--primary-theme-color);
 }
 
 .scorer-goals, .scorer-matches, .scorer-avg-goals, .player-goals, .player-matches, .player-avg-goals {
     font-size: 1rem;
-    font-weight: 500;
+    font-weight: 700;
 }
 
 /* Desktop view - show text, hide icons */
@@ -489,7 +489,7 @@ body.team-alltime, body.player-alltime {
     }
 
     .top-scorers-table, .player-stats-table {
-        max-width: 95%;
+        max-width: 90%;
         margin: 0 auto;
         border-radius: 12px;
         box-shadow: var(--shadow-medium);
@@ -663,7 +663,7 @@ body.team-alltime, body.player-alltime {
     }
 
     .top-scorers-table, .player-stats-table {
-        max-width: 98%;
+        max-width: 90%;
         border-radius: 10px;
         box-shadow: var(--shadow-medium);
         background: linear-gradient(145deg, white, var(--nested-box));
@@ -671,9 +671,13 @@ body.team-alltime, body.player-alltime {
 
     .table-header, .scorer-row, .player-row {
         grid-template-columns: 35px 1fr 45px 45px 45px;
-        gap: 0.6rem;
+        gap: 0.2rem;
         padding: 0.6rem;
         font-size: 0.7rem;
+    }
+
+    .scorer-goals, .scorer-matches, .scorer-avg-goals, .player-goals, .player-matches, .player-avg-goals {
+        font-size: 0.8rem;
     }
 
     .table-header {
@@ -685,7 +689,7 @@ body.team-alltime, body.player-alltime {
     }
 
     .scorer-name, .player-name {
-        font-size: 0.8rem;
+        font-size: 0.7rem;
     }
 
     .scorer-rank, .player-rank {
