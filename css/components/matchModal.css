@@ -44,7 +44,7 @@ body.modal-open {
 }
 
 .modal-content::-webkit-scrollbar {
-    width: Guilleminot 6px;
+    width: 6px;
 }
 
 .modal-content::-webkit-scrollbar-track {
@@ -377,7 +377,8 @@ body.modal-open {
 /* Responsive Design */
 @media (max-width: 768px) {
     .modal-content {
-        width: 92%;
+        width: 90%;
+        max-width: none; /* Remove max-width to allow full 90% width */
         padding: 1rem;
         max-height: 80vh;
         border-radius: 14px;
@@ -482,7 +483,8 @@ body.modal-open {
 
 @media (max-width: 400px) and (min-width: 360px) {
     .modal-content {
-        width: 70%;
+        width: 90%;
+        max-width: none; /* Ensure max-width doesn't constrain the modal */
         padding: 0.8rem;
         max-height: 82vh;
         border-radius: 12px;

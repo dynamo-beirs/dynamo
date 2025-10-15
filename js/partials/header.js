@@ -42,10 +42,15 @@ async function loadHeader() {
 }
 
 function setupPositionAwareHoverEffect() {
-    if (typeof jQuery !== 'undefined') {
-        setupJQueryHoverEffect();
-    } else {
-        setupVanillaHoverEffect();
+    // Check if the viewport is larger than 768px (desktop view)
+    const isDesktop = window.matchMedia('(min-width: 769px)').matches;
+
+    if (isDesktop) {
+        if (typeof jQuery !== 'undefined') {
+            setupJQueryHoverEffect();
+        } else {
+            setupVanillaHoverEffect();
+        }
     }
 }
 

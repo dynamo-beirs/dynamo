@@ -284,7 +284,8 @@ body.modal-open {
 /* Responsive Design */
 @media (max-width: 768px) {
     .modal-content {
-        width: 95%;
+        width: 90%;
+        max-width: none; /* Remove max-width to allow full 90% width */
         padding: 1.2rem;
         max-height: 85vh;
     }
@@ -321,20 +322,18 @@ body.modal-open {
     }
 }
 
-
 @media (max-width: 480px) {
     .modal-content {
+        width: 90%;
+        max-width: none; /* Ensure max-width doesn't constrain the modal */
         padding: 1rem;
     }
-
     .player-header .flag-icon {
         width: 30px;
     }
-
     #modalPlayerName {
         font-size: 1.4rem;
     }
-
     .stat-box p {
         font-size: 0.85rem;
         padding: 0.6rem 0.8rem;

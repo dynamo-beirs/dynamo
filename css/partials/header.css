@@ -72,7 +72,7 @@ body {
     position: absolute;
     right: -0.6px;
     top: 50%;
-    transform: translateY(-55%);
+    transform: translateY(-52%);
     width: 12px;
     height: 12px;
     background-image: url('../../img/icons/white-football-icon.png');
@@ -205,7 +205,7 @@ body {
 /* Responsive Design - Tablet */
 @media (max-width: 768px) {
     .header {
-        width: 90%px;
+        width: 90%;
         top: 15px;
         padding: 7px 11px;
     }
@@ -244,8 +244,21 @@ body {
         width: 100%;
         justify-content: center;
     }
+    .nav-link span {
+        display: none; /* Hide span to prevent hover effect artifacts */
+    }
+    .nav-link:hover,
+    .nav-link:focus {
+        color: var(--dark-gray); /* Maintain default color on hover/focus */
+        background: transparent; /* No background change */
+    }
+    .nav-link:hover span,
+    .nav-link:focus span {
+        width: 0; /* Prevent span expansion */
+        height: 0;
+    }
 }
-/* Responsive Design */
+/* Responsive Design - Mobile */
 @media (max-width: 480px) {
     body {
         padding-top: 60px;
@@ -260,7 +273,7 @@ body {
         box-shadow: var(--shadow-hover);
     }
     .scroll-progress-container {
-        display: none; /* Hide progress bar on mobile */
+        display: none;
     }
     .nav-container {
         padding: 0;
@@ -314,34 +327,21 @@ body {
         min-height: 44px;
     }
     .nav-link span {
-        position: absolute;
-        display: block;
-        width: 0;
+        display: none; /* Hide span to prevent hover effect artifacts */
+    }
+    .nav-link:hover,
+    .nav-link:focus {
+        color: var(--dark-gray); /* Maintain default color on hover/focus */
+        background: transparent; /* No background change */
+    }
+    .nav-link:hover span,
+    .nav-link:focus span {
+        width: 0; /* Prevent span expansion */
         height: 0;
-        border-radius: 50%;
-        background-color: var(--dynamo-red);
-        transition: width 0.4s ease-in-out, height 0.4s ease-in-out;
-        transform: translate(-50%, -50%);
-        z-index: -1;
-    }
-    .nav-link:hover {
-        color: var(--off-white);
-    }
-    .nav-link:hover span {
-        width: 200%;
-        height: 165px;
     }
     .nav-link.active {
         color: var(--off-white);
         background: var(--dynamo-red);
-    }
-    .nav-link:focus {
-        color: var(--off-white);
-        outline: none;
-    }
-    .nav-link:focus span {
-        width: 200%;
-        height: 165px;
     }
 }
 /* Accessibility Enhancements */
