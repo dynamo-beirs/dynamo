@@ -191,6 +191,38 @@ body {
 .mobile-menu-toggle.active span:nth-child(3) {
     transform: rotate(45deg) translate(-6.5px, -6px);
 }
+/* Header Logo Container */
+.header-logo-container {
+    display: none; /* Hidden by default (desktop view) */
+    align-items: center;
+    justify-content: center;
+}
+/* Header Logo Link */
+.header-logo-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+}
+/* Header Logo Container */
+.logo-container {
+    position: relative;
+    width: 40px; /* Adjusted to fit within header height */
+    height: 40px;
+}
+/* Header Logo Images */
+.header-logo {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 1; /* Ensure the logo is always visible */
+}
+/* Logo Red */
+.header-logo-red {
+    opacity: 1; /* Explicitly set for clarity */
+}
 /* Animations */
 @keyframes slideDown {
     from {
@@ -271,6 +303,8 @@ body {
         background: rgba(255, 255, 255, 0.92);
         backdrop-filter: blur(20px);
         box-shadow: var(--shadow-hover);
+        display: flex;
+        align-items: center;
     }
     .scroll-progress-container {
         display: none;
@@ -278,17 +312,29 @@ body {
     .nav-container {
         padding: 0;
         justify-content: space-between;
+        position: relative;
+        width: 100%;
+        align-items: center;
     }
     .mobile-menu-toggle {
         padding: 8px 10px;
         border-radius: 8px;
+        order: 1;
     }
     .mobile-menu-toggle span {
         width: 24px;
         height: 3px;
         margin: 3px 0;
     }
+    .header-logo-container {
+        display: flex;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        order: 2;
+    }
     .nav-links {
+        order: 3;
         left: 6px;
         right: 6px;
         top: calc(100% + 8px);
@@ -363,6 +409,12 @@ body {
     .scroll-progress-bar {
         animation: none;
         transition: none;
+    }
+}
+/* Responsive Design - Tablet and Desktop */
+@media (min-width: 481px) {
+    .header-logo-container {
+        display: none;
     }
 }
 /* Performance Optimizations */

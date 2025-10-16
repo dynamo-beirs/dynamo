@@ -141,8 +141,9 @@
     min-height: 220px;
     scrollbar-width: thin;
     scrollbar-color: var(--light-gray) var(--silver-mist);
-    max-width: 70%;
+    max-width: 69%;
     margin: 0 auto;
+    transform: translateX(0.3rem);
 }
 
 .timeline-wrapper::-webkit-scrollbar { height: 8px; }
@@ -154,7 +155,7 @@
     display: flex;
     align-items: center;
     gap: 0;
-    padding: 0 3rem 0 0;
+    padding: 0;
     position: relative;
     min-height: 220px;
     justify-content: flex-start;
@@ -365,7 +366,7 @@
 
     .timeline {
         min-height: 160px;
-        padding: 0 2rem 0 0; /* Remove left padding */
+        padding: 0;
     }
 
     .timeline-start-knob {
@@ -481,11 +482,12 @@
         border-radius: 12px;
         width: 90%;
         max-width: 90%;
+        transform: translateX(0.3rem);
     }
 
     .timeline {
         min-height: 140px;
-        padding: 0 1.5rem 0 0;
+        padding: 0;
     }
 
     .timeline-start-knob {

@@ -113,50 +113,12 @@ function setupVanillaHoverEffect() {
     });
 }
 
-function loadFallbackHeader(isRootPage) {
-    const homePath = isRootPage ? 'index.html' : '../index.html';
-    const statsPath = isRootPage ? 'html/statistics.html' : 'statistics.html';
-    const playersPath = isRootPage ? 'html/players.html' : 'players.html';
-    const matchesPath = isRootPage ? 'html/matches.html' : 'matches.html';
-
-    const fallbackHeader = `
-        <header class="header">
-            <div class="scroll-progress-container">
-                <div class="scroll-progress-bar"></div>
-            </div>
-            <nav class="nav-container">
-                <ul class="nav-links">
-                    <li><a href="${homePath}" class="nav-link" data-page="home">Home<span></span></a></li>
-                    <li><a href="${statsPath}" class="nav-link" data-page="statistics">Statistics<span></span></a></li>
-                    <li><a href="${playersPath}" class="nav-link" data-page="players">Players<span></span></a></li>
-                    <li><a href="${matchesPath}" class="nav-link" data-page="matches">Matches<span></span></a></li>
-                </ul>
-                <div class="mobile-menu-toggle">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-            </nav>
-        </header>
-    `;
-
-    const headerPlaceholder = document.getElementById('header-placeholder');
-    if (headerPlaceholder) {
-        headerPlaceholder.outerHTML = fallbackHeader;
-    } else {
-        document.body.insertAdjacentHTML('afterbegin', fallbackHeader);
-    }
-
-    highlightCurrentPage();
-    initializeMobileMenu();
-    initializeScrollProgress();
-    setupHeaderScrollEffect();
-    setupPositionAwareHoverEffect();
-}
-
 function configureHeader(isRootPage) {
     const navLinks = document.querySelectorAll('.nav-link');
+    const headerLogoLink = document.getElementById('header-logo-link');
+    const headerLogoRed = document.getElementById('header-logo-red');
 
+    // Configure navigation links
     navLinks.forEach(link => {
         const page = link.getAttribute('data-page');
         if (isRootPage) {
@@ -192,8 +154,70 @@ function configureHeader(isRootPage) {
         }
     });
 
+    // Configure header logo
+    if (headerLogoLink && headerLogoRed) {
+        if (isRootPage) {
+            headerLogoLink.href = 'index.html';
+            headerLogoRed.src = 'img/logos/red-outlined-logo.png';
+        } else {
+            headerLogoLink.href = '../index.html';
+            headerLogoRed.src = '/dynamo/img/logos/red-outlined-logo.png';
+        }
+    } else {
+        console.warn('Header logo elements not found');
+    }
+
     highlightCurrentPage();
     initializeMobileMenu();
+}
+
+function loadFallbackHeader(isRootPage) {
+    const homePath = isRootPage ? 'index.html' : '../index.html';
+    const statsPath = isRootPage ? 'html/statistics.html' : 'statistics.html';
+    const playersPath = isRootPage ? 'html/players.html' : 'players.html';
+    const matchesPath = isRootPage ? 'html/matches.html' : 'matches.html';
+    const logoRedPath = isRootPage ? 'img/logos/red-outlined-logo.png' : '../../img/logos/red-outlined-logo.png';
+
+    const fallbackHeader = `
+        <header class="header">
+            <div class="scroll-progress-container">
+                <div class="scroll-progress-bar"></div>
+            </div>
+            <nav class="nav-container">
+                <div class="mobile-menu-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <div class="header-logo-container">
+                    <a href="${homePath}" aria-label="Dynamo Beirs Homepage" class="header-logo-link">
+                        <div class="logo-container">
+                            <img src="${logoRedPath}" alt="Red Outlined Dynamo Beirs Logo" class="header-logo header-logo-red">
+                        </div>
+                    </a>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="${homePath}" class="nav-link" data-page="home">Home<span></span></a></li>
+                    <li><a href="${statsPath}" class="nav-link" data-page="statistics">Statistics<span></span></a></li>
+                    <li><a href="${playersPath}" class="nav-link" data-page="players">Players<span></span></a></li>
+                    <li><a href="${matchesPath}" class="nav-link" data-page="matches">Matches<span></span></a></li>
+                </ul>
+            </nav>
+        </header>
+    `;
+
+    const headerPlaceholder = document.getElementById('header-placeholder');
+    if (headerPlaceholder) {
+        headerPlaceholder.outerHTML = fallbackHeader;
+    } else {
+        document.body.insertAdjacentHTML('afterbegin', fallbackHeader);
+    }
+
+    highlightCurrentPage();
+    initializeMobileMenu();
+    initializeScrollProgress();
+    setupHeaderScrollEffect();
+    setupPositionAwareHoverEffect();
 }
 
 function highlightCurrentPage() {
