@@ -335,7 +335,10 @@ body.modal-open {
         font-size: 1.4rem;
     }
     .stat-box p {
-        font-size: 0.85rem;
+        font-size: 0.80rem;
         padding: 0.6rem 0.8rem;
+    }
+    .stat-box i {
+        margin-right: 2px;
     }
 }
