@@ -294,13 +294,20 @@ async function loadAllTimePlayers() {
     }
 }
 
-// Position icons mapping
+// Position icons and Dutch names mapping
 const positionIcons = {
     all: '<i class="fas fa-users"></i>',
     goalkeeper: '<i class="fas fa-hand-paper"></i>',
     defender: '<i class="fas fa-shield-alt"></i>',
     midfielder: '<i class="fas fa-person-running"></i>',
     attacker: '<i class="fas fa-crosshairs"></i>'
+};
+
+const positionDutchNames = {
+    goalkeeper: 'Keeper',
+    defender: 'Verdediger',
+    midfielder: 'Middenvelder',
+    attacker: 'Aanvaller'
 };
 
 // Define animation elements
@@ -364,7 +371,10 @@ function updateSeasonPlayerStats(sortBy = document.querySelector('#season-sort .
         row.className = 'player-row';
         row.innerHTML = `
             <div class="table-cell player-rank">${index + 1}</div>
-            <div class="table-cell player-position">${positionIcons[player.position]}</div>
+            <div class="table-cell player-position" data-position="${positionDutchNames[player.position]}">
+                ${positionIcons[player.position]}
+                <span class="tooltip">${positionDutchNames[player.position]}</span>
+            </div>
             <div class="table-cell player-name">${player.name}</div>
             <div class="table-cell player-goals">${player.goals}</div>
             <div class="table-cell player-matches">${player.matches}</div>
@@ -375,12 +385,13 @@ function updateSeasonPlayerStats(sortBy = document.querySelector('#season-sort .
     animateOnScroll([{ selector: '.player-row', containerSelector: 'section' }]);
 }
 
+
 // Update all-time player stats display
 function updateAllTimePlayerStats(sortBy = document.querySelector('#alltime-sort .selected')?.dataset.value || 'goals') {
     const topScorersList = document.querySelector('.top-scorers-list');
     const sortedPlayers = [...allTimePlayers].sort((a, b) => {
-        const aRatio = a.goals / a.matches;
-        const bRatio = b.goals / b.matches;
+        const aRatio = a.matches === 0 ? 0 : a.goals / a.matches;
+        const bRatio = b.matches === 0 ? 0 : b.goals / b.matches;
         if (sortBy === 'goals') {
             if (a.goals !== b.goals) return b.goals - a.goals;
             if (aRatio !== bRatio) return bRatio - aRatio;
@@ -400,12 +411,15 @@ function updateAllTimePlayerStats(sortBy = document.querySelector('#alltime-sort
     });
     topScorersList.innerHTML = '';
     sortedPlayers.forEach((player, index) => {
-        const avgGoals = (player.goals / player.matches).toFixed(2);
+        const avgGoals = player.matches === 0 ? '0.00' : (player.goals / player.matches).toFixed(2);
         const row = document.createElement('div');
         row.className = 'scorer-row';
         row.innerHTML = `
             <div class="table-cell scorer-rank">${index + 1}</div>
-            <div class="table-cell scorer-position">${positionIcons[player.position]}</div>
+            <div class="table-cell scorer-position" data-position="${positionDutchNames[player.position]}">
+                ${positionIcons[player.position]}
+                <span class="tooltip">${positionDutchNames[player.position]}</span>
+            </div>
             <div class="table-cell scorer-name">${player.name}</div>
             <div class="table-cell scorer-goals">${player.goals}</div>
             <div class="table-cell scorer-matches">${player.matches}</div>

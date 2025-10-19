@@ -24,7 +24,7 @@
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     gap: 2rem;
-    padding: 0 1rem;
+    padding: 0;
     width: 70%;
     margin: 0 auto;
 }
@@ -141,7 +141,7 @@
     min-height: 220px;
     scrollbar-width: thin;
     scrollbar-color: var(--light-gray) var(--silver-mist);
-    max-width: 69%;
+    max-width: 71%;
     margin: 0 auto;
     transform: translateX(0.3rem);
 }
@@ -296,6 +296,10 @@
         margin: 0 auto;
     }
 
+    @media (max-width: 768px) {
+        .player-position:hover::after, .scorer-position:hover::after {
+            display: none;
+
     .match-card.modern {
         border-radius: 20px;
         background: linear-gradient(145deg, white, var(--nested-box));
@@ -418,6 +422,34 @@
         font-size: 1.1rem;
         margin: 0.5rem 0;
     }
+}
+
+/* Tooltip for position icons */
+.player-position, .scorer-position {
+    position: relative;
+}
+
+.player-position:hover::after, .scorer-position:hover::after {
+    content: attr(data-position);
+    position: absolute;
+    top: -30px; /* Adjust position above the icon */
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--primary-theme-color);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    white-space: nowrap;
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.player-position:hover::after, .scorer-position:hover::after {
+    opacity: 1;
 }
 
 @media (max-width: 400px) and (min-width: 360px) {

@@ -381,6 +381,34 @@ body.team-alltime, body.player-alltime {
     font-weight: 700;
 }
 
+/* Tooltip styling */
+.table-cell.player-position, .table-cell.scorer-position {
+    position: relative;
+    cursor: pointer; /* Indicates the element is interactive */
+}
+
+.table-cell.player-position .tooltip, .table-cell.scorer-position .tooltip {
+    visibility: hidden;
+    position: absolute;
+    bottom: 100%; /* Position above the icon */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--primary-theme-color);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    white-space: nowrap;
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+
+.table-cell.player-position:hover .tooltip, .table-cell.scorer-position:hover .tooltip {
+    visibility: visible;
+    opacity: 1;
+}
+
 /* Desktop view - show text, hide icons */
 .desktop-only {
     display: inline-block !important;
