@@ -10,7 +10,6 @@ https://dynamo-beirs.github.io/dynamo
 
 ```
 C:.
-├── .idea/                     # IDE configuration (JetBrains)
 ├── css/                       # Stylesheets
 │   ├── components/            # Component-specific CSS
 │   │   ├── matchModal.css
@@ -56,8 +55,6 @@ C:.
 │       ├── matches.js         # Matches page logic
 │       ├── players.js         # Players page logic
 │       └── statistics.js      # Statistics page logic
-├── .gitignore                 # Git ignore file
-├── Dynamo.iml                 # IDE module file
 ├── index.html                 # Homepage
 └── README.md                  # This file
 ```
