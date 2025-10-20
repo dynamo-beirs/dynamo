@@ -80,11 +80,13 @@ body.modal-open {
     box-shadow: var(--shadow-medium);
     line-height: 1;
     padding: 0;
+    z-index: 10000;
 }
 .close-modal i {
     font-size: 1.3rem;
     line-height: 1;
     color: var(--medium-gray);
+    pointer-events: none;
 }
 .close-modal:hover {
     box-shadow: var(--shadow-hover);
