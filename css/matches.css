@@ -461,6 +461,15 @@
         margin: 0 auto;
     }
 
+    .form-display {
+        margin-bottom: 0 !important;
+    }
+
+    .form-results {
+        margin-bottom: -1.5rem !important;
+    }
+
+
     .match-card.modern {
         border-radius: 18px;
         background: linear-gradient(145deg, white, var(--off-white));

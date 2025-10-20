@@ -81,23 +81,19 @@ body.modal-open {
     line-height: 1;
     padding: 0;
 }
-
 .close-modal i {
     font-size: 1.3rem;
     line-height: 1;
     color: var(--medium-gray);
-    transform: translate(0.5px, 0.5px);
 }
-
 .close-modal:hover {
-    color: var(--dark-gray);
     box-shadow: var(--shadow-hover);
-    border-color: var(--dark-gray);
+    border-color: var(--dynamo-red);
+}
+.close-modal:hover i {
+    color: var(--dynamo-red);
 }
 
-.close-modal:hover i {
-    color: var(--dark-gray);
-}
 
 /* Title Container */
 .match-title-container {
