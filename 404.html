@@ -6,16 +6,16 @@
     <title>404 - Dynamo Beirs</title>
     <meta name="description" content="Oeps! Deze pagina is buitenspel. Ga terug naar de homepage van Dynamo Beirs.">
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="css/general.css">
-    <link rel="stylesheet" href="css/index.css">
-    <link rel="stylesheet" href="css/partials/header.css">
-    <link rel="stylesheet" href="css/partials/footer.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="/dynamo/css/general.css">
+    <link rel="stylesheet" href="/dynamo/css/index.css">
+    <link rel="stylesheet" href="/dynamo/css/partials/header.css">
+    <link rel="stylesheet" href="/dynamo/css/partials/footer.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <!-- Scripts -->
-    <script type="module" src="js/partials/header.js"></script>
-    <script type="module" src="js/partials/footer.js"></script>
-    <script type="module" src="js/general.js"></script>
+    <script type="module" src="/dynamo/js/partials/header.js"></script>
+    <script type="module" src="/dynamo/js/partials/footer.js"></script>
+    <script type="module" src="/dynamo/js/general.js"></script>
     <style>
         /* 404 Page Specific Styles */
         .error-section {
@@ -27,24 +27,21 @@
             justify-content: center;
             flex-direction: column;
         }
-
         .error-section .container {
             max-width: 800px;
         }
-
         .error-section img {
             max-width: 150px;
+            margin-top: 1.5rem;
             margin-bottom: 1.5rem;
-            animation: bounce 2s infinite;
+            animation: spin 2s linear infinite;
         }
-
         .error-title {
             font-size: 3.5rem;
             font-weight: 900;
             color: var(--dynamo-red);
             margin-bottom: 1rem;
         }
-
         .error-message {
             font-size: 1.2rem;
             color: var(--medium-gray);
@@ -52,35 +49,66 @@
             max-width: 600px;
             line-height: 1.8;
         }
-
+        /* Spin animation for the football icon */
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        /* Filter button style for the CTA */
         .error-cta {
-            background: var(--dynamo-red);
-            color: var(--off-white);
-            padding: 0.8rem 2rem;
-            border-radius: 40px;
-            font-weight: 600;
-            font-size: 1rem;
-            text-decoration: none;
-            box-shadow: var(--shadow-medium);
+            background: white;
+            border: none;
+            color: var(--medium-gray);
+            padding: 0.6rem 1.2rem;
+            border-radius: 20px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            letter-spacing: 1px;
+            font-size: 0.85rem;
+            cursor: pointer;
             transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            box-shadow: var(--shadow-medium);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            min-height: 44px;
+            text-decoration: none;
+            justify-content: center;
         }
-
+        .error-cta i {
+            font-size: 0.9rem;
+            z-index: 2;
+            position: relative;
+        }
+        .error-cta .hover-effect {
+            position: absolute;
+            display: block;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            transition: width 0.4s ease-in-out, height 0.4s ease-in-out;
+            transform: translate(-50%, -50%);
+            z-index: -1;
+            background-color: var(--dynamo-red);
+        }
         .error-cta:hover {
-            background: var(--dark-gray);
-            box-shadow: var(--shadow-hover);
-            transform: translateY(-3px);
+            color: var(--off-white);
         }
-
-        /* Bounce animation for the football icon */
-        @keyframes bounce {
-            0%, 100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-20px);
-            }
+        .error-cta:hover .hover-effect {
+            width: 225%;
+            height: 180px;
         }
-
+        .error-cta:active {
+            color: var(--off-white);
+            background: var(--dynamo-red);
+        }
         /* Responsive adjustments */
         @media (max-width: 768px) {
             .error-title {
@@ -92,8 +120,12 @@
             .error-section img {
                 max-width: 120px;
             }
+            .error-cta {
+                padding: 0.5rem 1rem;
+                font-size: 0.8rem;
+                min-height: 40px;
+            }
         }
-
         @media (max-width: 480px) {
             .error-title {
                 font-size: 2rem;
@@ -104,25 +136,53 @@
             .error-section img {
                 max-width: 100px;
             }
+            .error-cta {
+                padding: 0.5rem 0.9rem;
+                font-size: 0.75rem;
+                min-height: 38px;
+            }
         }
     </style>
 </head>
 <body>
 <div id="header-placeholder"></div>
-
 <section class="error-section">
     <div class="container">
-        <img src="img/icons/red-football-icon.png" alt="Football Icon" class="animate-in">
-        <h1 class="error-title section-title animate-in">404 - Buitenspel!</h1>
+        <img src="/dynamo/img/icons/red-football-icon.png" alt="Football Icon" class="animate-in">
+        <h1 class="error-title section-title animate-in">Buitenspel!</h1>
         <p class="error-message animate-in">
             Oeps! Het lijkt erop dat deze pagina een eigen goal heeft gemaakt en niet meer in het spel is.
             Misschien heeft de bal het veld verlaten, of heeft de scheidsrechter hem afgefloten.
             Ga terug naar het veld en probeer het opnieuw!
         </p>
-        <a href="index.html" class="error-cta cta-button animate-in">Terug naar de Homepage</a>
+        <a href="index.html" class="error-cta cta-button animate-in" data-position="home">
+            <span class="hover-effect"></span>
+            <i class="fas fa-home"></i>
+            Terug naar de Homepage
+        </a>
     </div>
 </section>
-
 <div id="footer-placeholder"></div>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const ctaButton = document.querySelector('.error-cta');
+        ctaButton.addEventListener('mouseenter', (e) => {
+            const rect = ctaButton.getBoundingClientRect();
+            const relX = e.clientX - rect.left;
+            const relY = e.clientY - rect.top;
+            const hoverEffect = ctaButton.querySelector('.hover-effect');
+            hoverEffect.style.top = relY + 'px';
+            hoverEffect.style.left = relX + 'px';
+        });
+        ctaButton.addEventListener('mouseleave', (e) => {
+            const rect = ctaButton.getBoundingClientRect();
+            const relX = e.clientX - rect.left;
+            const relY = e.clientY - rect.top;
+            const hoverEffect = ctaButton.querySelector('.hover-effect');
+            hoverEffect.style.top = relY + 'px';
+            hoverEffect.style.left = relX + 'px';
+        });
+    });
+</script>
 </body>
 </html>
