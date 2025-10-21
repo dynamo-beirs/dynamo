@@ -5,85 +5,72 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>404 - Dynamo Beirs</title>
     <meta name="description" content="Oeps! Deze pagina is buitenspel. Ga terug naar de homepage van Dynamo Beirs.">
-    <!-- Stylesheets -->
     <link rel="stylesheet" href="/dynamo/css/general.css">
     <link rel="stylesheet" href="/dynamo/css/index.css">
     <link rel="stylesheet" href="/dynamo/css/partials/header.css">
     <link rel="stylesheet" href="/dynamo/css/partials/footer.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <!-- Scripts -->
     <script type="module" src="/dynamo/js/partials/header.js"></script>
     <script type="module" src="/dynamo/js/partials/footer.js"></script>
     <script type="module" src="/dynamo/js/general.js"></script>
     <style>
-        /* 404 Page Specific Styles */
         .error-section {
-            padding: 3rem 0;
+            padding: 4rem 1rem;
             text-align: center;
-            min-height: 60vh;
+            min-height: calc(100vh - 200px);
             display: flex;
             align-items: center;
             justify-content: center;
             flex-direction: column;
+            background-color: var(--off-white);
         }
         .error-section .container {
-            max-width: 800px;
-        }
-        .error-section img {
-            max-width: 150px;
-            margin-top: 2rem;
-            margin-bottom: 0rem;
-            animation: spin 2s linear infinite;
+            width: 100%;
+            max-width: 900px;
+            padding: 0 1.5rem;
+            margin: 0 auto;
         }
         .error-title {
-            font-size: 3.5rem;
+            font-size: 4rem;
             font-weight: 900;
             color: var(--dynamo-red);
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
         }
         .error-message {
-            font-size: 1.2rem;
+            font-size: 1.25rem;
             color: var(--medium-gray);
             margin-bottom: 2rem;
-            max-width: 600px;
-            line-height: 1.8;
+            max-width: 700px;
+            line-height: 1.6;
+            margin-left: auto;
+            margin-right: auto;
         }
-        /* Spin animation for the football icon */
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-        /* Filter button style for the CTA */
         .error-cta {
             background: white;
             border: none;
             color: var(--medium-gray);
-            padding: 0.6rem 1.2rem;
-            border-radius: 20px;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
             font-family: 'Poppins', sans-serif;
             font-weight: 700;
-            letter-spacing: 1px;
-            font-size: 0.85rem;
+            font-size: 1rem;
             cursor: pointer;
             transition: all 0.3s ease;
             display: inline-flex;
             align-items: center;
-            gap: 0.4rem;
+            gap: 0.5rem;
             box-shadow: var(--shadow-medium);
             position: relative;
             overflow: hidden;
             z-index: 1;
-            min-height: 44px;
+            min-height: 48px;
             text-decoration: none;
             justify-content: center;
         }
         .error-cta i {
-            font-size: 0.9rem;
+            font-size: 1rem;
             z-index: 2;
             position: relative;
         }
@@ -102,44 +89,53 @@
             color: var(--off-white);
         }
         .error-cta:hover .hover-effect {
-            width: 225%;
-            height: 180px;
+            width: 250%;
+            height: 200px;
         }
         .error-cta:active {
             color: var(--off-white);
             background: var(--dynamo-red);
         }
-        /* Responsive adjustments */
         @media (max-width: 768px) {
+            .error-section {
+                padding: 3rem 1rem;
+                min-height: calc(100vh - 180px);
+            }
+            .error-section .container {
+                padding: 0 1rem;
+            }
             .error-title {
-                font-size: 2.5rem;
+                font-size: 2.75rem;
             }
             .error-message {
-                font-size: 1rem;
-            }
-            .error-section img {
-                max-width: 120px;
+                font-size: 1.1rem;
+                max-width: 90%;
             }
             .error-cta {
-                padding: 0.5rem 1rem;
-                font-size: 0.8rem;
-                min-height: 40px;
+                padding: 0.65rem 1.25rem;
+                font-size: 0.9rem;
+                min-height: 44px;
             }
         }
         @media (max-width: 480px) {
+            .error-section {
+                padding: 2rem 0.75rem;
+                min-height: calc(100vh - 160px);
+            }
+            .error-section .container {
+                padding: 0 0.75rem;
+            }
             .error-title {
-                font-size: 2rem;
+                font-size: 2.25rem;
             }
             .error-message {
-                font-size: 0.9rem;
-            }
-            .error-section img {
-                max-width: 100px;
+                font-size: 0.95rem;
+                max-width: 95%;
             }
             .error-cta {
-                padding: 0.5rem 0.9rem;
-                font-size: 0.75rem;
-                min-height: 38px;
+                padding: 0.6rem 1rem;
+                font-size: 0.85rem;
+                min-height: 40px;
             }
         }
     </style>
@@ -148,7 +144,6 @@
 <div id="header-placeholder"></div>
 <section class="error-section">
     <div class="container">
-        <img src="/dynamo/img/icons/red-football-icon.png" alt="Football Icon" class="animate-in">
         <h1 class="error-title section-title animate-in">Buitenspel!</h1>
         <p class="error-message animate-in">
             Oeps! Het lijkt erop dat deze pagina een eigen goal heeft gemaakt en niet meer in het spel is.
