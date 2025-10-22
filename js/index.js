@@ -1,7 +1,7 @@
-// index.js
+// Imports and Initialization
 import { initializeCountdown, animateOnScroll, setupSmoothScrolling, setupPageLoadAnimation } from './general.js';
 
-// Define animation elements
+// Animation Elements
 const animationElements = [
     { selector: '.hero', containerSelector: null },
     { selector: '.stat-card', containerSelector: 'section' },
@@ -15,7 +15,7 @@ const animationElements = [
     { selector: '.form-description', containerSelector: null }
 ];
 
-// Scroll-triggered animation system
+// Scroll Animation Handling
 let hasStartedScrolling = false;
 
 function isElementInViewport(el, threshold = 0.1) {
@@ -60,13 +60,11 @@ function handleIndexScroll() {
 }
 
 function setupIndexAnimations() {
-    // Animate hero immediately on page load
     const immediateElements = document.querySelectorAll('.hero');
     immediateElements.forEach((element) => {
         element.classList.add('animate-in');
     });
 
-    // Throttled scroll handler for other elements
     let isThrottled = false;
     window.addEventListener('scroll', () => {
         if (!isThrottled) {
@@ -79,7 +77,7 @@ function setupIndexAnimations() {
     });
 }
 
-// Initialize the homepage
+// Page Initialization
 document.addEventListener('DOMContentLoaded', async () => {
     await fetchAndRenderData();
     initializeCountdown();
@@ -88,7 +86,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     setupIndexAnimations();
 });
 
-// Fetch and render all necessary data
+// Data Fetching and Rendering
 async function fetchAndRenderData() {
     try {
         await Promise.all([
@@ -101,7 +99,6 @@ async function fetchAndRenderData() {
     }
 }
 
-// Fetch and parse match data from Google Spreadsheet
 async function fetchAndRenderMatches() {
     const spreadsheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQRCgon0xh9NuQ87NgqQzBNPCEmmZWcC_jrulRhLwmrudf5UQ2QBRA28F1qmWB9L5xP9uZ8-ct2aqfR/pub?gid=300017481&single=true&output=csv';
 
@@ -118,7 +115,7 @@ async function fetchAndRenderMatches() {
     }
 }
 
-// Parse CSV data for matches
+// CSV Parsing
 function parseCsvData(csvText) {
     const parsed = Papa.parse(csvText, {
         skipEmptyLines: true,
@@ -191,7 +188,7 @@ function parseCsvData(csvText) {
     return matches;
 }
 
-// Fetch and parse team season stats
+// Team Stats Fetching
 async function fetchAndRenderTeamStats() {
     const spreadsheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQRCgon0xh9NuQ87NgqQzBNPCEmmZWcC_jrulRhLwmrudf5UQ2QBRA28F1qmWB9L5xP9uZ8-ct2aqfR/pub?gid=241725037&single=true&output=csv';
 
@@ -218,7 +215,7 @@ async function fetchAndRenderTeamStats() {
     }
 }
 
-// Update team stats in the statistics overview section
+// Update Team Stats Display
 function updateTeamStats(stats) {
     document.getElementById('team-matches-played').textContent = stats.matchesPlayed || 0;
     document.getElementById('team-wins').textContent = stats.wins || 0;
@@ -226,7 +223,7 @@ function updateTeamStats(stats) {
     document.getElementById('team-clean-sheets').textContent = stats.cleanSheets || 0;
 }
 
-// Render recent form
+// Render Recent Form
 function renderForm(form) {
     const formResults = document.getElementById('form-results');
     formResults.innerHTML = '';
@@ -240,7 +237,7 @@ function renderForm(form) {
     });
 }
 
-// Update countdown for the next match
+// Update Next Match Countdown
 function updateCountdown(upcomingMatches) {
     const titleEl = document.getElementById('next-match-title');
     const countdownEl = document.getElementById('countdown');
@@ -257,7 +254,7 @@ function updateCountdown(upcomingMatches) {
     window.nextMatchDateTime = `${nextMatch.dateTime.date} ${nextMatch.dateTime.time}`;
 }
 
-// Handle error states
+// Error Handling
 function handleErrorStates() {
     document.getElementById('next-match-title').textContent = 'Geen wedstrijden gepland in de nabije toekomst.';
     document.getElementById('countdown').style.display = 'none';

@@ -1,8 +1,9 @@
-/* Team Season Statistics */
+/* Stats Section */
 .stats-section {
     padding: 2rem 0;
 }
 
+/* Stats Grid */
 .stats-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -22,8 +23,8 @@
 
 .stat-card:hover {
     box-shadow: var(--shadow-hover);
-    transform: translateY(-5px) !important;
-    transition: transform 0.3s ease !important;
+    transform: translateY(-5px);
+    transition: transform 0.3s ease;
 }
 
 .stat-number {
@@ -57,7 +58,7 @@
 }
 
 .stat-category {
-    width: calc((70% - 2rem) / 2); /* All boxes have the same width */
+    width: calc((70% - 2rem) / 2);
     background: white;
     padding: 1.5rem;
     border-radius: 15px;
@@ -66,8 +67,8 @@
 
 .stat-category:nth-child(1) {
     grid-row: 1;
-    width: calc((100% - 2rem)/2);
-    margin: 0 auto; /* Center the box */
+    width: calc((100% - 2rem) / 2);
+    margin: 0 auto;
 }
 
 .stat-category:nth-child(1) h3 {
@@ -79,17 +80,17 @@
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 2rem;
-    width: 100%; /* Take full width of the 70% container */
+    width: 100%;
 }
 
 .stat-category-container .stat-category {
-    width: 100%; /* Ensure Aanval and Verdediging take full column width */
+    width: 100%;
 }
 
 .stat-category:hover {
     box-shadow: var(--shadow-hover);
-    transform: translateY(-5px) !important;
-    transition: transform 0.3s ease !important;
+    transform: translateY(-5px);
+    transition: transform 0.3s ease;
 }
 
 .stat-category h3 {
@@ -127,15 +128,10 @@
     transition: opacity 0.6s ease-out, transform 0.6s ease-out, box-shadow 0.3s ease;
 }
 
-/* Responsive */
+/* Responsive Tablet */
 @media (max-width: 768px) {
     .stats-section {
         padding: 1.5rem 0;
-    }
-
-    .stat-category-container {
-        grid-template-columns: 1fr;
-        gap: 1rem;
     }
 
     .stats-grid {
@@ -168,15 +164,15 @@
     }
 
     .stat-category {
-        width: 100%; /* Full width on smaller screens */
+        width: 100%;
     }
 
     .stat-category-container {
-        grid-template-columns: 1fr; /* Stack Aanval and Verdediging on smaller screens */
+        grid-template-columns: 1fr;
     }
 
     .stat-category-container .stat-category {
-        width: 100%; /* Ensure full width in stacked layout */
+        width: 100%;
     }
 
     .stat-category:nth-child(1) {
@@ -198,6 +194,7 @@
     }
 }
 
+/* Responsive Mobile */
 @media (max-width: 400px) and (min-width: 360px) {
     .stats-section {
         padding: 1.2rem 0;
@@ -235,7 +232,7 @@
     }
 
     .stat-category {
-        width: 100%; /* Full width on smaller screens */
+        width: 100%;
     }
 
     .stat-category-container {
@@ -243,7 +240,7 @@
     }
 
     .stat-category-container .stat-category {
-        width: 100%; /* Ensure full width in stacked layout */
+        width: 100%;
     }
 
     .stat-category h3 {

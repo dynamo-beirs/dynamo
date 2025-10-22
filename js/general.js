@@ -1,6 +1,4 @@
-// general.js
-
-// Countdown timer initialization
+/* Countdown Timer */
 export function initializeCountdown() {
     const countdownElement = document.getElementById("countdown");
     const titleEl = document.getElementById("next-match-title");
@@ -49,9 +47,8 @@ export function initializeCountdown() {
     }, 1000);
 }
 
-// Scroll-based animation for player cards
+/* Player Card Animations */
 export function animatePlayerCards() {
-    // Function to check if an element is in the viewport
     function isElementInViewport(el) {
         const rect = el.getBoundingClientRect();
         return (
@@ -62,7 +59,6 @@ export function animatePlayerCards() {
         );
     }
 
-    // Animate elements already in the viewport with minimal delay
     const initialItems = document.querySelectorAll('.player-card:not(.animate-in)');
     const container = document.querySelector('.players-grid') || document;
     const itemsInContainer = container.querySelectorAll('.player-card');
@@ -74,7 +70,6 @@ export function animatePlayerCards() {
         }
     });
 
-    // IntersectionObserver for elements entering the viewport during scrolling
     const observer = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -90,7 +85,6 @@ export function animatePlayerCards() {
 
     document.querySelectorAll('.player-card:not(.animate-in)').forEach(item => observer.observe(item));
 
-    // Re-run initial animation check after hash navigation
     window.addEventListener('hashchange', () => {
         const items = document.querySelectorAll('.player-card:not(.animate-in)');
         const container = document.querySelector('.players-grid') || document;
@@ -105,7 +99,7 @@ export function animatePlayerCards() {
     }, { once: true });
 }
 
-// Scroll-based animation for other elements
+/* Scroll-Based Animations */
 export function animateOnScroll(elements = [], observerOptions = { root: null, rootMargin: '0px', threshold: 0.1 }) {
     const observer = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
@@ -140,7 +134,7 @@ export function animateOnScroll(elements = [], observerOptions = { root: null, r
     }
 }
 
-// Smooth scrolling for anchor links
+/* Smooth Scrolling */
 export function setupSmoothScrolling() {
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
@@ -153,7 +147,7 @@ export function setupSmoothScrolling() {
     });
 }
 
-// Page load fade-in effect
+/* Page Load Animation */
 export function setupPageLoadAnimation() {
     window.addEventListener('load', () => {
         document.body.style.opacity = '0';

@@ -6,10 +6,8 @@
     position: relative;
     overflow: hidden;
     background-size: cover;
-    margin-bottom: -3rem;
-    width: 70%; /* Updated for desktop */
-    margin-left: auto; /* Center the section */
-    margin-right: auto;
+    width: 70%;
+    margin: 0 auto;
 }
 
 .hero-content {
@@ -23,30 +21,11 @@
     justify-content: center;
 }
 
-.hero h1, .hero p, .hero .cta-button {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-}
-
 .hero h1 {
     font-size: 3.5rem;
     font-weight: 900;
     margin-bottom: 0.2rem;
     color: var(--dark-gray);
-}
-
-.hero p {
-    font-size: 1.1rem;
-    color: var(--off-white);
-    margin-bottom: 1.5rem;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
-    max-width: 500px;
-    transition: opacity 0.6s ease-out 0.2s, transform 0.6s ease-out 0.2s;
-}
-
-.hero .cta-button {
-    transition: opacity 0.6s ease-out 0.4s, transform 0.6s ease-out 0.4s;
 }
 
 .hero-content::after {
@@ -63,9 +42,7 @@
     transition: transform 0.6s ease-out 0.3s;
 }
 
-.hero.animate-in h1,
-.hero.animate-in p,
-.hero.animate-in .cta-button {
+.hero.animate-in h1 {
     opacity: 1;
     transform: translateY(0);
 }
@@ -81,7 +58,7 @@
 
 .stats-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* Updated to match contact-grid behavior */
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
     gap: 1.5rem;
     justify-content: center;
     text-align: center;
@@ -97,11 +74,6 @@
     opacity: 0;
     transform: translateY(50px);
     transition: opacity 0.6s ease-out, transform 0.6s ease-out, box-shadow 0.3s ease;
-}
-
-.stat-card:hover {
-    box-shadow: var(--shadow-hover);
-    transform: translateY(-5px);
 }
 
 .stat-card.animate-in {
@@ -123,6 +95,14 @@
     font-size: 0.8rem;
 }
 
+.stats-overview-section .stat-card:hover,
+.contact-section .contact-card:hover {
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-5px);
+    z-index: 10;
+}
+
+
 /* Contact Section */
 .contact-section {
     padding: 1.5rem 0;
@@ -132,7 +112,7 @@
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 1.5rem;
-    width: 70%; /* Updated for desktop */
+    width: 70%;
     margin: 0 auto;
 }
 
@@ -147,12 +127,7 @@
     display: block;
     opacity: 0;
     transform: translateY(50px);
-    transition: opacity 0.6s ease-out, transform 0.6s ease-out, box-shadow 0.3s ease;
-}
-
-.contact-card:hover {
-    box-shadow: var(--shadow-hover);
-    transform: translateY(-5px);
+    transition: opacity 0.6s ease-out, transform 0.3s ease-out, box-shadow 0.3s ease;
 }
 
 .contact-card.animate-in {
@@ -192,8 +167,8 @@
     position: relative;
     opacity: 0;
     transform: translateY(50px);
-    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-    width: 70%; /* Updated for desktop */
+    transition: opacity 0.6s ease-out, transform 0.3s ease-out;
+    width: 70%;
     margin: 0 auto;
 }
 
@@ -208,22 +183,7 @@
     border: none;
 }
 
-.stats-grid, .contact-grid {
-    overflow: visible;
-}
-
-.stat-card, .contact-card {
-    transition: opacity 0.6s ease-out, transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.stats-overview-section .stat-card:hover,
-.contact-section .contact-card:hover {
-    box-shadow: var(--shadow-hover);
-    transform: translateY(-5px);
-    z-index: 10;
-}
-
-/* Index-specific section titles and subtitles */
+/* Section Titles and Subtitles */
 .section-title,
 .section-subtitle {
     opacity: 0;
@@ -237,14 +197,96 @@
     transform: translateY(0);
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
+/* Tablet View */
+@media (min-width: 768px) and (max-width: 1024px) {
+    .hero {
+        height: 38vh;
+        width: 80%;
+        margin: 0 auto;
+    }
+
+    .hero-content {
+        width: 80%;
+        margin: 0 auto;
+    }
+
+    .hero h1 {
+        font-size: 3rem;
+    }
+
+    .hero-content::after {
+        height: 7px;
+        border-radius: 3.5px;
+    }
+
+    .stats-overview-section {
+        padding: 1.3rem 0;
+    }
+
+    .stats-grid {
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+        gap: 1.2rem;
+        width: 80%;
+    }
+
+    .stat-card {
+        padding: 1.2rem;
+        border-radius: 10px;
+    }
+
+    .stat-number {
+        font-size: 1.8rem;
+    }
+
+    .stat-label {
+        font-size: 0.75rem;
+    }
+
+    .contact-section {
+        padding: 1.3rem 0;
+    }
+
+    .contact-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.2rem;
+        width: 80%;
+    }
+
+    .contact-card {
+        padding: 1.2rem;
+        border-radius: 14px;
+    }
+
+    .contact-card i {
+        font-size: 1.6rem;
+    }
+
+    .contact-card h3 {
+        font-size: 1.2rem;
+    }
+
+    .contact-card p {
+        font-size: 0.85rem;
+    }
+
+    .map-section {
+        padding: 1.3rem 0;
+    }
+
+    .map-container {
+        height: 300px;
+        width: 80%;
+        border-radius: 10px;
+    }
+}
+
+/* Mobile View (≤767px) */
+@media (max-width: 767px) {
     .hero {
         height: 35vh;
-        margin-bottom: -2rem;
         padding: 1.2rem 0.6rem;
-        width: 95%; /* Unchanged for mobile */
-        margin: 0 auto; /* Ensure centering */
+        width: 95%;
+        margin: 0 auto;
     }
 
     .hero-content {
@@ -254,11 +296,6 @@
 
     .hero h1 {
         font-size: 2rem;
-    }
-
-    .hero p {
-        font-size: 0.9rem;
-        max-width: 95%;
     }
 
     .hero-content::after {
@@ -271,15 +308,14 @@
     }
 
     .stats-grid {
-        grid-template-columns: repeat(auto-fit, 150px);
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
         gap: 0.8rem;
-        width: 95%; /* Unchanged for mobile */
+        width: 95%;
     }
 
     .stat-card {
         padding: 1rem;
         border-radius: 12px;
-        box-shadow: var(--shadow-medium);
         min-height: 44px;
     }
 
@@ -298,13 +334,12 @@
     .contact-grid {
         grid-template-columns: 1fr;
         gap: 0.8rem;
-        width: 95%; /* Unchanged for mobile */
+        width: 95%;
     }
 
     .contact-card {
         padding: 1rem;
         border-radius: 12px;
-        box-shadow: var(--shadow-medium);
         min-height: 44px;
     }
 
@@ -326,23 +361,22 @@
 
     .map-container {
         height: 250px;
-        width: 95%; /* Unchanged for mobile */
+        width: 95%;
         border-radius: 10px;
-        box-shadow: var(--shadow-medium);
     }
 }
 
-@media (max-width: 400px) and (min-width: 360px) {
+/* Small Mobile View (≤400px) */
+@media (max-width: 400px) {
     .hero {
         height: 30vh;
         padding: 1rem 0.6rem;
-        margin-bottom: -1.5rem;
-        width: 90%; /* Unchanged for mobile */
-        margin: 0 auto; /* Ensure centering */
+        width: 90%;
+        margin: 0 auto;
     }
 
     .hero-content {
-        width: 100%; /* Full width to match h1 */
+        width: 100%;
         margin: 0 auto;
         flex-direction: column;
         align-items: center;
@@ -358,13 +392,12 @@
         justify-content: center;
         align-items: center;
         margin-bottom: 0;
-        position: relative;
-        gap: 0.4rem; /* Add space between Dynamo and Beirs */
+        gap: 0.4rem;
     }
 
     .hero h1 .club-name-part {
         display: inline-block;
-        margin: 0; /* Keep margin 0 to avoid extra spacing */
+        margin: 0;
     }
 
     .hero-content::after {
@@ -373,8 +406,8 @@
         bottom: -4px;
         left: 50%;
         transform: translateX(-50%) scaleX(0);
-        transform-origin: left center; /* Match desktop for left-to-right animation */
-        width: calc(100% + 0.8rem); /* Adjusted to account for gap */
+        transform-origin: left center;
+        width: 100%;
         height: 6px;
         background: var(--dynamo-red);
         border-radius: 3px;
@@ -392,7 +425,7 @@
     .stats-grid {
         grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
         gap: 0.6rem;
-        width: 90%; /* Unchanged for mobile */
+        width: 90%;
     }
 
     .stat-card {
@@ -417,7 +450,7 @@
     .contact-grid {
         grid-template-columns: 1fr;
         gap: 0.6rem;
-        width: 90%; /* Unchanged for mobile */
+        width: 90%;
     }
 
     .contact-card {
@@ -446,6 +479,5 @@
         height: 200px;
         width: 90%;
         border-radius: 8px;
-        box-shadow: var(--shadow-medium);
     }
 }

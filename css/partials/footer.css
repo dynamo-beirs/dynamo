@@ -140,7 +140,7 @@
     font-weight: 400;
 }
 
-/* Tablet Responsive */
+/* Tablet View */
 @media (max-width: 768px) {
     .footer {
         padding: 40px 0 10px 0;
@@ -177,7 +177,7 @@
     }
 }
 
-/* Mobile Responsive */
+/* Mobile View */
 @media (max-width: 480px) {
     .footer-content {
         padding: 0 10px

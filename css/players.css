@@ -1,20 +1,79 @@
-/* Dynamic Theme Colors for Page Hero */
+/* Theme Colors */
 body {
     --hero-accent-color: var(--medium-gray);
 }
 
-body.filter-goalkeeper { --hero-accent-color: var(--dark-blue); }
-body.filter-defender { --hero-accent-color: var(--dark-green); }
-body.filter-midfielder { --hero-accent-color: var(--dark-yellow); }
-body.filter-attacker { --hero-accent-color: var(--dynamo-red); }
-body.filter-all { --hero-accent-color: var(--medium-gray); }
-
-/* Page Hero Color Override */
-.page-hero h1::after,
-.page-hero h1::before {
-    color: var(--hero-accent-color);
-    transition: opacity 0.6s ease-out 0.3s, transform 0.6s ease-out 0.3s, color 0.6s ease;
+body.filter-goalkeeper {
+    --hero-accent-color: var(--dark-blue);
 }
+
+body.filter-defender {
+    --hero-accent-color: var(--dark-green);
+}
+
+body.filter-midfielder {
+    --hero-accent-color: var(--dark-yellow);
+}
+
+body.filter-attacker {
+    --hero-accent-color: var(--dynamo-red);
+}
+
+body.filter-all {
+    --hero-accent-color: var(--medium-gray);
+}
+
+/* Page Hero */
+main .page-hero h1 {
+    position: relative;
+    font-family: 'Poppins', sans-serif;
+    font-size: 3rem;
+    font-weight: 900;
+    color: var(--dark-gray, #343a40);
+    text-align: center;
+    margin: 0;
+    padding: 1rem 0;
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+main .page-hero h1::before,
+main .page-hero h1::after {
+    content: '|';
+    margin: 8px;
+    display: inline-block;
+    position: relative;
+    top: 1px;
+    height: 100%;
+    font-size: 1.2em;
+    color: var(--hero-accent-color);
+    opacity: 0;
+    transform: scaleY(0);
+    transform-origin: center center;
+    transition: opacity 0.6s ease-out 0.3s, transform 0.6s ease-out 0.3s, color 0.3s ease;
+}
+
+main .page-hero h1:hover::before {
+    transform: scaleY(1) translateX(-8px);
+}
+
+main .page-hero h1:hover::after {
+    transform: scaleY(1) translateX(8px);
+}
+
+main .page-hero h1.animate-in {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+main .page-hero h1.animate-in::before,
+main .page-hero h1.animate-in::after {
+    opacity: 1;
+    transform: scaleY(1);
+}
+
 
 /* Filter Section */
 .filter-section {
@@ -76,11 +135,25 @@ body.filter-all { --hero-accent-color: var(--medium-gray); }
     z-index: -1;
 }
 
-.filter-btn[data-position="goalkeeper"] .hover-effect { background-color: var(--dark-blue); }
-.filter-btn[data-position="defender"] .hover-effect { background-color: var(--dark-green); }
-.filter-btn[data-position="midfielder"] .hover-effect { background-color: var(--dark-yellow); }
-.filter-btn[data-position="attacker"] .hover-effect { background-color: var(--dynamo-red); }
-.filter-btn[data-position="all"] .hover-effect { background-color: var(--medium-gray); }
+.filter-btn[data-position="goalkeeper"] .hover-effect {
+    background-color: var(--dark-blue);
+}
+
+.filter-btn[data-position="defender"] .hover-effect {
+    background-color: var(--dark-green);
+}
+
+.filter-btn[data-position="midfielder"] .hover-effect {
+    background-color: var(--dark-yellow);
+}
+
+.filter-btn[data-position="attacker"] .hover-effect {
+    background-color: var(--dynamo-red);
+}
+
+.filter-btn[data-position="all"] .hover-effect {
+    background-color: var(--medium-gray);
+}
 
 .filter-btn:hover {
     color: var(--off-white);
@@ -95,11 +168,25 @@ body.filter-all { --hero-accent-color: var(--medium-gray); }
     color: var(--off-white);
 }
 
-.filter-btn.active[data-position="goalkeeper"] { background: var(--dark-blue); }
-.filter-btn.active[data-position="defender"] { background: var(--dark-green); }
-.filter-btn.active[data-position="midfielder"] { background: var(--dark-yellow); }
-.filter-btn.active[data-position="attacker"] { background: var(--dynamo-red); }
-.filter-btn.active[data-position="all"] { background: var(--medium-gray); }
+.filter-btn.active[data-position="goalkeeper"] {
+    background: var(--dark-blue);
+}
+
+.filter-btn.active[data-position="defender"] {
+    background: var(--dark-green);
+}
+
+.filter-btn.active[data-position="midfielder"] {
+    background: var(--dark-yellow);
+}
+
+.filter-btn.active[data-position="attacker"] {
+    background: var(--dynamo-red);
+}
+
+.filter-btn.active[data-position="all"] {
+    background: var(--medium-gray);
+}
 
 /* Search Section */
 .search-container {
@@ -165,8 +252,8 @@ body.filter-all { --hero-accent-color: var(--medium-gray); }
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 1.5rem;
-    max-width: 70%; /* Added for desktop */
-    margin: 0 auto; /* Center the grid */
+    max-width: 70%;
+    margin: 0 auto;
 }
 
 .player-card {
@@ -195,15 +282,31 @@ body.filter-all { --hero-accent-color: var(--medium-gray); }
     transform: translateY(0);
 }
 
-.player-card[data-position="goalkeeper"]:hover { border-color: var(--dark-blue); }
-.player-card[data-position="defender"]:hover { border-color: var(--dark-green); }
-.player-card[data-position="midfielder"]:hover { border-color: var(--dark-yellow); }
-.player-card[data-position="attacker"]:hover { border-color: var(--dynamo-red); }
+.player-card[data-position="goalkeeper"]:hover {
+    border-color: var(--dark-blue);
+}
 
-.player-card.filter-hidden { display: none; }
-.player-card.filter-visible { display: block; }
+.player-card[data-position="defender"]:hover {
+    border-color: var(--dark-green);
+}
 
-/* Player info styling */
+.player-card[data-position="midfielder"]:hover {
+    border-color: var(--dark-yellow);
+}
+
+.player-card[data-position="attacker"]:hover {
+    border-color: var(--dynamo-red);
+}
+
+.player-card.filter-hidden {
+    display: none;
+}
+
+.player-card.filter-visible {
+    display: block;
+}
+
+/* Player Info */
 .player-info {
     text-align: center;
 }
@@ -244,17 +347,28 @@ body.filter-all { --hero-accent-color: var(--medium-gray); }
 }
 
 .flag-icon {
-    width: 35px; /* Reduced from 40px */
+    width: 35px;
     height: auto;
     vertical-align: middle;
 }
 
-.player-card[data-position="goalkeeper"] .player-position { color: var(--dark-blue); }
-.player-card[data-position="defender"] .player-position { color: var(--dark-green); }
-.player-card[data-position="midfielder"] .player-position { color: var(--dark-yellow); }
-.player-card[data-position="attacker"] .player-position { color: var(--dynamo-red); }
+.player-card[data-position="goalkeeper"] .player-position {
+    color: var(--dark-blue);
+}
 
-/* Responsive Design */
+.player-card[data-position="defender"] .player-position {
+    color: var(--dark-green);
+}
+
+.player-card[data-position="midfielder"] .player-position {
+    color: var(--dark-yellow);
+}
+
+.player-card[data-position="attacker"] .player-position {
+    color: var(--dynamo-red);
+}
+
+/* Tablet View */
 @media (max-width: 768px) {
     .filter-section {
         padding: 1rem 0 0.5rem 0;
@@ -375,7 +489,7 @@ body.filter-all { --hero-accent-color: var(--medium-gray); }
     .players-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 0.8rem;
-        max-width: 90%; /* Unchanged for mobile */
+        max-width: 90%;
         margin: 0 auto;
         padding: 0;
     }
@@ -406,7 +520,7 @@ body.filter-all { --hero-accent-color: var(--medium-gray); }
     }
 }
 
-/* iPhone 15-specific media query */
+/* iPhone 15-Specific View */
 @media (max-width: 400px) and (min-width: 360px) {
     .filter-controls {
         display: grid;
@@ -437,7 +551,7 @@ body.filter-all { --hero-accent-color: var(--medium-gray); }
     .players-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 0.75rem;
-        max-width: 90%; /* Unchanged for mobile */
+        max-width: 90%;
         margin: 0 auto;
         padding: 0;
     }

@@ -1,6 +1,3 @@
-/* Imports */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap');
-
 /* Global Styles */
 body.modal-open {
     overflow: hidden;
@@ -372,11 +369,11 @@ body.modal-open {
     background: var(--medium-gray);
 }
 
-/* Responsive Design */
+/* Tablet View */
 @media (max-width: 768px) {
     .modal-content {
         width: 90%;
-        max-width: none; /* Remove max-width to allow full 90% width */
+        max-width: none;
         padding: 1rem;
         max-height: 80vh;
         border-radius: 14px;
@@ -479,10 +476,11 @@ body.modal-open {
     }
 }
 
+/* Mobile View */
 @media (max-width: 400px) and (min-width: 360px) {
     .modal-content {
         width: 90%;
-        max-width: none; /* Ensure max-width doesn't constrain the modal */
+        max-width: none;
         padding: 0.8rem;
         max-height: 82vh;
         border-radius: 12px;

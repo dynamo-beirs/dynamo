@@ -1,3 +1,4 @@
+/* Root Variables */
 :root {
     --team-color: var(--dark-blue);
     --team-bg: var(--dusty-blue);
@@ -12,8 +13,37 @@
     --underline-color: var(--season-color);
 }
 
+/* Toggle Buttons */
 .gd {
     display: grid;
+}
+
+.toggles-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 500px;
+    margin: 1rem auto 0;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.toggles-container.animate-in {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.toggle-wrapper {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    justify-items: center;
+    width: 100%;
+    height: 80px;
+    gap: 2rem;
+    max-width: 400px;
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
 }
 
 .toggle-button-container {
@@ -124,34 +154,6 @@
     background: var(--alltime-bg);
 }
 
-.toggles-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    max-width: 500px;
-    margin: 1rem auto 0;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-}
-
-.toggles-container.animate-in {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.toggle-wrapper {
-    display: grid;
-    grid-template-columns: 1fr auto 1fr;
-    align-items: center;
-    justify-items: center;
-    width: 100%;
-    height: 80px;
-    gap: 2rem;
-    max-width: 400px;
-    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-}
-
 .toggle-label {
     font-family: 'Poppins', sans-serif;
     font-weight: 700;
@@ -191,6 +193,7 @@
     color: var(--alltime-color);
 }
 
+/* Theme Overrides */
 body {
     --primary-theme-color: var(--team-color);
     --primary-theme-hover: var(--team-bg);
@@ -206,6 +209,7 @@ body.team-alltime, body.player-alltime {
     --underline-color: var(--alltime-color);
 }
 
+/* Section Styling */
 .section-title {
     white-space: normal;
 }
@@ -224,6 +228,7 @@ body.team-alltime, body.player-alltime {
     display: none;
 }
 
+/* Sort Controls */
 .sort-controls {
     margin-bottom: 1.5rem;
     display: flex;
@@ -306,6 +311,7 @@ body.team-alltime, body.player-alltime {
     display: block;
 }
 
+/* Tables */
 .top-scorers-table, .player-stats-table {
     background: white;
     border-radius: 15px;
@@ -381,16 +387,16 @@ body.team-alltime, body.player-alltime {
     font-weight: 700;
 }
 
-/* Tooltip styling */
+/* Tooltips */
 .table-cell.player-position, .table-cell.scorer-position {
     position: relative;
-    cursor: pointer; /* Indicates the element is interactive */
+    cursor: pointer;
 }
 
 .table-cell.player-position .tooltip, .table-cell.scorer-position .tooltip {
     visibility: hidden;
     position: absolute;
-    bottom: 100%; /* Position above the icon */
+    bottom: 100%;
     left: 50%;
     transform: translateX(-50%);
     background-color: var(--primary-theme-color);
@@ -409,7 +415,13 @@ body.team-alltime, body.player-alltime {
     opacity: 1;
 }
 
-/* Desktop view - show text, hide icons */
+/* Responsive Desktop */
+@media (min-width: 769px) {
+    .section-title br {
+        display: none;
+    }
+}
+
 .desktop-only {
     display: inline-block !important;
 }
@@ -422,7 +434,16 @@ body.team-alltime, body.player-alltime {
     display: none;
 }
 
+/* Responsive Tablet */
 @media (max-width: 768px) {
+    .desktop-only {
+        display: none !important;
+    }
+
+    .mobile-only {
+        display: inline-block !important;
+    }
+
     .page-hero {
         padding: 1.5rem 0.8rem;
     }
@@ -521,6 +542,38 @@ body.team-alltime, body.player-alltime {
         text-align: left;
     }
 
+    .sort-controls {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.8rem;
+        margin-bottom: 1rem;
+    }
+
+    .custom-dropdown {
+        border-radius: 20px;
+        box-shadow: var(--shadow-small);
+    }
+
+    .custom-dropdown .selected {
+        padding: 0.5rem 1.8rem 0.5rem 0.8rem;
+        font-size: 0.85rem;
+    }
+
+    .custom-dropdown .selected::after {
+        font-size: 1rem;
+    }
+
+    .custom-dropdown .options {
+        width: 200px;
+        border-radius: 8px;
+        box-shadow: var(--shadow-small);
+    }
+
+    .custom-dropdown .options li {
+        padding: 0.5rem 0.8rem;
+        font-size: 0.85rem;
+    }
+
     .top-scorers-table, .player-stats-table {
         max-width: 90%;
         margin: 0 auto;
@@ -567,11 +620,11 @@ body.team-alltime, body.player-alltime {
     }
 
     .desktop-only {
-        display: none !important;
+        display: none;
     }
 
     .mobile-only {
-        display: inline-block !important;
+        display: inline-block;
     }
 
     .header-icon {
@@ -585,40 +638,9 @@ body.team-alltime, body.player-alltime {
         align-items: center;
         justify-content: center;
     }
-
-    .sort-controls {
-        flex-direction: column;
-        align-items: center;
-        gap: 0.8rem;
-        margin-bottom: 1rem;
-    }
-
-    .custom-dropdown {
-        border-radius: 20px;
-        box-shadow: var(--shadow-small);
-    }
-
-    .custom-dropdown .selected {
-        padding: 0.5rem 1.8rem 0.5rem 0.8rem;
-        font-size: 0.85rem;
-    }
-
-    .custom-dropdown .selected::after {
-        font-size: 1rem;
-    }
-
-    .custom-dropdown .options {
-        width: 200px;
-        border-radius: 8px;
-        box-shadow: var(--shadow-small);
-    }
-
-    .custom-dropdown .options li {
-        padding: 0.5rem 0.8rem;
-        font-size: 0.85rem;
-    }
 }
 
+/* Responsive Mobile */
 @media (max-width: 400px) and (min-width: 360px) {
     .page-hero {
         padding: 1.2rem 0.6rem;
@@ -695,50 +717,8 @@ body.team-alltime, body.player-alltime {
         font-size: 0.9rem;
     }
 
-    .top-scorers-table, .player-stats-table {
-        max-width: 90%;
-        border-radius: 10px;
-        box-shadow: var(--shadow-medium);
-        background: linear-gradient(145deg, white, var(--nested-box));
-    }
-
-    .table-header, .scorer-row, .player-row {
-        grid-template-columns: 35px 1fr 45px 45px 45px;
-        gap: 0.2rem;
-        padding: 0.6rem;
-        font-size: 0.7rem;
-    }
-
-    .scorer-goals, .scorer-matches, .scorer-avg-goals, .player-goals, .player-matches, .player-avg-goals {
-        font-size: 0.8rem;
-    }
-
-    .table-header {
-        font-size: 0.7rem;
-    }
-
-    .scorer-position i, .player-position i {
-        font-size: 0.85rem;
-    }
-
-    .scorer-name, .player-name {
-        font-size: 0.7rem;
-    }
-
-    .scorer-rank, .player-rank {
-        width: 22px;
-        height: 22px;
-        font-size: 0.7rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: 0 auto;
-        padding: 0;
-        line-height: 5;
-    }
-
-    .header-icon {
-        font-size: 0.85rem;
+    .sort-controls {
+        gap: 0.6rem;
     }
 
     .custom-dropdown {
@@ -763,10 +743,50 @@ body.team-alltime, body.player-alltime {
         padding: 0.4rem 0.7rem;
         font-size: 0.8rem;
     }
-}
 
-@media (min-width: 769px) {
-    .section-title br {
-        display: none;
+    .top-scorers-table, .player-stats-table {
+        max-width: 90%;
+        border-radius: 10px;
+        box-shadow: var(--shadow-medium);
+        background: linear-gradient(145deg, white, var(--nested-box));
+    }
+
+    .table-header, .scorer-row, .player-row {
+        grid-template-columns: 35px 1fr 45px 45px 45px;
+        gap: 0.2rem;
+        padding: 0.6rem;
+        font-size: 0.7rem;
+    }
+
+    .table-header {
+        font-size: 0.7rem;
+    }
+
+    .scorer-position i, .player-position i {
+        font-size: 0.85rem;
+    }
+
+    .scorer-name, .player-name {
+        font-size: 0.7rem;
+    }
+
+    .scorer-rank, .player-rank {
+        width: 22px;
+        height: 22px;
+        font-size: 0.7rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto;
+        padding: 0;
+        line-height: normal;
+    }
+
+    .header-icon {
+        font-size: 0.85rem;
+    }
+
+    .scorer-goals, .scorer-matches, .scorer-avg-goals, .player-goals, .player-matches, .player-avg-goals {
+        font-size: 0.8rem;
     }
 }

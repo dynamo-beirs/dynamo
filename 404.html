@@ -5,143 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>404 - Dynamo Beirs</title>
     <meta name="description" content="Oeps! Deze pagina is buitenspel. Ga terug naar de homepage van Dynamo Beirs.">
-    <link rel="stylesheet" href="/dynamo/css/general.css">
-    <link rel="stylesheet" href="/dynamo/css/index.css">
-    <link rel="stylesheet" href="/dynamo/css/partials/header.css">
-    <link rel="stylesheet" href="/dynamo/css/partials/footer.css">
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PSK11HXBQB"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-PSK11HXBQB');
+    </script>
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="/Dynamo/css/general.css">
+    <link rel="stylesheet" href="/Dynamo/css/404.css">
+    <link rel="stylesheet" href="/Dynamo/css/partials/header.css">
+    <link rel="stylesheet" href="/Dynamo/css/partials/footer.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <script type="module" src="/dynamo/js/partials/header.js"></script>
-    <script type="module" src="/dynamo/js/partials/footer.js"></script>
-    <script type="module" src="/dynamo/js/general.js"></script>
-    <style>
-        .error-section {
-            padding: 4rem 1rem;
-            text-align: center;
-            min-height: calc(100vh - 200px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            background-color: var(--off-white);
-        }
-        .error-section .container {
-            width: 100%;
-            max-width: 900px;
-            padding: 0 1.5rem;
-            margin: 0 auto;
-        }
-        .error-title {
-            font-size: 4rem;
-            font-weight: 900;
-            color: var(--dynamo-red);
-            margin-bottom: 1.5rem;
-            line-height: 1.2;
-        }
-        .error-message {
-            font-size: 1.25rem;
-            color: var(--medium-gray);
-            margin-bottom: 2rem;
-            max-width: 700px;
-            line-height: 1.6;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        .error-cta {
-            background: white;
-            border: none;
-            color: var(--medium-gray);
-            padding: 0.75rem 1.5rem;
-            border-radius: 25px;
-            font-family: 'Poppins', sans-serif;
-            font-weight: 700;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            box-shadow: var(--shadow-medium);
-            position: relative;
-            overflow: hidden;
-            z-index: 1;
-            min-height: 48px;
-            text-decoration: none;
-            justify-content: center;
-        }
-        .error-cta i {
-            font-size: 1rem;
-            z-index: 2;
-            position: relative;
-        }
-        .error-cta .hover-effect {
-            position: absolute;
-            display: block;
-            width: 0;
-            height: 0;
-            border-radius: 50%;
-            transition: width 0.4s ease-in-out, height 0.4s ease-in-out;
-            transform: translate(-50%, -50%);
-            z-index: -1;
-            background-color: var(--dynamo-red);
-        }
-        .error-cta:hover {
-            color: var(--off-white);
-        }
-        .error-cta:hover .hover-effect {
-            width: 250%;
-            height: 200px;
-        }
-        .error-cta:active {
-            color: var(--off-white);
-            background: var(--dynamo-red);
-        }
-        @media (max-width: 768px) {
-            .error-section {
-                padding: 3rem 1rem;
-                min-height: calc(100vh - 180px);
-            }
-            .error-section .container {
-                padding: 0 1rem;
-            }
-            .error-title {
-                font-size: 2.75rem;
-            }
-            .error-message {
-                font-size: 1.1rem;
-                max-width: 90%;
-            }
-            .error-cta {
-                padding: 0.65rem 1.25rem;
-                font-size: 0.9rem;
-                min-height: 44px;
-            }
-        }
-        @media (max-width: 480px) {
-            .error-section {
-                padding: 2rem 0.75rem;
-                min-height: calc(100vh - 160px);
-            }
-            .error-section .container {
-                padding: 0 0.75rem;
-            }
-            .error-title {
-                font-size: 2.25rem;
-            }
-            .error-message {
-                font-size: 0.95rem;
-                max-width: 95%;
-            }
-            .error-cta {
-                padding: 0.6rem 1rem;
-                font-size: 0.85rem;
-                min-height: 40px;
-            }
-        }
-    </style>
+
+    <!-- Scripts -->
+    <script type="module" src="/Dynamo/js/404.js"></script>
+    <script type="module" src="/Dynamo/js/partials/header.js"></script>
+    <script type="module" src="/Dynamo/js/partials/footer.js"></script>
+    <script type="module" src="/Dynamo/js/general.js"></script>
 </head>
 <body>
+<!-- Header -->
 <div id="header-placeholder"></div>
+
+<!-- Error Section -->
 <section class="error-section">
     <div class="container">
         <h1 class="error-title section-title animate-in">Buitenspel!</h1>
@@ -157,27 +49,8 @@
         </a>
     </div>
 </section>
+
+<!-- Footer -->
 <div id="footer-placeholder"></div>
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const ctaButton = document.querySelector('.error-cta');
-        ctaButton.addEventListener('mouseenter', (e) => {
-            const rect = ctaButton.getBoundingClientRect();
-            const relX = e.clientX - rect.left;
-            const relY = e.clientY - rect.top;
-            const hoverEffect = ctaButton.querySelector('.hover-effect');
-            hoverEffect.style.top = relY + 'px';
-            hoverEffect.style.left = relX + 'px';
-        });
-        ctaButton.addEventListener('mouseleave', (e) => {
-            const rect = ctaButton.getBoundingClientRect();
-            const relX = e.clientX - rect.left;
-            const relY = e.clientY - rect.top;
-            const hoverEffect = ctaButton.querySelector('.hover-effect');
-            hoverEffect.style.top = relY + 'px';
-            hoverEffect.style.left = relX + 'px';
-        });
-    });
-</script>
 </body>
 </html>

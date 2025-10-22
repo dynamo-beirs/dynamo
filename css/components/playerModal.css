@@ -1,8 +1,3 @@
-/* playerModal.css */
-
-/* Import Poppins font */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap');
-
 /* Body and Overlay */
 body.modal-open {
     overflow: hidden;
@@ -279,11 +274,11 @@ body.modal-open {
     font-size: 1rem;
 }
 
-/* Responsive Design */
+/* Tablet View */
 @media (max-width: 768px) {
     .modal-content {
         width: 90%;
-        max-width: none; /* Remove max-width to allow full 90% width */
+        max-width: none;
         padding: 1.2rem;
         max-height: 85vh;
     }
@@ -320,10 +315,11 @@ body.modal-open {
     }
 }
 
+/* Mobile View */
 @media (max-width: 480px) {
     .modal-content {
         width: 90%;
-        max-width: none; /* Ensure max-width doesn't constrain the modal */
+        max-width: none;
         padding: 1rem;
     }
     .player-header .flag-icon {

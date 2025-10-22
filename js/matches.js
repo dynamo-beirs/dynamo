@@ -154,7 +154,7 @@ function parseCsvData(csvText) {
     for (let i = 0; i < 5; i++) {
         const cell = rows[69]?.[formStartCol + i]?.trim().toLowerCase(); // Row 70
         if (cell && resultMap[cell]) {
-            formCells.push(resultMap[cell]); // Map W/D/L to winst/gelijk/verlies
+            formCells.push(resultMap[cell]);
         }
     }
     matches.form = formCells; // Most recent first (AG70 first)

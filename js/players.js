@@ -1,7 +1,7 @@
-// players.js
+/* Imports and Dependencies */
 import { animateOnScroll } from './general.js';
 
-// Define animation elements for animateOnScroll
+/* Animation Elements */
 const animationElements = [
     { selector: '.section-title', containerSelector: 'section' },
     { selector: '.section-subtitle', containerSelector: 'section' },
@@ -11,7 +11,7 @@ const animationElements = [
     { selector: '.player-card', containerSelector: 'section' }
 ];
 
-// Player page initialization and functionality
+/* Page Initialization */
 document.addEventListener('DOMContentLoaded', async () => {
     await fetchAndRenderPlayers();
     initializeFilters();
@@ -22,14 +22,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     setTimeout(checkInitialHash, 100);
 });
 
-// Fetch and render players from CSV
+/* Fetch and Render Players */
 async function fetchAndRenderPlayers() {
     const url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQRCgon0xh9NuQ87NgqQzBNPCEmmZWcC_jrulRhLwmrudf5UQ2QBRA28F1qmWB9L5xP9uZ8-ct2aqfR/pub?gid=300017481&single=true&output=csv';
     try {
         const response = await fetch(url);
         const csvText = await response.text();
         const players = parseCSV(csvText);
-        console.log('Parsed players:', players); // Debug: Log parsed players
         renderPlayerCards(players);
         initializePlayerCards();
     } catch (error) {
@@ -37,7 +36,7 @@ async function fetchAndRenderPlayers() {
     }
 }
 
-// Parse CSV data
+/* Parse CSV Data */
 function parseCSV(csvText) {
     const rows = csvText.split('\n').map(row => row.split(','));
     const players = [];
@@ -52,29 +51,16 @@ function parseCSV(csvText) {
         'NLD': { name: 'Netherlands', flagSrc: '../img/icons/flags/netherlands.svg' }
     };
 
-    // Assuming headers are in row 1, data starts from row 5 (index 4)
     for (let i = 4; i < rows.length; i++) {
         const row = rows[i];
-        const name = row[1]?.trim(); // Column B
-        const nationalityCode = row[2]?.trim(); // Column C
-        const positionCode = row[3]?.trim(); // Column D
-        const goalsThisSeason = row[29]?.trim(); // Column AD
-        const gamesThisSeason = row[30]?.trim(); // Column AE
-        const goalsTotal = row[39]?.trim(); // Column AN
-        const gamesTotal = row[40]?.trim(); // Column AO
+        const name = row[1]?.trim();
+        const nationalityCode = row[2]?.trim();
+        const positionCode = row[3]?.trim();
+        const goalsThisSeason = row[29]?.trim();
+        const gamesThisSeason = row[30]?.trim();
+        const goalsTotal = row[39]?.trim();
+        const gamesTotal = row[40]?.trim();
 
-        // Debug: Log each row to inspect data
-        console.log(`Row ${i + 1}:`, {
-            name,
-            nationalityCode,
-            positionCode,
-            goalsThisSeason,
-            gamesThisSeason,
-            goalsTotal,
-            gamesTotal
-        });
-
-        // Check if required fields (name, nationality, position) are present
         if (name && nationalityCode && positionCode) {
             const position = positionMap[positionCode.toUpperCase()] || 'unknown';
             const nationality = nationalityMap[nationalityCode.toUpperCase()] || { name: 'Unknown', flagSrc: '../img/icons/flags/belgium.svg' };
@@ -88,20 +74,16 @@ function parseCSV(csvText) {
                 goalsThisSeason: parseInt(goalsThisSeason) || 0,
                 goalsTotal: parseInt(goalsTotal) || 0
             });
-        } else {
-            console.log(`Row ${i + 1} skipped: Missing required fields (name, nationality, or position)`);
         }
     }
     return players;
 }
 
-// Render player cards dynamically
-// Render player cards dynamically
+/* Render Player Cards */
 function renderPlayerCards(players) {
     const playersGrid = document.querySelector('.players-grid');
     if (!playersGrid) return;
 
-    // Mapping for Dutch translations of positions
     const positionDisplayMap = {
         'goalkeeper': 'Doelman',
         'defender': 'Verdediger',
@@ -109,11 +91,11 @@ function renderPlayerCards(players) {
         'attacker': 'Aanvaller'
     };
 
-    playersGrid.innerHTML = ''; // Clear existing cards
+    playersGrid.innerHTML = '';
     players.forEach(player => {
         const card = document.createElement('div');
         card.className = 'player-card';
-        card.setAttribute('data-position', player.position); // Keep English for internal use
+        card.setAttribute('data-position', player.position);
         card.setAttribute('data-name', player.name);
         card.setAttribute('data-nationality', player.nationality);
         card.setAttribute('data-flag-src', player.flagSrc);
@@ -135,12 +117,12 @@ function renderPlayerCards(players) {
     });
 }
 
-// Player card setup and hover effects
+/* Initialize Player Cards */
 function initializePlayerCards() {
     document.querySelectorAll('.player-card').forEach(card => {
         card.style.cursor = 'pointer';
         card.addEventListener('click', (e) => {
-            e.preventDefault(); // Prevent default behavior that might cause scrolling
+            e.preventDefault();
             const playerData = {
                 name: card.getAttribute('data-name') || 'Player Name',
                 position: card.getAttribute('data-position') || 'Unknown',
@@ -155,6 +137,7 @@ function initializePlayerCards() {
                 window.playerModal.show(playerData);
             } else {
                 console.error('PlayerModal not initialized');
+                alert('Spelerdetails zijn momenteel niet beschikbaar. Probeer het later opnieuw.');
             }
         });
         card.addEventListener('mouseenter', () => card.style.transform = 'translateY(-8px) scale(1.02)');
@@ -162,7 +145,7 @@ function initializePlayerCards() {
     });
 }
 
-// Filter button functionality
+/* Filter Functionality */
 function initializeFilters() {
     const filterButtons = document.querySelectorAll('.filter-btn');
     const playerCards = document.querySelectorAll('.player-card');
@@ -174,10 +157,8 @@ function initializeFilters() {
             filterButtons.forEach(btn => btn.classList.remove('active'));
             button.classList.add('active');
 
-            document.body.className = `filter-${targetPosition}`;
-
-            filterPlayers(targetPosition, playerCards);
             updateHeroAccentColor(targetPosition);
+            filterPlayers(targetPosition, playerCards);
 
             const searchInput = document.querySelector('.player-search');
             if (searchInput) searchInput.value = '';
@@ -187,7 +168,7 @@ function initializeFilters() {
     });
 }
 
-// Position-aware hover effect initialization
+/* Position-Aware Hover Effects */
 function initializePositionAwareHover() {
     const filterButtons = document.querySelectorAll('.filter-btn');
 
@@ -216,7 +197,7 @@ function initializePositionAwareHover() {
     });
 }
 
-// Filter players by position
+/* Filter Players */
 function filterPlayers(position, cards) {
     cards.forEach(card => {
         const cardPosition = card.getAttribute('data-position');
@@ -227,7 +208,7 @@ function filterPlayers(position, cards) {
     });
 }
 
-// Handle initial page hash
+/* Handle Initial Hash */
 function checkInitialHash() {
     const hash = window.location.hash.substring(1);
     const validPositions = ['goalkeeper', 'defender', 'midfielder', 'attacker'];
@@ -238,13 +219,13 @@ function checkInitialHash() {
     }
 }
 
-// Search functionality setup
+/* Search Functionality */
 function addSearchFunctionality() {
     const searchInput = document.querySelector('.player-search');
     if (searchInput) searchInput.addEventListener('input', handleSearch);
 }
 
-// Handle search with filter combination
+/* Handle Search */
 function handleSearch(e) {
     const searchTerm = e.target.value.toLowerCase().trim();
     const playerCards = document.querySelectorAll('.player-card');
@@ -262,7 +243,7 @@ function handleSearch(e) {
     });
 }
 
-// Keyboard navigation for filters
+/* Keyboard Navigation */
 document.addEventListener('keydown', (e) => {
     const searchInput = document.querySelector('.player-search');
     if (searchInput && document.activeElement === searchInput) return;
@@ -286,7 +267,7 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
-// Scroll animation observer for player cards
+/* Player Card Animations */
 function animatePlayerCards() {
     const observer = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
@@ -303,4 +284,12 @@ function animatePlayerCards() {
     }, { root: null, rootMargin: '0px', threshold: 0.1 });
 
     document.querySelectorAll('.player-card').forEach(item => observer.observe(item));
+}
+
+/* Change Hero Accent Color */
+function updateHeroAccentColor(position) {
+    const validPositions = ['goalkeeper', 'defender', 'midfielder', 'attacker', 'all'];
+    const newClass = validPositions.includes(position) ? `filter-${position}` : 'filter-all';
+    document.body.className = newClass;
+    console.log(`Body class set to: ${newClass}, hero-accent-color: ${getComputedStyle(document.body).getPropertyValue('--hero-accent-color').trim()}`);
 }

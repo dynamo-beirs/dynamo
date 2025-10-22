@@ -193,7 +193,7 @@ body {
 }
 /* Header Logo Container */
 .header-logo-container {
-    display: none; /* Hidden by default (desktop view) */
+    display: none;
     align-items: center;
     justify-content: center;
 }
@@ -207,7 +207,7 @@ body {
 /* Header Logo Container */
 .logo-container {
     position: relative;
-    width: 40px; /* Adjusted to fit within header height */
+    width: 40px;
     height: 40px;
 }
 /* Header Logo Images */
@@ -217,11 +217,11 @@ body {
     position: absolute;
     top: 0;
     left: 0;
-    opacity: 1; /* Ensure the logo is always visible */
+    opacity: 1;
 }
 /* Logo Red */
 .header-logo-red {
-    opacity: 1; /* Explicitly set for clarity */
+    opacity: 1;
 }
 /* Animations */
 @keyframes slideDown {
@@ -234,7 +234,7 @@ body {
         opacity: 1;
     }
 }
-/* Responsive Design - Tablet */
+/* Tablet View */
 @media (max-width: 768px) {
     .header {
         width: 90%;
@@ -277,20 +277,20 @@ body {
         justify-content: center;
     }
     .nav-link span {
-        display: none; /* Hide span to prevent hover effect artifacts */
+        display: none;
     }
     .nav-link:hover,
     .nav-link:focus {
-        color: var(--dark-gray); /* Maintain default color on hover/focus */
-        background: transparent; /* No background change */
+        color: var(--dark-gray);
+        background: transparent;
     }
     .nav-link:hover span,
     .nav-link:focus span {
-        width: 0; /* Prevent span expansion */
+        width: 0;
         height: 0;
     }
 }
-/* Responsive Design - Mobile */
+/* Mobile View */
 @media (max-width: 480px) {
     body {
         padding-top: 60px;
@@ -373,12 +373,12 @@ body {
         min-height: 44px;
     }
     .nav-link span {
-        display: none; /* Hide span to prevent hover effect artifacts */
+        display: none;
     }
     .nav-link:hover,
     .nav-link:focus {
-        color: var(--dark-gray); /* Maintain default color on hover/focus */
-        background: transparent; /* No background change */
+        color: var(--dark-gray);
+        background: transparent;
     }
     .nav-link:hover span,
     .nav-link:focus span {

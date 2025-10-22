@@ -1,8 +1,9 @@
-/* Team All-time stats specific styling */
+/* All-Time Stats Section */
 .all-time-stats {
     padding: 2rem 0;
 }
 
+/* Records Grid */
 .team-records-grid {
     display: flex;
     flex-wrap: wrap;
@@ -22,8 +23,8 @@
 
 .record-category:hover {
     box-shadow: var(--shadow-hover);
-    transform: translateY(-5px) !important;
-    transition: transform 0.3s ease !important;
+    transform: translateY(-5px);
+    transition: transform 0.3s ease;
 }
 
 .record-category h3 {
@@ -36,6 +37,7 @@
     transition: opacity 0.6s ease-out, transform 0.6s ease-out, box-shadow 0.3s ease;
 }
 
+/* Record Items */
 .record-item {
     background: var(--nested-box);
     display: flex;
@@ -78,6 +80,7 @@
     margin-left: 5px;
 }
 
+/* Responsive Mobile */
 @media (max-width: 400px) and (min-width: 360px) {
     .all-time-stats {
         padding: 1.2rem 0;
@@ -92,7 +95,6 @@
 
     .record-category {
         flex: none;
-        height: auto;
         padding: 1rem;
         border-radius: 12px;
         box-shadow: var(--shadow-medium);
