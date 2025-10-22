@@ -5,15 +5,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
 async function loadFooter() {
     try {
-        const isRootPage = window.location.pathname === '/' ||
-            window.location.pathname.endsWith('/index.html') ||
-            !window.location.pathname.includes('/html/');
-        const footerPath = isRootPage ? 'html/partials/footer.html' : 'partials/footer.html';
+        const footerPath = '/dynamo/html/partials/footer.html';
         const response = await fetch(footerPath);
 
         if (!response.ok) {
             console.error(`Failed to load footer from ${footerPath}: ${response.status} ${response.statusText}`);
-            loadFallbackFooter(isRootPage);
+            loadFallbackFooter();
             return;
         }
 
@@ -21,7 +18,7 @@ async function loadFooter() {
 
         if (!footerHTML.trim()) {
             console.error('Footer file is empty');
-            loadFallbackFooter(isRootPage);
+            loadFallbackFooter();
             return;
         }
 
@@ -32,17 +29,17 @@ async function loadFooter() {
             document.body.insertAdjacentHTML('beforeend', footerHTML);
         }
 
-        configureFooter(isRootPage);
+        configureFooter();
     } catch (error) {
         console.error('Error loading footer:', error);
-        loadFallbackFooter(isRootPage);
+        loadFallbackFooter();
     }
 }
 
-function loadFallbackFooter(isRootPage) {
-    const logoGreyPath = isRootPage ? 'img/logos/gray-outlined-logo.png' : '../../img/logos/gray-outlined-logo.png';
-    const logoRedPath = isRootPage ? 'img/logos/red-outlined-logo.png' : '../../img/logos/red-outlined-logo.png';
-    const homePath = isRootPage ? 'index.html' : '../index.html';
+function loadFallbackFooter() {
+    const logoGreyPath = '/dynamo/img/logos/gray-outlined-logo.png';
+    const logoRedPath = '/dynamo/img/logos/red-outlined-logo.png';
+    const homePath = '/dynamo/index.html';
 
     const fallbackFooter = `
         <footer class="footer">
@@ -59,10 +56,10 @@ function loadFallbackFooter(isRootPage) {
                             </a>
                         </div>
                         <div class="footer-brand">
-                            <a href="${homePath}" aria-label="Dynamo Beirs Homepage" class="logo-link">
+                            <a href="${homePath}" aria-label="Dynamo Beirs Homepage" class="logo-link" id="footer-logo-link">
                                 <div class="logo-container">
-                                    <img src="${logoGreyPath}" alt="Gray Outlined Dynamo Beirs Logo" class="footer-logo footer-logo-grey">
-                                    <img src="${logoRedPath}" alt="Red Outlined Dynamo Beirs Logo" class="footer-logo footer-logo-red">
+                                    <img src="${logoGreyPath}" alt="Gray Outlined Dynamo Beirs Logo" class="footer-logo footer-logo-grey" id="footer-logo-grey">
+                                    <img src="${logoRedPath}" alt="Red Outlined Dynamo Beirs Logo" class="footer-logo footer-logo-red" id="footer-logo-red">
                                 </div>
                             </a>
                         </div>
@@ -92,7 +89,7 @@ function loadFallbackFooter(isRootPage) {
     }
 }
 
-function configureFooter(isRootPage) {
+function configureFooter() {
     const logoLink = document.getElementById('footer-logo-link');
     const logoGrey = document.getElementById('footer-logo-grey');
     const logoRed = document.getElementById('footer-logo-red');
@@ -102,13 +99,7 @@ function configureFooter(isRootPage) {
         return;
     }
 
-    if (isRootPage) {
-        logoLink.href = 'index.html';
-        logoGrey.src = 'img/logos/gray-outlined-logo.png';
-        logoRed.src = 'img/logos/red-outlined-logo.png';
-    } else {
-        logoLink.href = '../index.html';
-        logoGrey.src = '/dynamo/img/logos/gray-outlined-logo.png';
-        logoRed.src = '/dynamo/img/logos/red-outlined-logo.png';
-    }
+    logoLink.href = '/dynamo/index.html';
+    logoGrey.src = '/dynamo/img/logos/gray-outlined-logo.png';
+    logoRed.src = '/dynamo/img/logos/red-outlined-logo.png';
 }

@@ -4,15 +4,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
 async function loadHeader() {
     try {
-        const isRootPage = window.location.pathname === '/' ||
-            window.location.pathname.endsWith('/index.html') ||
-            !window.location.pathname.includes('/html/');
-        const headerPath = isRootPage ? 'html/partials/header.html' : 'partials/header.html';
+        const headerPath = '/dynamo/html/partials/header.html';
         const response = await fetch(headerPath);
 
         if (!response.ok) {
             console.error(`Failed to load header from ${headerPath}: ${response.status} ${response.statusText}`);
-            loadFallbackHeader(isRootPage);
+            loadFallbackHeader();
             return;
         }
 
@@ -20,7 +17,7 @@ async function loadHeader() {
 
         if (!headerHTML.trim()) {
             console.error('Header file is empty');
-            loadFallbackHeader(isRootPage);
+            loadFallbackHeader();
             return;
         }
 
@@ -31,18 +28,17 @@ async function loadHeader() {
             document.body.insertAdjacentHTML('afterbegin', headerHTML);
         }
 
-        configureHeader(isRootPage);
+        configureHeader(false);
         initializeScrollProgress();
         setupHeaderScrollEffect();
         setupPositionAwareHoverEffect();
     } catch (error) {
         console.error('Error loading header:', error);
-        loadFallbackHeader(isRootPage);
+        loadFallbackHeader();
     }
 }
 
 function setupPositionAwareHoverEffect() {
-    // Check if the viewport is larger than 768px (desktop view)
     const isDesktop = window.matchMedia('(min-width: 769px)').matches;
 
     if (isDesktop) {
@@ -118,51 +114,29 @@ function configureHeader(isRootPage) {
     const headerLogoLink = document.getElementById('header-logo-link');
     const headerLogoRed = document.getElementById('header-logo-red');
 
-    // Configure navigation links
+    // Configure navigation links with absolute paths
     navLinks.forEach(link => {
         const page = link.getAttribute('data-page');
-        if (isRootPage) {
-            switch(page) {
-                case 'home':
-                    link.href = 'index.html';
-                    break;
-                case 'statistics':
-                    link.href = 'html/statistics.html';
-                    break;
-                case 'players':
-                    link.href = 'html/players.html';
-                    break;
-                case 'matches':
-                    link.href = 'html/matches.html';
-                    break;
-            }
-        } else {
-            switch(page) {
-                case 'home':
-                    link.href = '../index.html';
-                    break;
-                case 'statistics':
-                    link.href = 'statistics.html';
-                    break;
-                case 'players':
-                    link.href = 'players.html';
-                    break;
-                case 'matches':
-                    link.href = 'matches.html';
-                    break;
-            }
+        switch(page) {
+            case 'home':
+                link.href = '/dynamo/index.html';
+                break;
+            case 'statistics':
+                link.href = '/dynamo/html/statistics.html';
+                break;
+            case 'players':
+                link.href = '/dynamo/html/players.html';
+                break;
+            case 'matches':
+                link.href = '/dynamo/html/matches.html';
+                break;
         }
     });
 
     // Configure header logo
     if (headerLogoLink && headerLogoRed) {
-        if (isRootPage) {
-            headerLogoLink.href = 'index.html';
-            headerLogoRed.src = 'img/logos/red-outlined-logo.png';
-        } else {
-            headerLogoLink.href = '../index.html';
-            headerLogoRed.src = '/dynamo/img/logos/red-outlined-logo.png';
-        }
+        headerLogoLink.href = '/dynamo/index.html';
+        headerLogoRed.src = '/dynamo/img/logos/red-outlined-logo.png';
     } else {
         console.warn('Header logo elements not found');
     }
@@ -171,13 +145,7 @@ function configureHeader(isRootPage) {
     initializeMobileMenu();
 }
 
-function loadFallbackHeader(isRootPage) {
-    const homePath = isRootPage ? 'index.html' : '../index.html';
-    const statsPath = isRootPage ? 'html/statistics.html' : 'statistics.html';
-    const playersPath = isRootPage ? 'html/players.html' : 'players.html';
-    const matchesPath = isRootPage ? 'html/matches.html' : 'matches.html';
-    const logoRedPath = isRootPage ? 'img/logos/red-outlined-logo.png' : '../../img/logos/red-outlined-logo.png';
-
+function loadFallbackHeader() {
     const fallbackHeader = `
         <header class="header">
             <div class="scroll-progress-container">
@@ -190,17 +158,17 @@ function loadFallbackHeader(isRootPage) {
                     <span></span>
                 </div>
                 <div class="header-logo-container">
-                    <a href="${homePath}" aria-label="Dynamo Beirs Homepage" class="header-logo-link">
+                    <a href="/dynamo/index.html" aria-label="Dynamo Beirs Homepage" class="header-logo-link">
                         <div class="logo-container">
-                            <img src="${logoRedPath}" alt="Red Outlined Dynamo Beirs Logo" class="header-logo header-logo-red">
+                            <img src="/dynamo/img/logos/red-outlined-logo.png" alt="Red Outlined Dynamo Beirs Logo" class="header-logo header-logo-red">
                         </div>
                     </a>
                 </div>
                 <ul class="nav-links">
-                    <li><a href="${homePath}" class="nav-link" data-page="home">Home<span></span></a></li>
-                    <li><a href="${statsPath}" class="nav-link" data-page="statistics">Statistics<span></span></a></li>
-                    <li><a href="${playersPath}" class="nav-link" data-page="players">Players<span></span></a></li>
-                    <li><a href="${matchesPath}" class="nav-link" data-page="matches">Matches<span></span></a></li>
+                    <li><a href="/dynamo/index.html" class="nav-link" data-page="home">Home<span></span></a></li>
+                    <li><a href="/dynamo/html/statistics.html" class="nav-link" data-page="statistics">Statistics<span></span></a></li>
+                    <li><a href="/dynamo/html/players.html" class="nav-link" data-page="players">Players<span></span></a></li>
+                    <li><a href="/dynamo/html/matches.html" class="nav-link" data-page="matches">Matches<span></span></a></li>
                 </ul>
             </nav>
         </header>
@@ -226,9 +194,10 @@ function highlightCurrentPage() {
 
     navLinks.forEach(link => {
         link.classList.remove('active');
-        if ((currentPath === '/' || currentPath.endsWith('/index.html')) && link.getAttribute('data-page') === 'home') {
+        const page = link.getAttribute('data-page');
+        if ((currentPath === '/dynamo/' || currentPath === '/dynamo/index.html') && page === 'home') {
             link.classList.add('active');
-        } else if (currentPath.includes(link.getAttribute('data-page'))) {
+        } else if (currentPath.includes(page)) {
             link.classList.add('active');
         }
     });
