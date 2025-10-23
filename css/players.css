@@ -443,6 +443,21 @@ main .page-hero h1.animate-in::after {
         padding: 0.8rem 0 0.4rem 0;
     }
 
+    main .page-hero {
+        padding: 1rem 0.5rem;
+    }
+
+    main .page-hero h1 {
+        font-size: 1.8rem;
+    }
+
+    main .page-hero h1::before,
+    main .page-hero h1::after {
+        top: 3px;
+        font-size: 1em;
+        margin: 6px;
+    }
+
     .filter-controls {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
