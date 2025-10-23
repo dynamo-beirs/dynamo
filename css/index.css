@@ -59,7 +59,7 @@
 .stats-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 1.5rem;
+    gap: 1rem;
     justify-content: center;
     text-align: center;
     width: 70%;
@@ -111,7 +111,7 @@
 .contact-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 1.5rem;
+    gap: 1rem;
     width: 70%;
     margin: 0 auto;
 }
@@ -225,7 +225,7 @@
 
     .stats-grid {
         grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-        gap: 1.2rem;
+        gap: 1rem;
         width: 80%;
     }
 
@@ -248,7 +248,7 @@
 
     .contact-grid {
         grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 1.2rem;
+        gap: 1rem;
         width: 80%;
     }
 

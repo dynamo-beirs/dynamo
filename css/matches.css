@@ -34,7 +34,7 @@
 .matches-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 2rem;
+    gap: 1rem;
     padding: 0;
     width: 70%;
     margin: 0 auto;
