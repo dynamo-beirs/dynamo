@@ -12,58 +12,67 @@ let teamAllTimeStats = {};
 // Season records data (loaded dynamically from CSV)
 let seasonRecords = {};
 
+// Utility function to fetch with retries
+async function fetchWithRetry(url, retries = 3, delay = 1000) {
+    for (let i = 0; i < retries; i++) {
+        try {
+            const response = await fetch(url);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return await response.text();
+        } catch (error) {
+            if (i < retries - 1) {
+                console.warn(`Fetch attempt ${i + 1} failed for ${url}. Retrying in ${delay}ms...`);
+                await new Promise(resolve => setTimeout(resolve, delay));
+                continue;
+            }
+            throw error;
+        }
+    }
+}
+
 // Function to load and parse team season stats from the Google Sheet CSV
 async function loadTeamSeasonStats() {
     try {
-        const response = await fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vQRCgon0xh9NuQ87NgqQzBNPCEmmZWcC_jrulRhLwmrudf5UQ2QBRA28F1qmWB9L5xP9uZ8-ct2aqfR/pub?gid=241725037&single=true&output=csv');
-        if (!response.ok) {
-            throw new Error('Failed to fetch team season stats CSV');
-        }
-        const csvText = await response.text();
+        const csvText = await fetchWithRetry('https://docs.google.com/spreadsheets/d/e/2PACX-1vQRCgon0xh9NuQ87NgqQzBNPCEmmZWcC_jrulRhLwmrudf5UQ2QBRA28F1qmWB9L5xP9uZ8-ct2aqfR/pub?gid=241725037&single=true&output=csv');
         const rows = csvText.split('\n').map(row => row.split(',').map(cell => cell.trim().replace(/"/g, '')));
 
-        // Expecting stats in column D (index 3), rows 51 to 67 (0-based indices 50 to 66)
         if (rows.length < 67) {
             throw new Error('Insufficient rows in team season stats CSV');
         }
 
         teamSeasonStats = {
-            matchesPlayed: parseInt(rows[50][3]) || 0, // D51
-            wins: parseInt(rows[51][3]) || 0, // D52
-            draws: parseInt(rows[52][3]) || 0, // D53
-            losses: Math.abs(parseInt(rows[53][3])) || 0, // D54
-            goalsScored: parseInt(rows[54][3]) || 0, // D55
-            goalsConceded: Math.abs(parseInt(rows[55][3])) || 0, // D56
-            goalDifference: parseInt(rows[56][3]) || 0, // D57
-            points: parseInt(rows[57][3]) || 0, // D58
-            winRate: parseFloat(rows[58][3]) || 0, // D59 (percentage)
-            goalsPerMatch: parseFloat(rows[59][3]) || 0, // D60
-            goalsConcededPerMatch: Math.abs(parseFloat(rows[60][3])) || 0, // D61
-            cleanSheets: parseInt(rows[61][3]) || 0, // D62
-            cleanSheetsPerMatch: parseFloat(rows[62][3]) || 0, // D63
-            largestWinScore: rows[63][3] || '0-0', // D64
-            largestWinOpponent: rows[64][3] || 'Unknown', // D65
-            largestLossScore: rows[65][3] || '0-0', // D66
-            largestLossOpponent: rows[66][3] || 'Unknown' // D67
+            matchesPlayed: parseInt(rows[50][3]) || 0,
+            wins: parseInt(rows[51][3]) || 0,
+            draws: parseInt(rows[52][3]) || 0,
+            losses: Math.abs(parseInt(rows[53][3])) || 0,
+            goalsScored: parseInt(rows[54][3]) || 0,
+            goalsConceded: Math.abs(parseInt(rows[55][3])) || 0,
+            goalDifference: parseInt(rows[56][3]) || 0,
+            points: parseInt(rows[57][3]) || 0,
+            winRate: parseFloat(rows[58][3]) || 0,
+            goalsPerMatch: parseFloat(rows[59][3]) || 0,
+            goalsConcededPerMatch: Math.abs(parseFloat(rows[60][3])) || 0,
+            cleanSheets: parseInt(rows[61][3]) || 0,
+            cleanSheetsPerMatch: parseFloat(rows[62][3]) || 0,
+            largestWinScore: rows[63][3] || '0-0',
+            largestWinOpponent: rows[64][3] || 'Unknown',
+            largestLossScore: rows[65][3] || '0-0',
+            largestLossOpponent: rows[66][3] || 'Unknown'
         };
 
-        updateTeamSeasonStats();
         console.log('Loaded team season stats from CSV.');
     } catch (error) {
         console.error('Error loading team season stats:', error);
         teamSeasonStats = {};
-        updateTeamSeasonStats();
     }
 }
 
 // Function to load and parse team all-time stats from the Google Sheet CSV
 async function loadTeamAllTimeStats() {
     try {
-        const response = await fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vQRCgon0xh9NuQ87NgqQzBNPCEmmZWcC_jrulRhLwmrudf5UQ2QBRA28F1qmWB9L5xP9uZ8-ct2aqfR/pub?gid=1146719775&single=true&output=csv');
-        if (!response.ok) {
-            throw new Error('Failed to fetch team all-time stats CSV');
-        }
-        const csvText = await response.text();
+        const csvText = await fetchWithRetry('https://docs.google.com/spreadsheets/d/e/2PACX-1vQRCgon0xh9NuQ87NgqQzBNPCEmmZWcC_jrulRhLwmrudf5UQ2QBRA28F1qmWB9L5xP9uZ8-ct2aqfR/pub?gid=1146719775&single=true&output=csv');
         const rows = csvText.split('\n').map(row => row.split(',').map(cell => cell.trim().replace(/"/g, '')));
 
         if (rows.length < 68) {
@@ -71,75 +80,66 @@ async function loadTeamAllTimeStats() {
         }
 
         teamAllTimeStats = {
-            matchesPlayed: parseInt(rows[50][3]) || 0, // D51
-            wins: parseInt(rows[51][3]) || 0, // D52
-            draws: parseInt(rows[52][3]) || 0, // D53
-            losses: Math.abs(parseInt(rows[53][3])) || 0, // D54
-            goalsScored: parseInt(rows[54][3]) || 0, // D55
-            goalsConceded: Math.abs(parseInt(rows[55][3]) || 0), // D56
-            goalDifference: parseInt(rows[56][3]) || 0, // D57
-            points: parseInt(rows[57][3]) || 0, // D58
-            pointPercentage: parseFloat(rows[58][3]) || 0, // D59
-            goalsPerMatch: parseFloat(rows[59][3]) || 0, // D60
-            goalsConcededPerMatch: Math.abs(parseFloat(rows[60][3])) || 0, // D61
-            cleanSheets: parseInt(rows[61][3]) || 0, // D62
-            cleanSheetsPerMatch: parseFloat(rows[62][3]) || 0, // D63
-            longestWinStreak: parseInt(rows[63][3]) || 0, // D64
-            longestUnbeatenRun: parseInt(rows[64][3]) || 0, // D65
-            differentGoalscorers: parseInt(rows[67][3]) || 0 // D68
+            matchesPlayed: parseInt(rows[50][3]) || 0,
+            wins: parseInt(rows[51][3]) || 0,
+            draws: parseInt(rows[52][3]) || 0,
+            losses: Math.abs(parseInt(rows[53][3])) || 0,
+            goalsScored: parseInt(rows[54][3]) || 0,
+            goalsConceded: Math.abs(parseInt(rows[55][3])) || 0,
+            goalDifference: parseInt(rows[56][3]) || 0,
+            points: parseInt(rows[57][3]) || 0,
+            pointPercentage: parseFloat(rows[58][3]) || 0,
+            goalsPerMatch: parseFloat(rows[59][3]) || 0,
+            goalsConcededPerMatch: Math.abs(parseFloat(rows[60][3])) || 0,
+            cleanSheets: parseInt(rows[61][3]) || 0,
+            cleanSheetsPerMatch: parseFloat(rows[62][3]) || 0,
+            longestWinStreak: parseInt(rows[63][3]) || 0,
+            longestUnbeatenRun: parseInt(rows[64][3]) || 0,
+            differentGoalscorers: parseInt(rows[67][3]) || 0
         };
 
-        updateTeamAllTimeStats();
         console.log('Loaded team all-time stats from CSV.');
     } catch (error) {
         console.error('Error loading team all-time stats:', error);
         teamAllTimeStats = {};
-        updateTeamAllTimeStats();
     }
 }
 
 // Function to load and parse season records for all-time stats from the Google Sheet CSV
 async function loadSeasonRecords() {
     try {
-        const response = await fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vQRCgon0xh9NuQ87NgqQzBNPCEmmZWcC_jrulRhLwmrudf5UQ2QBRA28F1qmWB9L5xP9uZ8-ct2aqfR/pub?gid=39583142&single=true&output=csv');
-        if (!response.ok) {
-            throw new Error('Failed to fetch season records CSV');
-        }
-        const csvText = await response.text();
+        const csvText = await fetchWithRetry('https://docs.google.com/spreadsheets/d/e/2PACX-1vQRCgon0xh9NuQ87NgqQzBNPCEmmZWcC_jrulRhLwmrudf5UQ2QBRA28F1qmWB9L5xP9uZ8-ct2aqfR/pub?gid=39583142&single=true&output=csv');
         const rows = csvText.split('\n').map(row => row.split(',').map(cell => cell.trim().replace(/"/g, '')));
 
-        // Expecting max stats in row 16 (0-based index 15) and seasons in row 18 (0-based index 17)
         if (rows.length < 18) {
             throw new Error('Insufficient rows in season records CSV');
         }
 
-        const recordRow = rows[15]; // Row 16
-        const seasonRow = rows[17]; // Row 18
+        const recordRow = rows[15];
+        const seasonRow = rows[17];
         if (recordRow.length < 16 || seasonRow.length < 16) {
             throw new Error('Insufficient columns in season records CSV');
         }
 
         seasonRecords = {
             mostWins: {
-                value: parseInt(recordRow[3]) || 0, // Column D
-                season: seasonRow[3] || 'Unknown' // Column D
+                value: parseInt(recordRow[3]) || 0,
+                season: seasonRow[3] || 'Unknown'
             },
             mostGoals: {
-                value: parseInt(recordRow[6]) || 0, // Column G
-                season: seasonRow[6] || 'Unknown' // Column G
+                value: parseInt(recordRow[6]) || 0,
+                season: seasonRow[6] || 'Unknown'
             },
             bestGoalDifference: {
-                value: parseInt(recordRow[8]) || 0, // Column I
-                season: seasonRow[8] || 'Unknown' // Column I
+                value: parseInt(recordRow[8]) || 0,
+                season: seasonRow[8] || 'Unknown'
             },
             mostCleanSheets: {
-                value: parseInt(recordRow[13]) || 0, // Column N
-                season: seasonRow[13] || 'Unknown' // Column N
+                value: parseInt(recordRow[13]) || 0,
+                season: seasonRow[13] || 'Unknown'
             }
         };
 
-        console.log('Season Records:', seasonRecords);
-        updateTeamAllTimeStats();
         console.log('Loaded season records from CSV.');
     } catch (error) {
         console.error('Error loading season records:', error);
@@ -149,7 +149,6 @@ async function loadSeasonRecords() {
             bestGoalDifference: { value: 0, season: 'Unknown' },
             mostCleanSheets: { value: 0, season: 'Unknown' }
         };
-        updateTeamAllTimeStats();
     }
 }
 
@@ -209,11 +208,7 @@ function updateTeamAllTimeStats() {
 // Function to load and parse season players from the Google Sheet CSV
 async function loadSeasonPlayers() {
     try {
-        const response = await fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vQRCgon0xh9NuQ87NgqQzBNPCEmmZWcC_jrulRhLwmrudf5UQ2QBRA28F1qmWB9L5xP9uZ8-ct2aqfR/pub?gid=300017481&single=true&output=csv');
-        if (!response.ok) {
-            throw new Error('Failed to fetch season players CSV');
-        }
-        const csvText = await response.text();
+        const csvText = await fetchWithRetry('https://docs.google.com/spreadsheets/d/e/2PACX-1vQRCgon0xh9NuQ87NgqQzBNPCEmmZWcC_jrulRhLwmrudf5UQ2QBRA28F1qmWB9L5xP9uZ8-ct2aqfR/pub?gid=300017481&single=true&output=csv');
         const rows = csvText.split('\n').map(row => row.split(',').map(cell => cell.trim().replace(/"/g, '')));
         const positionMap = {
             'GK': 'goalkeeper',
@@ -241,23 +236,17 @@ async function loadSeasonPlayers() {
             players.push({ name, position, goals, matches });
         }
         seasonPlayers = players.sort((a, b) => b.goals - a.goals);
-        updateSeasonPlayerStats();
         console.log(`Loaded ${seasonPlayers.length} season players from CSV.`);
     } catch (error) {
         console.error('Error loading season players:', error);
         seasonPlayers = [];
-        updateSeasonPlayerStats();
     }
 }
 
 // Function to load and parse all-time players from the Google Sheet CSV
 async function loadAllTimePlayers() {
     try {
-        const response = await fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vQRCgon0xh9NuQ87NgqQzBNPCEmmZWcC_jrulRhLwmrudf5UQ2QBRA28F1qmWB9L5xP9uZ8-ct2aqfR/pub?gid=1401992067&single=true&output=csv');
-        if (!response.ok) {
-            throw new Error('Failed to fetch all-time players CSV');
-        }
-        const csvText = await response.text();
+        const csvText = await fetchWithRetry('https://docs.google.com/spreadsheets/d/e/2PACX-1vQRCgon0xh9NuQ87NgqQzBNPCEmmZWcC_jrulRhLwmrudf5UQ2QBRA28F1qmWB9L5xP9uZ8-ct2aqfR/pub?gid=1401992067&single=true&output=csv');
         const rows = csvText.split('\n').map(row => row.split(',').map(cell => cell.trim().replace(/"/g, '')));
         const positionMap = {
             'GK': 'goalkeeper',
@@ -285,12 +274,10 @@ async function loadAllTimePlayers() {
             players.push({ name, position, goals, matches });
         }
         allTimePlayers = players.sort((a, b) => b.goals - a.goals);
-        updateAllTimePlayerStats();
         console.log(`Loaded ${allTimePlayers.length} all-time players from CSV.`);
     } catch (error) {
         console.error('Error loading all-time players:', error);
         allTimePlayers = [];
-        updateAllTimePlayerStats();
     }
 }
 
@@ -333,12 +320,54 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Initialize player stats and team stats
-function initPlayerStats() {
-    loadTeamSeasonStats();
-    loadTeamAllTimeStats();
-    loadSeasonRecords();
-    loadSeasonPlayers();
-    loadAllTimePlayers();
+async function initPlayerStats() {
+    const loadingElement = document.getElementById('team-alltime-loading');
+    const errorElement = document.getElementById('team-alltime-error');
+    const recordsGrid = document.getElementById('team-alltime-records');
+
+    if (loadingElement && errorElement && recordsGrid) {
+        loadingElement.classList.remove('hidden');
+        errorElement.classList.add('hidden');
+        recordsGrid.classList.add('hidden');
+    }
+
+    try {
+        await Promise.all([
+            loadTeamSeasonStats(),
+            loadTeamAllTimeStats(),
+            loadSeasonRecords(),
+            loadSeasonPlayers(),
+            loadAllTimePlayers()
+        ]);
+        updateTeamSeasonStats();
+        updateTeamAllTimeStats();
+        updateSeasonPlayerStats();
+        updateAllTimePlayerStats();
+        if (loadingElement && errorElement && recordsGrid) {
+            loadingElement.classList.add('hidden');
+            errorElement.classList.add('hidden');
+            recordsGrid.classList.remove('hidden');
+        }
+    } catch (error) {
+        console.error('Error initializing player stats:', error);
+        teamSeasonStats = teamSeasonStats || {};
+        teamAllTimeStats = teamAllTimeStats || {};
+        seasonRecords = seasonRecords || {
+            mostWins: { value: 0, season: 'Unknown' },
+            mostGoals: { value: 0, season: 'Unknown' },
+            bestGoalDifference: { value: 0, season: 'Unknown' },
+            mostCleanSheets: { value: 0, season: 'Unknown' }
+        };
+        updateTeamSeasonStats();
+        updateTeamAllTimeStats();
+        updateSeasonPlayerStats();
+        updateAllTimePlayerStats();
+        if (loadingElement && errorElement && recordsGrid) {
+            loadingElement.classList.add('hidden');
+            errorElement.classList.remove('hidden');
+            recordsGrid.classList.add('hidden');
+        }
+    }
 }
 
 // Update season player stats display
@@ -384,7 +413,6 @@ function updateSeasonPlayerStats(sortBy = document.querySelector('#season-sort .
     });
     animateOnScroll([{ selector: '.player-row', containerSelector: 'section' }]);
 }
-
 
 // Update all-time player stats display
 function updateAllTimePlayerStats(sortBy = document.querySelector('#alltime-sort .selected')?.dataset.value || 'goals') {

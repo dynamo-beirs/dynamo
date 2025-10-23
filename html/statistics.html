@@ -195,7 +195,9 @@
     <section class="all-time-stats hidden" id="team-alltime-stats">
         <div class="container">
             <h2 class="section-title">All-Time Teamrecords</h2>
-            <div class="team-records-grid">
+            <div id="team-alltime-loading" class="loading-message">Laden...</div>
+            <div id="team-alltime-error" class="error-message hidden">Fout bij het laden van gegevens. Probeer opnieuw.</div>
+            <div class="team-records-grid" id="team-alltime-records">
                 <div class="record-category">
                     <h3>Seizoensrecords</h3>
                     <div class="record-item">
@@ -290,7 +292,6 @@
             </div>
         </div>
     </section>
-
     <!-- Player All-Time Statistics -->
     <section class="all-time-stats hidden" id="player-alltime-stats">
         <div class="container">

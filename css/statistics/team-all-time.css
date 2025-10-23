@@ -80,6 +80,23 @@
     margin-left: 5px;
 }
 
+/* Loading and Error Messages */
+.loading-message, .error-message {
+    text-align: center;
+    padding: 1rem;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    color: var(--dark-gray);
+}
+
+.error-message {
+    color: var(--season-color);
+}
+
+.error-message.hidden, .loading-message.hidden {
+    display: none;
+}
+
 /* Responsive Mobile */
 @media (max-width: 400px) and (min-width: 360px) {
     .all-time-stats {
