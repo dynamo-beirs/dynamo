@@ -8,7 +8,7 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     text-align: center;
-    gap: 2rem;
+    gap: 1rem;
     width: 70%;
     margin: 0 auto;
 }
@@ -52,7 +52,7 @@
 .stats-categories {
     display: grid;
     grid-template-rows: auto auto;
-    gap: 2rem;
+    gap: 1rem;
     width: 70%;
     margin: 0 auto;
 }
