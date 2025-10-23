@@ -580,6 +580,7 @@
     .timeline::after {
         font-size: 18px;
         right: 0.8rem;
+        top: 49.0%;
     }
 
     .timeline-item {
