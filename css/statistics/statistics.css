@@ -209,6 +209,18 @@ body.team-alltime, body.player-alltime {
     --underline-color: var(--alltime-color);
 }
 
+/* Override for season context */
+body.team-season .table-header,
+body.player-season .table-header {
+    background: var(--season-color);
+}
+
+/* Override for all-time context */
+body.team-alltime .table-header,
+body.player-alltime .table-header {
+    background: var(--alltime-color);
+}
+
 /* Section Styling */
 .section-title {
     white-space: normal;
