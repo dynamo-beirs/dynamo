@@ -1,4 +1,3 @@
-// statistics.js
 import { animateOnScroll } from './general.js';
 
 // Season player data (loaded dynamically from CSV)
@@ -11,6 +10,8 @@ let teamSeasonStats = {};
 let teamAllTimeStats = {};
 // Season records data (loaded dynamically from CSV)
 let seasonRecords = {};
+// Loading state
+let isLoading = false;
 
 // Utility function to fetch with retries
 async function fetchWithRetry(url, retries = 3, delay = 1000) {
@@ -321,14 +322,52 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Initialize player stats and team stats
 async function initPlayerStats() {
-    const loadingElement = document.getElementById('team-alltime-loading');
-    const errorElement = document.getElementById('team-alltime-error');
-    const recordsGrid = document.getElementById('team-alltime-records');
+    isLoading = true; // Set loading state
+    // Team season stats
+    const teamSeasonLoading = document.getElementById('team-season-loading');
+    const teamSeasonError = document.getElementById('team-season-error');
+    const teamSeasonGrid = document.getElementById('team-season-grid');
+    const teamSeasonDetailedLoading = document.getElementById('team-season-detailed-loading');
+    const teamSeasonDetailedError = document.getElementById('team-season-detailed-error');
+    const teamSeasonDetailedStats = document.getElementById('team-season-detailed-stats');
+    // Team all-time stats
+    const teamAllTimeLoading = document.getElementById('team-alltime-loading');
+    const teamAllTimeError = document.getElementById('team-alltime-error');
+    const teamAllTimeRecords = document.getElementById('team-alltime-records');
+    // Player season stats
+    const playerSeasonLoading = document.getElementById('player-season-loading');
+    const playerSeasonError = document.getElementById('player-season-error');
+    const playerSeasonContent = document.getElementById('player-season-content');
+    // Player all-time stats
+    const playerAllTimeLoading = document.getElementById('player-alltime-loading');
+    const playerAllTimeError = document.getElementById('player-alltime-error');
+    const playerAllTimeContent = document.getElementById('player-alltime-content');
 
-    if (loadingElement && errorElement && recordsGrid) {
-        loadingElement.classList.remove('hidden');
-        errorElement.classList.add('hidden');
-        recordsGrid.classList.add('hidden');
+    // Show loading states
+    if (teamSeasonLoading && teamSeasonError && teamSeasonGrid) {
+        teamSeasonLoading.classList.remove('hidden');
+        teamSeasonError.classList.add('hidden');
+        teamSeasonGrid.classList.add('hidden');
+    }
+    if (teamSeasonDetailedLoading && teamSeasonDetailedError && teamSeasonDetailedStats) {
+        teamSeasonDetailedLoading.classList.remove('hidden');
+        teamSeasonDetailedError.classList.add('hidden');
+        teamSeasonDetailedStats.classList.add('hidden');
+    }
+    if (teamAllTimeLoading && teamAllTimeError && teamAllTimeRecords) {
+        teamAllTimeLoading.classList.remove('hidden');
+        teamAllTimeError.classList.add('hidden');
+        teamAllTimeRecords.classList.add('hidden');
+    }
+    if (playerSeasonLoading && playerSeasonError && playerSeasonContent) {
+        playerSeasonLoading.classList.remove('hidden');
+        playerSeasonError.classList.add('hidden');
+        playerSeasonContent.classList.add('hidden');
+    }
+    if (playerAllTimeLoading && playerAllTimeError && playerAllTimeContent) {
+        playerAllTimeLoading.classList.remove('hidden');
+        playerAllTimeError.classList.add('hidden');
+        playerAllTimeContent.classList.add('hidden');
     }
 
     try {
@@ -343,10 +382,31 @@ async function initPlayerStats() {
         updateTeamAllTimeStats();
         updateSeasonPlayerStats();
         updateAllTimePlayerStats();
-        if (loadingElement && errorElement && recordsGrid) {
-            loadingElement.classList.add('hidden');
-            errorElement.classList.add('hidden');
-            recordsGrid.classList.remove('hidden');
+        // Hide loading states and show content
+        if (teamSeasonLoading && teamSeasonError && teamSeasonGrid) {
+            teamSeasonLoading.classList.add('hidden');
+            teamSeasonError.classList.add('hidden');
+            teamSeasonGrid.classList.remove('hidden');
+        }
+        if (teamSeasonDetailedLoading && teamSeasonDetailedError && teamSeasonDetailedStats) {
+            teamSeasonDetailedLoading.classList.add('hidden');
+            teamSeasonDetailedError.classList.add('hidden');
+            teamSeasonDetailedStats.classList.remove('hidden');
+        }
+        if (teamAllTimeLoading && teamAllTimeError && teamAllTimeRecords) {
+            teamAllTimeLoading.classList.add('hidden');
+            teamAllTimeError.classList.add('hidden');
+            teamAllTimeRecords.classList.remove('hidden');
+        }
+        if (playerSeasonLoading && playerSeasonError && playerSeasonContent) {
+            playerSeasonLoading.classList.add('hidden');
+            playerSeasonError.classList.add('hidden');
+            playerSeasonContent.classList.remove('hidden');
+        }
+        if (playerAllTimeLoading && playerAllTimeError && playerAllTimeContent) {
+            playerAllTimeLoading.classList.add('hidden');
+            playerAllTimeError.classList.add('hidden');
+            playerAllTimeContent.classList.remove('hidden');
         }
     } catch (error) {
         console.error('Error initializing player stats:', error);
@@ -358,15 +418,40 @@ async function initPlayerStats() {
             bestGoalDifference: { value: 0, season: 'Unknown' },
             mostCleanSheets: { value: 0, season: 'Unknown' }
         };
+        seasonPlayers = seasonPlayers || [];
+        allTimePlayers = allTimePlayers || [];
         updateTeamSeasonStats();
         updateTeamAllTimeStats();
         updateSeasonPlayerStats();
         updateAllTimePlayerStats();
-        if (loadingElement && errorElement && recordsGrid) {
-            loadingElement.classList.add('hidden');
-            errorElement.classList.remove('hidden');
-            recordsGrid.classList.add('hidden');
+        // Show error states
+        if (teamSeasonLoading && teamSeasonError && teamSeasonGrid) {
+            teamSeasonLoading.classList.add('hidden');
+            teamSeasonError.classList.remove('hidden');
+            teamSeasonGrid.classList.add('hidden');
         }
+        if (teamSeasonDetailedLoading && teamSeasonDetailedError && teamSeasonDetailedStats) {
+            teamSeasonDetailedLoading.classList.add('hidden');
+            teamSeasonDetailedError.classList.remove('hidden');
+            teamSeasonDetailedStats.classList.add('hidden');
+        }
+        if (teamAllTimeLoading && teamAllTimeError && teamAllTimeRecords) {
+            teamAllTimeLoading.classList.add('hidden');
+            teamAllTimeError.classList.remove('hidden');
+            teamAllTimeRecords.classList.add('hidden');
+        }
+        if (playerSeasonLoading && playerSeasonError && playerSeasonContent) {
+            playerSeasonLoading.classList.add('hidden');
+            playerSeasonError.classList.remove('hidden');
+            playerSeasonContent.classList.add('hidden');
+        }
+        if (playerAllTimeLoading && playerAllTimeError && playerAllTimeContent) {
+            playerAllTimeLoading.classList.add('hidden');
+            playerAllTimeError.classList.remove('hidden');
+            playerAllTimeContent.classList.add('hidden');
+        }
+    } finally {
+        isLoading = false; // Reset loading state
     }
 }
 
@@ -549,6 +634,19 @@ function getLabelFromKey(key) {
     }
 }
 
+// Debounce function to limit toggle frequency
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+}
+
 // Toggle system for team/player and season/all-time views
 function initToggle() {
     const toggles = {
@@ -569,20 +667,31 @@ function initToggle() {
         playerSeason: document.getElementById('player-season-stats'),
         playerAlltime: document.getElementById('player-alltime-stats')
     };
-    const updateView = () => {
+
+    const updateView = debounce(() => {
+        if (isLoading) {
+            console.log('Data is still loading, delaying view update.');
+            return; // Prevent view update during loading
+        }
+
         const isPlayer = toggles.teamPlayer?.checked;
         const isAlltime = toggles.seasonAlltime?.checked;
         labels.team?.classList.toggle('active', !isPlayer);
         labels.player?.classList.toggle('active', isPlayer);
         labels.season?.classList.toggle('active', !isAlltime);
         labels.alltime?.classList.toggle('active', isAlltime);
+
+        // Hide all sections
         Object.values(sections).forEach(section => section?.classList.add('hidden'));
-        document.body.classList.remove('team-alltime', 'player-season', 'player-alltime');
+        document.body.classList.remove('team-season', 'team-alltime', 'player-season', 'player-alltime');
+
+        // Reset animations
         animationElements.forEach(({ selector }) => {
             document.querySelectorAll(selector).forEach(element => {
                 element.classList.remove('animate-in');
             });
         });
+
         let sectionsToShow;
         if (!isPlayer && !isAlltime) {
             sectionsToShow = [sections.teamSeason, sections.teamSeasonDetailed];
@@ -601,11 +710,13 @@ function initToggle() {
             document.body.classList.add('player-alltime');
             updateAllTimePlayerStats();
         }
+
         sectionsToShow.forEach(section => {
             if (section) {
                 section.classList.remove('hidden');
             }
         });
+
         const pageHeroH1 = document.querySelector('.page-hero h1');
         if (pageHeroH1) {
             pageHeroH1.classList.remove('animate-in');
@@ -613,8 +724,10 @@ function initToggle() {
                 pageHeroH1.classList.add('animate-in');
             }, 100);
         }
+
         animateOnScroll(animationElements);
-    };
+    }, 300); // Debounce for 300ms
+
     labels.team?.addEventListener('click', () => {
         if (toggles.teamPlayer.checked) {
             toggles.teamPlayer.checked = false;
@@ -639,6 +752,7 @@ function initToggle() {
             toggles.seasonAlltime.dispatchEvent(new Event('change'));
         }
     });
+
     updateView();
     toggles.teamPlayer?.addEventListener('change', updateView);
     toggles.seasonAlltime?.addEventListener('change', updateView);
