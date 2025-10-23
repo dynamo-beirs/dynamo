@@ -323,6 +323,12 @@ document.addEventListener('DOMContentLoaded', () => {
 // Initialize player stats and team stats
 async function initPlayerStats() {
     isLoading = true; // Set loading state
+    // Disable toggles during loading
+    const teamPlayerToggle = document.getElementById('team-player-toggle');
+    const seasonAlltimeToggle = document.getElementById('season-alltime-toggle');
+    if (teamPlayerToggle) teamPlayerToggle.disabled = true;
+    if (seasonAlltimeToggle) seasonAlltimeToggle.disabled = true;
+
     // Team season stats
     const teamSeasonLoading = document.getElementById('team-season-loading');
     const teamSeasonError = document.getElementById('team-season-error');
@@ -331,6 +337,9 @@ async function initPlayerStats() {
     const teamSeasonDetailedError = document.getElementById('team-season-detailed-error');
     const teamSeasonDetailedStats = document.getElementById('team-season-detailed-stats');
     // Team all-time stats
+    const teamAllTimePerformanceLoading = document.getElementById('team-alltime-performance-loading');
+    const teamAllTimePerformanceError = document.getElementById('team-alltime-performance-error');
+    const teamAllTimePerformanceGrid = document.getElementById('team-alltime-performance-grid');
     const teamAllTimeLoading = document.getElementById('team-alltime-loading');
     const teamAllTimeError = document.getElementById('team-alltime-error');
     const teamAllTimeRecords = document.getElementById('team-alltime-records');
@@ -353,6 +362,11 @@ async function initPlayerStats() {
         teamSeasonDetailedLoading.classList.remove('hidden');
         teamSeasonDetailedError.classList.add('hidden');
         teamSeasonDetailedStats.classList.add('hidden');
+    }
+    if (teamAllTimePerformanceLoading && teamAllTimePerformanceError && teamAllTimePerformanceGrid) {
+        teamAllTimePerformanceLoading.classList.remove('hidden');
+        teamAllTimePerformanceError.classList.add('hidden');
+        teamAllTimePerformanceGrid.classList.add('hidden');
     }
     if (teamAllTimeLoading && teamAllTimeError && teamAllTimeRecords) {
         teamAllTimeLoading.classList.remove('hidden');
@@ -392,6 +406,11 @@ async function initPlayerStats() {
             teamSeasonDetailedLoading.classList.add('hidden');
             teamSeasonDetailedError.classList.add('hidden');
             teamSeasonDetailedStats.classList.remove('hidden');
+        }
+        if (teamAllTimePerformanceLoading && teamAllTimePerformanceError && teamAllTimePerformanceGrid) {
+            teamAllTimePerformanceLoading.classList.add('hidden');
+            teamAllTimePerformanceError.classList.add('hidden');
+            teamAllTimePerformanceGrid.classList.remove('hidden');
         }
         if (teamAllTimeLoading && teamAllTimeError && teamAllTimeRecords) {
             teamAllTimeLoading.classList.add('hidden');
@@ -435,6 +454,11 @@ async function initPlayerStats() {
             teamSeasonDetailedError.classList.remove('hidden');
             teamSeasonDetailedStats.classList.add('hidden');
         }
+        if (teamAllTimePerformanceLoading && teamAllTimePerformanceError && teamAllTimePerformanceGrid) {
+            teamAllTimePerformanceLoading.classList.add('hidden');
+            teamAllTimePerformanceError.classList.remove('hidden');
+            teamAllTimePerformanceGrid.classList.add('hidden');
+        }
         if (teamAllTimeLoading && teamAllTimeError && teamAllTimeRecords) {
             teamAllTimeLoading.classList.add('hidden');
             teamAllTimeError.classList.remove('hidden');
@@ -452,6 +476,9 @@ async function initPlayerStats() {
         }
     } finally {
         isLoading = false; // Reset loading state
+        // Re-enable toggles after loading
+        if (teamPlayerToggle) teamPlayerToggle.disabled = false;
+        if (seasonAlltimeToggle) seasonAlltimeToggle.disabled = false;
     }
 }
 
