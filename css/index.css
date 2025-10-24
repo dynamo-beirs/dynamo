@@ -105,7 +105,7 @@
 
 /* Contact Section */
 .contact-section {
-    padding: 1.5rem 0;
+    padding: 0.5rem 0 1.5rem 0;
 }
 
 .contact-grid {
@@ -156,7 +156,7 @@
 
 /* Map Section */
 .map-section {
-    padding: 1.5rem 0;
+    padding: 0.5rem 0 0.5rem 0;
 }
 
 .map-container {
@@ -243,7 +243,7 @@
     }
 
     .contact-section {
-        padding: 1.3rem 0;
+        padding: 0.5rem 0 1.3rem 0;
     }
 
     .contact-grid {
@@ -270,7 +270,7 @@
     }
 
     .map-section {
-        padding: 1.3rem 0;
+        padding: 0.5rem 0 0.5rem 0;
     }
 
     .map-container {
@@ -328,7 +328,7 @@
     }
 
     .contact-section {
-        padding: 1.2rem 0;
+        padding: 0.5rem 0 1.2rem 0;
     }
 
     .contact-grid {
@@ -356,7 +356,7 @@
     }
 
     .map-section {
-        padding: 1.2rem 0;
+        padding: 0.5rem 0 0.5rem 0;
     }
 
     .map-container {
@@ -444,7 +444,7 @@
     }
 
     .contact-section {
-        padding: 1rem 0;
+        padding: 0.5rem 0 1.2rem 0;
     }
 
     .contact-grid {
@@ -472,7 +472,7 @@
     }
 
     .map-section {
-        padding: 1rem 0;
+        padding: 0.5rem 0 0.5rem 0;
     }
 
     .map-container {

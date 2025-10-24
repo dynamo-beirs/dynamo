@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zoek Wedstrijden - Dynamo Beirs</title>
+    <meta name="description" content="Zoek door alle gespeelde wedstrijden van Dynamo Beirs">
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PSK11HXBQB"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-PSK11HXBQB');
+    </script>
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="/dynamo/css/general.css">
+    <link rel="stylesheet" href="/dynamo/css/partials/header.css">
+    <link rel="stylesheet" href="/dynamo/css/partials/footer.css">
+    <link rel="stylesheet" href="/dynamo/css/matches.css">
+    <link rel="stylesheet" href="/dynamo/css/search.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <!-- Scripts -->
+    <script type="module" src="/dynamo/js/search.js"></script>
+    <script type="module" src="/dynamo/js/partials/header.js"></script>
+    <script type="module" src="/dynamo/js/partials/footer.js"></script>
+    <script type="module" src="/dynamo/js/components/matchModal.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+</head>
+<body>
+<!-- Header -->
+<div id="header-placeholder"></div>
+
+<main>
+    <!-- Page hero -->
+    <section class="page-hero">
+        <div class="container">
+            <h1>Zoek Wedstrijden</h1>
+        </div>
+    </section>
+
+    <!-- Search Section -->
+    <section class="search-section">
+        <div class="container">
+            <div class="search-container">
+                <div class="search-wrapper">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" id="search-input" class="player-search" placeholder="Zoek op tegenstander..." aria-label="Zoek wedstrijden op tegenstander">
+                    <ul id="autocomplete-list" class="autocomplete-list"></ul>
+                </div>
+            </div>
+            <p id="search-message" class="loading-message">Wedstrijden worden geladen...</p>
+        </div>
+    </section>
+
+    <!-- Search Results -->
+    <section class="matches-section">
+        <div class="container">
+            <h2 class="section-title">Zoekresultaten</h2>
+            <div class="matches-grid" id="search-results-grid">
+                <!-- Dynamic insertion of search results -->
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- Footer -->
+<div id="footer-placeholder"></div>
+
+<!-- Match modal container -->
+<div id="match-modal-placeholder"></div>
+</body>
+</html>
