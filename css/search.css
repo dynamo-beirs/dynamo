@@ -1,8 +1,9 @@
-/* search.css */
+/* Search Section */
 .search-section {
     padding: 1.5rem 0;
 }
 
+/* Search Container */
 .search-container {
     margin: 0.8rem 0;
     text-align: center;
@@ -13,16 +14,19 @@
 
 .search-container.animate-in {
     opacity: 1;
-    transform: translateY(0);
+    transform: none;
 }
 
+/* Search Wrapper */
 .search-wrapper {
     position: relative;
     display: inline-block;
     width: 90%;
     max-width: 280px;
+    z-index: 100;
 }
 
+/* Search Icon */
 .search-icon {
     position: absolute;
     left: 0.8rem;
@@ -33,6 +37,7 @@
     pointer-events: none;
 }
 
+/* Search Input */
 .player-search {
     padding: 0.6rem 0.8rem 0.6rem 2.2rem;
     border: 2px solid white;
@@ -57,6 +62,7 @@
     opacity: 1;
 }
 
+/* Autocomplete List */
 .autocomplete-list {
     position: absolute;
     top: 100%;
@@ -68,12 +74,13 @@
     list-style: none;
     padding: 0.5rem 0;
     margin: 0.2rem 0 0;
-    z-index: 1000;
+    z-index: 100000;
     display: none;
     max-height: 200px;
     overflow-y: auto;
 }
 
+/* Autocomplete Item */
 .autocomplete-item {
     padding: 0.5rem 1rem;
     font-family: 'Poppins', sans-serif;
@@ -83,10 +90,12 @@
     transition: background 0.2s ease;
 }
 
-.autocomplete-item:hover {
+.autocomplete-item:hover,
+.autocomplete-item.active {
     background: var(--silver-mist);
 }
 
+/* Search Message */
 #search-message {
     text-align: center;
     font-size: 0.95rem;
@@ -94,10 +103,38 @@
     margin-top: 1rem;
 }
 
+/* Match Season */
+.match-season {
+    color: var(--medium-gray);
+    font-size: 0.95rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.match-season i {
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+/* Match Card */
+.match-card.modern {
+    cursor: default;
+}
+
+.match-card.modern:hover,
+.match-card.modern.hover {
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-5px);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
 /* Tablet View */
 @media (max-width: 768px) {
     .search-section {
-        padding: 1rem 0;
+        padding: 4rem 0 1rem;
     }
 
     .search-wrapper {
@@ -115,10 +152,6 @@
         left: 0.7rem;
     }
 
-    .autocomplete-list {
-        font-size: 0.8rem;
-    }
-
     .autocomplete-item {
         padding: 0.4rem 0.9rem;
     }
@@ -126,17 +159,32 @@
     #search-message {
         font-size: 0.85rem;
     }
+
+    .match-season {
+        font-size: 0.85rem;
+        gap: 5px;
+    }
+
+    .match-season i {
+        font-size: 0.8rem;
+    }
+
+    .match-card.modern:hover,
+    .match-card.modern.hover {
+        transform: translateY(-3px);
+    }
 }
 
 /* Mobile View */
 @media (max-width: 480px) {
     .search-section {
-        padding: 0.8rem 0;
+        padding: 5rem 0 0.8rem;
     }
 
     .search-wrapper {
         width: 100%;
         max-width: 291px;
+        z-index: 999;
     }
 
     .player-search {
@@ -150,15 +198,19 @@
         left: 0.7rem;
     }
 
-    .autocomplete-list {
-        font-size: 0.75rem;
-    }
-
     .autocomplete-item {
         padding: 0.4rem 0.8rem;
     }
 
     #search-message {
         font-size: 0.8rem;
+    }
+
+    .match-season {
+        font-size: 0.8rem;
+    }
+
+    .match-season i {
+        font-size: 0.75rem;
     }
 }

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
+    <!-- Metadata -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zoek Wedstrijden - Dynamo Beirs</title>
@@ -34,8 +35,9 @@
 <!-- Header -->
 <div id="header-placeholder"></div>
 
+<!-- Main Content -->
 <main>
-    <!-- Page hero -->
+    <!-- Page Hero -->
     <section class="page-hero">
         <div class="container">
             <h1>Zoek Wedstrijden</h1>
@@ -52,7 +54,7 @@
                     <ul id="autocomplete-list" class="autocomplete-list"></ul>
                 </div>
             </div>
-            <p id="search-message" class="loading-message">Wedstrijden worden geladen...</p>
+            <p id="search-message" class="error-message hidden"></p>
         </div>
     </section>
 
@@ -60,9 +62,7 @@
     <section class="matches-section">
         <div class="container">
             <h2 class="section-title">Zoekresultaten</h2>
-            <div class="matches-grid" id="search-results-grid">
-                <!-- Dynamic insertion of search results -->
-            </div>
+            <div class="matches-grid" id="search-results-grid"></div>
         </div>
     </section>
 </main>
@@ -70,7 +70,7 @@
 <!-- Footer -->
 <div id="footer-placeholder"></div>
 
-<!-- Match modal container -->
+<!-- Match Modal -->
 <div id="match-modal-placeholder"></div>
 </body>
 </html>
