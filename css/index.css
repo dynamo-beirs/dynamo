@@ -427,6 +427,10 @@
         font-size: 0.65rem;
     }
 
+    .contact-section {
+        padding: 0.4rem 0;
+    }
+
     .contact-grid {
         grid-template-columns: 1fr;
         gap: 0.6rem;
@@ -449,6 +453,10 @@
 
     .contact-card p {
         font-size: 0.75rem;
+    }
+
+    .map-section {
+        padding: 0.4rem 0;
     }
 
     .map-container {
