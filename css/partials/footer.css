@@ -153,10 +153,6 @@
         height: 60px;
     }
 
-    .footer-social-line {
-        max-width: 300px;
-    }
-
     .footer-social {
         gap: 8px;
         padding: 0 8px;
@@ -185,7 +181,7 @@
     }
 
     .footer-social-line {
-        width: 90%;
+        width: 100%;
     }
 
     .logo-link,
