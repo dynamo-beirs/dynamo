@@ -378,7 +378,6 @@ body.modal-open {
         max-height: 80vh;
         border-radius: 14px;
         box-shadow: var(--shadow-small);
-        background: linear-gradient(145deg, var(--off-white), var(--nested-box));
     }
 
     .team-name {
@@ -485,7 +484,6 @@ body.modal-open {
         max-height: 82vh;
         border-radius: 12px;
         box-shadow: var(--shadow-small);
-        background: linear-gradient(145deg, var(--off-white), var(--nested-box));
     }
 
     .team-name {

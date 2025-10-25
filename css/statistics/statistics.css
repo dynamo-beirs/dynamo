@@ -595,7 +595,6 @@ body.player-alltime .player-rank {
         margin: 0 auto;
         border-radius: 12px;
         box-shadow: var(--shadow-medium);
-        background: linear-gradient(145deg, white, var(--nested-box));
     }
 
     .table-header, .scorer-row, .player-row {
@@ -764,7 +763,6 @@ body.player-alltime .player-rank {
         max-width: 90%;
         border-radius: 10px;
         box-shadow: var(--shadow-medium);
-        background: linear-gradient(145deg, white, var(--nested-box));
     }
 
     .table-header, .scorer-row, .player-row {

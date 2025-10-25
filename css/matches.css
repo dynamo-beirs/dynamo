@@ -360,7 +360,6 @@
 
     .match-card.modern {
         border-radius: 20px;
-        background: linear-gradient(145deg, white, var(--nested-box));
         box-shadow: var(--shadow-small);
         border: none;
     }
@@ -505,7 +504,6 @@
 
     .match-card.modern {
         border-radius: 18px;
-        background: linear-gradient(145deg, white, var(--off-white));
         box-shadow: var(--shadow-medium);
     }
 
