@@ -80,8 +80,8 @@
     margin-left: 5px;
 }
 
-/* Responsive Mobile */
-@media (max-width: 400px) and (min-width: 360px) {
+/* Mobile View */
+@media (max-width: 480px) {
     .all-time-stats {
         padding: 1.2rem 0;
     }

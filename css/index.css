@@ -198,7 +198,7 @@
 }
 
 /* Tablet View */
-@media (min-width: 768px) and (max-width: 1024px) {
+@media (max-width: 768px) {
     .hero {
         height: 38vh;
         width: 80%;
@@ -272,86 +272,8 @@
     }
 }
 
-/* Mobile View (≤767px) */
-@media (max-width: 767px) {
-    .hero {
-        height: 35vh;
-        padding: 1.2rem 0.6rem;
-        width: 95%;
-        margin: 0 auto;
-    }
-
-    .hero-content {
-        width: 95%;
-        margin: 0 auto;
-    }
-
-    .hero h1 {
-        font-size: 2rem;
-    }
-
-    .hero-content::after {
-        height: 6px;
-        border-radius: 3px;
-    }
-
-    .stats-overview-section {
-        padding: 1.2rem 0;
-    }
-
-    .stats-grid {
-        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-        gap: 0.8rem;
-        width: 95%;
-    }
-
-    .stat-card {
-        padding: 1rem;
-        border-radius: 12px;
-        min-height: 44px;
-    }
-
-    .stat-number {
-        font-size: 1.6rem;
-    }
-
-    .stat-label {
-        font-size: 0.7rem;
-    }
-
-    .contact-grid {
-        grid-template-columns: 1fr;
-        gap: 0.8rem;
-        width: 95%;
-    }
-
-    .contact-card {
-        padding: 1rem;
-        border-radius: 12px;
-        min-height: 44px;
-    }
-
-    .contact-card i {
-        font-size: 1.5rem;
-    }
-
-    .contact-card h3 {
-        font-size: 1.1rem;
-    }
-
-    .contact-card p {
-        font-size: 0.8rem;
-    }
-
-    .map-container {
-        height: 250px;
-        width: 95%;
-        border-radius: 10px;
-    }
-}
-
-/* Small Mobile View (≤400px) */
-@media (max-width: 400px) {
+/* Mobile View */
+@media (max-width: 480px) {
     .hero {
         height: 30vh;
         padding: 1rem 0.6rem;

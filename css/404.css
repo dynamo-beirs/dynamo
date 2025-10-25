@@ -92,7 +92,7 @@
     background: var(--dynamo-red);
 }
 
-/* Responsive Tablet */
+/* Tablet View */
 @media (max-width: 768px) {
     .error-section {
         padding: 3rem 1rem;
@@ -119,8 +119,8 @@
     }
 }
 
-/* Responsive Mobile */
-@media (max-width: 400px) and (min-width: 360px) {
+/* Mobile View */
+@media (max-width: 480px) {
     .error-section {
         padding: 2rem 0.75rem;
         min-height: calc(100vh - 160px);

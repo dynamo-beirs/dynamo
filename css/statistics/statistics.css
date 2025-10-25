@@ -450,7 +450,7 @@ body.player-alltime .player-rank {
     display: none;
 }
 
-/* Responsive Tablet */
+/* Tablet View */
 @media (max-width: 768px) {
     .desktop-only {
         display: none !important;
@@ -656,8 +656,8 @@ body.player-alltime .player-rank {
     }
 }
 
-/* Responsive Mobile */
-@media (max-width: 400px) and (min-width: 360px) {
+/* Mobile View */
+@media (max-width: 480px) {
     .page-hero {
         padding: 1.2rem 0.6rem;
     }

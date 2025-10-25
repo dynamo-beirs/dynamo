@@ -128,7 +128,7 @@
     transition: opacity 0.6s ease-out, transform 0.6s ease-out, box-shadow 0.3s ease;
 }
 
-/* Responsive Tablet */
+/* Tablet View */
 @media (max-width: 768px) {
     .stats-section {
         padding: 1.5rem 0;
@@ -194,8 +194,8 @@
     }
 }
 
-/* Responsive Mobile */
-@media (max-width: 400px) and (min-width: 360px) {
+/* Mobile View */
+@media (max-width: 480px) {
     .stats-section {
         padding: 1.2rem 0;
     }

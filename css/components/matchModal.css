@@ -477,7 +477,7 @@ body.modal-open {
 }
 
 /* Mobile View */
-@media (max-width: 400px) and (min-width: 360px) {
+@media (max-width: 480px) {
     .modal-content {
         width: 90%;
         max-width: none;
