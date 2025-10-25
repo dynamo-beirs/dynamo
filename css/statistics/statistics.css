@@ -214,7 +214,7 @@ body.team-season .scorer-rank,
 body.player-season .scorer-rank,
 body.team-season .player-rank,
 body.player-season .player-rank {
-    background: var(--season-color);
+    background: var(--season-bg);
 }
 
 /* Override rank background for all-time context */
@@ -222,7 +222,7 @@ body.team-alltime .scorer-rank,
 body.player-alltime .scorer-rank,
 body.team-alltime .player-rank,
 body.player-alltime .player-rank {
-    background: var(--alltime-color);
+    background: var(--alltime-bg);
 }
 
 /* Section Styling */
