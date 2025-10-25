@@ -127,7 +127,7 @@
 .match-card.modern:hover,
 .match-card.modern.hover {
     box-shadow: var(--shadow-hover);
-    transform: translateY(-5px);
+    transform: translateY(-5px) !important;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
