@@ -134,7 +134,7 @@
 /* Tablet View */
 @media (max-width: 768px) {
     .search-section {
-        padding: 4rem 0 1rem;
+        padding: 2rem 0 1rem;
     }
 
     .search-wrapper {
@@ -178,7 +178,7 @@
 /* Mobile View */
 @media (max-width: 480px) {
     .search-section {
-        padding: 5rem 0 0.8rem;
+        padding: 1rem 0 0.8rem;
     }
 
     .search-wrapper {
