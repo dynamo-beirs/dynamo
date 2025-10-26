@@ -229,7 +229,7 @@
     right: 1.29rem;
     transform: translate(50%, -50%);
     font-size: 26px;
-    color: var(--golden-yellow);
+    color: var(--light-gray);
     pointer-events: none;
     user-select: none;
     z-index: 3;
