@@ -225,11 +225,11 @@
     font-family: "Font Awesome 6 Free", serif;
     font-weight: 900;
     position: absolute;
-    top: 50.1%;
+    top: 50.2%;
     right: 1.29rem;
     transform: translate(50%, -50%);
     font-size: 26px;
-    color: darkblue;
+    color: orange;
     pointer-events: none;
     user-select: none;
     z-index: 3;
