@@ -240,7 +240,7 @@ class MatchModal {
         if (!goalscorersList) return;
 
         if (goalscorers.length === 0) {
-            goalscorersList.innerHTML = '<li class="goalscorer-item">No goals scored</li>';
+            goalscorersList.innerHTML = '<li class="goalscorer-item">Geen doelpuntenmakers</li>';
             return;
         }
 
