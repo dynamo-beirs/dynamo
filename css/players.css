@@ -84,7 +84,6 @@ main .page-hero h1.animate-in::after {
     transform: scaleY(1);
 }
 
-
 /* Filter Section */
 .filter-section {
     padding: 1.5rem 0 0.8rem 0;
@@ -140,7 +139,7 @@ main .page-hero h1.animate-in::after {
     width: 0;
     height: 0;
     border-radius: 50%;
-    transition: width 0.3s ease-in-out, height 0.3s ease-in-out;
+    transition: width 0.4s ease-in-out, height 0.4s ease-in-out;
     transform: translate(-50%, -50%);
     z-index: -1;
 }
