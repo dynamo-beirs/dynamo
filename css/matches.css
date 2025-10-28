@@ -560,6 +560,7 @@
     .timeline {
         min-height: 140px;
         padding: 0;
+        transform: translateY(10px);
     }
 
     .timeline-start-knob {
@@ -569,16 +570,16 @@
     }
 
     .timeline::before {
+        top: 50.5% !important;
         height: 2px;
         left: 0;
         right: 0.6rem;
-        transform: translateY(-1px);
     }
 
     .timeline::after {
+        top: 50.5% !important;
         font-size: 18px;
         right: 0.8rem;
-        top: 49.0%;
     }
 
     .timeline-item {
