@@ -24,6 +24,15 @@ body.filter-all {
 }
 
 /* Page Hero */
+main .page-hero {
+    padding: 1.5rem 1rem;
+    text-align: center;
+    background: transparent;
+    color: var(--dynamo-red);
+    margin-top: 20px;
+    width: 100%;
+}
+
 main .page-hero h1 {
     position: relative;
     font-family: 'Poppins', sans-serif;
@@ -31,8 +40,9 @@ main .page-hero h1 {
     font-weight: 900;
     color: var(--dark-gray, #343a40);
     text-align: center;
-    margin: 0;
-    padding: 1rem 0;
+    margin: 0 auto;
+    max-width: 100%;
+    padding: 0;
     display: inline-block;
     opacity: 0;
     transform: translateY(20px);
@@ -369,6 +379,20 @@ main .page-hero h1.animate-in::after {
 
 /* Tablet View */
 @media (max-width: 768px) {
+    main .page-hero {
+        padding: 1rem 0.5rem;
+    }
+
+    main .page-hero h1 {
+        font-size: 2rem;
+    }
+
+    main .page-hero h1::before,
+    main .page-hero h1::after {
+        font-size: 1em;
+        margin: 6px;
+    }
+
     .filter-section {
         padding: 1rem 0 0.5rem 0;
     }
@@ -438,12 +462,24 @@ main .page-hero h1.animate-in::after {
 
 /* Mobile View */
 @media (max-width: 480px) {
+    main .page-hero h1 {
+        font-size: 1.8rem;
+    }
+
+    main .page-hero h1::before,
+    main .page-hero h1::after {
+        font-size: 1em;
+        margin: 6px;
+    }
+
     .filter-controls {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         row-gap: 0.75rem;
         justify-items: center;
         padding: 0 2.5rem;
+        width: 100%;
+        box-sizing: border-box;
     }
 
     .filter-btn {
@@ -464,12 +500,28 @@ main .page-hero h1.animate-in::after {
         font-size: 0.75rem;
     }
 
+    .search-wrapper {
+        padding: 0 2.5rem;
+        width: 100%;
+        box-sizing: border-box;
+        max-width: none;
+    }
+
+    .player-search {
+        min-height: 40px;
+        padding: 0.5rem 0.9rem 0.5rem 2.2rem;
+    }
+
     .players-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 0.75rem;
         max-width: 90%;
         margin: 0 auto;
         padding: 0;
+    }
+
+    .search-icon {
+        left: 0.9rem;
     }
 
     .player-card {
