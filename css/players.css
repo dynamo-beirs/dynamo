@@ -504,12 +504,26 @@ main .page-hero h1.animate-in::after {
         padding: 0 2.5rem;
         width: 100%;
         box-sizing: border-box;
-        max-width: none;
     }
 
     .player-search {
-        min-height: 40px;
-        padding: 0.5rem 0.9rem 0.5rem 2.2rem;
+        padding: 0.35rem 0.9rem 0.35rem 2.2rem !important;
+        min-height: 40px !important;
+        height: 40px;
+        line-height: 1.2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: calc(100% - 5rem);
+        max-width: calc(2 * 140px + 0.75rem);
+        margin: 0 auto;
+        background: white;
+        border: none;
+        box-shadow: var(--shadow-medium);
+        color: var(--medium-gray);
+        font-weight: 700;
+        font-size: 0.75rem;
+        text-align: center;
     }
 
     .players-grid {
@@ -518,10 +532,6 @@ main .page-hero h1.animate-in::after {
         max-width: 90%;
         margin: 0 auto;
         padding: 0;
-    }
-
-    .search-icon {
-        left: 0.9rem;
     }
 
     .player-card {
