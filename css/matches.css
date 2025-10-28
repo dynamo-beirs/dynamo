@@ -570,14 +570,14 @@
     }
 
     .timeline::before {
-        top: 50.5% !important;
+        top: 50.5%;
         height: 2px;
         left: 0;
         right: 0.6rem;
     }
 
     .timeline::after {
-        top: 50.5% !important;
+        top: 49.5%;
         font-size: 18px;
         right: 0.8rem;
     }

@@ -279,11 +279,15 @@
         padding: 1rem 0.6rem;
         width: 90%;
         margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     .hero-content {
         width: 100%;
-        margin: 0 auto;
+        text-align: center;
+        display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
@@ -291,29 +295,35 @@
     }
 
     .hero h1 {
-        font-size: 1.8rem;
+        font-size: clamp(2rem, 10vw, 3.5rem);
+        font-weight: 900;
+        color: var(--dark-gray);
+        margin: 0;
+        line-height: 1.1;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: clip;
+        max-width: 90vw;
+        width: fit-content;
         display: flex;
-        flex-direction: row;
-        flex-wrap: nowrap;
         justify-content: center;
         align-items: center;
-        margin-bottom: 0;
-        gap: 0.4rem;
+        gap: 0.5rem;
+        padding: 0 0.5rem;
     }
 
     .hero h1 .club-name-part {
-        display: inline-block;
-        margin: 0;
+        display: inline;
     }
 
     .hero-content::after {
         content: '';
         position: absolute;
-        bottom: -4px;
+        bottom: -8px;
         left: 50%;
         transform: translateX(-50%) scaleX(0);
-        transform-origin: left center;
-        width: 100%;
+        width: 94%;
+        max-width: 90vw;
         height: 6px;
         background: var(--dynamo-red);
         border-radius: 3px;
