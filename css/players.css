@@ -568,16 +568,3 @@ main .page-hero h1.animate-in::after {
         width: 24px;
     }
 }
-
-@media (hover: none) {
-    .filter-btn .hover-effect {
-        display: none !important;
-        transform: scale(0.96);
-        transition: transform 0.1s ease;
-    }
-
-    .filter-btn:hover .hover-effect {
-        width: 0 !important;
-        height: 0 !important;
-    }
-}
