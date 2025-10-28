@@ -45,6 +45,10 @@ body {
     padding: 0 15px;
 }
 
+html {
+    scrollbar-gutter: stable;
+}
+
 /* Page Hero */
 .page-hero {
     padding: 1.5rem 1rem;
