@@ -108,12 +108,14 @@ async function fetchAndRenderMatches() {
         const txt = await r.text();
         window.allMatches = parseCsvData(txt);
         renderSearchResults(window.allMatches);
+        return window.allMatches;
     } catch (e) {
         console.error(e);
         const msg = document.getElementById('search-message');
         msg.textContent = 'Fout bij het laden van wedstrijden.';
         msg.classList.add('error-message');
         msg.classList.remove('hidden');
+        return [];
     }
 }
 
