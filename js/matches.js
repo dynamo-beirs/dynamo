@@ -166,8 +166,9 @@ function parseCsvData(csvText) {
 function parseGoalscorers(goalscorersRaw) {
     console.log('Raw goalscorers input:', goalscorersRaw);
 
-    if (!goalscorersRaw || goalscorersRaw.trim() === '') {
-        console.log('No goalscorers found, returning empty array');
+    if (!goalscorersRaw ||
+        goalscorersRaw.trim() === '' ||
+        goalscorersRaw.trim() === '/') {
         return [];
     }
 
