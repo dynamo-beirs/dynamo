@@ -3,6 +3,7 @@ import { animateOnScroll } from './general.js';
 
 /* Animation Elements */
 const animationElements = [
+    { selector: '.match-card', containerSelector: 'section' },
     { selector: '.section-title', containerSelector: 'section' },
     { selector: '.page-hero h1', containerSelector: 'section' },
     { selector: '.search-container', containerSelector: 'section' }
@@ -12,7 +13,7 @@ const animationElements = [
 document.addEventListener('DOMContentLoaded', async () => {
     await fetchAndRenderMatches();
     setupSearch();
-    animateMatchCards();
+    animateOnScroll(animationElements);
     await window.matchModal?.init?.();
 });
 
@@ -168,26 +169,6 @@ function renderSearchResults(matches) {
     searchMessage.classList.add('hidden');
     setupCardClicks();
     animateOnScroll(animationElements);
-}
-
-/* Match Card Animations */
-function animateMatchCards() {
-    const observer = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const container = entry.target.closest('.matches-grid') || document;
-                const itemsInContainer = container.querySelectorAll('.match-card');
-                const itemIndex = Array.from(itemsInContainer).indexOf(entry.target);
-
-                entry.target.classList.add('animate-in');
-                observer.unobserve(entry.target);
-            }
-        });
-    }, { root: null, rootMargin: '0px', threshold: 0.1 });
-
-    document.querySelectorAll('.match-card').forEach(card => {
-        observer.observe(card);
-    });
 }
 
 /* Make match cards clickable (modal support) */

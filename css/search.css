@@ -87,7 +87,7 @@
     font-size: 0.85rem;
     color: var(--dark-gray);
     cursor: pointer;
-    transition: background 0.3s ease;
+    transition: background 0.2s ease;
 }
 
 .autocomplete-item:hover,
@@ -121,7 +121,7 @@
 
 /* Match Card */
 .match-card.modern {
-    cursor: pointer;
+    cursor: default;
 }
 
 .match-card.modern:hover,
@@ -129,18 +129,6 @@
     box-shadow: var(--shadow-hover);
     transform: translateY(-5px) !important;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.match-card {
-    opacity: 0;
-    transform: translateY(50px);
-    transition: opacity 0.6s ease-out, transform 0.3s ease-out, box-shadow 0.3s ease;
-    will-change: transform, opacity;
-}
-
-.match-card.animate-in {
-    opacity: 1;
-    transform: translateY(0);
 }
 
 /* Tablet View */
