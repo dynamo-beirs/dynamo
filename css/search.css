@@ -121,7 +121,7 @@
 
 /* Match Card */
 .match-card.modern {
-    cursor: default;
+    cursor: pointer;
 }
 
 .match-card.modern:hover,

@@ -14,234 +14,215 @@ document.addEventListener('DOMContentLoaded', async () => {
     await fetchAndRenderMatches();
     setupSearch();
     animateOnScroll(animationElements);
+    await window.matchModal?.init?.();
 });
 
-/* Fetch and Render Matches */
-async function fetchAndRenderMatches() {
-    const spreadsheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQRCgon0xh9NuQ87NgqQzBNPCEmmZWcC_jrulRhLwmrudf5UQ2QBRA28F1qmWB9L5xP9uZ8-ct2aqfR/pub?gid=890518549&single=true&output=csv';
-    try {
-        const response = await fetch(spreadsheetUrl);
-        const csvText = await response.text();
-        window.allMatches = parseCsvData(csvText);
-        renderSearchResults(window.allMatches);
-    } catch (error) {
-        console.error('Error fetching or parsing CSV:', error);
-        const searchMessage = document.getElementById('search-message');
-        searchMessage.textContent = 'Fout bij het laden van wedstrijden.';
-        searchMessage.classList.add('error-message');
-        searchMessage.classList.remove('hidden');
-    }
-}
-
-/* Parse CSV Data */
+/* CSV parsing from database */
 function parseCsvData(csvText) {
-    const parsed = Papa.parse(csvText, {
-        skipEmptyLines: true,
-        delimiter: ','
-    });
+    const parsed = Papa.parse(csvText, { skipEmptyLines: true, delimiter: ',' });
     const rows = parsed.data;
     const matches = [];
     const currentDate = new Date();
-    const monthNames = ['jan', 'feb', 'mrt', 'apr', 'mei', 'jun', 'jul', 'aug', 'sep', 'okt', 'nov', 'dec'];
+    const monthNames = ['jan','feb','mrt','apr','mei','jun','jul','aug','sep','okt','nov','dec'];
 
     for (let i = 2; i < rows.length; i++) {
-        const opponent = rows[i][1]?.trim();
-        const date = rows[i][4]?.trim();
-        const goalsScored = rows[i][5]?.trim();
-        const goalsConceded = rows[i][6]?.trim();
+        const opponent      = rows[i][1]?.trim();   // B
+        const dateRaw       = rows[i][4]?.trim();   // E
+        const time          = rows[i][5]?.trim();   // F
+        const stadium       = rows[i][6]?.trim();   // G
+        const homeAwayRaw   = rows[i][7]?.trim();   // H
+        const goalsScored   = rows[i][8]?.trim();   // I
+        const goalsConceded = rows[i][9]?.trim();   // J
+        const goalscorersRaw= rows[i][10]?.trim();  // K
 
-        if (!opponent || !date || goalsScored === undefined || goalsConceded === undefined) continue;
+        if (!opponent || !dateRaw || goalsScored === undefined || goalsConceded === undefined) continue;
 
-        let displayDate = '';
-        let matchDate;
-        let season = '';
+        /* Data Handling*/
+        let displayDate = '', matchDate, season = '';
         try {
-            const [day, month, year] = date.split('-').map(num => parseInt(num));
+            const [day, month, year] = dateRaw.split('-').map(Number);
             matchDate = new Date(year, month - 1, day);
-            if (matchDate > currentDate) continue;
+            if (matchDate > currentDate) continue;               // skip future matches
             displayDate = `${day} ${monthNames[month - 1]}`;
-            const seasonStartYear = month >= 8 ? year : year - 1;
-            const seasonEndYear = (seasonStartYear + 1) % 100;
-            season = `'${seasonStartYear % 100}-'${seasonEndYear < 10 ? '0' + seasonEndYear : seasonEndYear}`;
-        } catch (error) {
-            console.warn(`Invalid date format for match against ${opponent}: ${date}`);
-            continue;
-        }
+            const seasonStart = month >= 8 ? year : year - 1;
+            const seasonEnd   = (seasonStart + 1) % 100;
+            season = `'${seasonStart % 100}-${seasonEnd < 10 ? '0' + seasonEnd : seasonEnd}`;
+        } catch (e) { console.warn(`Bad date: ${dateRaw}`); continue; }
+
+        /* Home/Away */
+        const isHome = homeAwayRaw?.toLowerCase() === 'thuis';
+
+        /* Goalscorers */
+        const goalscorers = parseGoalscorers(goalscorersRaw);
 
         const match = {
-            title: `Dynamo Beirs vs ${opponent}`,
-            opponent: opponent,
-            dateTime: { date, displayDate, season },
+            title: isHome ? `Dynamo Beirs vs ${opponent}` : `${opponent} vs Dynamo Beirs`,
+            opponent,
+            dateTime: { date: dateRaw, time: time || '??:??', displayDate, season },
+            stadium: stadium || 'Onbekend stadion',
+            isHome,
             score: `${goalsScored}-${goalsConceded}`,
-            isHome: true,
-            result: determineResult(goalsScored, goalsConceded)
+            result: determineResult(goalsScored, goalsConceded),
+            goalscorers
         };
         matches.push(match);
     }
 
-    matches.sort((a, b) => {
-        const dateA = parseDate(a.dateTime.date);
-        const dateB = parseDate(b.dateTime.date);
-        return dateB - dateA;
-    });
-
+    matches.sort((a, b) => parseDate(b.dateTime.date) - parseDate(a.dateTime.date));
     return matches;
 }
 
-/* Determine Match Result */
-function determineResult(goalsScored, goalsConceded) {
-    const scored = parseInt(goalsScored);
-    const conceded = parseInt(goalsConceded);
-    if (isNaN(scored) || isNaN(conceded)) return 'gelijk';
-    if (scored > conceded) return 'winst';
-    if (scored === conceded) return 'gelijk';
-    return 'verlies';
+function determineResult(scored, conceded) {
+    const s = parseInt(scored), c = parseInt(conceded);
+    if (isNaN(s) || isNaN(c)) return 'gelijk';
+    return s > c ? 'winst' : s === c ? 'gelijk' : 'verlies';
+}
+function parseDate(d) {
+    const [day, month, year] = d.split('-').map(Number);
+    return new Date(year, month - 1, day);
 }
 
-/* Parse Date for Sorting */
-function parseDate(dateStr) {
+function parseGoalscorers(raw) {
+    if (!raw || raw.trim() === '' || raw.trim() === '/') return [];
+    const cleaned = raw.replace(/^["'\s]+|["'\s]+$/g, '').trim();
+    if (!cleaned) return [];
+
+    const entries = cleaned.split(';').map(s => s.trim()).filter(Boolean);
+    const out = [];
+
+    for (const e of entries) {
+        const m = e.match(/^(.+?)(?:\s*\(x(\d+)\))?$/i);
+        if (m) {
+            const player = m[1].trim();
+            const goals  = m[2] ? parseInt(m[2], 10) : 1;
+            if (player) out.push({ player, goals });
+        }
+    }
+    return out;
+}
+
+async function fetchAndRenderMatches() {
+    const spreadsheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQRCgon0xh9NuQ87NgqQzBNPCEmmZWcC_jrulRhLwmrudf5UQ2QBRA28F1qmWB9L5xP9uZ8-ct2aqfR/pub?gid=890518549&single=true&output=csv';
     try {
-        const [day, month, year] = dateStr.split('-').map(num => parseInt(num));
-        return new Date(year, month - 1, day);
-    } catch (error) {
-        console.warn(`Failed to parse date: ${dateStr}`);
-        return new Date(0);
+        const r = await fetch(spreadsheetUrl);
+        const txt = await r.text();
+        window.allMatches = parseCsvData(txt);
+        renderSearchResults(window.allMatches);
+    } catch (e) {
+        console.error(e);
+        const msg = document.getElementById('search-message');
+        msg.textContent = 'Fout bij het laden van wedstrijden.';
+        msg.classList.add('error-message');
+        msg.classList.remove('hidden');
     }
 }
 
-/* Render Search Results */
 function renderSearchResults(matches) {
     const grid = document.getElementById('search-results-grid');
-    const searchMessage = document.getElementById('search-message');
+    const msg  = document.getElementById('search-message');
     grid.innerHTML = '';
 
-    matches.forEach(match => {
+    matches.forEach(m => {
         const card = document.createElement('div');
-        const resultClass = match.result === 'winst' ? 'win' : match.result === 'gelijk' ? 'draw' : 'loss';
-        card.className = `match-card modern result animate-in`;
-        card.setAttribute('data-match-title', match.title);
-        card.setAttribute('data-score', match.score);
-        card.setAttribute('data-match-date', match.dateTime.date);
+        const resCls = m.result === 'winst' ? 'win' : m.result === 'gelijk' ? 'draw' : 'loss';
 
-        const [homeTeam, awayTeam] = match.title.split(' vs ');
+        card.className = `match-card modern result`;
+        card.style.cursor = 'pointer';
+        card.dataset.matchTitle   = m.title;
+        card.dataset.score        = m.score;
+        card.dataset.matchDate    = m.dateTime.date;
+        card.dataset.matchTime    = m.dateTime.time;
+        card.dataset.venue        = m.stadium;
+        card.dataset.season       = m.dateTime.season;
+        card.dataset.isHome       = m.isHome;
+        card.dataset.goalscorers  = JSON.stringify(m.goalscorers);
+
+        const [home, away] = m.title.split(' vs ');
         card.innerHTML = `
-            <div class="result-icon ${resultClass}">
-                <span><i class="fas fa-${resultClass === 'win' ? 'check' : resultClass === 'draw' ? 'minus' : 'times'}"></i></span>
+            <div class="result-icon ${resCls}">
+                <span><i class="fas fa-${resCls === 'win' ? 'check' : resCls === 'draw' ? 'minus' : 'times'}"></i></span>
             </div>
             <div class="match-body">
                 <div class="match-teams">
-                    <div class="home-team">${homeTeam}</div>
+                    <div class="home-team">${home}</div>
                     <div class="vs-divider">vs</div>
-                    <div class="away-team">${awayTeam}</div>
+                    <div class="away-team">${away}</div>
                 </div>
-                <div class="match-score">${match.score}</div>
+                <div class="match-score">${m.score}</div>
                 <div class="match-details">
-                    <span class="match-date"><i class="fas fa-calendar"></i> ${match.dateTime.displayDate}</span>
-                    <span class="match-season"><i class="fas fa-trophy"></i> ${match.dateTime.season}</span>
+                    <span class="match-date"><i class="fas fa-calendar"></i> ${m.dateTime.displayDate}</span>
+                    <span class="match-season"><i class="fas fa-trophy"></i> ${m.dateTime.season}</span>
                 </div>
             </div>
         `;
         grid.appendChild(card);
     });
 
-    searchMessage.classList.add('hidden');
-
-    setTimeout(() => {
-        document.querySelectorAll('.match-card').forEach(card => {
-            card.classList.add('animate-in');
-            card.style.opacity = '1';
-            card.style.transform = 'translateY(0)';
-        });
-    }, 0);
+    msg.classList.add('hidden');
+    setupCardClicks();
 }
 
-/* Search and Autocomplete */
+function setupCardClicks() {
+    document.querySelectorAll('#search-results-grid .match-card.modern.result').forEach(card => {
+        // hover effect (optional – matches the style on matches.html)
+        card.addEventListener('mouseenter', () => card.classList.add('hover'));
+        card.addEventListener('mouseleave', () => card.classList.remove('hover'));
+
+        card.addEventListener('click', () => {
+            const data = {
+                title:      card.dataset.matchTitle,
+                stadium:    card.dataset.venue,
+                season:     card.dataset.season,
+                dateTime: {
+                    date:        card.dataset.matchDate,
+                    time:        card.dataset.matchTime,
+                    displayDate: card.querySelector('.match-date')?.textContent.replace(/^\s*<i.*<\/i>\s*/, '').trim() || ''
+                },
+                score:      card.dataset.score,
+                goalscorers: JSON.parse(card.dataset.goalscorers || '[]'),
+                isUpcoming: false,
+                isHome:     card.dataset.isHome === 'true'
+            };
+
+            if (window.matchModal) {
+                window.matchModal.show(data);
+            } else {
+                console.error('matchModal not ready');
+            }
+        });
+    });
+}
+
+/* Search Functionality */
 function setupSearch() {
-    const searchInput = document.getElementById('search-input');
-    const autocompleteList = document.getElementById('autocomplete-list');
-    const searchMessage = document.getElementById('search-message');
+    const input = document.getElementById('search-input');
+    const list  = document.getElementById('autocomplete-list');
+    const msg   = document.getElementById('search-message');
 
-    const performSearch = (query) => {
-        if (!window.allMatches) {
-            searchMessage.textContent = 'Fout bij het laden van wedstrijden.';
-            searchMessage.classList.add('error-message');
-            searchMessage.classList.remove('hidden');
-            return;
-        }
-
-        const filteredMatches = window.allMatches.filter(match =>
-            match.title.toLowerCase().includes(query.toLowerCase())
-        );
-        renderSearchResults(filteredMatches);
+    const doSearch = q => {
+        if (!window.allMatches) { msg.textContent='Fout bij laden.'; msg.classList.remove('hidden'); return; }
+        const filtered = window.allMatches.filter(m => m.title.toLowerCase().includes(q.toLowerCase()));
+        renderSearchResults(filtered);
     };
 
-    const renderAutocomplete = (query) => {
-        autocompleteList.innerHTML = '';
-        if (!window.allMatches || query.length < 1) {
-            autocompleteList.style.display = 'none';
-            return;
-        }
+    const renderAC = q => {
+        list.innerHTML = '';
+        if (!window.allMatches || q.length < 1) { list.style.display='none'; return; }
+        const uniq = [...new Set(window.allMatches.map(m=>m.opponent))];
+        const hits = uniq.filter(o=>o.toLowerCase().includes(q.toLowerCase())).slice(0,5);
+        if (!hits.length) { list.style.display='none'; return; }
 
-        const uniqueOpponents = [...new Set(window.allMatches.map(match => match.opponent))];
-        const filteredOpponents = uniqueOpponents.filter(opponent =>
-            opponent.toLowerCase().includes(query.toLowerCase())
-        ).slice(0, 5);
-
-        if (filteredOpponents.length === 0) {
-            autocompleteList.style.display = 'none';
-            return;
-        }
-
-        filteredOpponents.forEach(opponent => {
+        hits.forEach(o=>{
             const li = document.createElement('li');
-            li.textContent = opponent;
-            li.className = 'autocomplete-item';
-            li.addEventListener('click', () => {
-                searchInput.value = opponent;
-                performSearch(opponent);
-                autocompleteList.innerHTML = '';
-                autocompleteList.style.display = 'none';
-            });
-            autocompleteList.appendChild(li);
+            li.textContent = o;
+            li.className='autocomplete-item';
+            li.addEventListener('click',()=>{ input.value=o; doSearch(o); list.innerHTML=''; list.style.display='none'; });
+            list.appendChild(li);
         });
-
-        autocompleteList.style.display = filteredOpponents.length > 0 ? 'block' : 'none';
+        list.style.display = hits.length?'block':'none';
     };
 
-    searchInput.addEventListener('input', (e) => {
-        const query = e.target.value.trim();
-        renderAutocomplete(query);
-        performSearch(query);
-    });
-
-    searchInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') {
-            performSearch(searchInput.value.trim());
-            autocompleteList.innerHTML = '';
-            autocompleteList.style.display = 'none';
-        }
-    });
-
-    document.addEventListener('click', (e) => {
-        if (!searchInput.contains(e.target) && !autocompleteList.contains(e.target)) {
-            autocompleteList.innerHTML = '';
-            autocompleteList.style.display = 'none';
-        }
-    });
-
-    document.querySelector('.search-wrapper').addEventListener('click', () => {
-        searchInput.focus();
-    });
-}
-
-/* Match Interactions */
-function setupMatchInteractions() {
-    document.querySelectorAll('.match-card.modern.result').forEach(card => {
-        card.addEventListener('mouseenter', () => {
-            card.classList.add('hover');
-        });
-        card.addEventListener('mouseleave', () => {
-            card.classList.remove('hover');
-        });
-    });
+    input.addEventListener('input', e=> { const v=e.target.value.trim(); renderAC(v); doSearch(v); });
+    input.addEventListener('keypress', e=> { if(e.key==='Enter'){ doSearch(input.value.trim()); list.innerHTML=''; list.style.display='none'; }});
+    document.addEventListener('click', e=>{ if(!input.contains(e.target) && !list.contains(e.target)) { list.innerHTML=''; list.style.display='none'; }});
 }
