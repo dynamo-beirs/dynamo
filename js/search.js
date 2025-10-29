@@ -3,7 +3,6 @@ import { animateOnScroll } from './general.js';
 
 /* Animation Elements */
 const animationElements = [
-    { selector: '.match-card', containerSelector: 'section' },
     { selector: '.section-title', containerSelector: 'section' },
     { selector: '.page-hero h1', containerSelector: 'section' },
     { selector: '.search-container', containerSelector: 'section' }
@@ -13,11 +12,29 @@ const animationElements = [
 document.addEventListener('DOMContentLoaded', async () => {
     await fetchAndRenderMatches();
     setupSearch();
-    animateOnScroll(animationElements);
+    animateMatchCards();
     await window.matchModal?.init?.();
 });
 
-/* CSV parsing from database */
+/* Fetch and Render Matches */
+async function fetchAndRenderMatches() {
+    const spreadsheetUrl =
+        'https://docs.google.com/spreadsheets/d/e/2PACX-1vQRCgon0xh9NuQ87NgqQzBNPCEmmZWcC_jrulRhLwmrudf5UQ2QBRA28F1qmWB9L5xP9uZ8-ct2aqfR/pub?gid=890518549&single=true&output=csv';
+    try {
+        const response = await fetch(spreadsheetUrl);
+        const csvText = await response.text();
+        window.allMatches = parseCsvData(csvText);
+        renderSearchResults(window.allMatches);
+    } catch (error) {
+        console.error('Error fetching or parsing CSV:', error);
+        const searchMessage = document.getElementById('search-message');
+        searchMessage.textContent = 'Fout bij het laden van wedstrijden.';
+        searchMessage.classList.add('error-message');
+        searchMessage.classList.remove('hidden');
+    }
+}
+
+/* Parse CSV Data (uses extended columns from search2.js) */
 function parseCsvData(csvText) {
     const parsed = Papa.parse(csvText, { skipEmptyLines: true, delimiter: ',' });
     const rows = parsed.data;
@@ -37,22 +54,26 @@ function parseCsvData(csvText) {
 
         if (!opponent || !dateRaw || goalsScored === undefined || goalsConceded === undefined) continue;
 
-        /* Data Handling*/
         let displayDate = '', matchDate, season = '';
         try {
             const [day, month, year] = dateRaw.split('-').map(Number);
             matchDate = new Date(year, month - 1, day);
-            if (matchDate > currentDate) continue;               // skip future matches
+            if (matchDate > currentDate) continue;
             displayDate = `${day} ${monthNames[month - 1]}`;
+
             const seasonStart = month >= 8 ? year : year - 1;
-            const seasonEnd   = (seasonStart + 1) % 100;
-            season = `'${seasonStart % 100}-${seasonEnd < 10 ? '0' + seasonEnd : seasonEnd}`;
-        } catch (e) { console.warn(`Bad date: ${dateRaw}`); continue; }
+            const seasonEnd = seasonStart + 1;
 
-        /* Home/Away */
+            const startStr = (seasonStart % 100).toString().padStart(2, '0');
+            const endStr = (seasonEnd % 100).toString().padStart(2, '0');
+
+            season = `'${startStr}-'${endStr}`;
+        } catch (e) {
+            console.warn(`Bad date: ${dateRaw}`);
+            continue;
+        }
+
         const isHome = homeAwayRaw?.toLowerCase() === 'thuis';
-
-        /* Goalscorers */
         const goalscorers = parseGoalscorers(goalscorersRaw);
 
         const match = {
@@ -70,16 +91,6 @@ function parseCsvData(csvText) {
 
     matches.sort((a, b) => parseDate(b.dateTime.date) - parseDate(a.dateTime.date));
     return matches;
-}
-
-function determineResult(scored, conceded) {
-    const s = parseInt(scored), c = parseInt(conceded);
-    if (isNaN(s) || isNaN(c)) return 'gelijk';
-    return s > c ? 'winst' : s === c ? 'gelijk' : 'verlies';
-}
-function parseDate(d) {
-    const [day, month, year] = d.split('-').map(Number);
-    return new Date(year, month - 1, day);
 }
 
 function parseGoalscorers(raw) {
@@ -101,45 +112,39 @@ function parseGoalscorers(raw) {
     return out;
 }
 
-async function fetchAndRenderMatches() {
-    const spreadsheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQRCgon0xh9NuQ87NgqQzBNPCEmmZWcC_jrulRhLwmrudf5UQ2QBRA28F1qmWB9L5xP9uZ8-ct2aqfR/pub?gid=890518549&single=true&output=csv';
-    try {
-        const r = await fetch(spreadsheetUrl);
-        const txt = await r.text();
-        window.allMatches = parseCsvData(txt);
-        renderSearchResults(window.allMatches);
-        return window.allMatches;
-    } catch (e) {
-        console.error(e);
-        const msg = document.getElementById('search-message');
-        msg.textContent = 'Fout bij het laden van wedstrijden.';
-        msg.classList.add('error-message');
-        msg.classList.remove('hidden');
-        return [];
-    }
+function determineResult(scored, conceded) {
+    const s = parseInt(scored), c = parseInt(conceded);
+    if (isNaN(s) || isNaN(c)) return 'gelijk';
+    return s > c ? 'winst' : s === c ? 'gelijk' : 'verlies';
 }
 
+function parseDate(d) {
+    const [day, month, year] = d.split('-').map(Number);
+    return new Date(year, month - 1, day);
+}
+
+/* Render Search Results (clickable cards) */
 function renderSearchResults(matches) {
     const grid = document.getElementById('search-results-grid');
-    const msg  = document.getElementById('search-message');
+    const searchMessage = document.getElementById('search-message');
     grid.innerHTML = '';
 
-    matches.forEach(m => {
+    matches.forEach(match => {
+        const resCls = match.result === 'winst' ? 'win' : match.result === 'gelijk' ? 'draw' : 'loss';
         const card = document.createElement('div');
-        const resCls = m.result === 'winst' ? 'win' : m.result === 'gelijk' ? 'draw' : 'loss';
-
         card.className = `match-card modern result`;
         card.style.cursor = 'pointer';
-        card.dataset.matchTitle   = m.title;
-        card.dataset.score        = m.score;
-        card.dataset.matchDate    = m.dateTime.date;
-        card.dataset.matchTime    = m.dateTime.time;
-        card.dataset.venue        = m.stadium;
-        card.dataset.season       = m.dateTime.season;
-        card.dataset.isHome       = m.isHome;
-        card.dataset.goalscorers  = JSON.stringify(m.goalscorers);
 
-        const [home, away] = m.title.split(' vs ');
+        card.dataset.matchTitle   = match.title;
+        card.dataset.score        = match.score;
+        card.dataset.matchDate    = match.dateTime.date;
+        card.dataset.matchTime    = match.dateTime.time;
+        card.dataset.venue        = match.stadium;
+        card.dataset.season       = match.dateTime.season;
+        card.dataset.isHome       = match.isHome;
+        card.dataset.goalscorers  = JSON.stringify(match.goalscorers);
+
+        const [home, away] = match.title.split(' vs ');
         card.innerHTML = `
             <div class="result-icon ${resCls}">
                 <span><i class="fas fa-${resCls === 'win' ? 'check' : resCls === 'draw' ? 'minus' : 'times'}"></i></span>
@@ -150,23 +155,44 @@ function renderSearchResults(matches) {
                     <div class="vs-divider">vs</div>
                     <div class="away-team">${away}</div>
                 </div>
-                <div class="match-score">${m.score}</div>
+                <div class="match-score">${match.score}</div>
                 <div class="match-details">
-                    <span class="match-date"><i class="fas fa-calendar"></i> ${m.dateTime.displayDate}</span>
-                    <span class="match-season"><i class="fas fa-trophy"></i> ${m.dateTime.season}</span>
+                    <span class="match-date"><i class="fas fa-calendar"></i> ${match.dateTime.displayDate}</span>
+                    <span class="match-season"><i class="fas fa-trophy"></i> ${match.dateTime.season}</span>
                 </div>
             </div>
         `;
         grid.appendChild(card);
     });
 
-    msg.classList.add('hidden');
+    searchMessage.classList.add('hidden');
     setupCardClicks();
+    animateOnScroll(animationElements);
 }
 
+/* Match Card Animations */
+function animateMatchCards() {
+    const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const container = entry.target.closest('.matches-grid') || document;
+                const itemsInContainer = container.querySelectorAll('.match-card');
+                const itemIndex = Array.from(itemsInContainer).indexOf(entry.target);
+
+                entry.target.classList.add('animate-in');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { root: null, rootMargin: '0px', threshold: 0.1 });
+
+    document.querySelectorAll('.match-card').forEach(card => {
+        observer.observe(card);
+    });
+}
+
+/* Make match cards clickable (modal support) */
 function setupCardClicks() {
     document.querySelectorAll('#search-results-grid .match-card.modern.result').forEach(card => {
-        // hover effect (optional – matches the style on matches.html)
         card.addEventListener('mouseenter', () => card.classList.add('hover'));
         card.addEventListener('mouseleave', () => card.classList.remove('hover'));
 
@@ -176,8 +202,8 @@ function setupCardClicks() {
                 stadium:    card.dataset.venue,
                 season:     card.dataset.season,
                 dateTime: {
-                    date:        card.dataset.matchDate,
-                    time:        card.dataset.matchTime,
+                    date: card.dataset.matchDate,
+                    time: card.dataset.matchTime,
                     displayDate: card.querySelector('.match-date')?.textContent.replace(/^\s*<i.*<\/i>\s*/, '').trim() || ''
                 },
                 score:      card.dataset.score,
@@ -195,36 +221,81 @@ function setupCardClicks() {
     });
 }
 
-/* Search Functionality */
+/* Search and Autocomplete (same behavior as before) */
 function setupSearch() {
-    const input = document.getElementById('search-input');
-    const list  = document.getElementById('autocomplete-list');
-    const msg   = document.getElementById('search-message');
+    const searchInput = document.getElementById('search-input');
+    const autocompleteList = document.getElementById('autocomplete-list');
+    const searchMessage = document.getElementById('search-message');
 
-    const doSearch = q => {
-        if (!window.allMatches) { msg.textContent='Fout bij laden.'; msg.classList.remove('hidden'); return; }
-        const filtered = window.allMatches.filter(m => m.title.toLowerCase().includes(q.toLowerCase()));
-        renderSearchResults(filtered);
+    const performSearch = (query) => {
+        if (!window.allMatches) {
+            searchMessage.textContent = 'Fout bij het laden van wedstrijden.';
+            searchMessage.classList.add('error-message');
+            searchMessage.classList.remove('hidden');
+            return;
+        }
+
+        const filteredMatches = window.allMatches.filter(match =>
+            match.title.toLowerCase().includes(query.toLowerCase())
+        );
+        renderSearchResults(filteredMatches);
     };
 
-    const renderAC = q => {
-        list.innerHTML = '';
-        if (!window.allMatches || q.length < 1) { list.style.display='none'; return; }
-        const uniq = [...new Set(window.allMatches.map(m=>m.opponent))];
-        const hits = uniq.filter(o=>o.toLowerCase().includes(q.toLowerCase())).slice(0,5);
-        if (!hits.length) { list.style.display='none'; return; }
+    const renderAutocomplete = (query) => {
+        autocompleteList.innerHTML = '';
+        if (!window.allMatches || query.length < 1) {
+            autocompleteList.style.display = 'none';
+            return;
+        }
 
-        hits.forEach(o=>{
+        const uniqueOpponents = [...new Set(window.allMatches.map(match => match.opponent))];
+        const filteredOpponents = uniqueOpponents.filter(opponent =>
+            opponent.toLowerCase().includes(query.toLowerCase())
+        ).slice(0, 5);
+
+        if (filteredOpponents.length === 0) {
+            autocompleteList.style.display = 'none';
+            return;
+        }
+
+        filteredOpponents.forEach(opponent => {
             const li = document.createElement('li');
-            li.textContent = o;
-            li.className='autocomplete-item';
-            li.addEventListener('click',()=>{ input.value=o; doSearch(o); list.innerHTML=''; list.style.display='none'; });
-            list.appendChild(li);
+            li.textContent = opponent;
+            li.className = 'autocomplete-item';
+            li.addEventListener('click', () => {
+                searchInput.value = opponent;
+                performSearch(opponent);
+                autocompleteList.innerHTML = '';
+                autocompleteList.style.display = 'none';
+            });
+            autocompleteList.appendChild(li);
         });
-        list.style.display = hits.length?'block':'none';
+
+        autocompleteList.style.display = filteredOpponents.length > 0 ? 'block' : 'none';
     };
 
-    input.addEventListener('input', e=> { const v=e.target.value.trim(); renderAC(v); doSearch(v); });
-    input.addEventListener('keypress', e=> { if(e.key==='Enter'){ doSearch(input.value.trim()); list.innerHTML=''; list.style.display='none'; }});
-    document.addEventListener('click', e=>{ if(!input.contains(e.target) && !list.contains(e.target)) { list.innerHTML=''; list.style.display='none'; }});
+    searchInput.addEventListener('input', (e) => {
+        const query = e.target.value.trim();
+        renderAutocomplete(query);
+        performSearch(query);
+    });
+
+    searchInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            performSearch(searchInput.value.trim());
+            autocompleteList.innerHTML = '';
+            autocompleteList.style.display = 'none';
+        }
+    });
+
+    document.addEventListener('click', (e) => {
+        if (!searchInput.contains(e.target) && !autocompleteList.contains(e.target)) {
+            autocompleteList.innerHTML = '';
+            autocompleteList.style.display = 'none';
+        }
+    });
+
+    document.querySelector('.search-wrapper').addEventListener('click', () => {
+        searchInput.focus();
+    });
 }
