@@ -77,13 +77,22 @@ function parseCsvData(csvText) {
         const isHome = homeAwayRaw?.toLowerCase() === 'thuis';
         const goalscorers = parseGoalscorers(goalscorersRaw);
 
+        const homeTeam = isHome ? 'Dynamo Beirs' : opponent;
+        const awayTeam = isHome ? opponent : 'Dynamo Beirs';
+        const homeScore = isHome ? goalsScored : goalsConceded;
+        const awayScore = isHome ? goalsConceded : goalsScored;
+
         const match = {
-            title: isHome ? `Dynamo Beirs vs ${opponent}` : `${opponent} vs Dynamo Beirs`,
+            title: `${homeTeam} vs ${awayTeam}`,
+            homeTeam,
+            awayTeam,
             opponent,
             dateTime: { date: dateRaw, time: time || '??:??', displayDate, season },
             stadium: stadium || 'Onbekend stadion',
             isHome,
-            score: `${goalsScored}-${goalsConceded}`,
+            homeScore: parseInt(homeScore),
+            awayScore: parseInt(awayScore),
+            score: `${homeScore}-${awayScore}`,
             result: determineResult(goalsScored, goalsConceded),
             goalscorers
         };
@@ -145,27 +154,29 @@ function renderSearchResults(matches) {
         card.dataset.isHome       = match.isHome;
         card.dataset.goalscorers  = JSON.stringify(match.goalscorers);
 
-        const [home, away] = match.title.split(' vs ');
+        // Use pre-computed homeTeam and awayTeam
+        const home = match.homeTeam;
+        const away = match.awayTeam;
+
         card.innerHTML = `
-            <div class="result-icon ${resCls}">
-                <span><i class="fas fa-${resCls === 'win' ? 'check' : resCls === 'draw' ? 'minus' : 'times'}"></i></span>
+        <div class="result-icon ${resCls}">
+            <span><i class="fas fa-${resCls === 'win' ? 'check' : resCls === 'draw' ? 'minus' : 'times'}"></i></span>
+        </div>
+        <div class="match-body">
+            <div class="match-teams">
+                <div class="home-team">${home}</div>
+                <div class="vs-divider">vs</div>
+                <div class="away-team">${away}</div>
             </div>
-            <div class="match-body">
-                <div class="match-teams">
-                    <div class="home-team">${home}</div>
-                    <div class="vs-divider">vs</div>
-                    <div class="away-team">${away}</div>
-                </div>
-                <div class="match-score">${match.score}</div>
-                <div class="match-details">
-                    <span class="match-date"><i class="fas fa-calendar"></i> ${match.dateTime.displayDate}</span>
-                    <span class="match-season"><i class="fas fa-trophy"></i> ${match.dateTime.season}</span>
-                </div>
+            <div class="match-score">${match.score}</div>
+            <div class="match-details">
+                <span class="match-date"><i class="fas fa-calendar"></i> ${match.dateTime.displayDate}</span>
+                <span class="match-season"><i class="fas fa-trophy"></i> ${match.dateTime.season}</span>
             </div>
-        `;
+        </div>
+    `;
         grid.appendChild(card);
     });
-
     searchMessage.classList.add('hidden');
     setupCardClicks();
     animateOnScroll(animationElements);
