@@ -12,7 +12,7 @@ const animationElements = [
 document.addEventListener('DOMContentLoaded', async () => {
     await fetchAndRenderMatches();
     setupSearch();
-    animateMatchCards();
+    animateOnScroll(animationElements);
     await window.matchModal?.init?.();
 });
 
@@ -179,7 +179,7 @@ function renderSearchResults(matches) {
 
     searchMessage.classList.add('hidden');
     setupCardClicks();
-    animateOnScroll(animationElements);
+    animateMatchCards();
 }
 
 /* Match Card Animations */
