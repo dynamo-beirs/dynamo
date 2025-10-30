@@ -132,17 +132,11 @@ function parseDate(d) {
     return new Date(year, month - 1, day);
 }
 
-/* Render Search Results */
+/* Render Search Results (clickable cards) */
 function renderSearchResults(matches) {
     const grid = document.getElementById('search-results-grid');
     const searchMessage = document.getElementById('search-message');
     grid.innerHTML = '';
-
-    if (matches.length === 0) {
-        searchMessage.textContent = 'Geen wedstrijden gevonden.';
-        searchMessage.classList.remove('hidden');
-        return;
-    }
 
     matches.forEach(match => {
         const resCls = match.result === 'winst' ? 'win' : match.result === 'gelijk' ? 'draw' : 'loss';
@@ -159,64 +153,52 @@ function renderSearchResults(matches) {
         card.dataset.isHome       = match.isHome;
         card.dataset.goalscorers  = JSON.stringify(match.goalscorers);
 
+        // Use pre-computed homeTeam and awayTeam
         const home = match.homeTeam;
         const away = match.awayTeam;
 
         card.innerHTML = `
-            <div class="result-icon ${resCls}">
-                <span><i class="fas fa-${resCls === 'win' ? 'check' : resCls === 'draw' ? 'minus' : 'times'}"></i></span>
+        <div class="result-icon ${resCls}">
+            <span><i class="fas fa-${resCls === 'win' ? 'check' : resCls === 'draw' ? 'minus' : 'times'}"></i></span>
+        </div>
+        <div class="match-body">
+            <div class="match-teams">
+                <div class="home-team">${home}</div>
+                <div class="vs-divider">vs</div>
+                <div class="away-team">${away}</div>
             </div>
-            <div class="match-body">
-                <div class="match-teams">
-                    <div class="home-team">${home}</div>
-                    <div class="vs-divider">vs</div>
-                    <div class="away-team">${away}</div>
-                </div>
-                <div class="match-score">${match.score}</div>
-                <div class="match-details">
-                    <span class="match-date"><i class="fas fa-calendar"></i> ${match.dateTime.displayDate}</span>
-                    <span class="match-season"><i class="fas fa-trophy"></i> ${match.dateTime.season}</span>
-                </div>
+            <div class="match-score">${match.score}</div>
+            <div class="match-details">
+                <span class="match-date"><i class="fas fa-calendar"></i> ${match.dateTime.displayDate}</span>
+                <span class="match-season"><i class="fas fa-trophy"></i> ${match.dateTime.season}</span>
             </div>
-        `;
+        </div>
+    `;
         grid.appendChild(card);
     });
 
     searchMessage.classList.add('hidden');
     setupCardClicks();
-
     animateMatchCards();
 }
 
 /* Match Card Animations */
 function animateMatchCards() {
-    const cards = document.querySelectorAll('.match-card');
-    const observer = new IntersectionObserver((entries) => {
+    const observer = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
+                const container = entry.target.closest('.matches-grid') || document;
+                const itemsInContainer = container.querySelectorAll('.match-card');
+                const itemIndex = Array.from(itemsInContainer).indexOf(entry.target);
+
                 entry.target.classList.add('animate-in');
                 observer.unobserve(entry.target);
             }
         });
-    }, {
-        root: null,
-        rootMargin: '0px 0px -50px 0px',
-        threshold: 0.1
-    });
+    }, { root: null, rootMargin: '0px', threshold: 0.1 });
 
-    cards.forEach((card, index) => {
-        card.classList.remove('animate-in');
-
-        card.style.transitionDelay = `${index * 50}ms`;
-
+    document.querySelectorAll('.match-card').forEach(card => {
         observer.observe(card);
-
-        const rect = card.getBoundingClientRect();
-        const isInView = rect.top < window.innerHeight && rect.bottom > 0;
-        if (isInView) {
-            card.classList.add('animate-in');
-            observer.unobserve(card);
-        }
     });
 }
 
