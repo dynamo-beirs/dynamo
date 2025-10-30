@@ -51,11 +51,15 @@ function parseCSV(csvText) {
         'NLD': { name: 'Netherlands', flagSrc: '../img/icons/flags/netherlands.svg' }
     };
 
+    const today = new Date();
+    const todayStr = `${String(today.getDate()).padStart(2, '0')}/${String(today.getMonth() + 1).padStart(2, '0')}`;
+
     for (let i = 4; i < rows.length; i++) {
         const row = rows[i];
         const name = row[1]?.trim();
         const nationalityCode = row[2]?.trim();
         const positionCode = row[3]?.trim();
+        const birthdayDDMM = row[36]?.trim();               // column AK
         const goalsThisSeason = row[29]?.trim();
         const gamesThisSeason = row[30]?.trim();
         const goalsTotal = row[39]?.trim();
@@ -64,6 +68,9 @@ function parseCSV(csvText) {
         if (name && nationalityCode && positionCode) {
             const position = positionMap[positionCode.toUpperCase()] || 'unknown';
             const nationality = nationalityMap[nationalityCode.toUpperCase()] || { name: 'Unknown', flagSrc: '../img/icons/flags/belgium.svg' };
+
+            const isBirthday = birthdayDDMM === todayStr;   // exact match
+
             players.push({
                 name,
                 position,
@@ -72,7 +79,8 @@ function parseCSV(csvText) {
                 gamesThisSeason: parseInt(gamesThisSeason) || 0,
                 gamesTotal: parseInt(gamesTotal) || 0,
                 goalsThisSeason: parseInt(goalsThisSeason) || 0,
-                goalsTotal: parseInt(goalsTotal) || 0
+                goalsTotal: parseInt(goalsTotal) || 0,
+                isBirthday
             });
         }
     }
@@ -94,7 +102,7 @@ function renderPlayerCards(players) {
     playersGrid.innerHTML = '';
     players.forEach(player => {
         const card = document.createElement('div');
-        card.className = 'player-card';
+        card.className = `player-card${player.isBirthday ? ' birthday' : ''}`;
         card.setAttribute('data-position', player.position);
         card.setAttribute('data-name', player.name);
         card.setAttribute('data-nationality', player.nationality);
@@ -105,6 +113,9 @@ function renderPlayerCards(players) {
         card.setAttribute('data-goals-total', player.goalsTotal);
 
         card.innerHTML = `
+            ${player.isBirthday ? '<div class="confetti-bg"></div>' : ''}
+            ${player.isBirthday ? '<div class="garland-left"></div>' : ''}
+            ${player.isBirthday ? '<div class="garland-right"></div>' : ''}
             <div class="player-info">
                 <div class="player-name">${player.name}</div>
                 <div class="player-position">${positionDisplayMap[player.position]}</div>
