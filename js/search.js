@@ -82,7 +82,9 @@ function parseCsvData(csvText) {
             dateTime: { date: dateRaw, time: time || '??:??', displayDate, season },
             stadium: stadium || 'Onbekend stadion',
             isHome,
-            score: `${goalsScored}-${goalsConceded}`,
+            score: isHome
+                ? `${goalsScored}-${goalsConceded}`
+                : `${goalsConceded}-${goalsScored}`,
             result: determineResult(goalsScored, goalsConceded),
             goalscorers
         };
