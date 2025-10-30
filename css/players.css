@@ -376,7 +376,12 @@ main .page-hero h1.animate-in::after {
     color: var(--dynamo-red);
 }
 
-/* Confetti Background – via real <div> */
+/* Birthday Card */
+.player-card.birthday > .player-info {
+    position: relative;
+    z-index: 10;
+}
+
 .confetti-bg {
     position: absolute;
     top: 0;
@@ -389,15 +394,8 @@ main .page-hero h1.animate-in::after {
     opacity: 0.1;
     pointer-events: none;
     z-index: 0;
-    border-radius: 12px; /* Match card */
+    border-radius: 12px;
 }
-
-/* Ensure content stays above confetti */
-.player-card.birthday > .player-info {
-    position: relative;
-    z-index: 10;
-}
-
 /* Garland – top-left */
 .garland-left {
     position: absolute;
@@ -424,7 +422,7 @@ main .page-hero h1.animate-in::after {
     z-index: 2;
     opacity: 0.5;
 }
-/* Crown – above the name */
+/* Crown */
 .player-card.birthday .player-name::before {
     content: "";
     position: absolute;

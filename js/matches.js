@@ -115,13 +115,19 @@ function parseCsvData(csvText) {
                 isHome
             };
 
-            if (result) {
+            if (result || goalsScoredRaw || goalsConcededRaw) {
                 const goalsScored = isHome ? goalsScoredRaw : goalsConcededRaw;
                 const goalsConceded = isHome ? goalsConcededRaw : goalsScoredRaw;
-                match.score = `${goalsScored}-${goalsConceded}`;
-                match.goalscorers = parseGoalscorers(goalscorersRaw);
-                match.result = result;
-                matches.past.push(match);
+
+                if (goalsScored !== undefined && goalsConceded !== undefined && goalsScored !== '' && goalsConceded !== '') {
+                    match.score = `${goalsScored}-${goalsConceded}`;
+                    match.goalscorers = parseGoalscorers(goalscorersRaw);
+                    match.result = determineResult(goalsScored, goalsConceded);
+                    matches.past.push(match);
+                } else if (result) {
+                    match.result = result;
+                    matches.past.push(match);
+                }
             } else {
                 matches.upcoming.push(match);
             }
@@ -203,6 +209,12 @@ function parseGoalscorers(goalscorersRaw) {
 
     console.log('Final parsed goalscorers:', goalscorers);
     return goalscorers;
+}
+
+function determineResult(scored, conceded) {
+    const s = parseInt(scored), c = parseInt(conceded);
+    if (isNaN(s) || isNaN(c)) return 'gelijk';
+    return s > c ? 'winst' : s === c ? 'gelijk' : 'verlies';
 }
 
 // Render upcoming matches
