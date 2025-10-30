@@ -10,7 +10,7 @@
     --alltime-bg: var(--golden-yellow);
     --primary-theme-color: var(--team-color);
     --primary-theme-hover: var(--team-bg);
-    --underline-color: var(--season-color);
+    --underline-color: var(--season-bg);
 }
 
 /* Toggle Buttons */
@@ -197,7 +197,7 @@
 body {
     --primary-theme-color: var(--team-color);
     --primary-theme-hover: var(--team-bg);
-    --underline-color: var(--season-color);
+    --underline-color: var(--season-bg);
 }
 
 body.player-season, body.player-alltime {
@@ -206,7 +206,7 @@ body.player-season, body.player-alltime {
 }
 
 body.team-alltime, body.player-alltime {
-    --underline-color: var(--alltime-color);
+    --underline-color: var(--alltime-bg);
 }
 
 /* Override rank background for season context */
@@ -258,7 +258,7 @@ body.player-alltime .player-rank {
 
 .custom-dropdown {
     position: relative;
-    border: 2px solid var(--primary-theme-color);
+    border: 2px solid var(--underline-color);
     border-radius: 25px;
     background: white;
     cursor: pointer;
@@ -301,7 +301,7 @@ body.player-alltime .player-rank {
     left: 50%;
     transform: translateX(-50%);
     background: white;
-    border: 2px solid var(--primary-theme-color);
+    border: 2px solid var(--underline-color);
     border-radius: 10px;
     box-shadow: var(--shadow-medium);
     list-style: none;
