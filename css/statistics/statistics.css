@@ -320,7 +320,7 @@ body.player-alltime .player-rank {
 }
 
 .custom-dropdown .options li:hover {
-    background: var(--primary-theme-hover);
+    background: var(--underline-color);
 }
 
 .custom-dropdown.active .options {
