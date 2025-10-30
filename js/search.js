@@ -34,7 +34,7 @@ async function fetchAndRenderMatches() {
     }
 }
 
-/* Parse CSV Data (uses extended columns from search2.js) */
+/* Parse CSV Data */
 function parseCsvData(csvText) {
     const parsed = Papa.parse(csvText, { skipEmptyLines: true, delimiter: ',' });
     const rows = parsed.data;
@@ -43,14 +43,14 @@ function parseCsvData(csvText) {
     const monthNames = ['jan','feb','mrt','apr','mei','jun','jul','aug','sep','okt','nov','dec'];
 
     for (let i = 2; i < rows.length; i++) {
-        const opponent      = rows[i][1]?.trim();   // B
-        const dateRaw       = rows[i][4]?.trim();   // E
-        const time          = rows[i][5]?.trim();   // F
-        const stadium       = rows[i][6]?.trim();   // G
-        const homeAwayRaw   = rows[i][7]?.trim();   // H
-        const goalsScored   = rows[i][8]?.trim();   // I
-        const goalsConceded = rows[i][9]?.trim();   // J
-        const goalscorersRaw= rows[i][10]?.trim();  // K
+        const opponent      = rows[i][1]?.trim();
+        const dateRaw       = rows[i][4]?.trim();
+        const time          = rows[i][5]?.trim();
+        const stadium       = rows[i][6]?.trim();
+        const homeAwayRaw   = rows[i][7]?.trim();
+        const goalsScored   = rows[i][8]?.trim();
+        const goalsConceded = rows[i][9]?.trim();
+        const goalscorersRaw= rows[i][10]?.trim();
 
         if (!opponent || !dateRaw || goalsScored === undefined || goalsConceded === undefined) continue;
 
@@ -76,22 +76,13 @@ function parseCsvData(csvText) {
         const isHome = homeAwayRaw?.toLowerCase() === 'thuis';
         const goalscorers = parseGoalscorers(goalscorersRaw);
 
-        const homeTeam = isHome ? 'Dynamo Beirs' : opponent;
-        const awayTeam = isHome ? opponent : 'Dynamo Beirs';
-        const homeScore = isHome ? goalsScored : goalsConceded;
-        const awayScore = isHome ? goalsConceded : goalsScored;
-
         const match = {
-            title: `${homeTeam} vs ${awayTeam}`,
-            homeTeam,
-            awayTeam,
+            title: isHome ? `Dynamo Beirs vs ${opponent}` : `${opponent} vs Dynamo Beirs`,
             opponent,
             dateTime: { date: dateRaw, time: time || '??:??', displayDate, season },
             stadium: stadium || 'Onbekend stadion',
             isHome,
-            homeScore: parseInt(homeScore),
-            awayScore: parseInt(awayScore),
-            score: `${homeScore}-${awayScore}`,
+            score: `${goalsScored}-${goalsConceded}`,
             result: determineResult(goalsScored, goalsConceded),
             goalscorers
         };
@@ -102,6 +93,7 @@ function parseCsvData(csvText) {
     return matches;
 }
 
+/* Parse Goalscorers */
 function parseGoalscorers(raw) {
     if (!raw || raw.trim() === '' || raw.trim() === '/') return [];
     const cleaned = raw.replace(/^["'\s]+|["'\s]+$/g, '').trim();
@@ -121,18 +113,20 @@ function parseGoalscorers(raw) {
     return out;
 }
 
+/* Determine Result */
 function determineResult(scored, conceded) {
     const s = parseInt(scored), c = parseInt(conceded);
     if (isNaN(s) || isNaN(c)) return 'gelijk';
     return s > c ? 'winst' : s === c ? 'gelijk' : 'verlies';
 }
 
+/* Parse Date */
 function parseDate(d) {
     const [day, month, year] = d.split('-').map(Number);
     return new Date(year, month - 1, day);
 }
 
-/* Render Search Results (clickable cards) */
+/* Render Search Results */
 function renderSearchResults(matches) {
     const grid = document.getElementById('search-results-grid');
     const searchMessage = document.getElementById('search-message');
@@ -153,27 +147,24 @@ function renderSearchResults(matches) {
         card.dataset.isHome       = match.isHome;
         card.dataset.goalscorers  = JSON.stringify(match.goalscorers);
 
-        // Use pre-computed homeTeam and awayTeam
-        const home = match.homeTeam;
-        const away = match.awayTeam;
-
+        const [home, away] = match.title.split(' vs ');
         card.innerHTML = `
-        <div class="result-icon ${resCls}">
-            <span><i class="fas fa-${resCls === 'win' ? 'check' : resCls === 'draw' ? 'minus' : 'times'}"></i></span>
-        </div>
-        <div class="match-body">
-            <div class="match-teams">
-                <div class="home-team">${home}</div>
-                <div class="vs-divider">vs</div>
-                <div class="away-team">${away}</div>
+            <div class="result-icon ${resCls}">
+                <span><i class="fas fa-${resCls === 'win' ? 'check' : resCls === 'draw' ? 'minus' : 'times'}"></i></span>
             </div>
-            <div class="match-score">${match.score}</div>
-            <div class="match-details">
-                <span class="match-date"><i class="fas fa-calendar"></i> ${match.dateTime.displayDate}</span>
-                <span class="match-season"><i class="fas fa-trophy"></i> ${match.dateTime.season}</span>
+            <div class="match-body">
+                <div class="match-teams">
+                    <div class="home-team">${home}</div>
+                    <div class="vs-divider">vs</div>
+                    <div class="away-team">${away}</div>
+                </div>
+                <div class="match-score">${match.score}</div>
+                <div class="match-details">
+                    <span class="match-date"><i class="fas fa-calendar"></i> ${match.dateTime.displayDate}</span>
+                    <span class="match-season"><i class="fas fa-trophy"></i> ${match.dateTime.season}</span>
+                </div>
             </div>
-        </div>
-    `;
+        `;
         grid.appendChild(card);
     });
 
@@ -182,27 +173,7 @@ function renderSearchResults(matches) {
     animateMatchCards();
 }
 
-/* Match Card Animations */
-function animateMatchCards() {
-    const observer = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const container = entry.target.closest('.matches-grid') || document;
-                const itemsInContainer = container.querySelectorAll('.match-card');
-                const itemIndex = Array.from(itemsInContainer).indexOf(entry.target);
-
-                entry.target.classList.add('animate-in');
-                observer.unobserve(entry.target);
-            }
-        });
-    }, { root: null, rootMargin: '0px', threshold: 0.1 });
-
-    document.querySelectorAll('.match-card').forEach(card => {
-        observer.observe(card);
-    });
-}
-
-/* Make match cards clickable (modal support) */
+/* Make Match Cards Clickable */
 function setupCardClicks() {
     document.querySelectorAll('#search-results-grid .match-card.modern.result').forEach(card => {
         card.addEventListener('mouseenter', () => card.classList.add('hover'));
@@ -233,7 +204,24 @@ function setupCardClicks() {
     });
 }
 
-/* Search and Autocomplete (same behavior as before) */
+/* Match Card Animations */
+function animateMatchCards() {
+    const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const container = entry.target.closest('.matches-grid') || document;
+                const itemsInContainer = container.querySelectorAll('.match-card');
+                const itemIndex = Array.from(itemsInContainer).indexOf(entry.target);
+                entry.target.classList.add('animate-in');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { root: null, rootMargin: '0px', threshold: 0.1 });
+
+    document.querySelectorAll('.match-card').forEach(card => observer.observe(card));
+}
+
+/* Search and Autocomplete */
 function setupSearch() {
     const searchInput = document.getElementById('search-input');
     const autocompleteList = document.getElementById('autocomplete-list');
