@@ -192,11 +192,15 @@ function initializeCarousel() {
     let startTime = 0;
 
     function touchStart(e) {
+        if (e.target.closest('.nav-btn')) {
+            return;
+        }
+    
         touchStartX = e.touches[0].clientX;
         touchStartY = e.touches[0].clientY;
         isDragging = true;
         startTime = e.timeStamp;
-        prevTranslate = -((currentIndex + 1) * 100); // start from current slide
+        prevTranslate = -((currentIndex + 1) * 100);
         carousel.style.transition = 'none';
         cancelAnimationFrame(animationID);
         clearInterval(autoPlayInterval);
