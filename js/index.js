@@ -181,21 +181,19 @@ function initializeCarousel() {
     nextBtn.addEventListener('click', () => { nextSlide(); resetAutoPlay(); });
     prevBtn.addEventListener('click', () => { prevSlide(); resetAutoPlay(); });
 
-//  Swipe Support
+// Swipe Support
     let touchStartX = 0;
     let touchStartY = 0;
-    let touchMoved = false;
-    let dragOffset = 0;
     let isDragging = false;
+    let dragDistance = 0;
 
     carousel.addEventListener('touchstart', e => {
         if (isTransitioning) return;
 
         touchStartX = e.touches[0].clientX;
         touchStartY = e.touches[0].clientY;
-        touchMoved = false;
         isDragging = true;
-        dragOffset = 0;
+        dragDistance = 0;
 
         clearInterval(autoPlayInterval);
     }, { passive: true });
@@ -205,40 +203,34 @@ function initializeCarousel() {
 
         const currentX = e.touches[0].clientX;
         const currentY = e.touches[0].clientY;
-        const diffX = touchStartX - currentX;
-        const diffY = touchStartY - currentY;
+        const diffX = currentX - touchStartX;
+        const diffY = currentY - touchStartY;
 
         if (Math.abs(diffX) > Math.abs(diffY)) {
             e.preventDefault();
+            dragDistance = diffX;
+            const baseTranslate = -(currentIndex + 1) * 100;
+            carousel.style.transition = 'none';
+            carousel.style.transform = `translate3d(${baseTranslate + (dragDistance / carousel.offsetWidth) * 100}%, 0, 0)`;
         }
-
-        dragOffset = (diffX / carousel.offsetWidth) * 100;
-        const baseTranslate = -(currentIndex + 1) * 100;
-        carousel.style.transition = 'none';
-        carousel.style.transform = `translateX(${baseTranslate + dragOffset}%)`;
-
-        touchMoved = true;
     }, { passive: false });
 
     carousel.addEventListener('touchend', e => {
         if (!isDragging) return;
         isDragging = false;
 
-        const diffX = touchStartX - (e.changedTouches[0].clientX);
-        const threshold = 30;
-        const swipeStrong = Math.abs(diffX) > threshold;
-
+        const swipeThreshold = 50;
         let targetIndex = currentIndex;
 
-        if (swipeStrong) {
-            targetIndex = diffX > 0 ? currentIndex + 1 : currentIndex - 1;
-        } else if (Math.abs(dragOffset) > 20) {
-            targetIndex = dragOffset > 0 ? currentIndex + 1 : currentIndex - 1;
+        if (dragDistance > swipeThreshold) {
+            targetIndex = currentIndex - 1;
+        } else if (dragDistance < -swipeThreshold) {
+            targetIndex = currentIndex + 1;
         }
 
         setTransition(true);
         goToSlide(targetIndex);
-        resetAutoPlay();                     // restart autoplay
+        resetAutoPlay();
     });
 
     // Keyboard
