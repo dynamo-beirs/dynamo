@@ -183,11 +183,26 @@ function initializeCarousel() {
 
     // Swipe support
     let touchStartX = 0;
-    carousel.addEventListener('touchstart', e => (touchStartX = e.touches[0].clientX));
+    let touchEndX = 0;
+    let touchMoved = false;
+
+    carousel.addEventListener('touchstart', e => {
+        touchStartX = e.touches[0].clientX;
+        touchMoved = false;
+    }, { passive: true });
+
+    carousel.addEventListener('touchmove', e => {
+        touchEndX = e.touches[0].clientX;
+        touchMoved = true;
+    }, { passive: true });
+
     carousel.addEventListener('touchend', e => {
-        const diff = touchStartX - e.changedTouches[0].clientX;
-        if (Math.abs(diff) > 50) (diff > 0 ? nextSlide() : prevSlide());
-        resetAutoPlay();
+        if (!touchMoved) return; // Ignore simple taps
+        const diff = touchStartX - touchEndX;
+        if (Math.abs(diff) > 50) {
+            diff > 0 ? nextSlide() : prevSlide();
+            resetAutoPlay();
+        }
     });
 
     // Keyboard
