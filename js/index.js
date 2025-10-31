@@ -183,24 +183,31 @@ function initializeCarousel() {
 
     // Swipe support
     let touchStartX = 0;
+    let touchStartY = 0;
     let touchEndX = 0;
+    let touchEndY = 0;
     let touchMoved = false;
 
     carousel.addEventListener('touchstart', e => {
         touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
         touchMoved = false;
     }, { passive: true });
 
     carousel.addEventListener('touchmove', e => {
         touchEndX = e.touches[0].clientX;
+        touchEndY = e.touches[0].clientY;
         touchMoved = true;
     }, { passive: true });
 
     carousel.addEventListener('touchend', e => {
-        if (!touchMoved) return; // Ignore simple taps
-        const diff = touchStartX - touchEndX;
-        if (Math.abs(diff) > 50) {
-            diff > 0 ? nextSlide() : prevSlide();
+        if (!touchMoved) return; // Ignore taps
+
+        const diffX = touchStartX - touchEndX;
+        const diffY = touchStartY - touchEndY;
+
+        if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
+            diffX > 0 ? nextSlide() : prevSlide();
             resetAutoPlay();
         }
     });
