@@ -204,13 +204,16 @@ function initializeCarousel() {
 
     function touchMove(e) {
         if (!isDragging) return;
-
+    
         const currentX = e.touches[0].clientX;
+        const currentY = e.touches[0].clientY;
         const diffX = currentX - touchStartX;
-        const diffY = e.touches[0].clientY - touchStartY;
-
-        // Only allow horizontal dragging
-        if (Math.abs(diffX) > Math.abs(diffY)) {
+        const diffY = currentY - touchStartY;
+    
+        const absDiffX = Math.abs(diffX);
+        const absDiffY = Math.abs(diffY);
+    
+        if (absDiffX > absDiffY && absDiffX > 5) { // 5px threshold to avoid accidental blocks
             e.preventDefault();
             currentTranslate = prevTranslate + (diffX / carousel.offsetWidth) * 100;
             carousel.style.transform = `translateX(${currentTranslate}%)`;
