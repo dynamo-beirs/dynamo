@@ -81,6 +81,7 @@ function setupIndexAnimations() {
 // Carousel Initialization
 function initializeCarousel() {
     const carousel = document.getElementById('carousel');
+    const container = document.querySelector('.carousel-container');
     const slides = document.querySelectorAll('.slide');
     const prevBtn = document.getElementById('prevBtn');
     const nextBtn = document.getElementById('nextBtn');
@@ -189,9 +190,8 @@ function initializeCarousel() {
     let isDragging = false;
     let animationID = 0;
     let startTime = 0;
-    const carouselWidth = () => carousel.offsetWidth;
 
-    function touchStart(index, e) {
+    function touchStart(e) {
         touchStartX = e.touches[0].clientX;
         touchStartY = e.touches[0].clientY;
         isDragging = true;
@@ -239,11 +239,11 @@ function initializeCarousel() {
         resetAutoPlay();
     }
 
-    // Attach to carousel
-    carousel.addEventListener('touchstart', touchStart, { passive: true });
-    carousel.addEventListener('touchmove', touchMove, { passive: false });
-    carousel.addEventListener('touchend', touchEnd);
-    carousel.addEventListener('touchcancel', touchEnd);
+    // Attach to container for better touch handling
+    container.addEventListener('touchstart', touchStart, { passive: true });
+    container.addEventListener('touchmove', touchMove, { passive: false });
+    container.addEventListener('touchend', touchEnd, { passive: true });
+    container.addEventListener('touchcancel', touchEnd, { passive: true });
 
 
     // Keyboard
@@ -253,7 +253,6 @@ function initializeCarousel() {
     });
 
     // Pause on hover
-    const container = document.querySelector('.carousel-container');
     container.addEventListener('mouseenter', () => clearInterval(autoPlayInterval));
     container.addEventListener('mouseleave', startAutoPlay);
 
