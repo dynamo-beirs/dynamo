@@ -209,9 +209,9 @@ function initializeCarousel() {
         const diffX = currentX - touchStartX;
         const diffY = e.touches[0].clientY - touchStartY;
 
+        // Only allow horizontal dragging
         if (Math.abs(diffX) > Math.abs(diffY)) {
             e.preventDefault();
-            // Smooth dragging: scale by slide width percentage
             currentTranslate = prevTranslate + (diffX / carousel.offsetWidth) * 100;
             carousel.style.transform = `translateX(${currentTranslate}%)`;
         }
@@ -225,21 +225,16 @@ function initializeCarousel() {
         const elapsedTime = e.timeStamp - startTime; // ms
         const velocity = diffX / elapsedTime; // px/ms
 
-        const swipeThreshold = carousel.offsetWidth * 0.1; // smaller threshold for fast flicks
+        const swipeThreshold = Math.max(15, carousel.offsetWidth * 0.05); // smaller threshold for fast swipes
         let targetIndex = currentIndex;
 
-        const dragThreshold = carousel.offsetWidth * 0.25; // 25% of carousel width
-
-        if (diffX < -dragThreshold || velocity < -0.3) {
-            targetIndex = currentIndex + 1; // swipe left → next slide
-        } else if (diffX > dragThreshold || velocity > 0.3) {
-            targetIndex = currentIndex - 1; // swipe right → prev slide
-        } else {
-            targetIndex = currentIndex; // not far enough → snap back to current
+        if (diffX < -swipeThreshold || velocity < -0.3) {
+            targetIndex = currentIndex + 1;
+        } else if (diffX > swipeThreshold || velocity > 0.3) {
+            targetIndex = currentIndex - 1;
         }
 
-        // Smooth snap using cubic-bezier for buttery feel
-        carousel.style.transition = 'transform 0.5s cubic-bezier(0.33, 1, 0.68, 1)';
+        setTransition(true);
         goToSlide(targetIndex);
         resetAutoPlay();
     }
