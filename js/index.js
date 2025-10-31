@@ -181,35 +181,64 @@ function initializeCarousel() {
     nextBtn.addEventListener('click', () => { nextSlide(); resetAutoPlay(); });
     prevBtn.addEventListener('click', () => { prevSlide(); resetAutoPlay(); });
 
-    // Swipe support
+//  Swipe Support
     let touchStartX = 0;
     let touchStartY = 0;
-    let touchEndX = 0;
-    let touchEndY = 0;
     let touchMoved = false;
+    let dragOffset = 0;
+    let isDragging = false;
 
     carousel.addEventListener('touchstart', e => {
+        if (isTransitioning) return;
+
         touchStartX = e.touches[0].clientX;
         touchStartY = e.touches[0].clientY;
         touchMoved = false;
+        isDragging = true;
+        dragOffset = 0;
+
+        clearInterval(autoPlayInterval);
     }, { passive: true });
 
     carousel.addEventListener('touchmove', e => {
-        touchEndX = e.touches[0].clientX;
-        touchEndY = e.touches[0].clientY;
+        if (!isDragging) return;
+
+        const currentX = e.touches[0].clientX;
+        const currentY = e.touches[0].clientY;
+        const diffX = touchStartX - currentX;
+        const diffY = touchStartY - currentY;
+
+        if (Math.abs(diffX) > Math.abs(diffY)) {
+            e.preventDefault();
+        }
+
+        dragOffset = (diffX / carousel.offsetWidth) * 100;
+        const baseTranslate = -(currentIndex + 1) * 100;
+        carousel.style.transition = 'none';
+        carousel.style.transform = `translateX(${baseTranslate + dragOffset}%)`;
+
         touchMoved = true;
-    }, { passive: true });
+    }, { passive: false });
 
     carousel.addEventListener('touchend', e => {
-        if (!touchMoved) return; // Ignore taps
+        if (!isDragging) return;
+        isDragging = false;
 
-        const diffX = touchStartX - touchEndX;
-        const diffY = touchStartY - touchEndY;
+        const diffX = touchStartX - (e.changedTouches[0].clientX);
+        const threshold = 30;
+        const swipeStrong = Math.abs(diffX) > threshold;
 
-        if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
-            diffX > 0 ? nextSlide() : prevSlide();
-            resetAutoPlay();
+        let targetIndex = currentIndex;
+
+        if (swipeStrong) {
+            targetIndex = diffX > 0 ? currentIndex + 1 : currentIndex - 1;
+        } else if (Math.abs(dragOffset) > 20) {
+            targetIndex = dragOffset > 0 ? currentIndex + 1 : currentIndex - 1;
         }
+
+        setTransition(true);
+        goToSlide(targetIndex);
+        resetAutoPlay();                     // restart autoplay
     });
 
     // Keyboard
