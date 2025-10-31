@@ -181,57 +181,75 @@ function initializeCarousel() {
     nextBtn.addEventListener('click', () => { nextSlide(); resetAutoPlay(); });
     prevBtn.addEventListener('click', () => { prevSlide(); resetAutoPlay(); });
 
-// Swipe Support
+    // Mobile Swipe & Dragging
     let touchStartX = 0;
     let touchStartY = 0;
+    let currentTranslate = 0;
+    let prevTranslate = 0;
     let isDragging = false;
-    let dragDistance = 0;
+    let animationID = 0;
+    let startTime = 0;
+    const carouselWidth = () => carousel.offsetWidth;
 
-    carousel.addEventListener('touchstart', e => {
-        if (isTransitioning) return;
-
+    function touchStart(index, e) {
         touchStartX = e.touches[0].clientX;
         touchStartY = e.touches[0].clientY;
         isDragging = true;
-        dragDistance = 0;
-
+        startTime = e.timeStamp;
+        prevTranslate = -((currentIndex + 1) * 100); // start from current slide
+        carousel.style.transition = 'none';
+        cancelAnimationFrame(animationID);
         clearInterval(autoPlayInterval);
-    }, { passive: true });
+    }
 
-    carousel.addEventListener('touchmove', e => {
+    function touchMove(e) {
         if (!isDragging) return;
 
         const currentX = e.touches[0].clientX;
-        const currentY = e.touches[0].clientY;
         const diffX = currentX - touchStartX;
-        const diffY = currentY - touchStartY;
+        const diffY = e.touches[0].clientY - touchStartY;
 
         if (Math.abs(diffX) > Math.abs(diffY)) {
             e.preventDefault();
-            dragDistance = diffX;
-            const baseTranslate = -(currentIndex + 1) * 100;
-            carousel.style.transition = 'none';
-            carousel.style.transform = `translate3d(${baseTranslate + (dragDistance / carousel.offsetWidth) * 100}%, 0, 0)`;
+            // Smooth dragging: scale by slide width percentage
+            currentTranslate = prevTranslate + (diffX / carousel.offsetWidth) * 100;
+            carousel.style.transform = `translateX(${currentTranslate}%)`;
         }
-    }, { passive: false });
+    }
 
-    carousel.addEventListener('touchend', e => {
+    function touchEnd(e) {
         if (!isDragging) return;
         isDragging = false;
 
-        const swipeThreshold = 50;
+        const diffX = e.changedTouches[0].clientX - touchStartX;
+        const elapsedTime = e.timeStamp - startTime; // ms
+        const velocity = diffX / elapsedTime; // px/ms
+
+        const swipeThreshold = carousel.offsetWidth * 0.1; // smaller threshold for fast flicks
         let targetIndex = currentIndex;
 
-        if (dragDistance > swipeThreshold) {
-            targetIndex = currentIndex - 1;
-        } else if (dragDistance < -swipeThreshold) {
-            targetIndex = currentIndex + 1;
+        const dragThreshold = carousel.offsetWidth * 0.25; // 25% of carousel width
+
+        if (diffX < -dragThreshold || velocity < -0.3) {
+            targetIndex = currentIndex + 1; // swipe left → next slide
+        } else if (diffX > dragThreshold || velocity > 0.3) {
+            targetIndex = currentIndex - 1; // swipe right → prev slide
+        } else {
+            targetIndex = currentIndex; // not far enough → snap back to current
         }
 
-        setTransition(true);
+        // Smooth snap using cubic-bezier for buttery feel
+        carousel.style.transition = 'transform 0.5s cubic-bezier(0.33, 1, 0.68, 1)';
         goToSlide(targetIndex);
         resetAutoPlay();
-    });
+    }
+
+    // Attach to carousel
+    carousel.addEventListener('touchstart', touchStart, { passive: true });
+    carousel.addEventListener('touchmove', touchMove, { passive: false });
+    carousel.addEventListener('touchend', touchEnd);
+    carousel.addEventListener('touchcancel', touchEnd);
+
 
     // Keyboard
     document.addEventListener('keydown', e => {
