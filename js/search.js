@@ -301,3 +301,77 @@ function setupSearch() {
         searchInput.focus();
     });
 }
+
+/* Sort Dropdown */
+function initCustomDropdown(dropdownEl) {
+    const selected = dropdownEl.querySelector('.selected');
+    const options = dropdownEl.querySelector('.options');
+    selected.addEventListener('click', () => {
+        dropdownEl.classList.toggle('active');
+    });
+    options.querySelectorAll('li').forEach(li => {
+        li.addEventListener('click', () => {
+            const value = li.dataset.value;
+            const text = li.textContent;
+            selected.dataset.value = value;
+            selected.textContent = text;
+            dropdownEl.classList.remove('active');
+            if (dropdownEl.id === 'results-sort') {
+                sortSearchResults(value);
+            }
+        });
+    });
+    document.addEventListener('click', e => {
+        if (!dropdownEl.contains(e.target)) {
+            dropdownEl.classList.remove('active');
+        }
+    });
+}
+
+/* Sorting Logic */
+function sortSearchResults(sortKey) {
+    if (!window.allMatches) return;
+    let displayed = Array.from(document.querySelectorAll('#search-results-grid .match-card'))
+        .map(card => ({
+            el: card,
+            date: card.dataset.matchDate,
+            score: card.dataset.score,
+            isHome: card.dataset.isHome === 'true'
+        }));
+    displayed.sort((a, b) => {
+        switch (sortKey) {
+            case 'date-desc': return parseDate(b.date) - parseDate(a.date);
+            case 'date-asc': return parseDate(a.date) - parseDate(b.date);
+            case 'biggest-win': return victoryMargin(b) - victoryMargin(a);
+            case 'biggest-loss': return lossMargin(b) - lossMargin(a);
+            default: return 0;
+        }
+    });
+    const grid = document.getElementById('search-results-grid');
+    displayed.forEach(item => grid.appendChild(item.el));
+    animateMatchCards();
+}
+
+/* HELPER FUNCTIONS */
+function parseDate(str) {
+    const [d, m, y] = str.split('-').map(Number);
+    return new Date(y, m - 1, d);
+}
+function victoryMargin(item) {
+    const [home, away] = item.score.split('-').map(Number);
+    const dynamo = item.isHome ? home : away;
+    const opp = item.isHome ? away : home;
+    return dynamo > opp ? (dynamo - opp) : -Infinity;
+}
+function lossMargin(item) {
+    const [home, away] = item.score.split('-').map(Number);
+    const dynamo = item.isHome ? home : away;
+    const opp = item.isHome ? away : home;
+    return dynamo < opp ? (opp - dynamo) : -Infinity;
+}
+
+/* Initialization Dropdown */
+document.addEventListener('DOMContentLoaded', () => {
+    const resultsDropdown = document.getElementById('results-sort');
+    if (resultsDropdown) initCustomDropdown(resultsDropdown);
+});
