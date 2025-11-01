@@ -32,6 +32,7 @@
     <link rel="stylesheet" href="/dynamo/css/partials/footer.css">
     <link rel="stylesheet" href="/dynamo/css/matches.css">
     <link rel="stylesheet" href="/dynamo/css/search.css">
+    <link rel="stylesheet" href="/dynamo/css/statistics.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
     <!-- Scripts -->
@@ -67,12 +68,30 @@
             <p id="search-message" class="error-message hidden"></p>
         </div>
     </section>
-
     <!-- Search Results -->
     <section class="matches-section">
         <div class="container">
             <h2 class="section-title">Zoekresultaten</h2>
-            <div class="matches-grid" id="search-results-grid"></div>
+
+            <!-- Loading & Error -->
+            <div id="search-loading" class="loading-message">Laden...</div>
+            <div id="search-error" class="error-message hidden">Fout bij het laden van wedstrijden.</div>
+
+            <div id="search-results-content" style="display: none;">
+                <div class="sort-controls">
+                    <span>Sorteren op:</span>
+                    <div class="custom-dropdown" id="results-sort">
+                        <div class="selected" data-value="date-desc">Datum (nieuw → oud)</div>
+                        <ul class="options">
+                            <li data-value="date-desc">Datum (nieuw → oud)</li>
+                            <li data-value="date-asc">Datum (oud → nieuw)</li>
+                            <li data-value="biggest-win">Grootste overwinning</li>
+                            <li data-value="biggest-loss">Grootste nederlaag</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="matches-grid" id="search-results-grid"></div>
+            </div>
         </div>
     </section>
 </main>

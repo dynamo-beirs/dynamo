@@ -10,27 +10,70 @@ const animationElements = [
 
 /* Page Initialization */
 document.addEventListener('DOMContentLoaded', async () => {
-    await fetchAndRenderMatches();
-    setupSearch();
-    animateOnScroll(animationElements);
-    await window.matchModal?.init?.();
+    try {
+        await fetchAndRenderMatches();
+        setupSearch();
+
+        // Animate elements
+        if (typeof animateOnScroll === 'function') {
+            animateOnScroll(animationElements);
+        }
+
+        // Initialize match modal if available
+        if (window.matchModal?.init) {
+            await window.matchModal.init();
+        }
+    } catch (error) {
+        console.error('Error during page initialization:', error);
+    }
 });
 
 /* Fetch and Render Matches */
 async function fetchAndRenderMatches() {
+    const loadingEl   = document.getElementById('search-loading');
+    const errorEl     = document.getElementById('search-error');
+    const contentEl   = document.getElementById('search-results-content');
+    const searchMsg   = document.getElementById('search-message');
+
+    // Show loading, hide everything else
+    loadingEl?.classList.remove('hidden');
+    errorEl?.classList.add('hidden');
+    contentEl.style.display = 'none';
+    searchMsg?.classList.add('hidden');
+
     const spreadsheetUrl =
         'https://docs.google.com/spreadsheets/d/e/2PACX-1vQRCgon0xh9NuQ87NgqQzBNPCEmmZWcC_jrulRhLwmrudf5UQ2QBRA28F1qmWB9L5xP9uZ8-ct2aqfR/pub?gid=890518549&single=true&output=csv';
+
     try {
         const response = await fetch(spreadsheetUrl);
+        if (!response.ok) throw new Error('Network error');
+
         const csvText = await response.text();
         window.allMatches = parseCsvData(csvText);
+
+        // SUCCESS: Hide loading, show results
+        loadingEl?.classList.add('hidden');
+        contentEl.style.display = 'block'; // Now visible
+
         renderSearchResults(window.allMatches);
+
+        // NOW initialize dropdown (safe — DOM is ready and visible)
+        const resultsDropdown = document.getElementById('results-sort');
+        if (resultsDropdown) {
+            initCustomDropdown(resultsDropdown);
+        }
+
     } catch (error) {
         console.error('Error fetching or parsing CSV:', error);
-        const searchMessage = document.getElementById('search-message');
-        searchMessage.textContent = 'Fout bij het laden van wedstrijden.';
-        searchMessage.classList.add('error-message');
-        searchMessage.classList.remove('hidden');
+
+        // ERROR: Hide loading, show error
+        loadingEl?.classList.add('hidden');
+        errorEl?.classList.remove('hidden');
+        contentEl.style.display = 'none';
+
+        searchMsg.textContent = 'Fout bij het laden van wedstrijden.';
+        searchMsg.classList.add('error-message');
+        searchMsg.classList.remove('hidden');
     }
 }
 
@@ -132,7 +175,21 @@ function parseDate(d) {
 function renderSearchResults(matches) {
     const grid = document.getElementById('search-results-grid');
     const searchMessage = document.getElementById('search-message');
+
+    if (!grid) {
+        console.error('Grid element not found');
+        return;
+    }
+
     grid.innerHTML = '';
+
+    if (matches.length === 0) {
+        if (searchMessage) {
+            searchMessage.textContent = 'Geen wedstrijden gevonden.';
+            searchMessage.classList.remove('hidden');
+        }
+        return;
+    }
 
     matches.forEach(match => {
         const resCls = match.result === 'winst' ? 'win' : match.result === 'gelijk' ? 'draw' : 'loss';
@@ -170,7 +227,10 @@ function renderSearchResults(matches) {
         grid.appendChild(card);
     });
 
-    searchMessage.classList.add('hidden');
+    if (searchMessage) {
+        searchMessage.classList.add('hidden');
+    }
+
     setupCardClicks();
     animateMatchCards();
 }
@@ -229,11 +289,18 @@ function setupSearch() {
     const autocompleteList = document.getElementById('autocomplete-list');
     const searchMessage = document.getElementById('search-message');
 
+    if (!searchInput || !autocompleteList) {
+        console.error('Search elements not found');
+        return;
+    }
+
     const performSearch = (query) => {
         if (!window.allMatches) {
-            searchMessage.textContent = 'Fout bij het laden van wedstrijden.';
-            searchMessage.classList.add('error-message');
-            searchMessage.classList.remove('hidden');
+            if (searchMessage) {
+                searchMessage.textContent = 'Fout bij het laden van wedstrijden.';
+                searchMessage.classList.add('error-message');
+                searchMessage.classList.remove('hidden');
+            }
             return;
         }
 
@@ -297,7 +364,104 @@ function setupSearch() {
         }
     });
 
-    document.querySelector('.search-wrapper').addEventListener('click', () => {
-        searchInput.focus();
+    const searchWrapper = document.querySelector('.search-wrapper');
+    if (searchWrapper) {
+        searchWrapper.addEventListener('click', () => {
+            searchInput.focus();
+        });
+    }
+}
+
+/* Sort Dropdown */
+function initCustomDropdown(dropdownEl) {
+    const selected = dropdownEl.querySelector('.selected');
+    const options = dropdownEl.querySelector('.options');
+
+    if (!selected || !options) {
+        console.error('Dropdown elements not found');
+        return;
+    }
+
+    selected.addEventListener('click', (e) => {
+        e.stopPropagation();
+        dropdownEl.classList.toggle('active');
     });
+
+    options.querySelectorAll('li').forEach(li => {
+        li.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const value = li.dataset.value;
+            const text = li.textContent;
+            selected.dataset.value = value;
+            selected.textContent = text;
+            dropdownEl.classList.remove('active');
+            if (dropdownEl.id === 'results-sort') {
+                sortSearchResults(value);
+            }
+        });
+    });
+
+    document.addEventListener('click', e => {
+        if (!dropdownEl.contains(e.target)) {
+            dropdownEl.classList.remove('active');
+        }
+    });
+}
+
+/* Sorting Logic */
+function sortSearchResults(sortKey) {
+    if (!window.allMatches) return;
+
+    const grid = document.getElementById('search-results-grid');
+    if (!grid) return;
+
+    let displayed = Array.from(document.querySelectorAll('#search-results-grid .match-card'))
+        .map(card => ({
+            el: card,
+            date: card.dataset.matchDate,
+            score: card.dataset.score,
+            isHome: card.dataset.isHome === 'true'
+        }));
+
+    displayed.sort((a, b) => {
+        switch (sortKey) {
+            case 'date-desc': return parseDate(b.date) - parseDate(a.date);
+            case 'date-asc': return parseDate(a.date) - parseDate(b.date);
+            case 'biggest-win': return victoryMargin(b) - victoryMargin(a);
+            case 'biggest-loss': return lossMargin(b) - lossMargin(a);
+            default: return 0;
+        }
+    });
+
+    displayed.forEach(item => grid.appendChild(item.el));
+    animateMatchCards();
+}
+
+/* HELPER FUNCTIONS */
+function victoryMargin(item) {
+    const [home, away] = item.score.split('-').map(Number);
+    const dynamo = item.isHome ? home : away;
+    const opp = item.isHome ? away : home;
+
+    if (dynamo > opp) {
+        return dynamo - opp; // Positive margin for wins
+    } else if (dynamo === opp) {
+        return -0.5; // Draws come after all wins but before losses
+    } else {
+        return -1000 - (opp - dynamo); // Losses come last, sorted by margin
+    }
+}
+
+function lossMargin(item) {
+    const [home, away] = item.score.split('-').map(Number);
+    const dynamo = item.isHome ? home : away;
+    const opp = item.isHome ? away : home;
+
+    if (dynamo < opp) {
+        return opp - dynamo; // Positive margin for losses
+    } else if (dynamo === opp) {
+        return -0.5; // Draws come after all losses but before wins
+    } else {
+        return -1000 - (dynamo - opp); // Wins come last, sorted by margin
+    }
 }
