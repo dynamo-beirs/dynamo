@@ -8,6 +8,7 @@
     background-size: cover;
     width: 70%;
     margin: 0 auto;
+    padding: 7rem 1rem;
 }
 
 .hero-content {
@@ -53,7 +54,7 @@
 
 /* Carousel Section */
 .carousel-section {
-    padding: 0rem 0;
+    padding: 1rem 0;
 }
 
 .carousel-container {
