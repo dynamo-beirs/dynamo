@@ -324,6 +324,9 @@ document.addEventListener('DOMContentLoaded', () => {
 async function initPlayerStats() {
     isLoading = true; // Set loading state
     // Disable toggles during loading
+    document.querySelectorAll('.toggle-label').forEach(label => {
+        label.style.pointerEvents = 'none';
+    });
     const teamPlayerToggle = document.getElementById('team-player-toggle');
     const seasonAlltimeToggle = document.getElementById('season-alltime-toggle');
     if (teamPlayerToggle) teamPlayerToggle.disabled = true;
@@ -475,10 +478,13 @@ async function initPlayerStats() {
             playerAllTimeContent.classList.add('hidden');
         }
     } finally {
-        isLoading = false; // Reset loading state
-        // Re-enable toggles after loading
+        isLoading = false;
         if (teamPlayerToggle) teamPlayerToggle.disabled = false;
         if (seasonAlltimeToggle) seasonAlltimeToggle.disabled = false;
+
+        document.querySelectorAll('.toggle-label').forEach(label => {
+            label.style.pointerEvents = '';
+        });
     }
 }
 
@@ -697,8 +703,8 @@ function initToggle() {
 
     const updateView = debounce(() => {
         if (isLoading) {
-            console.log('Data is still loading, delaying view update.');
-            return; // Prevent view update during loading
+            console.log('Data is still loading, blocking view update.');
+            return;
         }
 
         const isPlayer = toggles.teamPlayer?.checked;
@@ -755,32 +761,48 @@ function initToggle() {
         animateOnScroll(animationElements);
     }, 300); // Debounce for 300ms
 
-    labels.team?.addEventListener('click', () => {
-        if (toggles.teamPlayer.checked) {
-            toggles.teamPlayer.checked = false;
-            toggles.teamPlayer.dispatchEvent(new Event('change'));
-        }
-    });
-    labels.player?.addEventListener('click', () => {
-        if (!toggles.teamPlayer.checked) {
-            toggles.teamPlayer.checked = true;
-            toggles.teamPlayer.dispatchEvent(new Event('change'));
-        }
-    });
-    labels.season?.addEventListener('click', () => {
-        if (toggles.seasonAlltime.checked) {
-            toggles.seasonAlltime.checked = false;
-            toggles.seasonAlltime.dispatchEvent(new Event('change'));
-        }
-    });
-    labels.alltime?.addEventListener('click', () => {
-        if (!toggles.seasonAlltime.checked) {
-            toggles.seasonAlltime.checked = true;
-            toggles.seasonAlltime.dispatchEvent(new Event('change'));
-        }
-    });
+    // Helper to safely toggle via label
+    const createLabelHandler = (toggle, desiredState) => {
+        return () => {
+            if (isLoading) {
+                console.log('Label click blocked: page is loading.');
+                return; // Block during loading
+            }
+            if (toggle.checked !== desiredState) {
+                toggle.checked = desiredState;
+                toggle.dispatchEvent(new Event('change'));
+            }
+        };
+    };
 
+    // Attach label handlers with loading guard
+    labels.team?.addEventListener('click', createLabelHandler(toggles.teamPlayer, false));
+    labels.player?.addEventListener('click', createLabelHandler(toggles.teamPlayer, true));
+    labels.season?.addEventListener('click', createLabelHandler(toggles.seasonAlltime, false));
+    labels.alltime?.addEventListener('click', createLabelHandler(toggles.seasonAlltime, true));
+
+    // Initial view
     updateView();
     toggles.teamPlayer?.addEventListener('change', updateView);
     toggles.seasonAlltime?.addEventListener('change', updateView);
+
+    // Optional: Add visual feedback (disable pointer events on labels during load)
+    const disableLabels = () => {
+        Object.values(labels).forEach(label => {
+            if (label) label.style.pointerEvents = 'none';
+        });
+    };
+    const enableLabels = () => {
+        Object.values(labels).forEach(label => {
+            if (label) label.style.pointerEvents = '';
+        });
+    };
+
+    // Hook into initPlayerStats loading cycle
+    const originalInit = initPlayerStats;
+    initPlayerStats = async function() {
+        disableLabels();
+        await originalInit.call(this);
+        enableLabels();
+    };
 }
