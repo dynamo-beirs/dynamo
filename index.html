@@ -2,13 +2,66 @@
 <html lang="nl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=5, viewport-fit=cover">
+    <meta name="robots" content="index,follow,max-image-preview:large">
+    <meta name="author" content="Wout Aerts">
+    <meta name="description" content="Officiële homepage van Dynamo Beirs - Voetbalclub in Beerse">
+
+    <!-- PWA -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Dynamo Beirs">
     <meta name="theme-color" content="#FAF9F5">
-    <title>Dynamo Beirs</title>
-    <meta name="description" content="Officiële homepage van Dynamo Beirs - Voetbalclub in Beerse">
-    <meta name="author" content="Wout Aerts">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Dynamo Beirs - Officiële Website">
+    <meta property="og:description" content="Ontdek de wedstrijden, statistieken en spelers van Dynamo Beirs.">
+    <meta property="og:image" content="https://dynamo-beirs.github.io/dynamo/img/og/og-image-index.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Dynamo Beirs - Voetbalclub Beerse">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:url" content="https://dynamo-beirs.github.io/dynamo/">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="nl_BE">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Dynamo Beirs - Officiële Website">
+    <meta name="twitter:description" content="Volg wedstrijden, standen en nieuws van Dynamo Beirs.">
+    <meta name="twitter:image" content="https://dynamo-beirs.github.io/dynamo/img/og/og-image-index.png">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://dynamo-beirs.github.io/dynamo/">
+
+    <!-- DNS Preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+
+    <!-- Preload header -->
+    <link rel="preload" href="/dynamo/img/logos/logo.svg" as="image" fetchpriority="high">
+    <link rel="preload" href="/dynamo/css/partials/header.css" as="style">
+
+    <!-- Favicon -->
+    <link rel="preload" href="img/logos/favicon/favicon.svg" as="image">
+    <link rel="icon" href="img/logos/favicon/favicon.svg">
+    <link rel="icon" href="img/logos/favicon/favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" sizes="180x180" href="img/logos/favicon/apple-touch-icon.png">
+    <link rel="manifest" href="img/logos/favicon/site.webmanifest">
+
+    <!-- Prefetch carousel -->
+    <link rel="preload" href="img/home/1.jpg" as="image" fetchpriority="high">
+    <link rel="prefetch" href="img/home/2.jpg" as="image">
+    <link rel="prefetch" href="img/home/7.jpg" as="image">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/general.css">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/partials/header.css">
+    <link rel="stylesheet" href="css/partials/footer.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" crossorigin>
 
     <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-PSK11HXBQB"></script>
@@ -19,39 +72,13 @@
         gtag('config', 'G-PSK11HXBQB');
     </script>
 
-    <!-- Favicon -->
-    <link rel="preload" href="img/logos/favicon/favicon.svg" as="image" type="image/svg+xml">
-    <link rel="icon" href="img/logos/favicon/favicon.svg" type="image/svg+xml">
-    <link rel="icon" href="img/logos/favicon/favicon.ico" type="image/x-icon">
-    <link rel="apple-touch-icon" sizes="180x180" href="img/logos/favicon/apple-touch-icon.png">
-    <link rel="manifest" href="img/logos/favicon/site.webmanifest">
-
-    <!-- Open Graph Tags -->
-    <meta property="og:title" content="Dynamo Beirs - Officiële Website">
-    <meta property="og:description" content="Ontdek de wedstrijden, statistieken en spelers van Dynamo Beirs.">
-    <meta property="og:image" content="https://dynamo-beirs.github.io/dynamo/img/logos/og-img/og-image-index.png">
-    <meta property="og:url" content="https://dynamo-beirs.github.io/dynamo/">
-    <meta property="og:type" content="website">
-    <meta property="og:locale" content="nl_BE">
-
-    <!-- Stylesheets -->
-    <link rel="stylesheet" href="css/general.css">
-    <link rel="stylesheet" href="css/index.css">
-    <link rel="stylesheet" href="css/partials/header.css">
-    <link rel="stylesheet" href="css/partials/footer.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-
-    <!-- Preload/Prefetch carousel images -->
-    <link rel="preload" href="img/home/1.jpg" as="image">
-    <link rel="prefetch" href="img/home/2.jpg" as="image">
-    <link rel="prefetch" href="img/home/7.jpg" as="image">
-
     <!-- Scripts -->
     <script type="module" src="js/index.js"></script>
     <script type="module" src="js/partials/header.js"></script>
     <script type="module" src="js/partials/footer.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+
+    <title>Dynamo Beirs</title>
 </head>
 <body>
 <!-- Header -->
@@ -73,10 +100,10 @@
             <div class="carousel-container">
                 <div class="carousel" id="carousel">
                     <div class="slide">
-                        <img src="img/home/1.jpg" alt="Dynamo Beirs 1" loading="lazy">
+                        <img src="img/home/1.jpg" alt="Dynamo Beirs 1" importance="high">
                     </div>
                     <div class="slide">
-                        <img src="img/home/2.jpg" alt="Dynamo Beirs 2" loading="lazy">
+                        <img src="img/home/2.jpg" alt="Dynamo Beirs 2">
                     </div>
                     <div class="slide">
                         <img src="img/home/3.jpg" alt="Dynamo Beirs 3" loading="lazy">
@@ -91,7 +118,7 @@
                         <img src="img/home/6.jpg" alt="Dynamo Beirs 6" loading="lazy">
                     </div>
                     <div class="slide">
-                        <img src="img/home/7.jpg" alt="Dynamo Beirs 7" loading="lazy">
+                        <img src="img/home/7.jpg" alt="Dynamo Beirs 7">
                     </div>
                 </div>
                 <button class="nav-btn prev-btn" id="prevBtn" aria-label="Previous slide">
@@ -211,5 +238,26 @@
 
 <!-- Footer -->
 <div id="footer-placeholder"></div>
+
+<!-- Structured Data (JSON-LD) -->
+<script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "SportsTeam",
+        "name": "Dynamo Beirs",
+        "sport": "Voetbal",
+        "url": "https://dynamo-beirs.github.io/dynamo/",
+        "logo": "https://dynamo-beirs.github.io/dynamo/img/logos/original-logo.png",
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Rerum Novarumlaan 1",
+            "addressLocality": "Beerse",
+            "postalCode": "2340",
+            "addressCountry": "BE"
+        },
+        "telephone": "+32471603962",
+        "email": "dynamobeirs@gmail.com"
+    }
+</script>
 </body>
 </html>
