@@ -37,8 +37,8 @@ async function loadFooter() {
 }
 
 function loadFallbackFooter() {
-    const logoGreyPath = '/dynamo/img/logos/gray-outlined-logo.png';
-    const logoRedPath = '/dynamo/img/logos/red-outlined-logo.png';
+    const logoGreyPath = '/dynamo/img/logos/gray-outlined-logo.webp';
+    const logoRedPath = '/dynamo/img/logos/red-outlined-logo.webp';
     const homePath = '/dynamo/index.html';
 
     const fallbackFooter = `
@@ -100,6 +100,6 @@ function configureFooter() {
     }
 
     logoLink.href = '/dynamo/index.html';
-    logoGrey.src = '/dynamo/img/logos/gray-outlined-logo.png';
-    logoRed.src = '/dynamo/img/logos/red-outlined-logo.png';
+    logoGrey.src = '/dynamo/img/logos/gray-outlined-logo.webp';
+    logoRed.src = '/dynamo/img/logos/red-outlined-logo.webp';
 }

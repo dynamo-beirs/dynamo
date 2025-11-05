@@ -85,6 +85,9 @@
     position: absolute;
     top: 0;
     left: 0;
+    will-change: opacity;
+    backface-visibility: hidden;
+    object-fit: contain;
 }
 
 /* Logo Grey */
