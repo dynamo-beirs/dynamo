@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://dynamo-beirs.github.io/dynamo/sitemap.xml
