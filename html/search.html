@@ -107,17 +107,12 @@
     <!-- Search Results -->
     <section class="matches-section">
         <div class="container">
-            <h2 class="section-title">Zoekresultaten</h2>
-
-            <!-- Loading & Error -->
-            <div id="search-loading" class="loading-message">Laden...</div>
-            <div id="search-error" class="error-message hidden">Fout bij het laden van wedstrijden.</div>
-
-            <div id="search-results-content" style="display: none;">
+            <div id="search-results-header" class="results-header-hidden">
+                <h2 class="section-title">Zoekresultaten</h2>
                 <div class="sort-controls">
                     <span>Sorteren op:</span>
                     <div class="custom-dropdown" id="results-sort">
-                        <div class="selected" data-value="date-desc">Datum (nieuw → oud)</div>
+                        <div class="selected" data-value="date-desc">Datum (nieuw to oud)</div>
                         <ul class="options">
                             <li data-value="date-desc">Datum (nieuw → oud)</li>
                             <li data-value="date-asc">Datum (oud → nieuw)</li>
@@ -126,6 +121,13 @@
                         </ul>
                     </div>
                 </div>
+            </div>
+
+            <!-- Loading & Error -->
+            <div id="search-loading" class="loading-message">Laden...</div>
+            <div id="search-error" class="error-message hidden">Fout bij het laden van wedstrijden.</div>
+
+            <div id="search-results-content" style="display: none;">
                 <div class="matches-grid" id="search-results-grid"></div>
             </div>
         </div>

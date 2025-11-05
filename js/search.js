@@ -5,8 +5,7 @@ import { animateOnScroll } from './general.js';
 const animationElements = [
     { selector: '.section-title', containerSelector: 'section' },
     { selector: '.page-hero h1', containerSelector: 'section' },
-    { selector: '.search-container', containerSelector: 'section' }
-];
+    { selector: '.search-container', containerSelector: 'section' }];
 
 /* Page Initialization */
 document.addEventListener('DOMContentLoaded', async () => {
@@ -34,12 +33,15 @@ async function fetchAndRenderMatches() {
     const errorEl     = document.getElementById('search-error');
     const contentEl   = document.getElementById('search-results-content');
     const searchMsg   = document.getElementById('search-message');
+    const resultsHeader = document.getElementById('search-results-header');
 
     // Show loading, hide everything else
     loadingEl?.classList.remove('hidden');
     errorEl?.classList.add('hidden');
     contentEl.style.display = 'none';
     searchMsg?.classList.add('hidden');
+
+    resultsHeader?.classList.add('results-header-hidden');
 
     const spreadsheetUrl =
         'https://docs.google.com/spreadsheets/d/e/2PACX-1vQRCgon0xh9NuQ87NgqQzBNPCEmmZWcC_jrulRhLwmrudf5UQ2QBRA28F1qmWB9L5xP9uZ8-ct2aqfR/pub?gid=890518549&single=true&output=csv';
@@ -57,6 +59,8 @@ async function fetchAndRenderMatches() {
 
         renderSearchResults(window.allMatches);
 
+        resultsHeader?.classList.remove('results-header-hidden');
+
         // NOW initialize dropdown (safe — DOM is ready and visible)
         const resultsDropdown = document.getElementById('results-sort');
         if (resultsDropdown) {
@@ -70,6 +74,8 @@ async function fetchAndRenderMatches() {
         loadingEl?.classList.add('hidden');
         errorEl?.classList.remove('hidden');
         contentEl.style.display = 'none';
+
+        resultsHeader?.classList.add('results-header-hidden');
 
         searchMsg.textContent = 'Fout bij het laden van wedstrijden.';
         searchMsg.classList.add('error-message');
@@ -173,8 +179,10 @@ function parseDate(d) {
 
 /* Render Search Results */
 function renderSearchResults(matches) {
-    const grid = document.getElementById('search-results-grid');
-    const searchMessage = document.getElementById('search-message');
+    const grid           = document.getElementById('search-results-grid');
+    const searchMessage  = document.getElementById('search-message');
+    const resultsHeader  = document.getElementById('search-results-header');
+    const resultsContent = document.getElementById('search-results-content');
 
     if (!grid) {
         console.error('Grid element not found');
@@ -188,8 +196,16 @@ function renderSearchResults(matches) {
             searchMessage.textContent = 'Geen wedstrijden gevonden.';
             searchMessage.classList.remove('hidden');
         }
+
+        resultsHeader?.classList.add('results-header-hidden');
+        resultsContent.style.display = 'none';
+
         return;
     }
+
+    searchMessage?.classList.add('hidden');
+    resultsHeader?.classList.remove('results-header-hidden');
+    resultsContent.style.display = 'block';
 
     matches.forEach(match => {
         const resCls = match.result === 'winst' ? 'win' : match.result === 'gelijk' ? 'draw' : 'loss';
@@ -444,11 +460,11 @@ function victoryMargin(item) {
     const opp = item.isHome ? away : home;
 
     if (dynamo > opp) {
-        return dynamo - opp; // Positive margin for wins
+        return dynamo - opp;
     } else if (dynamo === opp) {
-        return -0.5; // Draws come after all wins but before losses
+        return -0.5;
     } else {
-        return -1000 - (opp - dynamo); // Losses come last, sorted by margin
+        return -1000 - (opp - dynamo);
     }
 }
 
@@ -458,10 +474,10 @@ function lossMargin(item) {
     const opp = item.isHome ? away : home;
 
     if (dynamo < opp) {
-        return opp - dynamo; // Positive margin for losses
+        return opp - dynamo;
     } else if (dynamo === opp) {
-        return -0.5; // Draws come after all losses but before wins
+        return -0.5;
     } else {
-        return -1000 - (dynamo - opp); // Wins come last, sorted by margin
+        return -1000 - (dynamo - opp);
     }
 }
