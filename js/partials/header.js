@@ -48,7 +48,7 @@ function loadFallbackHeader() {
                 <div class="header-logo-container" id="header-logo-container">
                     <a href="/dynamo/index.html" aria-label="Dynamo Beirs Homepage" class="header-logo-link" id="header-logo-link">
                         <div class="logo-container">
-                            <img src="/dynamo/img/logos/red-outlined-logo.webp" alt="Red Outlined Dynamo Beirs Logo" class="header-logo header-logo-red" id="header-logo-red">
+                            <img src="/dynamo/img/logos/red-outlined-logo.png" alt="Red Outlined Dynamo Beirs Logo" class="header-logo header-logo-red" id="header-logo-red">
                         </div>
                     </a>
                 </div>
@@ -110,7 +110,7 @@ function configureHeader(isRootPage) {
     });
     if (headerLogoLink && headerLogoRed) {
         headerLogoLink.href = '/dynamo/index.html';
-        headerLogoRed.src = '/dynamo/img/logos/red-outlined-logo.webp';
+        headerLogoRed.src = '/dynamo/img/logos/red-outlined-logo.png';
     } else {
         console.warn('Header logo elements not found');
     }
