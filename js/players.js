@@ -24,15 +24,44 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 /* Fetch and Render Players */
 async function fetchAndRenderPlayers() {
+    const loadingEl = document.getElementById('players-loading');
+    const gridEl = document.querySelector('.players-grid');
+
+    // Show loader
+    if (loadingEl) {
+        loadingEl.classList.remove('hidden');
+    }
+    if (gridEl) {
+        gridEl.style.opacity = '0';
+    }
+
     const url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQRCgon0xh9NuQ87NgqQzBNPCEmmZWcC_jrulRhLwmrudf5UQ2QBRA28F1qmWB9L5xP9uZ8-ct2aqfR/pub?gid=300017481&single=true&output=csv';
+
     try {
         const response = await fetch(url);
+        if (!response.ok) throw new Error('Network error');
+
         const csvText = await response.text();
         const players = parseCSV(csvText);
         renderPlayerCards(players);
         initializePlayerCards();
+
+        // Hide loader, show grid
+        if (loadingEl) {
+            loadingEl.classList.add('hidden');
+        }
+        if (gridEl) {
+            gridEl.style.opacity = '1';
+            gridEl.style.transition = 'opacity 0.4s ease';
+        }
+
     } catch (error) {
         console.error('Error fetching or rendering players:', error);
+
+        // Show error state
+        if (loadingEl) {
+            loadingEl.innerHTML = '<p style="color: var(--dynamo-red);">Fout bij laden spelers.</p>';
+        }
     }
 }
 

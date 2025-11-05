@@ -1,4 +1,8 @@
 /* Football Loader */
+.hidden {
+    display: none !important;
+}
+
 .search-inline-loader {
     text-align: center;
     margin: 2rem 0;
