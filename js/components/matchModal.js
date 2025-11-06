@@ -12,16 +12,24 @@ class MatchModal {
     async init() {
         if (this.isInitialized) return;
 
+        const placeholder = document.getElementById('match-modal-placeholder');
+        if (!placeholder) return;
+
+        placeholder.style.opacity = '0';
+        placeholder.style.visibility = 'hidden';
+
         try {
             const response = await fetch('/dynamo/html/components/matchModal.html');
-            const modalHTML = await response.text();
+            placeholder.innerHTML = await response.text();
 
-            const placeholder = document.getElementById('match-modal-placeholder');
-            if (placeholder) {
-                placeholder.innerHTML = modalHTML;
-                this.modal = document.getElementById('matchCenterModal');
+            this.modal = document.getElementById('matchCenterModal');
+            if (this.modal) {
+                this.modal.style.display = 'none';
                 this.setupEventListeners();
                 this.isInitialized = true;
+
+                placeholder.style.opacity = '1';
+                placeholder.style.visibility = 'visible';
             }
         } catch (error) {
             console.error('Failed to load match modal:', error);

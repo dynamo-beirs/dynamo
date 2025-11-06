@@ -5,6 +5,10 @@ body.modal-open {
     width: 100%;
 }
 
+#matchCenterModal {
+    display: none !important;
+}
+
 /* Modal Overlay */
 .modal-overlay {
     position: fixed;

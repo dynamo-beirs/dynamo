@@ -44,7 +44,7 @@ class PlayerModal {
         });
 
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && this.modal.style.display === 'flex') {
+            if (e.key === 'Escape' && this.modal.classList.contains('show')) {
                 this.close();
             }
         });
@@ -78,7 +78,7 @@ class PlayerModal {
             this.updateContent(name, position, flagSrc, gamesThisSeason, gamesTotal, goalsThisSeason, goalsTotal);
         }
 
-        this.modal.style.display = 'flex';
+        this.modal.classList.add('show');
 
         if (modalContent) {
             modalContent.scrollTop = 0;
@@ -103,7 +103,7 @@ class PlayerModal {
         document.body.classList.remove('modal-open');
         // Restore body scrolling
         document.body.style.overflow = '';
-        this.modal.style.display = 'none';
+        this.modal.classList.remove('show');
         // Restore scroll position
         window.scrollTo({ top: this.scrollPosition, behavior: 'auto' });
     }
