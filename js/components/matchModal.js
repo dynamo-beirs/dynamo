@@ -125,23 +125,19 @@ class MatchModal {
 }
 
     close() {
-        if (!this.modal) return;
-        const modalContent = this.modal.querySelector('.modal-content');
-        if (modalContent) {
-            const sections = modalContent.querySelectorAll('.modal-match-score, .goalscorers-section, .date-time-section, .stadium-section, #addToCalendarBtn');
-            sections.forEach(section => section.classList.remove('animate-in'));
-        }
-        document.body.classList.remove('modal-open');
-        this.modal.style.display = 'none';
+    if (!this.modal) return;
 
-        // Restore original scroll position
-        setTimeout(() => {
-            window.scrollTo({
-                top: this.scrollPosition,
-                behavior: 'smooth'
-            });
-        }, 300); // Delay to allow modal close animation
-    }
+    this.modal.classList.remove('show');
+    document.body.classList.remove('modal-open');
+
+    setTimeout(() => {
+        this.modal.style.display = 'none';
+        window.scrollTo({
+            top: this.scrollPosition,
+            behavior: 'smooth'
+        });
+    }, 300); // match CSS transition duration
+}
 
     /* Month mapping: English to Dutch */
     monthMapEnglishToDutch = {
