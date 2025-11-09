@@ -6,7 +6,7 @@ body.modal-open {
 }
 
 #matchCenterModal {
-    display: none !important;
+    display: none;
 }
 
 /* Modal Overlay */
