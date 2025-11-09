@@ -1,3 +1,25 @@
+#playerModal {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    backdrop-filter: blur(3px);
+    display: none;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+#playerModal.show {
+    display: flex !important;
+    visibility: visible;
+    opacity: 1;
+}
+
 /* Body and Overlay */
 body.modal-open {
     overflow: hidden;
