@@ -68,8 +68,6 @@ class PlayerModal {
         } = playerData;
 
         document.body.classList.add('modal-open');
-        // Prevent body scrolling
-        document.body.style.overflow = 'hidden';
 
         const modalContent = this.modal.querySelector('.modal-content');
         if (modalContent) {
