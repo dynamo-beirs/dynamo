@@ -80,35 +80,29 @@ class MatchModal {
             console.warn('Match modal not found for autoscroll');
         }
     }
-
-    /* Modal Control */
+    
     show(matchData = {}) {
-        if (!this.modal) return;
+    if (!this.modal) return;
 
-        // Save current scroll position
-        this.scrollPosition = window.scrollY || document.documentElement.scrollTop;
+    this.scrollPosition = window.scrollY || document.documentElement.scrollTop;
 
-        const {
-            title = 'Match Details',
-            dateTime = { date: 'TBD', time: 'TBD', displayDate: 'TBD' },
-            season = 'Current Season',
-            stadium = 'Home Stadium',
-            goalscorers = [],
-            score = null,
-            isUpcoming = false,
-            isHome = true
-        } = matchData;
+    const { title = 'Match Details', dateTime = { date: 'TBD', time: 'TBD', displayDate: 'TBD' }, season = 'Current Season', stadium = 'Home Stadium', goalscorers = [], score = null, isUpcoming = false, isHome = true } = matchData;
 
-        document.body.classList.add('modal-open');
-        const modalContent = this.modal.querySelector('.modal-content');
-        if (modalContent) {
-            modalContent.classList.toggle('upcoming-match', isUpcoming);
-            this.updateContent(title, dateTime, season, stadium, goalscorers, score, isUpcoming, isHome);
-        }
+    document.body.classList.add('modal-open');
 
-        this.modal.style.display = 'flex';
+    // Update content first
+    const modalContent = this.modal.querySelector('.modal-content');
+    if (modalContent) {
+        modalContent.classList.toggle('upcoming-match', isUpcoming);
+        this.updateContent(title, dateTime, season, stadium, goalscorers, score, isUpcoming, isHome);
+    }
 
-        if (modalContent) {
+    // Now show modal
+    this.modal.style.display = 'flex';
+    this.modal.classList.add('show');  // triggers fade-in
+
+    // Animation & scroll
+    if (modalContent) {
             modalContent.scrollTop = 0;
             const sections = modalContent.querySelectorAll('.modal-match-score, .goalscorers-section, .date-time-section, .stadium-section, #addToCalendarBtn');
             sections.forEach(section => section.classList.remove('animate-in'));
@@ -127,9 +121,8 @@ class MatchModal {
             console.warn('Modal content not found');
         }
 
-        // Scroll to match modal after opening
-        setTimeout(() => this.scrollToSelf(), 300); // Delay to allow modal animation
-    }
+    setTimeout(() => this.scrollToSelf(), 100);
+}
 
     close() {
         if (!this.modal) return;
