@@ -1,4 +1,11 @@
-#playerModal {
+/* Body and Overlay */
+body.modal-open {
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+}
+
+.modal-overlay {
     position: fixed;
     top: 0; left: 0;
     width: 100vw;
@@ -14,34 +21,10 @@
     transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
-#playerModal.show {
+.modal-overlay.show {
     display: flex !important;
     visibility: visible;
     opacity: 1;
-}
-
-/* Body and Overlay */
-body.modal-open {
-    overflow: hidden;
-    position: fixed;
-    width: 100%;
-}
-
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(0, 0, 0, 0.5);
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-    backdrop-filter: blur(3px);
-}
-
-.modal-overlay.show {
-    display: flex;
 }
 
 /* Modal Content */
