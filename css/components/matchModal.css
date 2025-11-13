@@ -6,7 +6,7 @@ body.modal-open {
 }
 
 #matchCenterModal {
-    display: none !important;
+    display: none;
 }
 
 /* Modal Overlay */
@@ -22,10 +22,15 @@ body.modal-open {
     align-items: center;
     z-index: 9999;
     backdrop-filter: blur(3px);
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s ease, visibilty 0.3s ease;
 }
 
 .modal-overlay.show {
     display: flex;
+    visibility: visible;
+    opacity: 1;
 }
 
 /* Modal Content */

@@ -68,8 +68,6 @@ class PlayerModal {
         } = playerData;
 
         document.body.classList.add('modal-open');
-        // Prevent body scrolling
-        document.body.style.overflow = 'hidden';
 
         const modalContent = this.modal.querySelector('.modal-content');
         if (modalContent) {
@@ -94,19 +92,17 @@ class PlayerModal {
     }
 
     close() {
-        if (!this.modal) return;
-        const modalContent = this.modal.querySelector('.modal-content');
-        if (modalContent) {
-            const sections = modalContent.querySelectorAll('.season-stats-section, .all-time-stats-section');
-            sections.forEach(section => section.classList.remove('animate-in'));
-        }
-        document.body.classList.remove('modal-open');
-        // Restore body scrolling
-        document.body.style.overflow = '';
-        this.modal.classList.remove('show');
-        // Restore scroll position
-        window.scrollTo({ top: this.scrollPosition, behavior: 'auto' });
-    }
+    if (!this.modal) return;
+
+    this.modal.classList.remove('show');
+    document.body.classList.remove('modal-open');
+
+    setTimeout(() => {
+        // Na fade-out echt verbergen
+        this.modal.style.display = 'none';
+        window.scrollTo({ top: this.scrollPosition, behavior: 'smooth' });
+    }, 300);
+}
 
     /* Content Updates */
     updateContent(name, position, flagSrc, gamesThisSeason, gamesTotal, goalsThisSeason, goalsTotal) {
