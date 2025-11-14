@@ -129,10 +129,10 @@ function parseCsvData(csvText) {
         const time = rows[3]?.[colIdx]?.trim(); // Row 4
         const stadium = rows[4]?.[colIdx]?.trim(); // Row 5
         const homeAway = rows[5]?.[colIdx]?.trim().toLowerCase(); // Row 6
-        const result = rows[61]?.[colIdx]?.trim().toLowerCase(); // Row 62
-        const goalsScoredRaw = rows[62]?.[colIdx]?.trim(); // Row 63
-        const goalsConcededRaw = rows[63]?.[colIdx]?.trim(); // Row 64
-        const goalscorersRaw = rows[65]?.[colIdx]?.trim(); // Row 66
+        const result = rows[64]?.[colIdx]?.trim().toLowerCase(); // Row 65
+        const goalsScoredRaw = rows[65]?.[colIdx]?.trim(); // Row 66
+        const goalsConcededRaw = rows[66]?.[colIdx]?.trim(); // Row 67
+        const goalscorersRaw = rows[68]?.[colIdx]?.trim(); // Row 69
 
         if (opponent && date && time && stadium && homeAway) {
             const isHome = homeAway === 'thuis';
@@ -191,7 +191,7 @@ function parseCsvData(csvText) {
         'l': 'verlies'
     };
     for (let i = 0; i < 5; i++) {
-        const cell = rows[70]?.[formStartCol + i]?.trim().toLowerCase(); // Row 71
+        const cell = rows[73]?.[formStartCol + i]?.trim().toLowerCase(); // Row 74
         if (cell && resultMap[cell]) {
             formCells.push(resultMap[cell]);
         }
