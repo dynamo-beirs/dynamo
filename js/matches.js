@@ -7,6 +7,8 @@ const animationElements = [
     { selector: '.timeline', containerSelector: 'section' },
     { selector: '.timeline-item', containerSelector: ['section', '.container'] },
     { selector: '.countdown-block', containerSelector: null },
+    { selector: '#home-match-sponsor', containerSelector: null },
+    { selector: '.sponsor-cta-section', containerSelector: null },
     { selector: '.form-result', containerSelector: null },
     { selector: '.section-title', containerSelector: 'section' },
     { selector: '.section-subtitle', containerSelector: 'section' },
@@ -134,6 +136,15 @@ function parseCsvData(csvText) {
         const goalsConcededRaw = rows[75]?.[colIdx]?.trim(); // Row 76
         const goalscorersRaw = rows[77]?.[colIdx]?.trim(); // Row 78
 
+        const sponsorName = rows[84]?.[colIdx]?.trim();     // Row 85 → sponsor name
+        const sponsorLogo = rows[85]?.[colIdx]?.trim();     // Row 86 → logo URL
+        const sponsorUrl  = rows[86]?.[colIdx]?.trim();     // Row 87 → website
+
+        const hasSponsor = sponsorName &&
+            !sponsorName.toLowerCase().includes('beschikbaar') &&
+            sponsorLogo &&
+            sponsorUrl;
+
         if (opponent && date && time && stadium && homeAway) {
             const isHome = homeAway === 'thuis';
             const title = isHome ? `Dynamo Beirs vs ${opponent}` : `${opponent} vs Dynamo Beirs`;
@@ -151,7 +162,8 @@ function parseCsvData(csvText) {
                 dateTime: { date, time, displayDate },
                 season: '2025-26',
                 stadium,
-                isHome
+                isHome,
+                sponsor: hasSponsor ? { name: sponsorName, logo: sponsorLogo, url: sponsorUrl } : null
             };
 
             if (result) {
@@ -369,10 +381,14 @@ function renderForm(form) {
 function updateCountdown(upcomingMatches) {
     const titleEl = document.getElementById('next-match-title');
     const countdownEl = document.getElementById('countdown');
+    const sponsorBlock = document.getElementById('home-match-sponsor');
+    const sponsorLink = document.getElementById('home-sponsor-link');
+    const sponsorLogo = document.getElementById('home-sponsor-logo');
 
     if (upcomingMatches.length === 0) {
         titleEl.textContent = 'Geen wedstrijden gepland in de nabije toekomst';
         countdownEl.style.display = 'none';
+        if (sponsorBlock) sponsorBlock.style.display = 'none';
         window.nextMatchDateTime = null;
         return;
     }
@@ -380,8 +396,18 @@ function updateCountdown(upcomingMatches) {
     const nextMatch = upcomingMatches[0];
     titleEl.textContent = nextMatch.title;
     window.nextMatchDateTime = `${nextMatch.dateTime.date} ${nextMatch.dateTime.time}`;
-}
 
+    // Handle sponsor
+    if (nextMatch.sponsor) {
+        sponsorLink.href = nextMatch.sponsor.url;
+        sponsorLogo.src = nextMatch.sponsor.logo;
+        sponsorLogo.alt = `Logo ${nextMatch.sponsor.name}`;
+        sponsorLink.title = `Bezoek website van ${nextMatch.sponsor.name} - Matchbalsponsor`;
+        sponsorBlock.style.display = 'block';
+    } else {
+        sponsorBlock.style.display = 'none';
+    }
+}
 // Match interactions
 function setupMatchInteractions() {
     document.querySelectorAll('.match-card.modern:not(.result)').forEach(card => {

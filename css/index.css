@@ -167,7 +167,7 @@
 
 /* Statistics Section */
 .stats-overview-section {
-    padding: 1.5rem 0;
+    padding: 1.5rem 0 2rem;
 }
 
 .stats-grid {
@@ -214,6 +214,82 @@
     box-shadow: var(--shadow-hover);
     transform: translateY(-5px);
     z-index: 10;
+}
+
+/* Sponsor Section */
+.sponsor-cta-section {
+    padding: 2rem 0;
+    background: var(--off-white);
+    text-align: center;
+    width: 70%;
+    margin: 0 auto;
+}
+
+.sponsor-cta-section .container {
+    text-align: center;
+}
+
+.sponsor-cta-section p {
+    max-width: 700px;
+    margin: 0 auto 1.5rem;
+    color: var(--medium-gray);
+}
+
+.btn-primary {
+    display: inline-block;
+    padding: 0.8rem 2rem;
+    background: var(--dynamo-red);
+    color: white;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+    border: 2px solid var(--dynamo-red);
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    transition: color 0.3s ease, background 0.3s ease, border-color 0.3s ease;
+}
+
+.btn-primary .hover-effect {
+    position: absolute;
+    display: block;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background-color: var(--off-white);
+    transition: width 0.4s ease-in-out, height 0.4s ease-in-out;
+    transform: translate(-50%, -50%);
+    z-index: -1;
+}
+
+.btn-primary:hover {
+    color: var(--dynamo-red);
+    border-color: var(--dynamo-red);
+}
+
+.btn-primary:hover .hover-effect {
+    width: 225%;
+    height: 180px;
+}
+
+.match-sponsor-block,
+.sponsor-cta-section,
+.sponsor-cta-section .section-title,
+.sponsor-cta-section p,
+.sponsor-cta-section .btn-primary {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.match-sponsor-block.animate-in,
+.sponsor-cta-section.animate-in,
+.sponsor-cta-section.animate-in .section-title,
+.sponsor-cta-section.animate-in p,
+.sponsor-cta-section.animate-in .btn-primary {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 /* Contact Section */
@@ -345,7 +421,7 @@
     }
 
     .stats-overview-section {
-        padding: 1.3rem 0;
+        padding: 1.3rem 0 1.8rem;
     }
 
     .stats-grid {
@@ -365,6 +441,10 @@
 
     .stat-label {
         font-size: 0.75rem;
+    }
+
+    .sponsor-cta-section {
+        width: 80%;
     }
 
     .contact-grid {
@@ -498,7 +578,7 @@
     }
 
     .stats-overview-section {
-        padding: 1rem 0;
+        padding: 1rem 0 1.8rem;
     }
 
     .stats-grid {
@@ -520,6 +600,10 @@
 
     .stat-label {
         font-size: 0.65rem;
+    }
+
+    .sponsor-cta-section {
+        width: 90%;
     }
 
     .contact-section {

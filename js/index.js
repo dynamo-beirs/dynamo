@@ -8,6 +8,8 @@ const animationElements = [
     { selector: '.stat-card', containerSelector: 'section' },
     { selector: '.contact-card', containerSelector: 'section' },
     { selector: '.countdown-block', containerSelector: null },
+    { selector: '#home-match-sponsor', containerSelector: null },
+    { selector: '.sponsor-cta-section', containerSelector: null },
     { selector: '.form-result', containerSelector: null },
     { selector: '.map-container', containerSelector: null },
     { selector: '.section-title', containerSelector: 'section' },
@@ -30,7 +32,9 @@ function isElementInViewport(el, threshold = 0.1) {
 
 function animateIndexElements() {
     const scrollElements = document.querySelectorAll(
-        '.stat-card, .contact-card, .countdown-block, .form-result, .map-container, .section-title, .section-subtitle, .upcoming-match-name, .form-description'
+        '.stat-card, .contact-card, .countdown-block, .form-result, .map-container, ' +
+        '.section-title, .section-subtitle, .upcoming-match-name, .form-description, ' +
+        '#home-match-sponsor, .match-sponsor-block, .sponsor-cta-section, .sponsor-cta-section *'
     );
 
     scrollElements.forEach((element, index) => {
@@ -268,11 +272,39 @@ function initializeCarousel() {
     startAutoPlay();
 }
 
+function initializePrimaryButtonHover() {
+    const primaryButtons = document.querySelectorAll('.btn-primary');
+
+    primaryButtons.forEach(button => {
+        const hoverSpan = document.createElement('span');
+        hoverSpan.className = 'hover-effect';
+        button.appendChild(hoverSpan);
+
+        button.addEventListener('mouseenter', (e) => {
+            const rect = button.getBoundingClientRect();
+            const relX = e.clientX - rect.left;
+            const relY = e.clientY - rect.top;
+            hoverSpan.style.top = relY + 'px';
+            hoverSpan.style.left = relX + 'px';
+        });
+
+        button.addEventListener('mouseleave', (e) => {
+            const rect = button.getBoundingClientRect();
+            const relX = e.clientX - rect.left;
+            const relY = e.clientY - rect.top;
+            hoverSpan.style.top = relY + 'px';
+            hoverSpan.style.left = relX + 'px';
+        });
+    });
+}
+
+
 // Page Initialization
 document.addEventListener('DOMContentLoaded', async () => {
     await fetchAndRenderData();
     initializeCountdown();
     initializeCarousel();
+    initializePrimaryButtonHover();
     setupSmoothScrolling();
     setupPageLoadAnimation();
     setupIndexAnimations();
@@ -323,6 +355,10 @@ function parseCsvData(csvText) {
         return map;
     }, {});
 
+    const sponsorNameRow = 84;  // rij 85
+    const sponsorLogoRow = 85;  // rij 86
+    const sponsorUrlRow  = 86;  // rij 87
+
     for (const col of columns) {
         const colIdx = colIndexMap[col];
         const opponent = rows[1]?.[colIdx]?.trim();
@@ -332,6 +368,12 @@ function parseCsvData(csvText) {
         const homeAway = rows[5]?.[colIdx]?.trim().toLowerCase();
         const result = rows[73]?.[colIdx]?.trim().toLowerCase();
 
+        const sponsorName = rows[sponsorNameRow]?.[colIdx]?.trim();
+        const sponsorLogo = rows[sponsorLogoRow]?.[colIdx]?.trim();
+        const sponsorUrl  = rows[sponsorUrlRow]?.[colIdx]?.trim();
+
+        const hasSponsor = sponsorName && !sponsorName.toLowerCase().includes('beschikbaar') && sponsorLogo && sponsorUrl;
+
         if (opponent && date && time && stadium && homeAway) {
             const isHome = homeAway === 'thuis';
             const title = isHome ? `Dynamo Beirs vs ${opponent}` : `${opponent} vs Dynamo Beirs`;
@@ -340,7 +382,12 @@ function parseCsvData(csvText) {
                 dateTime: { date, time, displayDate: date.split(' ').slice(0, 2).join(' ') },
                 stadium,
                 isHome,
-                result
+                result,
+                sponsor: hasSponsor ? {
+                    name: sponsorName,
+                    logo: sponsorLogo,
+                    url: sponsorUrl
+                } : null
             };
 
             if (result) {
@@ -366,11 +413,7 @@ function parseCsvData(csvText) {
     matches.upcoming.sort((a, b) => parseDate(a.dateTime.date) - parseDate(b.dateTime.date));
 
     const formStartCol = 28;
-    const resultMap = {
-        'w': 'winst',
-        'd': 'gelijk',
-        'l': 'verlies'
-    };
+    const resultMap = { 'w': 'winst', 'd': 'gelijk', 'l': 'verlies' };
     for (let i = 0; i < 5; i++) {
         const cell = rows[82]?.[formStartCol + i]?.trim().toLowerCase();
         if (cell && resultMap[cell]) {
@@ -379,7 +422,6 @@ function parseCsvData(csvText) {
     }
     return matches;
 }
-
 // Team Stats Fetching
 async function fetchAndRenderTeamStats() {
     const spreadsheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQRCgon0xh9NuQ87NgqQzBNPCEmmZWcC_jrulRhLwmrudf5UQ2QBRA28F1qmWB9L5xP9uZ8-ct2aqfR/pub?gid=241725037&single=true&output=csv';
@@ -433,10 +475,14 @@ function renderForm(form) {
 function updateCountdown(upcomingMatches) {
     const titleEl = document.getElementById('next-match-title');
     const countdownEl = document.getElementById('countdown');
+    const sponsorBlock = document.getElementById('home-match-sponsor');
+    const sponsorLink = document.getElementById('home-sponsor-link');
+    const sponsorLogo = document.getElementById('home-sponsor-logo');
 
     if (upcomingMatches.length === 0) {
         titleEl.textContent = 'Geen wedstrijden gepland in de nabije toekomst';
         countdownEl.style.display = 'none';
+        sponsorBlock.style.display = 'none';
         window.nextMatchDateTime = null;
         return;
     }
@@ -444,6 +490,16 @@ function updateCountdown(upcomingMatches) {
     const nextMatch = upcomingMatches[0];
     titleEl.textContent = nextMatch.title;
     window.nextMatchDateTime = `${nextMatch.dateTime.date} ${nextMatch.dateTime.time}`;
+
+    if (nextMatch.sponsor) {
+        sponsorLink.href = nextMatch.sponsor.url;
+        sponsorLogo.src = nextMatch.sponsor.logo;
+        sponsorLogo.alt = `Logo ${nextMatch.sponsor.name}`;
+        sponsorLink.title = `Bezoek website van ${nextMatch.sponsor.name} - Matchbalsponsor`;
+        sponsorBlock.style.display = 'block';
+    } else {
+        sponsorBlock.style.display = 'none';
+    }
 }
 
 // Error Handling
