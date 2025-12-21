@@ -236,6 +236,18 @@ html {
     transform: translateY(0);
 }
 
+#upcoming-matches-grid .upcoming-match-name {
+    grid-column: 1 / -1;
+    justify-self: center;
+    margin: 2rem 0;
+}
+
+#recent-matches-grid .upcoming-match-name {
+    grid-column: 1 / -1;
+    justify-self: center;
+    margin: 2rem 0;
+}
+
 /* Matchbalsponsor Block */
 .match-sponsor-block {
     margin-top: 1rem;
