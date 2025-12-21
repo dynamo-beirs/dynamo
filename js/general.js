@@ -5,7 +5,7 @@ export function initializeCountdown() {
     if (!countdownElement || !titleEl) return;
 
     if (!window.nextMatchDateTime) {
-        titleEl.textContent = "Geen wedstrijden gepland in de nabije toekomst";
+        titleEl.textContent = "Geen wedstrijden gepland in de nabije toekomst.";
         countdownElement.style.display = "none";
         return;
     }
@@ -29,7 +29,7 @@ export function initializeCountdown() {
 
         if (distance < 0) {
             clearInterval(countdown);
-            titleEl.textContent = "Geen wedstrijden gepland in de nabije toekomst";
+            titleEl.textContent = "Geen wedstrijden gepland in de nabije toekomst.";
             countdownElement.style.display = "none";
             return;
         }

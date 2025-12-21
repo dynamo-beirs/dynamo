@@ -480,7 +480,7 @@ function updateCountdown(upcomingMatches) {
     const sponsorLogo = document.getElementById('home-sponsor-logo');
 
     if (upcomingMatches.length === 0) {
-        titleEl.textContent = 'Geen wedstrijden gepland in de nabije toekomst';
+        titleEl.textContent = 'Geen wedstrijden gepland in de nabije toekomst.';
         countdownEl.style.display = 'none';
         sponsorBlock.style.display = 'none';
         window.nextMatchDateTime = null;

@@ -84,7 +84,7 @@ async function fetchAndRenderMatches() {
         const titleEl = document.getElementById('next-match-title');
         const countdownEl = document.getElementById('countdown');
         if (titleEl && countdownEl) {
-            titleEl.textContent = 'Geen wedstrijden beschikbaar';
+            titleEl.textContent = 'Geen wedstrijden beschikbaar.';
             countdownEl.style.display = 'none';
         }
     }
@@ -262,7 +262,19 @@ function renderUpcomingMatches(upcomingMatches) {
     grid.innerHTML = '';
 
     if (upcomingMatches.length === 0) {
-        grid.innerHTML = '<p>Geen komende wedstrijden gepland.</p>';
+        const noMatchWrapper = document.createElement('div');
+        noMatchWrapper.className = 'upcoming-match-name';
+
+        const heading = document.createElement('h3');
+        heading.textContent = 'Geen komende wedstrijden gepland.';
+
+        noMatchWrapper.appendChild(heading);
+        grid.appendChild(noMatchWrapper);
+
+        setTimeout(() => {
+            noMatchWrapper.classList.add('animate-in');
+        }, 100);
+
         return;
     }
 
@@ -305,7 +317,19 @@ function renderRecentMatches(pastMatches) {
     grid.innerHTML = '';
 
     if (pastMatches.length === 0) {
-        grid.innerHTML = '<p>Geen recente wedstrijden beschikbaar.</p>';
+        const noMatchWrapper = document.createElement('div');
+        noMatchWrapper.className = 'upcoming-match-name';
+
+        const heading = document.createElement('h3');
+        heading.textContent = 'Geen recente wedstrijden beschikbaar.';
+
+        noMatchWrapper.appendChild(heading);
+        grid.appendChild(noMatchWrapper);
+
+        setTimeout(() => {
+            noMatchWrapper.classList.add('animate-in');
+        }, 100);
+
         return;
     }
 
@@ -386,7 +410,7 @@ function updateCountdown(upcomingMatches) {
     const sponsorLogo = document.getElementById('home-sponsor-logo');
 
     if (upcomingMatches.length === 0) {
-        titleEl.textContent = 'Geen wedstrijden gepland in de nabije toekomst';
+        titleEl.textContent = 'Geen wedstrijden gepland in de nabije toekomst.';
         countdownEl.style.display = 'none';
         if (sponsorBlock) sponsorBlock.style.display = 'none';
         window.nextMatchDateTime = null;
