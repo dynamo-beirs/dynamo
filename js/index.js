@@ -506,6 +506,6 @@ function updateCountdown(upcomingMatches) {
 function handleErrorStates() {
     document.getElementById('next-match-title').textContent = 'Geen wedstrijden gepland in de nabije toekomst.';
     document.getElementById('countdown').style.display = 'none';
-    document.getElementById('form-results').innerHTML = '<p>Geen vorm beschikbaar</p>';
+    document.getElementById('form-results').innerHTML = '<p>Geen vorm beschikbaar.</p>';
     updateTeamStats({});
 }

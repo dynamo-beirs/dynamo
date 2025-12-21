@@ -267,7 +267,7 @@ function renderUpcomingMatches(upcomingMatches) {
         noMatchWrapper.className = 'upcoming-match-name';
 
         const heading = document.createElement('h3');
-        heading.textContent = 'Geen komende wedstrijden gepland.';
+        heading.textContent = 'Geen wedstrijden gepland in de nabije toekomst.';
 
         noMatchWrapper.appendChild(heading);
         grid.appendChild(noMatchWrapper);
