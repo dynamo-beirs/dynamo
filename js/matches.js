@@ -262,6 +262,7 @@ function renderUpcomingMatches(upcomingMatches) {
     grid.innerHTML = '';
 
     if (upcomingMatches.length === 0) {
+        grid.classList.add('no-matches');
         const noMatchWrapper = document.createElement('div');
         noMatchWrapper.className = 'upcoming-match-name';
 
@@ -277,6 +278,8 @@ function renderUpcomingMatches(upcomingMatches) {
 
         return;
     }
+
+    grid.classList.remove('no-matches');
 
     const limitedMatches = upcomingMatches.slice(0, 6);
 
@@ -317,6 +320,7 @@ function renderRecentMatches(pastMatches) {
     grid.innerHTML = '';
 
     if (pastMatches.length === 0) {
+        grid.classList.add('no-matches');
         const noMatchWrapper = document.createElement('div');
         noMatchWrapper.className = 'upcoming-match-name';
 
@@ -332,6 +336,8 @@ function renderRecentMatches(pastMatches) {
 
         return;
     }
+
+    grid.classList.remove('no-matches');
 
     const reversedPastMatches = [...pastMatches].reverse().slice(0, 6); // Limit to 6 recent matches
 
