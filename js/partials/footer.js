@@ -75,7 +75,7 @@ function loadFallbackFooter() {
                     <span class="line-right"></span>
                 </div>
                 <div class="footer-copyright">
-                    <p>© 2025 Dynamo Beirs</p>
+                    <p>© <span id="year-fallback">${new Date().getFullYear()}</span> Dynamo Beirs</p>
                 </div>
             </div>
         </footer>
@@ -93,6 +93,11 @@ function configureFooter() {
     const logoLink = document.getElementById('footer-logo-link');
     const logoGrey = document.getElementById('footer-logo-grey');
     const logoRed = document.getElementById('footer-logo-red');
+
+    const yearSpan = document.getElementById('year');
+    if (yearSpan) {
+        yearSpan.textContent = new Date().getFullYear();
+    }
 
     if (!logoLink || !logoGrey || !logoRed) {
         console.warn('Footer logo elements not found');

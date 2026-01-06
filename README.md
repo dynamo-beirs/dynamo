@@ -58,4 +58,4 @@ C:.
 ```
 
 This project is for educational and demonstrative purposes only.  
-© 2025 [Dynamo Beirs](https://github.com/dynamo-beirs/dynamo) – All rights reserved.
+© 2026 [Dynamo Beirs](https://github.com/dynamo-beirs/dynamo) – All rights reserved.
