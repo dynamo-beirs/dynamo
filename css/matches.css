@@ -590,9 +590,10 @@
     }
 
     .timeline::after {
-        top: 49.5%;
+        top: 50.5%;
         font-size: 18px;
         right: 0.8rem;
+        transform: translate(50%, -49%);
     }
 
     .timeline-item {
