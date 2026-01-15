@@ -260,7 +260,7 @@ body {
 }
 
 .mobile-menu-toggle.active span:nth-child(1) {
-    transform: rotate(-45deg) translateY(250%);
+    transform: rotate(-45deg) translateY(400%);
 }
 
 .mobile-menu-toggle.active span:nth-child(2) {
@@ -269,7 +269,7 @@ body {
 }
 
 .mobile-menu-toggle.active span:nth-child(3) {
-    transform: rotate(45deg) translateY(-250%);
+    transform: rotate(45deg) translateY(-400%);
 }
 
 /* Header Logo */
@@ -442,11 +442,11 @@ body {
     }
 
     .mobile-menu-toggle.active span:nth-child(1) {
-        transform: rotate(-45deg) translateY(300%);
+        transform: rotate(-45deg) translateY(500%);
     }
 
     .mobile-menu-toggle.active span:nth-child(3) {
-        transform: rotate(45deg) translateY(-300%);
+        transform: rotate(45deg) translateY(-500%);
     }
 
     .header-logo-container {
