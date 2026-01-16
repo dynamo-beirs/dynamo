@@ -45,6 +45,9 @@ async function fetchAndRenderMatches() {
         }
     }
 
+    const knob = document.querySelector('.timeline-start-knob');
+    if (knob) knob.style.opacity = '0';
+
     document.querySelectorAll('.matches-grid, #form-results, #season-timeline').forEach(el => {
         el.style.opacity = '0';
         el.style.transition = 'opacity 0.4s ease';
@@ -72,6 +75,8 @@ async function fetchAndRenderMatches() {
         document.querySelectorAll('.matches-grid, #form-results, #season-timeline').forEach(el => {
             el.style.opacity = '1';
         });
+
+        if (knob) knob.style.opacity = '';
 
         initializeCountdown();
         scrollTimelineToEnd();
