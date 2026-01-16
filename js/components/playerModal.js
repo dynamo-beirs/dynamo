@@ -92,17 +92,16 @@ class PlayerModal {
     }
 
     close() {
-    if (!this.modal) return;
+        if (!this.modal) return;
 
-    this.modal.classList.remove('show');
-    document.body.classList.remove('modal-open');
+        this.modal.classList.remove('show');
+        document.body.classList.remove('modal-open');
 
-    setTimeout(() => {
-        // Na fade-out echt verbergen
-        this.modal.style.display = 'none';
-        window.scrollTo({ top: this.scrollPosition, behavior: 'smooth' });
-    }, 300);
-}
+        setTimeout(() => {
+            this.modal.style.display = 'none';
+            window.scrollTo({ top: this.scrollPosition, behavior: 'smooth' });
+        }, 300);
+    }
 
     /* Content Updates */
     updateContent(name, position, flagSrc, gamesThisSeason, gamesTotal, goalsThisSeason, goalsTotal) {

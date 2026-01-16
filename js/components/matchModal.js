@@ -80,29 +80,39 @@ class MatchModal {
             console.warn('Match modal not found for autoscroll');
         }
     }
-    
+
     show(matchData = {}) {
-    if (!this.modal) return;
+        if (!this.modal) return;
 
-    this.scrollPosition = window.scrollY || document.documentElement.scrollTop;
+        this.scrollPosition = window.scrollY || document.documentElement.scrollTop;
 
-    const { title = 'Match Details', dateTime = { date: 'TBD', time: 'TBD', displayDate: 'TBD' }, season = 'Current Season', stadium = 'Home Stadium', goalscorers = [], score = null, isUpcoming = false, isHome = true } = matchData;
+        const {
+            title = 'Match Details',
+            dateTime = {date: 'TBD', time: 'TBD', displayDate: 'TBD'},
+            season = 'Current Season',
+            stadium = 'Home Stadium',
+            goalscorers = [],
+            score = null,
+            isUpcoming = false,
+            isHome = true,
+            sponsor = null
+        } = matchData;
 
-    document.body.classList.add('modal-open');
+        document.body.classList.add('modal-open');
 
-    // Update content first
-    const modalContent = this.modal.querySelector('.modal-content');
-    if (modalContent) {
-        modalContent.classList.toggle('upcoming-match', isUpcoming);
-        this.updateContent(title, dateTime, season, stadium, goalscorers, score, isUpcoming, isHome);
-    }
+        // Update content first
+        const modalContent = this.modal.querySelector('.modal-content');
+        if (modalContent) {
+            modalContent.classList.toggle('upcoming-match', isUpcoming);
+            this.updateContent(title, dateTime, season, stadium, goalscorers, score, isUpcoming, isHome, sponsor);
+        }
 
-    // Now show modal
-    this.modal.style.display = 'flex';
-    this.modal.classList.add('show');  // triggers fade-in
+        // Now show modal
+        this.modal.style.display = 'flex';
+        this.modal.classList.add('show');  // triggers fade-in
 
-    // Animation & scroll
-    if (modalContent) {
+        // Animation & scroll
+        if (modalContent) {
             modalContent.scrollTop = 0;
             const sections = modalContent.querySelectorAll('.modal-match-score, .goalscorers-section, .date-time-section, .stadium-section, #addToCalendarBtn');
             sections.forEach(section => section.classList.remove('animate-in'));
@@ -121,23 +131,23 @@ class MatchModal {
             console.warn('Modal content not found');
         }
 
-    setTimeout(() => this.scrollToSelf(), 100);
-}
+        setTimeout(() => this.scrollToSelf(), 100);
+    }
 
     close() {
-    if (!this.modal) return;
+        if (!this.modal) return;
 
-    this.modal.classList.remove('show');
-    document.body.classList.remove('modal-open');
+        this.modal.classList.remove('show');
+        document.body.classList.remove('modal-open');
 
-    setTimeout(() => {
-        this.modal.style.display = 'none';
-        window.scrollTo({
-            top: this.scrollPosition,
-            behavior: 'smooth'
-        });
-    }, 300); // match CSS transition duration
-}
+        setTimeout(() => {
+            this.modal.style.display = 'none';
+            window.scrollTo({
+                top: this.scrollPosition,
+                behavior: 'smooth'
+            });
+        }, 300); // match CSS transition duration
+    }
 
     /* Month mapping: English to Dutch */
     monthMapEnglishToDutch = {
@@ -156,7 +166,7 @@ class MatchModal {
     };
 
     /* Content Updates */
-    updateContent(title, dateTime, season, stadium, goalscorers, score, isUpcoming, isHome) {
+    updateContent(title, dateTime, season, stadium, goalscorers, score, isUpcoming, isHome, sponsor) {
         const titleEl = this.modal.querySelector('#modalMatchTitle');
         if (titleEl) {
             // Split title into home and away teams
@@ -177,7 +187,7 @@ class MatchModal {
                 scoreDisplayEl.textContent = score;
             }
         } else {
-            console.warn('Score elements not found:', { scoreEl, scoreDisplayEl });
+            console.warn('Score elements not found:', {scoreEl, scoreDisplayEl});
         }
 
         const dateEl = this.modal.querySelector('#matchDate');
@@ -225,9 +235,31 @@ class MatchModal {
             }
         }
 
-        const addToCalendarBtn = this.modal.querySelector('#addToCalendarBtn');
-        if (addToCalendarBtn) {
-            addToCalendarBtn.style.display = isUpcoming ? 'block' : 'none';
+        const sponsorSection = this.modal.querySelector('#modalMatchSponsor');
+        const sponsorLogo = this.modal.querySelector('#modalSponsorLogo');
+        const sponsorLink = this.modal.querySelector('#modalSponsorLink');
+        const sponsorName = this.modal.querySelector('#modalSponsorName');
+
+        if (sponsorSection) {
+            if (sponsor && sponsor.name && sponsor.logo) {
+                sponsorSection.style.display = 'block';
+
+                if (sponsorLogo) {
+                    sponsorLogo.src = sponsor.logo;
+                    sponsorLogo.alt = `Sponsor: ${sponsor.name}`;
+                }
+
+                if (sponsorLink) {
+                    sponsorLink.href = sponsor.url || '#';
+                    sponsorLink.title = `Bezoek ${sponsor.name}`;
+                }
+
+                if (sponsorName) {
+                    sponsorName.textContent = sponsor.name;
+                }
+            } else {
+                sponsorSection.style.display = 'none';
+            }
         }
     }
 

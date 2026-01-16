@@ -64,10 +64,13 @@ body.modal-open {
 
 /* Close Button */
 .close-modal {
-    position: absolute;
-    top: 12px;
-    right: 12px;
+    position: sticky;
+    top: 0px;
+    float: right;
     background: white;
+    margin-top: -5px;
+    margin-right: -5px;
+    margin-bottom: -36px;
     border: 1px solid transparent;
     cursor: pointer;
     width: 36px;

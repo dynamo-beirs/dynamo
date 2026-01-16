@@ -338,6 +338,75 @@
     margin-top: 1.5rem;
 }
 
+/* Sponsors Ticker Section */
+.sponsors-ticker-section {
+    padding: 1rem 0 1rem;
+    overflow: hidden;
+}
+
+.ticker-wrapper {
+    width: 70%;
+    margin: 0 auto;
+    overflow: hidden;
+    position: relative;
+    padding: 1rem 0;
+    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+}
+
+.ticker-track {
+    display: flex;
+    gap: 3rem;
+    width: max-content;
+    align-items: center;
+}
+
+.ticker-track.centered {
+    width: 100%;
+    justify-content: center;
+}
+
+.ticker-track.scrolling {
+    animation: scroll-ticker 30s linear infinite;
+}
+
+@keyframes scroll-ticker {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+/* Sponsor Item Styling */
+.sponsor-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease;
+    flex-shrink: 0;
+}
+
+.sponsor-item:hover {
+    transform: scale(1.1);
+}
+
+.sponsor-logo {
+    height: 70px;
+    width: auto;
+    max-width: 180px;
+    object-fit: contain;
+    filter: grayscale(100%);
+    opacity: 0.7;
+    transition: filter 0.3s ease, opacity 0.3s ease;
+}
+
+.sponsor-item:hover .sponsor-logo {
+    filter: grayscale(0%);
+    opacity: 1;
+}
+
 /* Tooltips */
 .player-position, .scorer-position {
     position: relative;
@@ -497,6 +566,17 @@
     .player-position:hover::after, .scorer-position:hover::after {
         display: none;
     }
+
+    .ticker-wrapper {
+        width: 80%;
+        padding: 1rem 0 0;
+    }
+    .ticker-track {
+        gap: 2rem;
+    }
+    .sponsor-logo {
+        height: 60px;
+    }
 }
 
 /* Mobile View */
@@ -617,5 +697,16 @@
     .timeline-item::before {
         width: 14px;
         height: 14px;
+    }
+
+    .ticker-wrapper {
+        width: 70%;
+        padding: 1rem 0 0;
+    }
+    .ticker-track {
+        gap: 2rem;
+    }
+    .sponsor-logo {
+        height: 50px;
     }
 }

@@ -229,7 +229,7 @@ body {
     font-weight: 900;
 }
 
-/* Mobile Menu Toggle - FIXED VERSION */
+/* Mobile Menu Toggle */
 .mobile-menu-toggle {
     display: none;
     flex-direction: column;

@@ -62,6 +62,7 @@ async function fetchAndRenderMatches() {
         renderRecentMatches(matches.past);
         renderSeasonTimeline(matches.all);
         renderForm(matches.form);
+        renderSponsorsTicker(matches.all);
         updateCountdown(matches.upcoming);
         setupMatchInteractions();
 
@@ -291,6 +292,7 @@ function renderUpcomingMatches(upcomingMatches) {
         card.setAttribute('data-match-date', match.dateTime.date);
         card.setAttribute('data-match-time', match.dateTime.time);
         card.setAttribute('data-match-season', match.season);
+        card.setAttribute('data-sponsor', JSON.stringify(match.sponsor || null));
 
         const [homeTeam, awayTeam] = match.title.split(' vs ');
         card.innerHTML = `
@@ -352,6 +354,7 @@ function renderRecentMatches(pastMatches) {
         card.setAttribute('data-match-time', match.dateTime.time);
         card.setAttribute('data-match-season', match.season);
         card.setAttribute('data-goalscorers', JSON.stringify(match.goalscorers));
+        card.setAttribute('data-sponsor', JSON.stringify(match.sponsor || null));
 
         const [homeTeam, awayTeam] = match.title.split(' vs ');
         card.innerHTML = `
@@ -404,6 +407,64 @@ function renderForm(form) {
         span.className = `form-result ${resultClass}`;
         span.innerHTML = `<i class="fas fa-${resultClass === 'win' ? 'check' : resultClass === 'draw' ? 'minus' : 'times'}"></i>`;
         formResults.appendChild(span);
+    });
+}
+
+// Render Sponsors Ticker
+function renderSponsorsTicker(allMatches) {
+    const track = document.getElementById('sponsor-ticker-track');
+    const wrapper = document.getElementById('sponsor-ticker-wrapper');
+    if (!track || !wrapper) return;
+
+    track.innerHTML = '';
+
+    // Filter unique sponsors
+    const uniqueSponsors = new Map();
+
+    allMatches.forEach(match => {
+        if (match.sponsor && match.sponsor.name && match.sponsor.logo) {
+            if (!uniqueSponsors.has(match.sponsor.name)) {
+                uniqueSponsors.set(match.sponsor.name, match.sponsor);
+            }
+        }
+    });
+
+    if (uniqueSponsors.size === 0) {
+        const section = document.querySelector('.sponsors-ticker-section');
+        if (section) section.style.display = 'none';
+        return;
+    }
+
+    const createSponsorHTML = (sponsor) => `
+        <a href="${sponsor.url}" target="_blank" rel="noopener" class="sponsor-item" title="${sponsor.name}">
+            <img src="${sponsor.logo}" alt="${sponsor.name}" class="sponsor-logo" loading="lazy">
+        </a>
+    `;
+
+    let logosHTML = '';
+    uniqueSponsors.forEach(sponsor => {
+        logosHTML += createSponsorHTML(sponsor);
+    });
+
+    track.innerHTML = logosHTML;
+
+    requestAnimationFrame(() => {
+        const trackWidth = track.scrollWidth;
+        const wrapperWidth = wrapper.offsetWidth;
+        const threshold = wrapperWidth * 0.7;
+
+        track.classList.remove('centered', 'scrolling');
+
+        if (trackWidth > threshold) {
+            track.innerHTML += logosHTML;
+            track.classList.add('scrolling');
+
+            if (track.scrollWidth < wrapperWidth * 2) {
+                track.innerHTML += logosHTML;
+            }
+        } else {
+            track.classList.add('centered');
+        }
     });
 }
 
@@ -538,6 +599,15 @@ function getMatchData(card) {
             goalscorers = [];
         }
     }
+    let sponsor = null;
+    const sponsorData = card.getAttribute('data-sponsor');
+    if (sponsorData) {
+        try {
+            sponsor = JSON.parse(sponsorData);
+        } catch (error) {
+            console.warn('Failed to parse sponsor data:', error);
+        }
+    }
     // Transform English month to Dutch for displayDate
     const dateParts = matchDate.split(' ');
     const day = dateParts[0];
@@ -549,7 +619,8 @@ function getMatchData(card) {
         dateTime: { date: matchDate, time: matchTime, displayDate },
         season,
         score,
-        goalscorers
+        goalscorers,
+        sponsor
     };
 }
 
