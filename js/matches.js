@@ -418,9 +418,7 @@ function renderSponsorsTicker(allMatches) {
 
     track.innerHTML = '';
 
-    // Filter unique sponsors
     const uniqueSponsors = new Map();
-
     allMatches.forEach(match => {
         if (match.sponsor && match.sponsor.name && match.sponsor.logo) {
             if (!uniqueSponsors.has(match.sponsor.name)) {
@@ -448,24 +446,56 @@ function renderSponsorsTicker(allMatches) {
 
     track.innerHTML = logosHTML;
 
-    requestAnimationFrame(() => {
-        const trackWidth = track.scrollWidth;
-        const wrapperWidth = wrapper.offsetWidth;
-        const threshold = wrapperWidth * 0.7;
+    const images = track.querySelectorAll('img');
+    let imagesLoaded = 0;
+    const totalImages = images.length;
 
-        track.classList.remove('centered', 'scrolling');
+    const checkDimensionsAndStart = () => {
+        requestAnimationFrame(() => {
+            const trackWidth = track.scrollWidth;
+            const wrapperWidth = wrapper.offsetWidth;
+            const threshold = wrapperWidth * 0.7; // 70% regel
 
-        if (trackWidth > threshold) {
-            track.innerHTML += logosHTML;
-            track.classList.add('scrolling');
+            track.classList.remove('centered', 'scrolling');
 
-            if (track.scrollWidth < wrapperWidth * 2) {
+            if (trackWidth > threshold) {
                 track.innerHTML += logosHTML;
+                track.classList.add('scrolling');
+
+                setTimeout(() => {
+                    if (track.scrollWidth < wrapperWidth * 2) {
+                        track.innerHTML += logosHTML;
+                    }
+                }, 50);
+            } else {
+                track.classList.add('centered');
             }
+        });
+    };
+
+    if (totalImages === 0) {
+        checkDimensionsAndStart();
+        return;
+    }
+
+    images.forEach(img => {
+        if (img.complete) {
+            imagesLoaded++;
         } else {
-            track.classList.add('centered');
+            img.addEventListener('load', () => {
+                imagesLoaded++;
+                if (imagesLoaded === totalImages) checkDimensionsAndStart();
+            });
+            img.addEventListener('error', () => {
+                imagesLoaded++;
+                if (imagesLoaded === totalImages) checkDimensionsAndStart();
+            });
         }
     });
+
+    if (imagesLoaded === totalImages) {
+        checkDimensionsAndStart();
+    }
 }
 
 // Update countdown
