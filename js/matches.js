@@ -6,6 +6,7 @@ const animationElements = [
     { selector: '.match-card', containerSelector: 'section' },
     { selector: '.timeline', containerSelector: 'section' },
     { selector: '.timeline-item', containerSelector: ['section', '.container'] },
+    { selector: '.timeline-start-knob', containerSelector: '.timeline-wrapper' },
     { selector: '.countdown-block', containerSelector: null },
     { selector: '#home-match-sponsor', containerSelector: null },
     { selector: '.sponsor-cta-section', containerSelector: null },
