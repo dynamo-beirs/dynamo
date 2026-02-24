@@ -470,6 +470,8 @@ function renderForm(form) {
 
 // Update Next Match Countdown
 function updateCountdown(upcomingMatches) {
+    window.upcomingMatchesData = upcomingMatches;
+
     const titleEl = document.getElementById('next-match-title');
     const countdownEl = document.getElementById('countdown');
     const sponsorBlock = document.getElementById('home-match-sponsor');

@@ -2,35 +2,83 @@
 export function initializeCountdown() {
     const countdownElement = document.getElementById("countdown");
     const titleEl = document.getElementById("next-match-title");
+    const sponsorBlock = document.getElementById('home-match-sponsor');
+    const sponsorLink = document.getElementById('home-sponsor-link');
+    const sponsorLogo = document.getElementById('home-sponsor-logo');
+
     if (!countdownElement || !titleEl) return;
 
-    if (!window.nextMatchDateTime) {
+    const upcomingMatches = window.upcomingMatchesData || [];
+
+    const monthMap = {
+        'jan': 0, 'feb': 1, 'mrt': 2, 'mar': 2, 'apr': 3, 'mei': 4, 'may': 4, 'jun': 5,
+        'jul': 6, 'aug': 7, 'sep': 8, 'okt': 9, 'oct': 9, 'nov': 10, 'dec': 11
+    };
+
+    const parseDateTime = (matchDate, matchTime) => {
+        if (!matchDate || !matchTime) return NaN;
+
+        const dateParts = matchDate.split(' ');
+        if (dateParts.length < 3) return NaN;
+
+        const day = dateParts[0];
+        const month = dateParts[1].toLowerCase();
+        const year = dateParts[2];
+
+        const timeParts = matchTime.split(':');
+        if (timeParts.length < 2) return NaN;
+
+        const hours = timeParts[0];
+        const minutes = timeParts[1];
+        const monthIndex = monthMap[month];
+
+        if (monthIndex === undefined) return NaN;
+
+        return new Date(year, monthIndex, day, hours, minutes).getTime();
+    };
+
+    const now = new Date().getTime();
+    let targetMatch = null;
+    let targetDate = NaN;
+
+    for (const match of upcomingMatches) {
+        const parsed = parseDateTime(match.dateTime.date, match.dateTime.time);
+        if (!isNaN(parsed) && parsed > now) {
+            targetMatch = match;
+            targetDate = parsed;
+            break;
+        }
+    }
+
+    if (!targetMatch || isNaN(targetDate)) {
         titleEl.textContent = "Geen wedstrijden gepland in de nabije toekomst.";
         countdownElement.style.display = "none";
+        if (sponsorBlock) sponsorBlock.style.display = "none";
         return;
     }
 
-    const monthMap = {
-        'jan': 0, 'feb': 1, 'mar': 2, 'apr': 3, 'may': 4, 'jun': 5,
-        'jul': 6, 'aug': 7, 'sep': 8, 'oct': 9, 'nov': 10, 'dec': 11
-    };
+    titleEl.textContent = targetMatch.title;
+    if (targetMatch.sponsor && sponsorBlock) {
+        sponsorLink.href = targetMatch.sponsor.url;
+        sponsorLogo.src = targetMatch.sponsor.logo;
+        sponsorLogo.alt = `Logo ${targetMatch.sponsor.name}`;
+        sponsorLink.title = `Bezoek website van ${targetMatch.sponsor.name} - Matchbalsponsor`;
+        sponsorBlock.style.display = 'block';
+    } else if (sponsorBlock) {
+        sponsorBlock.style.display = 'none';
+    }
 
-    const parseDateTime = (dateTimeStr) => {
-        const [day, month, year, time] = dateTimeStr.split(' ');
-        const [hours, minutes] = time.split(':');
-        return new Date(year, monthMap[month.toLowerCase()], day, hours, minutes).getTime();
-    };
+    countdownElement.style.display = "flex";
 
-    const targetDate = parseDateTime(window.nextMatchDateTime);
+    if (window.countdownInterval) clearInterval(window.countdownInterval);
 
-    const countdown = setInterval(() => {
-        const now = new Date().getTime();
-        const distance = targetDate - now;
+    function updateDisplay() {
+        const currentTime = new Date().getTime();
+        const distance = targetDate - currentTime;
 
         if (distance < 0) {
-            clearInterval(countdown);
-            titleEl.textContent = "Geen wedstrijden gepland in de nabije toekomst.";
-            countdownElement.style.display = "none";
+            clearInterval(window.countdownInterval);
+            initializeCountdown();
             return;
         }
 
@@ -42,9 +90,12 @@ export function initializeCountdown() {
         const elements = { days, hours, minutes, seconds };
         Object.keys(elements).forEach(key => {
             const el = document.getElementById(key);
-            if (el) el.textContent = elements[key];
+            if (el) el.textContent = elements[key] < 10 ? '0' + elements[key] : elements[key];
         });
-    }, 1000);
+    }
+
+    updateDisplay();
+    window.countdownInterval = setInterval(updateDisplay, 1000);
 }
 
 /* Player Card Animations */
