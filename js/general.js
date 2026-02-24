@@ -4,57 +4,33 @@ export function initializeCountdown() {
     const titleEl = document.getElementById("next-match-title");
     if (!countdownElement || !titleEl) return;
 
-    const matchDates = window.matchDates || (window.nextMatchDateTime ? [window.nextMatchDateTime] : []);
-
-    const monthMap = {
-        'jan': 0, 'feb': 1, 'mrt': 2, 'apr': 3, 'mei': 4, 'jun': 5,
-        'jul': 6, 'aug': 7, 'sep': 8, 'okt': 9, 'oct': 9, 'nov': 10, 'dec': 11 // 'okt' toegevoegd voor de zekerheid
-    };
-
-    const parseDateTime = (dateTimeStr) => {
-        if (!dateTimeStr) return NaN;
-
-        const parts = dateTimeStr.split(' ');
-        if (parts.length < 4) return NaN;
-
-        const [day, month, year, time] = parts;
-        const timeParts = time.split(':');
-
-        if (timeParts.length < 2) return NaN;
-        const [hours, minutes] = timeParts;
-
-        const monthIndex = monthMap[month.toLowerCase()];
-        if (monthIndex === undefined) return NaN;
-
-        return new Date(year, monthIndex, day, hours, minutes).getTime();
-    };
-
-    const now = new Date().getTime();
-    let targetDate = NaN;
-
-    for (const dateStr of matchDates) {
-        const parsed = parseDateTime(dateStr);
-        if (!isNaN(parsed) && parsed > now) {
-            targetDate = parsed;
-            break;
-        }
-    }
-
-    if (isNaN(targetDate)) {
+    if (!window.nextMatchDateTime) {
         titleEl.textContent = "Geen wedstrijden gepland in de nabije toekomst.";
         countdownElement.style.display = "none";
         return;
-    } else {
-        countdownElement.style.display = "flex";
     }
 
+    const monthMap = {
+        'jan': 0, 'feb': 1, 'mar': 2, 'apr': 3, 'may': 4, 'jun': 5,
+        'jul': 6, 'aug': 7, 'sep': 8, 'oct': 9, 'nov': 10, 'dec': 11
+    };
+
+    const parseDateTime = (dateTimeStr) => {
+        const [day, month, year, time] = dateTimeStr.split(' ');
+        const [hours, minutes] = time.split(':');
+        return new Date(year, monthMap[month.toLowerCase()], day, hours, minutes).getTime();
+    };
+
+    const targetDate = parseDateTime(window.nextMatchDateTime);
+
     const countdown = setInterval(() => {
-        const currentTime = new Date().getTime();
-        const distance = targetDate - currentTime;
+        const now = new Date().getTime();
+        const distance = targetDate - now;
 
         if (distance < 0) {
             clearInterval(countdown);
-            initializeCountdown();
+            titleEl.textContent = "Geen wedstrijden gepland in de nabije toekomst.";
+            countdownElement.style.display = "none";
             return;
         }
 
