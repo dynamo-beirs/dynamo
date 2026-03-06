@@ -13,7 +13,9 @@ C:.
 ├── css/                       # Stylesheets
 │   ├── components/            
 │   │   ├── matchModal.css
-│   │   └── playerModal.css
+│   │   ├── playerModal.css
+│   │   ├── loader.css
+│   │   └── graph.css
 │   ├── partials/              
 │   │   ├── footer.css
 │   │   └── header.css
@@ -21,11 +23,12 @@ C:.
 │   │   ├── statistics.css
 │   │   ├── team-all-time.css
 │   │   └── team-season.css
+│   ├── 404.css                
+│   ├── archive.css                
 │   ├── general.css            # Global styles
 │   ├── index.css              
 │   ├── matches.css            
 │   ├── players.css            
-│   ├── 404.css                
 │   └── search.css             
 ├── html/                      # HTML
 │   ├── components/            
@@ -34,18 +37,21 @@ C:.
 │   ├── partials/              
 │   │   ├── footer.css
 │   │   └── header.css
+│   ├── archive.html            
 │   ├── matches.html            
 │   ├── players.html            
 │   ├── search.html            
 │   └── statistics.html        
 ├── js/                        # JavaScript files
-│   ├── components/            
+│   ├── components/    
+│   │   ├── lineGraph.js        
 │   │   ├── matchModal.js
 │   │   └── playerModal.js
 │   ├── partials/             
 │   │   ├── footer.js
 │   │   └── header.js
 │   ├── 404.js
+│   ├── archive.js
 │   ├── general.js             # Shared functionality (e.g., countdown, animations)
 │   ├── index.js          
 │   ├── matches.js        

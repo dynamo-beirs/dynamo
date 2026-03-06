@@ -11,6 +11,7 @@
     --primary-theme-color: var(--team-color);
     --primary-theme-hover: var(--team-bg);
     --underline-color: var(--season-bg);
+    --dropdown-text-color: var(--season-color);
 }
 
 /* Toggle Buttons */
@@ -311,6 +312,7 @@ body.player-alltime .player-rank {
     z-index: 1000;
     width: 240px;
     box-sizing: border-box;
+    overflow: hidden;
 }
 
 .custom-dropdown .options li {
@@ -320,7 +322,7 @@ body.player-alltime .player-rank {
 }
 
 .custom-dropdown .options li:hover {
-    background: var(--underline-color);
+    color: var(--underline-color);
 }
 
 .custom-dropdown.active .options {

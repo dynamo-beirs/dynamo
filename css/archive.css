@@ -1,0 +1,307 @@
+/* Algemene opmaak voor de archief content en sectietitels */
+.archive-content-section {
+    padding: 2rem 0 4rem;
+}
+
+.archive-content-section ~ * .page-hero h1::before,
+.archive-content-section ~ * .page-hero h1::after {
+    color: #B90A0A;
+}
+
+.page-hero h1::before,
+.page-hero h1::after {
+    color: #B90A0A !important;
+}
+
+#archive-season-title::after {
+    background: #3D5A80 !important;
+}
+
+#archive-stats-grid .stat-number {
+    color: #3D5A80;
+}
+
+.archive-subsection {
+    margin-top: 3.5rem;
+}
+
+.archive-subsection .section-title {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+/* Dropdown voor seizoensselectie en bijbehorende animaties */
+.season-selector-section {
+    padding: 1rem 0;
+    position: relative;
+    z-index: 100;
+}
+
+.dropdown-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    max-width: 100%;
+    position: relative;
+    z-index: 101;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    visibility: hidden;
+}
+
+.dropdown-container.reveal,
+.dropdown-container.animate-in {
+    opacity: 1;
+    transform: translateY(0);
+    visibility: visible;
+}
+
+.dropdown-container span {
+    font-weight: 600;
+    color: var(--dark-gray);
+}
+
+#season-select {
+    position: relative;
+    border: 2px solid var(--dynamo-red);
+    border-radius: 25px;
+    background: white;
+    cursor: pointer;
+    box-shadow: var(--shadow-small);
+    user-select: none;
+    font-weight: 600;
+    color: var(--dark-gray);
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+    min-width: 180px;
+    z-index: 102;
+}
+
+#season-select .selected {
+    padding: 0.6rem 2rem 0.6rem 1rem;
+    border-radius: 25px;
+    width: auto;
+    box-sizing: border-box;
+    text-align: center;
+    position: relative;
+    transition: background 0.2s ease;
+}
+
+#season-select .selected::after {
+    content: '\f0d7';
+    font-family: 'Font Awesome 6 Free', serif;
+    font-weight: 900;
+    position: absolute;
+    right: 0.8rem;
+    top: 50%;
+    transform: translateY(-55%);
+    font-size: 1.2rem;
+    color: var(--dark-gray);
+    transition: transform 0.3s ease;
+}
+
+#season-select.active .selected::after {
+    content: '\f0d8';
+    transform: translateY(-50%);
+}
+
+#season-select .options {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    border: 2px solid var(--dynamo-red);
+    border-radius: 10px;
+    box-shadow: var(--shadow-medium);
+    list-style: none;
+    margin: 5px 0 0;
+    padding: 0;
+    display: none;
+    z-index: 1000;
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+#season-select .options li {
+    padding: 0.6rem 1rem;
+    text-align: center;
+    transition: background 0.2s;
+}
+
+#season-select .options li:hover {
+    color: var(--dynamo-red);
+}
+
+#season-select.active .options {
+    display: block;
+}
+
+/* Grid lay-out en styling voor de statistiekenkaarten */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 2rem;
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.stat-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: var(--shadow-medium);
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-hover);
+}
+
+.stat-number {
+    font-size: 2.5rem;
+    font-weight: 900;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+}
+
+.stat-label {
+    color: var(--medium-gray);
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+}
+
+/* Kleuren, tooltips en overschrijvingen specifiek voor de spelerstabel */
+#archive-players-section .section-title::after {
+    background: var(--dark-green) !important;
+}
+
+#archive-players-section .table-header {
+    background: var(--dark-green) !important;
+}
+
+#archive-players-section .player-name {
+    color: var(--dark-green) !important;
+}
+
+#archive-players-section .player-rank {
+    background: var(--dark-green) !important;
+    color: white;
+}
+
+#archive-players-section .custom-dropdown {
+    border-color: var(--dark-green) !important;
+}
+
+#archive-players-section .custom-dropdown .options {
+    border-color: var(--dark-green) !important;
+}
+
+#archive-players-section .custom-dropdown .options li:hover {
+    color: var(--dark-green);
+}
+
+#archive-players-section .table-cell.player-position::after,
+#archive-players-section .table-cell.player-position:hover::after {
+    display: none !important;
+    content: none !important;
+}
+
+#archive-players-section .table-cell.player-position .tooltip {
+    background-color: var(--dark-green) !important;
+}
+
+/* Opmaak en animaties voor de wedstrijden in het archief */
+#archive-matches-section .section-title::after {
+    background: var(--dark-yellow) !important;
+}
+
+.archive-subsection .matches-grid {
+    width: 70%;
+    margin: 0 auto;
+}
+
+.archive-match-card {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 0.4s ease-out, transform 0.4s ease-out, box-shadow 0.3s ease;
+}
+
+.archive-match-card.animate-in {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.archive-match-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-hover);
+}
+
+.archive-empty-msg {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 2rem;
+    color: var(--medium-gray);
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+/* Responsieve weergave voor tablets en middelgrote schermen */
+@media (max-width: 768px) {
+    .dropdown-container {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+        width: 90%;
+    }
+
+    .stat-card {
+        padding: 1.5rem 1rem;
+    }
+
+    .stat-number {
+        font-size: 2rem;
+    }
+
+    .archive-subsection .matches-grid {
+        width: 90%;
+    }
+}
+
+/* Responsieve weergave voor mobiele telefoons */
+@media (max-width: 480px) {
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.8rem;
+        width: 90%;
+    }
+
+    .stat-card {
+        padding: 1rem;
+        border-radius: 12px;
+    }
+
+    .stat-number {
+        font-size: 1.6rem;
+    }
+
+    .stat-label {
+        font-size: 0.75rem;
+    }
+
+    .archive-subsection .matches-grid {
+        width: 90%;
+    }
+}
