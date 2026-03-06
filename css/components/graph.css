@@ -29,3 +29,12 @@
 circle {
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
+
+/* Responsieve weergave voor mobiele telefoons */
+@media (max-width: 768px){
+    .comparison-graph-container {
+        width: 90%;
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+}
