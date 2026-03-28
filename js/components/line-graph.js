@@ -156,9 +156,9 @@ export class LineGraph {
                                 <rect x="0" width="80" height="40" rx="20" ry="20" fill="#FFF" stroke="${dataset.color}" stroke-width="2"/>
                                 <text class="boxLabel boxLabel-${key}" x="40" y="28" fill="${dataset.dotColor || dataset.color}"></text>
                             </g>
-                            <foreignObject class="custom-tooltip-fo" x="0" y="0" width="90" height="130" style="display: none; overflow:visible;">
-                                <div xmlns="http://www.w3.org/1999/xhtml" class="box-html-content"></div>
-                            </foreignObject>
+                            <foreignObject class="custom-tooltip-fo" x="0" y="0" width="120" height="160" style="display: none; overflow:visible;">
+                                <div xmlns="http://www.w3.org/1999/xhtml" class="box-html-content" style="overflow:visible; position:relative;"></div>
+                             </foreignObject>
                         </g>
                         <circle class="nullDot nullDot-${key}" fill="red" cx="0" cy="0" r="0"/>
                         <circle class="graphDot graphDot-${key}" fill="${dataset.color}" cx="0" cy="0" r="10" stroke="#FFF" stroke-width="2" style="display: ${displayState};"/>
@@ -222,9 +222,9 @@ export class LineGraph {
                             <rect x="0" width="80" height="40" rx="20" ry="20" fill="#FFF" stroke="${this.options.color}" stroke-width="2"/>
                             <text class="boxLabel" x="40" y="28" fill="${this.options.dotColor}"></text>
                         </g>
-                        <foreignObject class="custom-tooltip-fo" x="0" y="0" width="90" height="130" style="display: none; overflow:visible;">
-                            <div xmlns="http://www.w3.org/1999/xhtml" class="box-html-content"></div>
-                        </foreignObject>
+                        <foreignObject class="custom-tooltip-fo" x="0" y="0" width="120" height="160" style="display: none; overflow:visible;">
+                             <div xmlns="http://www.w3.org/1999/xhtml" class="box-html-content" style="overflow:visible; position:relative;"></div>
+                         </foreignObject>
                     </g>
                     <circle class="nullDot" fill="red" cx="0" cy="0" r="0"/>
                     <circle class="graphDot" fill="${this.options.dotColor}" cx="0" cy="0" r="10" stroke="#FFF" stroke-width="2" style="display: ${displayState};"/>
@@ -354,8 +354,8 @@ export class LineGraph {
                         els.box.querySelector('.box-html-content').innerHTML = nearest.tooltipHTML;
                         currentTooltipHTML = nearest.tooltipHTML;
                     }
-                    boxPos.x = dX - 45;
-                    boxPos.y = dY - 130;
+                    boxPos.x = dX - 60;
+                     boxPos.y = dY - 160;
                 } else {
                     els.box.querySelector('.default-tooltip').style.display   = 'block';
                     els.box.querySelector('.custom-tooltip-fo').style.display = 'none';
@@ -428,7 +428,7 @@ export class LineGraph {
                 if (isPressed || activeDotIndex !== -1) {
                     gsap.set(els.connector, {
                         attr: {
-                            x1: gsap.getProperty(els.box, 'x') + (els.box.querySelector('.custom-tooltip-fo').style.display === 'block' ? 45 : 40),
+                            x1: gsap.getProperty(els.box, 'x') + (els.box.querySelector('.custom-tooltip-fo').style.display === 'block' ? 60 : 40),
                             x2: gsap.getProperty(els.dragger, 'x'),
                             y1: gsap.getProperty(els.box, 'y') + 40,
                             y2: gsap.getProperty(els.graphDot, 'y')
