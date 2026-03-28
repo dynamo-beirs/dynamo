@@ -7,6 +7,13 @@
     padding: 2rem 0 4rem;
 }
 
+.archive-graph-tooltip .result-icon {
+    position: relative;
+    top: auto;
+    right: auto;
+}
+
+
 /* ── Hero Pipe / Underline Overrides ────────────────────────── */
 .archive-page .page-hero h1::before,
 .archive-page .page-hero h1::after {
