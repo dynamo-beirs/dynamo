@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!--suppress ALL -->
 <html lang="nl">
 <head>
     <meta charset="UTF-8">
@@ -42,28 +41,29 @@
 
     <!-- Preload header -->
     <link rel="preload" href="/dynamo/img/logos/red-outlined-logo.png" as="image" fetchpriority="high">
-    <link rel="preload" href="/dynamo/css/partials/header.css" as="style">
+    <link rel="preload" href="/dynamo/css/layout/header.css" as="style">
 
     <!-- Favicon -->
-    <link rel="preload" href="https://dynamo-beirs.github.io/dynamo/img/logos/favicon/favicon.svg" as="image">
-    <link rel="icon" href="https://dynamo-beirs.github.io/dynamo/img/logos/favicon/favicon.svg" type="image/svg+xml">
-    <link rel="icon" type="image/png" href="https://dynamo-beirs.github.io/dynamo/img/logos/favicon/favicon-48x48.png" sizes="48x48">
-    <link rel="icon" type="image/png" href="https://dynamo-beirs.github.io/dynamo/img/logos/favicon/favicon-32x32.png" sizes="32x32">
-    <link rel="icon" type="image/png" href="https://dynamo-beirs.github.io/dynamo/img/logos/favicon/favicon-16x16.png" sizes="16x16">
-    <link rel="shortcut icon" href="https://dynamo-beirs.github.io/dynamo/img/logos/favicon/favicon.ico">
-    <link rel="apple-touch-icon" sizes="180x180" href="https://dynamo-beirs.github.io/dynamo/img/logos/favicon/apple-touch-icon.png">
-    <link rel="manifest" href="https://dynamo-beirs.github.io/dynamo/img/logos/favicon/site.webmanifest">
+    <link rel="preload" href="/dynamo/img/logos/favicon/favicon.svg" as="image">
+    <link rel="icon" href="/dynamo/img/logos/favicon/favicon.svg" type="image/svg+xml">
+    <link rel="icon" type="image/png" href="/dynamo/img/logos/favicon/favicon-48x48.png" sizes="48x48">
+    <link rel="icon" type="image/png" href="/dynamo/img/logos/favicon/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/dynamo/img/logos/favicon/favicon-16x16.png" sizes="16x16">
+    <link rel="shortcut icon" href="/dynamo/img/logos/favicon/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/dynamo/img/logos/favicon/apple-touch-icon.png">
+    <link rel="manifest" href="/dynamo/img/logos/favicon/site.webmanifest">
 
     <!-- Prefetch carousel -->
-    <link rel="preload" href="img/home/1.jpg" as="image" fetchpriority="high">
-    <link rel="prefetch" href="img/home/2.jpg" as="image">
-    <link rel="prefetch" href="img/home/7.jpg" as="image">
+    <link rel="preload" href="/dynamo/img/home/1.jpg" as="image" fetchpriority="high">
+    <link rel="prefetch" href="/dynamo/img/home/2.jpg" as="image">
+    <link rel="prefetch" href="/dynamo/img/home/7.jpg" as="image">
 
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="css/general.css">
-    <link rel="stylesheet" href="css/index.css">
-    <link rel="stylesheet" href="css/partials/header.css">
-    <link rel="stylesheet" href="css/partials/footer.css">
+    <link rel="stylesheet" href="/dynamo/css/base/tokens.css">
+    <link rel="stylesheet" href="/dynamo/css/general.css">
+    <link rel="stylesheet" href="/dynamo/css/index.css">
+    <link rel="stylesheet" href="/dynamo/css/layout/header.css">
+    <link rel="stylesheet" href="/dynamo/css/layout/footer.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" crossorigin>
 
@@ -77,10 +77,10 @@
     </script>
 
     <!-- Scripts -->
-    <script type="module" src="js/index.js"></script>
-    <script type="module" src="js/partials/header.js"></script>
-    <script type="module" src="js/partials/footer.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+    <script src="/dynamo/js/vendor/papaparse.min.js" defer></script>
+    <script type="module" src="/dynamo/js/pages/home.js"></script>
+    <script type="module" src="/dynamo/js/layout/header.js"></script>
+    <script type="module" src="/dynamo/js/layout/footer.js"></script>
 
     <title>Dynamo Beirs</title>
 </head>
@@ -93,7 +93,7 @@
     <section class="hero" id="home">
         <div class="container">
             <div class="hero-content">
-                <h1><span class="club-name-part">Dynamo </span><span class="club-name-part">Beirs</span></h1>
+                <h1><span class="hero-word">Dynamo </span><span class="hero-word">Beirs</span></h1>
             </div>
         </div>
     </section>
@@ -104,25 +104,25 @@
             <div class="carousel-container">
                 <div class="carousel" id="carousel">
                     <div class="slide">
-                        <img src="img/home/1.jpg" alt="Dynamo Beirs 1" importance="high">
+                        <img src="/dynamo/img/home/1.jpg" alt="Dynamo Beirs 1" fetchpriority="high">
                     </div>
                     <div class="slide">
-                        <img src="img/home/2.jpg" alt="Dynamo Beirs 2">
+                        <img src="/dynamo/img/home/2.jpg" alt="Dynamo Beirs 2" loading="lazy">
                     </div>
                     <div class="slide">
-                        <img src="img/home/3.jpg" alt="Dynamo Beirs 3" loading="lazy">
+                        <img src="/dynamo/img/home/3.jpg" alt="Dynamo Beirs 3" loading="lazy">
                     </div>
                     <div class="slide">
-                        <img src="img/home/4.jpg" alt="Dynamo Beirs 4" loading="lazy">
+                        <img src="/dynamo/img/home/4.jpg" alt="Dynamo Beirs 4" loading="lazy">
                     </div>
                     <div class="slide">
-                        <img src="img/home/5.jpg" alt="Dynamo Beirs 5" loading="lazy">
+                        <img src="/dynamo/img/home/5.jpg" alt="Dynamo Beirs 5" loading="lazy">
                     </div>
                     <div class="slide">
-                        <img src="img/home/6.jpg" alt="Dynamo Beirs 6" loading="lazy">
+                        <img src="/dynamo/img/home/6.jpg" alt="Dynamo Beirs 6" loading="lazy">
                     </div>
                     <div class="slide">
-                        <img src="img/home/7.jpg" alt="Dynamo Beirs 7">
+                        <img src="/dynamo/img/home/7.jpg" alt="Dynamo Beirs 7" loading="lazy">
                     </div>
                 </div>
                 <button class="nav-btn prev-btn" id="prevBtn" aria-label="Previous slide">
@@ -172,7 +172,7 @@
     </section>
 
     <!-- Recent Form -->
-    <section class="match-form-section">
+    <section class="form-section">
         <div class="container">
             <div class="form-display">
                 <h3 class="section-subtitle">Vorm</h3>
@@ -183,7 +183,7 @@
     </section>
 
     <!-- Statistics Overview -->
-    <section class="stats-overview-section">
+    <section class="overview-section">
         <div class="container">
             <h2 class="section-title">Statistieken</h2>
             <div class="stats-grid">
@@ -207,13 +207,14 @@
         </div>
     </section>
 
-    <section class="sponsor-cta-section">
+    <!-- CTA Section -->
+    <section class="cta-section">
         <div class="container">
             <h2 class="section-title">Matchbalsponsor</h2>
             <p>
                 Wil jij jouw bedrijf in de kijker zetten tijdens een thuiswedstrijd van Dynamo Beirs?
             </p>
-            <a href="pdf/Matchbalsponsor.pdf" target="_blank" class="btn-primary">
+            <a href="/dynamo/assets/pdf/Matchbalsponsor.pdf" target="_blank" class="btn-primary">
                 Klik hier voor meer informatie
             </a>
         </div>

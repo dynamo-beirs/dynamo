@@ -1,640 +1,372 @@
-/* Global Styles */
-body.modal-open {
-    overflow: hidden;
-    position: fixed;
-    width: 100%;
-}
+/* ============================================================
+   COMPONENTS/MATCHMODAL.CSS
+   Requires: modal-shared.css
+   ============================================================ */
 
-#matchCenterModal {
-    display: none;
-}
-
-/* Modal Overlay */
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(0, 0, 0, 0.5);
-    display: none;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-    backdrop-filter: blur(3px);
-    visibility: hidden;
-    opacity: 0;
-    transition: opacity 0.3s ease, visibilty 0.3s ease;
-}
-
-.modal-overlay.show {
-    display: flex;
-    visibility: visible;
-    opacity: 1;
-}
-
-/* Modal Content */
+/* Width constraint for this modal specifically */
 .modal-content {
-    background: var(--off-white);
-    border-radius: 16px;
-    box-shadow: var(--shadow-medium);
-    padding: 1.5rem;
-    width: 90%;
     max-width: 700px;
-    max-height: 90vh;
-    overflow-y: auto;
-    position: relative;
-    color: var(--dark-gray);
-    font-family: 'Poppins', sans-serif;
-    border: 1px solid rgba(0, 0, 0, 0.05);
+    border: 3px solid var(--dusty-blue);
+    transform-origin: center center;
 }
 
-.modal-content::-webkit-scrollbar {
-    width: 6px;
-}
+#matchCenterModal.win  .modal-content,
+#matchCenterModal:has(.result-icon.win)  .modal-content { border-color: var(--light-green)   !important; }
+#matchCenterModal.draw .modal-content,
+#matchCenterModal:has(.result-icon.draw) .modal-content { border-color: var(--golden-yellow) !important; }
+#matchCenterModal.loss .modal-content,
+#matchCenterModal:has(.result-icon.loss) .modal-content { border-color: var(--soft-coral)    !important; }
 
-.modal-content::-webkit-scrollbar-track {
-    background: transparent;
-    border-radius: 10px;
-    margin: 16px 0;
-}
-
-.modal-content::-webkit-scrollbar-thumb {
-    background: var(--light-gray);
-    border-radius: 10px;
-}
-
-.modal-content::-webkit-scrollbar-thumb:hover {
-    background: var(--medium-gray);
-}
-
-/* Close Button */
-.close-modal {
-    position: sticky;
-    top: 0px;
-    float: right;
-    background: white;
-    margin-top: -5px;
-    margin-right: -5px;
-    margin-bottom: -36px;
-    border: 1px solid transparent;
-    cursor: pointer;
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
-    box-shadow: var(--shadow-medium);
-    line-height: 1;
-    padding: 0;
-    z-index: 10000;
-}
-.close-modal i {
-    font-size: 1.3rem;
-    line-height: 1;
-    color: var(--medium-gray);
-    pointer-events: none;
-}
-.close-modal:hover {
-    box-shadow: var(--shadow-hover);
-    border-color: var(--dynamo-red);
-}
-.close-modal:hover i {
-    color: var(--dynamo-red);
-}
-
-
-/* Title Container */
+/* ── Title Container ────────────────────────────────────────── */
 .match-title-container {
-    text-align: center;
+    text-align:    center;
     margin-bottom: 1.5rem;
-    font-family: 'Poppins', sans-serif;
-    position: relative;
+    font-family:   'Poppins', sans-serif;
+    position:      relative;
 }
 
 .team-name {
-    font-size: 1.8rem;
+    font-size:   var(--text-h3);
     font-weight: 800;
-    color: var(--dark-gray);
+    color:       var(--dark-gray);
     line-height: 1.2;
 }
 
-.home-team {
-    margin-bottom: 0.3rem;
-}
+.home-team { margin-bottom: 0.10rem; }
+.vs-text   { font-size: var(--text-lg); font-weight: 600; color: var(--medium-gray); margin-bottom: 0.10rem; }
+.away-team { margin-bottom: 0.5rem; }
 
-.vs-text {
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: var(--medium-gray);
-    margin-bottom: 0.3rem;
-}
-
-.away-team {
-    margin-bottom: 0.5rem;
-}
-
-.match-title-container::after {
-    content: '';
-    position: absolute;
-    bottom: -6px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 50px;
-    height: 3px;
-    background: var(--dynamo-red);
-    border-radius: 2px;
-}
-
-/* Title and Season */
+/* ── Match Title ────────────────────────────────────────────── */
 #modalMatchTitle {
-    text-align: center;
-    margin-bottom: 1.5rem;
-    font-size: 2rem;
-    font-weight: 800;
-    color: var(--dark-gray);
-    font-family: 'Poppins', sans-serif;
-    position: relative;
-    margin-top: 0.5rem;
+    text-align:    center;
+    margin:        0.5rem 0 1.5rem;
+    font-size:     var(--text-h2);
+    font-weight:   800;
+    color:         var(--dark-gray);
+    font-family:   'Poppins', sans-serif;
+    position:      relative;
 }
 
+/* Shared underline for title container and modal title */
+.match-title-container::after,
 #modalMatchTitle::after {
-    content: '';
-    position: absolute;
-    bottom: -6px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 50px;
-    height: 3px;
-    background: var(--dynamo-red);
-    border-radius: 2px;
+    content:       '';
+    position:      absolute;
+    bottom:        -0.70rem;
+    left:          50%;
+    transform:     translateX(-50%);
+    width:         50px;
+    height:        4px;
+    background:    var(--dusty-blue);
+    border-radius: var(--radius-sm);
 }
 
+/* Result-state underline colour overrides */
+#matchCenterModal.win  .match-title-container::after,
+#matchCenterModal.win  #modalMatchTitle::after  { background: var(--light-green)   !important; }
+#matchCenterModal.draw .match-title-container::after,
+#matchCenterModal.draw #modalMatchTitle::after  { background: var(--golden-yellow) !important; }
+#matchCenterModal.loss .match-title-container::after,
+#matchCenterModal.loss #modalMatchTitle::after  { background: var(--soft-coral)    !important; }
+
+/* ── Season Label ───────────────────────────────────────────── */
 .season {
-    font-family: 'Poppins', sans-serif;
-    font-weight: 600;
-    font-size: 1rem;
-    color: var(--medium-gray);
-    text-align: center;
-    margin: 0 0 1rem 0;
+    font-family:    'Poppins', sans-serif;
+    font-weight:    600;
+    font-size:      var(--text-lg);
+    color:          var(--medium-gray);
+    text-align:     center;
+    margin:         0 0 1rem;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
 }
 
-/* Score Display */
+/* ── Score Display ──────────────────────────────────────────── */
 .modal-match-score {
-    display: flex;
+    display:         flex;
     justify-content: center;
-    align-items: center;
-    margin: 0 0 1.5rem 0;
+    align-items:     center;
+    margin:          0 0 1.5rem;
 }
 
 .score-display {
-    background: white;
-    padding: 10px 18px;
-    border-radius: 20px;
-    font-size: 1.8rem;
-    font-weight: 700;
-    color: var(--dark-gray);
-    font-family: 'Poppins', sans-serif;
-    border: 2px solid transparent;
-    box-shadow: var(--shadow-medium);
-    text-align: center;
-    min-width: 110px;
-    transition: all 0.3s ease;
+    background:    white;
+    padding:       10px 18px;
+    border-radius: var(--radius-pill);
+    font-size:     var(--text-h3);
+    font-weight:   700;
+    color:         var(--dark-gray);
+    font-family:   'Poppins', sans-serif;
+    border:        3px solid var(--dusty-blue);
+    box-shadow:    var(--shadow-medium);
+    text-align:    center;
+    min-width:     110px;
+    transition:    var(--t-interact);
 }
 
-/* Modal Sections */
+/* Result-state score border overrides */
+#matchCenterModal.win  .score-display,
+#matchCenterModal:has(.result-icon.win)  .score-display { border-color: var(--light-green)   !important; }
+#matchCenterModal.draw .score-display,
+#matchCenterModal:has(.result-icon.draw) .score-display { border-color: var(--golden-yellow) !important; }
+#matchCenterModal.loss .score-display,
+#matchCenterModal:has(.result-icon.loss) .score-display { border-color: var(--soft-coral)    !important; }
+
+/* ── Shared Card Sections ───────────────────────────────────── */
+/* ── Shared Card Sections ───────────────────────────────────── */
 .modal-section,
-.goalscorers-section,
-.add-to-calendar-section {
+.goalscorers-section {
     margin-bottom: 1.5rem;
-    padding: 1.2rem;
-    background: white;
-    border-radius: 12px;
-    border: 1px solid transparent;
-    transition: all 0.3s ease;
-    box-shadow: var(--shadow-medium);
+    padding:       1.2rem;
+    background:    white;
+    border-radius: var(--radius-lg);
+    border:        1px solid transparent;
+    box-shadow:    var(--shadow-medium);
+    transition:    var(--t-interact);
 }
 
+/* Remove bottom margin from last child in modal */
+#matchCenterModal .modal-content > *:last-child { margin-bottom: 0 !important; }
+
+/* .animate-in state removed; keep standard hover */
 .modal-section:hover,
 .goalscorers-section:hover,
-.add-to-calendar-section:hover,
-.score-display:hover {
-    transform: translateY(-2px);
+.score-display:hover,
+#modalSponsorLink:hover {
+    transform:  scale(var(--hover-scale));
     box-shadow: var(--shadow-hover);
 }
 
+/* ── Section Headings ───────────────────────────────────────── */
 .modal-section h3,
 .goalscorers-section h3,
-.add-to-calendar-section h3 {
+.modal-sponsor-container h3 {
     margin-bottom: 0.8rem;
-    color: var(--dark-gray);
-    font-size: 1.2rem;
-    text-align: center;
-    font-weight: 700;
-    font-family: 'Poppins', sans-serif;
-    position: relative;
+    color:         var(--dark-gray);
+    font-size:     var(--text-lg);
+    text-align:    center;
+    font-weight:   700;
+    font-family:   'Poppins', sans-serif;
+    position:      relative;
 }
 
 .modal-section h3::after,
 .goalscorers-section h3::after,
-.add-to-calendar-section h3::after {
-    content: '';
-    position: absolute;
-    bottom: -4px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 35px;
-    height: 2px;
-    background: var(--dynamo-red);
-    border-radius: 1px;
-}
-
-/* Matchbal Sponsor */
-.modal-sponsor-container {
-    text-align: center;
-    margin-bottom: 1rem;
-    padding: 0.5rem;
-}
-
-.modal-sponsor-container h3 {
-    margin-bottom: 1rem;
-    color: var(--dark-gray);
-    font-size: 1.2rem;
-    font-weight: 700;
-    font-family: 'Poppins', sans-serif;
-    position: relative;
-}
-
 .modal-sponsor-container h3::after {
-    content: '';
-    position: absolute;
-    bottom: -4px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 35px;
-    height: 2px;
-    background: var(--dynamo-red);
-    border-radius: 1px;
+    content:       '';
+    position:      absolute;
+    bottom:        -4px;
+    left:          50%;
+    transform:     translateX(-50%);
+    width:         35px;
+    height:        3px;
+    background:    var(--dusty-blue);
+    border-radius: var(--radius-sm);
+}
+
+/* Result-state heading underline overrides */
+#matchCenterModal.win  .modal-section h3::after,
+#matchCenterModal.win  .goalscorers-section h3::after,
+#matchCenterModal.win  .modal-sponsor-container h3::after { background: var(--light-green)   !important; }
+#matchCenterModal.draw .modal-section h3::after,
+#matchCenterModal.draw .goalscorers-section h3::after,
+#matchCenterModal.draw .modal-sponsor-container h3::after { background: var(--golden-yellow) !important; }
+#matchCenterModal.loss .modal-section h3::after,
+#matchCenterModal.loss .goalscorers-section h3::after,
+#matchCenterModal.loss .modal-sponsor-container h3::after { background: var(--soft-coral)    !important; }
+
+/* ── Sponsor Block ──────────────────────────────────────────── */
+.modal-sponsor-container {
+    text-align:    center;
+    margin-bottom: 1rem;
+    padding:       0.5rem;
 }
 
 #modalSponsorLink {
-    display: inline-block;
-    border-radius: 12px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display:       inline-block;
+    border-radius: var(--radius-md);
+    transition:    var(--t-interact);
 }
 
 #modalSponsorLogo {
-    max-height: 70px;
-    max-width: 100%;
-    width: auto;
-    display: block;
-    border-radius: 12px;
+    max-height:    70px;
+    max-width:     100%;
+    width:         auto;
+    display:       block;
+    border-radius: var(--radius-md);
 }
 
-#modalSponsorLink:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-hover);
-}
-
-/* Match Details Container */
-.match-details-container {
-    display: flex;
-    justify-content: space-between;
+/* ── Match Details Container ────────────────────────────────── */
+.modal-details {
+    display:       flex;
     margin-bottom: 1.5rem;
+    gap:           1.5rem;
 }
 
-.match-details-container .modal-section {
-    flex: 1;
-    margin: 0 0.5rem;
+.modal-details .modal-section {
+    flex:   1;
+    margin: 0;
 }
 
-.match-details-container .modal-section p,
+/* ── Shared Nested Info Box ─────────────────────────────────── */
+/* Used for date/time/stadium/goalscorer items */
+.modal-details .modal-section p,
 .date-box p,
 .time-box p,
 .goalscorer-item {
-    text-align: center;
-    font-size: 1rem;
-    color: var(--dark-gray);
-    font-weight: 600;
-    font-family: 'Poppins', sans-serif;
-    line-height: 1.4;
-    margin: 0;
-    padding: 0.8rem;
-    background: var(--nested-box);
-    border-radius: 10px;
-    border: 1px solid transparent;
-    box-shadow: var(--shadow-medium);
-    display: flex;
-    align-items: center;
+    text-align:      center;
+    font-size:       var(--text-body);
+    color:           var(--dark-gray);
+    font-weight:     600;
+    font-family:     'Poppins', sans-serif;
+    line-height:     1.4;
+    margin:          0;
+    padding:         0.8rem;
+    background:      var(--nested-box);
+    border-radius:   var(--radius-md);
+    box-shadow:      var(--shadow-medium);
+    display:         flex;
+    align-items:     center;
     justify-content: center;
-    gap: 4px;
+    gap:             4px;
 }
 
-/* Date and Time Section */
+/* ── Date / Time ────────────────────────────────────────────── */
 .date-time-section {
-    flex: 1;
-    margin: 0 0.5rem;
+    flex:  1;
     width: 100%;
+    margin: 0;
 }
 
 .date-time-container {
-    display: flex;
+    display:         flex;
     justify-content: space-between;
-    gap: 0.5rem;
+    gap:             0.5rem;
 }
 
 .date-box,
 .time-box {
-    flex: 1;
+    flex:       1;
     text-align: center;
 }
 
-/* Goalscorers */
+/* ── Goalscorers ────────────────────────────────────────────── */
 .goalscorers-list {
-    list-style: none;
-    padding-left: 0;
-    display: flex;
+    list-style:     none;
+    padding-left:   0;
+    display:        flex;
     flex-direction: column;
-    gap: 0.6rem;
+    gap:            0.6rem;
 }
 
-/* Icons */
+/* ── Icons ──────────────────────────────────────────────────── */
 #stadiumName .fas.fa-map-marker-alt,
 #matchDate .fas.fa-calendar,
-#matchTime .fas.fa-clock,
-.goalscorer-item .fas.fa-futbol {
-    color: var(--medium-gray);
+#matchTime .fas.fa-clock {
+    color:       var(--medium-gray);
     margin-right: 8px;
-    font-size: 1rem;
+    font-size:   1.1em;
 }
 
 .goalscorer-item .fas.fa-futbol {
-    color: black;
-}
-
-/* Add to Calendar Button */
-#addToCalendarBtn.cta-button {
-    margin: 0.5rem auto 1rem;
-    display: block;
-    text-align: center;
-    font-family: 'Poppins', sans-serif;
-    border: none;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-}
-
-#addToCalendarBtn.cta-button.animate-in {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-#addToCalendarBtn.cta-button i {
+    color:       black; /* football icon deliberately darker */
     margin-right: 8px;
-    font-size: 1rem;
-    color: var(--dark-gray);
+    font-size:   1.1em;
 }
 
-#addToCalendarBtn.cta-button:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-hover);
-}
-
-#addToCalendarBtn.cta-button:hover,
-#addToCalendarBtn.cta-button:hover i {
-    color: var(--dynamo-red);
-}
-
-/* Scrollbar */
-.timeline-wrapper::-webkit-scrollbar {
-    width: 8px;
-}
-
-.timeline-wrapper::-webkit-scrollbar-track {
-    background: var(--silver-mist);
-    border-radius: 10px;
-}
-
-.timeline-wrapper::-webkit-scrollbar-thumb {
-    background: var(--light-gray);
-    border-radius: 10px;
-}
-
-.timeline-wrapper::-webkit-scrollbar-thumb:hover {
-    background: var(--medium-gray);
-}
-
-/* Tablet View */
+/* ── Responsive: Tablet (≤ 768 px) ─────────────────────────── */
 @media (max-width: 768px) {
-    .modal-content {
-        width: 90%;
-        max-width: none;
-        padding: 1rem;
-        max-height: 80vh;
-        border-radius: 14px;
-        box-shadow: var(--shadow-small);
-    }
-
-    .team-name {
-        font-size: 1.3rem;
-    }
-
-    .vs-text {
-        font-size: 1rem;
-    }
-
     .score-display {
-        font-size: 1.3rem;
-        padding: 7px 12px;
+        padding:   7px 12px;
         min-width: 90px;
-        border-radius: 18px;
-        box-shadow: var(--shadow-small);
     }
 
     #modalMatchTitle {
-        font-size: 1.4rem;
-        margin-bottom: 1rem;
+        margin-bottom: 1.2rem;
     }
 
     #modalMatchTitle::after {
-        width: 40px;
-        height: 2px;
+        width:  40px;
+        height: 3px;
     }
 
-    .season {
-        font-size: 0.9rem;
-        margin-bottom: 0.8rem;
-    }
+    .season { font-size: 0.9rem; margin-bottom: 1.2rem; }
 
     .modal-section,
-    .goalscorers-section,
-    .add-to-calendar-section {
-        padding: 0.9rem;
-        margin-bottom: 1rem;
-        border-radius: 10px;
-        box-shadow: var(--shadow-small);
+    .goalscorers-section {
+        padding:       0.9rem;
+        margin-bottom: 1.2rem;
     }
 
     .modal-section h3,
     .goalscorers-section h3,
-    .add-to-calendar-section h3 {
-        font-size: 1rem;
-    }
+    .modal-sponsor-container h3 { font-size: 1rem; }
 
     .modal-section h3::after,
     .goalscorers-section h3::after,
-    .add-to-calendar-section h3::after {
-        width: 30px;
-        height: 2px;
+    .modal-sponsor-container h3::after { width: 30px; height: 3px; }
+
+    /* Disable lift on touch */
+    .modal-section:hover,
+    .goalscorers-section:hover,
+    .score-display:hover,
+    #modalSponsorLink:hover {
+        transform:  translateY(0) !important;
+        box-shadow: var(--shadow-hover);
     }
 
     .date-box p,
     .time-box p,
-    .stadium-name {
-        font-size: 0.85rem !important;
-        padding: 0.6rem;
-    }
+    .goalscorer-item { padding: 0.6rem; }
 
-    .goalscorer-item {
-        font-size: 0.85rem;
-        padding: 0.6rem;
-    }
+    .date-time-container { gap: 0.4rem; }
+    .date-box, .time-box { flex: 1; min-width: 0; }
 
-    .close-modal {
-        width: 30px;
-        height: 30px;
-        top: 8px;
-        right: 8px;
-        box-shadow: var(--shadow-small);
-    }
-
-    .close-modal i {
-        font-size: 1rem;
-    }
-
-    .date-time-container {
-        flex-direction: row;
-        gap: 0.4rem;
-    }
-
-    .date-box,
-    .time-box {
-        flex: 1;
-        min-width: 0;
-    }
-
-    #addToCalendarBtn.cta-button {
-        padding: 0.6rem 1.2rem;
-        font-size: 0.85rem;
-        min-height: 40px;
-    }
+    .modal-match-score      { margin-bottom: 1.2rem; }
+    .modal-details { margin-bottom: 1.2rem; }
+    .match-title-container  { margin-bottom: 1.2rem; }
 }
 
-/* Mobile View */
+/* ── Responsive: Mobile (≤ 480 px) ─────────────────────────── */
 @media (max-width: 480px) {
-    .modal-content {
-        width: 90%;
-        max-width: none;
-        padding: 0.8rem;
-        max-height: 82vh;
-        border-radius: 12px;
-        box-shadow: var(--shadow-small);
-    }
-
-    .team-name {
-        font-size: 1.2rem;
-    }
-
-    .vs-text {
-        font-size: 0.9rem;
-    }
-
     .score-display {
-        font-size: 1.2rem;
-        padding: 6px 10px;
+        padding:   6px 10px;
         min-width: 80px;
-        border-radius: 16px;
     }
 
-    #modalMatchTitle {
-        font-size: 1.3rem;
-        margin-bottom: 0.8rem;
-    }
+    #modalMatchTitle { margin-bottom: 1rem; }
 
     #modalMatchTitle::after {
-        width: 35px;
-        height: 2px;
+        width:  35px;
     }
 
-    .season {
-        font-size: 0.85rem;
-        margin-bottom: 0.6rem;
-    }
+    .season { font-size: 0.85rem; margin-bottom: 1rem; }
 
     .modal-section,
-    .goalscorers-section,
-    .add-to-calendar-section {
-        padding: 0.8rem;
-        margin-bottom: 0.8rem;
-        border-radius: 8px;
+    .goalscorers-section {
+        padding:       0.8rem;
+        margin-bottom: 1rem;
     }
 
     .modal-section h3,
     .goalscorers-section h3,
-    .add-to-calendar-section h3 {
-        font-size: 0.9rem;
-    }
+    .modal-sponsor-container h3 { font-size: 0.9rem; }
 
     .modal-section h3::after,
     .goalscorers-section h3::after,
-    .add-to-calendar-section h3::after {
-        width: 25px;
-        height: 1.5px;
-    }
+    .modal-sponsor-container h3::after { width: 25px }
 
     .date-box p,
     .time-box p,
-    .stadium-name {
-        font-size: 0.8rem !important;
-        padding: 0.5rem;
-    }
+    .goalscorer-item { padding: 0.5rem; }
 
-    .goalscorer-item {
-        font-size: 0.8rem;
-        padding: 0.5rem;
-    }
+    .date-time-container { gap: 0.3rem; }
 
-    .close-modal {
-        width: 28px;
-        height: 28px;
-        top: 6px;
-        right: 6px;
-    }
+    .modal-match-score       { margin-bottom: 1rem; }
+    .match-title-container   { margin-bottom: 1rem; }
 
-    .close-modal i {
-        font-size: 0.9rem;
-    }
-
-    .date-time-container {
-        gap: 0.3rem;
-    }
-
-    #addToCalendarBtn.cta-button {
-        padding: 0.5rem 1rem;
-        font-size: 0.8rem;
-        min-height: 40px;
-    }
-
-    .match-details-container {
+    .modal-details {
         flex-direction: column;
-        gap: 0.8rem;
-    }
-
-    .match-details-container .modal-section {
-        margin: 0;
+        gap:            1rem;
+        margin-bottom:  1rem;
     }
 }

@@ -1,0 +1,169 @@
+/* ============================================================
+   layout/FOOTER.CSS
+   ============================================================ */
+
+/* ── Base Footer Layout ─────────────────────────────────────── */
+.footer {
+    position:        relative;
+    display:         flex;
+    flex-direction:  column;
+    align-items:     center;
+    padding:         50px 0 15px;
+    color:           var(--dark-gray);
+}
+
+/* ── Footer Content Container ───────────────────────────────── */
+.footer-content {
+    max-width:       1200px;
+    width:           100%;
+    margin:          0 auto;
+    padding:         0 15px;
+    display:         flex;
+    flex-direction:  column;
+    align-items:     center;
+}
+
+/* ── Social Line (icons between two horizontal rules) ───────── */
+.footer-social-line {
+    display:         flex;
+    align-items:     center;
+    justify-content: center;
+    width:           var(--content-width);
+    margin-bottom:   10px;
+}
+
+.line-left,
+.line-right {
+    flex:          1;
+    height:        1px;
+    background:    var(--line-gray);
+    border-radius: var(--radius-sm);
+}
+
+/* ── Social Icons & Logo Row ────────────────────────────────── */
+.footer-social {
+    display:         flex;
+    align-items:     center;
+    justify-content: center;
+    gap:             12px;
+    padding:         0 20px;
+}
+
+.social-icons-container {
+    display:         flex;
+    align-items:     center;
+    justify-content: center;
+    gap:             25px;
+}
+
+/* ── Footer Brand / Logo ────────────────────────────────────── */
+.footer-brand {
+    display:         flex;
+    align-items:     center;
+    justify-content: center;
+    margin:          0;
+}
+
+/* Group shared dimensions for logo link, container, and image */
+.logo-link,
+.logo-container,
+.footer-logo {
+    width:  80px;
+    height: 80px;
+}
+
+.logo-link {
+    display:         flex;
+    align-items:     center;
+    justify-content: center;
+    text-decoration: none;
+}
+
+.logo-container {
+    position: relative;
+}
+
+.footer-logo {
+    position: absolute;
+    top:      0;
+    left:     0;
+}
+
+/* Cross-fade between grey and red logo on hover */
+.footer-logo-grey,
+.footer-logo-red {
+    transition: opacity var(--dur-base) var(--ease-ui);
+}
+
+.footer-logo-grey { opacity: 1; }
+.footer-logo-red  { opacity: 0; }
+
+.logo-link:hover .footer-logo-grey { opacity: 0; }
+.logo-link:hover .footer-logo-red  { opacity: 1; }
+
+/* ── Social Icons ───────────────────────────────────────────── */
+.social-icon {
+    display:         flex;
+    align-items:     center;
+    justify-content: center;
+    width:           36px;
+    height:          36px;
+    color:           var(--medium-gray);
+    font-size:       1.4rem;
+    text-decoration: none;
+    transition:      var(--t-color);
+    min-height:      44px; /* accessible tap target */
+}
+
+.social-icon:hover { color: var(--dynamo-red); }
+
+/* ── Copyright ──────────────────────────────────────────────── */
+.footer-copyright { text-align: center; }
+
+.footer-copyright p {
+    margin:      0;
+    font-size:   var(--text-sm);
+    color:       var(--medium-gray);
+    font-weight: 400;
+}
+
+/* ── Responsive: Tablet (≤ 768 px) ─────────────────────────── */
+@media (max-width: 768px) {
+    .footer { padding: 40px 0 10px; }
+
+    .logo-link,
+    .logo-container,
+    .footer-logo { width: 60px; height: 60px; }
+
+    .footer-social          { gap: 8px;  padding: 0 8px; }
+    .social-icons-container { gap: 15px; }
+
+    .social-icon {
+        width:     30px;
+        height:    30px;
+        font-size: 1rem;
+    }
+}
+
+/* ── Responsive: Mobile (≤ 480 px) ─────────────────────────── */
+@media (max-width: 480px) {
+    .footer-content {
+        padding: 0 10px;
+        width:   90vw;
+    }
+
+    .footer-social-line { width: 100%; }
+
+    .logo-link,
+    .logo-container,
+    .footer-logo { width: 50px; height: 50px; }
+
+    .footer-social          { gap: 6px;  padding: 0 6px; }
+    .social-icons-container { gap: 12px; }
+
+    .social-icon {
+        width:     28px;
+        height:    28px;
+        font-size: 0.9rem;
+    }
+}

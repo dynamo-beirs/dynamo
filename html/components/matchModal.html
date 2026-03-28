@@ -1,21 +1,17 @@
-<!-- Match Center Modal Component -->
-<link rel="stylesheet" href="/dynamo/css/general.css">
 <link rel="stylesheet" href="/dynamo/css/components/matchModal.css"/>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<script src="/dynamo/js/general.js" defer></script>
+<link rel="stylesheet" href="/dynamo/css/components/modal-shared.css">
 
-<div id="matchCenterModal" class="modal-overlay">
-    <div class="modal-content">
-        <!-- Close Button -->
+<div id="matchCenterModal" class="modal-overlay" style="opacity: 0; visibility: hidden; pointer-events: none;">
+    <div class="modal-content scrollbar-y">
         <button class="close-modal"><i class="fas fa-times"></i></button>
 
-        <!-- Title and Season -->
         <div id="modalMatchTitle" class="match-title-container">
-            <div class="team-name home-team">Thuisploeg</div>
+            <div class="team-name home-team">...</div>
             <div class="vs-text">vs</div>
-            <div class="team-name away-team">Uitploeg</div>
+            <div class="team-name away-team">...</div>
         </div>
-        <div class="season" id="matchSeason">2025-26</div>
+
+        <div class="season" id="matchSeason">...</div>
 
         <div id="modalMatchSponsor" class="modal-sponsor-container" style="display: none;">
             <h3>Matchbalsponsor</h3>
@@ -24,49 +20,31 @@
             </a>
         </div>
 
-        <!-- Score Display -->
         <div class="modal-match-score" id="modalMatchScore" style="display: none;">
-            <div class="score-display">2-1</div>
+            <div class="score-display">--</div>
         </div>
 
-        <!-- Goalscorers Section -->
         <div class="goalscorers-section">
             <h3>Doelpuntenmakers</h3>
             <ul class="goalscorers-list" id="goalscorersList">
-                <li class="goalscorer-item">
-                    <i class="fas fa-futbol"></i>
-                    Tor Megens (2 doelpunten)
-                </li>
-                <li class="goalscorer-item">
-                    <i class="fas fa-futbol"></i>
-                    Siebe Govaerts (1 doelpunt)
-                </li>
-                <li class="goalscorer-item">
-                    <i class="fas fa-futbol"></i>
-                    Iain Robeyns (1 doelpunt)
-                </li>
             </ul>
         </div>
 
-        <!-- Match Details -->
-        <div class="match-details-container">
+        <div class="modal-details">
             <div class="modal-section date-time-section">
                 <h3>Datum & Tijd</h3>
                 <div class="date-time-container">
                     <div class="date-box">
-                        <p id="matchDate">1 jan</p>
-                    </div>
+                        <p id="matchDate">-- ---</p> </div>
                     <div class="time-box">
-                        <p id="matchTime">12:00</p>
-                    </div>
+                        <p id="matchTime">--:--</p> </div>
                 </div>
             </div>
             <div class="modal-section stadium-section">
                 <h3>Stadion</h3>
                 <p class="stadium-name" id="stadiumName">
                     <i class="fas fa-map-marker-alt"></i>
-                    Thuisstadion
-                </p>
+                    ... </p>
             </div>
         </div>
     </div>
