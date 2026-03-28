@@ -8,12 +8,14 @@
 }
 
 .archive-graph-tooltip .result-icon {
-    position: relative !important;
-    top: auto !important;
-    right: auto !important;
-    width: 1.8em;
-    height: 1.8em;
-    font-size: 10px;
+    position:    relative !important;
+    top:         auto !important;
+    right:       auto !important;
+    font-size:   11px;
+    width:       2em;
+    height:      2em;
+    box-shadow:  none;
+    flex-shrink: 0;
 }
 
 
