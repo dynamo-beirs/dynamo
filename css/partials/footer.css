@@ -1,0 +1,208 @@
+/* Base Footer Layout */
+.footer {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 50px 0 15px 0;
+    color: var(--dark-gray);
+}
+
+/* Footer Content Container */
+.footer-content {
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Social Icons with Horizontal Line */
+.footer-social-line {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 70%;
+    margin-bottom: 10px;
+}
+
+/* Horizontal Lines */
+.line-left,
+.line-right {
+    flex: 1;
+    height: 1px;
+    background: var(--line-gray);
+}
+
+/* Social Icons and Logo */
+.footer-social {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 0 20px;
+}
+
+/* Social Icons Container */
+.social-icons-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 25px;
+}
+
+/* Footer Brand */
+.footer-brand {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+}
+
+/* Logo Link */
+.logo-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    width: 80px;
+    height: 80px;
+}
+
+/* Logo Container */
+.logo-container {
+    position: relative;
+    width: 80px;
+    height: 80px;
+}
+
+/* Logo Images */
+.footer-logo {
+    width: 80px;
+    height: 80px;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+/* Logo Grey */
+.footer-logo-grey {
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+/* Logo Red */
+.footer-logo-red {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+/* Logo Hover Effects */
+.logo-link:hover .footer-logo-grey {
+    opacity: 0;
+}
+
+.logo-link:hover .footer-logo-red {
+    opacity: 1;
+}
+
+/* Social Icons */
+.social-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    color: var(--medium-gray);
+    font-size: 1.4rem;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    min-height: 44px;
+}
+
+/* Social Icon Hover */
+.social-icon:hover {
+    color: var(--dynamo-red);
+}
+
+/* Copyright Section */
+.footer-copyright {
+    text-align: center;
+}
+
+/* Copyright Text */
+.footer-copyright p {
+    margin: 0;
+    font-size: 0.7rem;
+    color: var(--medium-gray);
+    font-weight: 400;
+}
+
+/* Tablet View */
+@media (max-width: 768px) {
+    .footer {
+        padding: 40px 0 10px 0;
+    }
+
+    .logo-link,
+    .logo-container,
+    .footer-logo {
+        width: 60px;
+        height: 60px;
+    }
+
+    .footer-social {
+        gap: 8px;
+        padding: 0 8px;
+    }
+
+    .social-icons-container {
+        gap: 15px;
+    }
+
+    .social-icon {
+        width: 30px;
+        height: 30px;
+        font-size: 1rem;
+    }
+
+    .footer-copyright p {
+        font-size: 0.65rem;
+    }
+}
+
+/* Mobile View */
+@media (max-width: 480px) {
+    .footer-content {
+        padding: 0 10px;
+        width: 90vw;
+    }
+
+    .footer-social-line {
+        width: 100%;
+    }
+
+    .logo-link,
+    .logo-container,
+    .footer-logo {
+        width: 50px;
+        height: 50px;
+    }
+
+    .footer-social {
+        gap: 6px;
+        padding: 0 6px;
+    }
+
+    .social-icons-container {
+        gap: 12px;
+    }
+
+    .social-icon {
+        width: 28px;
+        height: 28px;
+        font-size: 0.9rem;
+    }
+}

@@ -1,363 +1,656 @@
-/* ============================================================
-   PLAYERS.CSS
-   ============================================================ */
+/* Theme Colors */
+body {
+    --hero-accent-color: var(--medium-gray);
+}
 
-/* ── Position-based Hero Pipe Colour ────────────────────────── */
-/*
- * Overrides --hero-pipe-color (defined in general.css) so the | pipe
- * decorators in .page-hero h1 match the active position filter.
- * No need to re-declare the entire ::before/::after block.
- */
-body                    { --hero-pipe-color: var(--medium-gray); }
-body.filter-goalkeeper  { --hero-pipe-color: var(--dark-blue); }
-body.filter-defender    { --hero-pipe-color: var(--dark-green); }
-body.filter-midfielder  { --hero-pipe-color: var(--dark-yellow); }
-body.filter-attacker    { --hero-pipe-color: var(--dynamo-red); }
-body.filter-all         { --hero-pipe-color: var(--medium-gray); }
+body.filter-goalkeeper {
+    --hero-accent-color: var(--dark-blue);
+}
 
-/* ── Page Hero Overrides ────────────────────────────────────── */
-/* Width is explicitly 100% on this page (vs default auto on others) */
-main .page-hero { width: 100%; }
-main .page-hero h1 { margin: 0 auto; }
+body.filter-defender {
+    --hero-accent-color: var(--dark-green);
+}
 
-/* ── Filter Section ─────────────────────────────────────────── */
+body.filter-midfielder {
+    --hero-accent-color: var(--dark-yellow);
+}
+
+body.filter-attacker {
+    --hero-accent-color: var(--dynamo-red);
+}
+
+body.filter-all {
+    --hero-accent-color: var(--medium-gray);
+}
+
+/* Page Hero */
+main .page-hero {
+    padding: 1.5rem 1rem;
+    text-align: center;
+    background: transparent;
+    color: var(--dynamo-red);
+    margin-top: 20px;
+    width: 100%;
+}
+
+main .page-hero h1 {
+    position: relative;
+    font-family: 'Poppins', sans-serif;
+    font-size: 3rem;
+    font-weight: 900;
+    color: var(--dark-gray, #343a40);
+    text-align: center;
+    margin: 0 auto;
+    max-width: 100%;
+    padding: 0;
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+main .page-hero h1::before,
+main .page-hero h1::after {
+    content: '|';
+    margin: 8px;
+    display: inline-block;
+    position: relative;
+    top: 1px;
+    height: 100%;
+    font-size: 1.2em;
+    color: var(--hero-accent-color);
+    opacity: 0;
+    transform: scaleY(0);
+    transform-origin: center center;
+    transition: opacity 0.6s ease-out 0.3s, transform 0.6s ease-out 0.3s, color 0.3s ease;
+}
+
+main .page-hero h1:hover::before {
+    transform: scaleY(1) translateX(-8px);
+}
+
+main .page-hero h1:hover::after {
+    transform: scaleY(1) translateX(8px);
+}
+
+main .page-hero h1.animate-in {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+main .page-hero h1.animate-in::before,
+main .page-hero h1.animate-in::after {
+    opacity: 1;
+    transform: scaleY(1);
+}
+
+/* Filter Section */
 .filter-section {
-    padding:    1.5rem 0 0.8rem;
+    padding: 1.5rem 0 0.8rem 0;
     background: var(--off-white);
-    opacity:    0;
-    transform:  translateY(var(--reveal-lift));
-    transition: var(--t-reveal);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
 }
 
 .filter-section.animate-in {
-    opacity:   1;
+    opacity: 1;
     transform: translateY(0);
 }
 
 .filter-controls {
-    display:         flex;
+    display: flex;
     justify-content: center;
-    gap:             0.8rem;
-    flex-wrap:       wrap;
-    width:           70%;
-    max-width:       var(--content-width);
-    min-width:       420px;
-    margin:          0 auto;
+    gap: 0.8rem;
+    flex-wrap: wrap;
 }
 
-/* ── Filter Buttons ─────────────────────────────────────────── */
-
-/* 1. Assign position-specific colors to a local variable */
-.filter-btn[data-position="all"]        { --btn-color: var(--medium-gray); }
-.filter-btn[data-position="goalkeeper"] { --btn-color: var(--dark-blue); }
-.filter-btn[data-position="defender"]   { --btn-color: var(--dark-green); }
-.filter-btn[data-position="midfielder"] { --btn-color: var(--dark-yellow); }
-.filter-btn[data-position="attacker"]   { --btn-color: var(--dynamo-red); }
-
-/* 2. Base Button Styling */
 .filter-btn {
-    background:     white;
-    border:         3px solid var(--btn-color);
-    color:          var(--btn-color);
-    padding:        0.5rem 0.988rem;
-    border-radius:  var(--radius-pill);
-    font-family:    'Poppins', sans-serif;
-    font-weight:    700;
+    background: white;
+    border: none;
+    color: var(--medium-gray);
+    padding: 0.6rem 1.2rem;
+    border-radius: 20px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
     letter-spacing: 1px;
-    font-size:      var(--text-sm);
-    cursor:         pointer;
-    transition:     all var(--dur-base) var(--ease-ui);
-    display:        flex;
-    align-items:    center;
-    justify-content: center;
-    gap:            0.5rem;
-    box-shadow:     var(--shadow-small);
-    min-height:     44px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    box-shadow: var(--shadow-medium);
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    min-height: 44px;
 }
 
 .filter-btn i {
     font-size: 0.9rem;
+    z-index: 2;
+    position: relative;
 }
 
-/* 3. Hover & Active States */
-.filter-btn:hover,
+.filter-btn .hover-effect {
+    position: absolute;
+    display: block;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    transition: width 0.4s ease-in-out, height 0.4s ease-in-out;
+    transform: translate(-50%, -50%);
+    z-index: -1;
+}
+
+.filter-btn[data-position="goalkeeper"] .hover-effect {
+    background-color: var(--dark-blue);
+}
+
+.filter-btn[data-position="defender"] .hover-effect {
+    background-color: var(--dark-green);
+}
+
+.filter-btn[data-position="midfielder"] .hover-effect {
+    background-color: var(--dark-yellow);
+}
+
+.filter-btn[data-position="attacker"] .hover-effect {
+    background-color: var(--dynamo-red);
+}
+
+.filter-btn[data-position="all"] .hover-effect {
+    background-color: var(--medium-gray);
+}
+
+.filter-btn:hover {
+    color: var(--off-white);
+}
+
+.filter-btn:hover .hover-effect {
+    width: 225%;
+    height: 180px;
+}
+
 .filter-btn.active {
-    background: var(--btn-color);
-    color:      white;
+    color: var(--off-white);
 }
 
-/* ── Search Bar ─────────────────────────────────────────────── */
-/* Forces the search bar to have exactly the same width as one player card */
-/* (matches the `minmax(250px, 1fr)` of .players-grid + responsive adjustments) */
-
-.search-section {
-    padding: 1.2rem 0 0;
+.filter-btn.active[data-position="goalkeeper"] {
+    background: var(--dark-blue);
 }
 
+.filter-btn.active[data-position="defender"] {
+    background: var(--dark-green);
+}
+
+.filter-btn.active[data-position="midfielder"] {
+    background: var(--dark-yellow);
+}
+
+.filter-btn.active[data-position="attacker"] {
+    background: var(--dynamo-red);
+}
+
+.filter-btn.active[data-position="all"] {
+    background: var(--medium-gray);
+}
+
+/* Search Section */
 .search-container {
-    display:         flex;
-    justify-content: center;
+    margin: 0.8rem 0;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.search-container.animate-in {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .search-wrapper {
-    width:           100%;
-    max-width:       264px;
-    margin:          0 auto;
+    position: relative;
+    display: inline-block;
+    width: 90%;
+    max-width: 280px;
 }
 
-/* ── Players Grid ───────────────────────────────────────────── */
+.search-icon {
+    position: absolute;
+    left: 0.8rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--medium-gray);
+    font-size: 0.9rem;
+    pointer-events: none;
+}
+
+.player-search {
+    padding: 0.6rem 0.8rem 0.6rem 2.2rem;
+    border: 2px solid white;
+    border-radius: 20px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.85rem;
+    width: 100%;
+    box-sizing: border-box;
+    text-align: center;
+    transition: all 0.3s ease;
+    outline: none;
+    box-shadow: var(--shadow-medium);
+    min-height: 44px;
+}
+
+.player-search:focus {
+    border-color: var(--light-gray);
+}
+
+.player-search::placeholder {
+    color: var(--medium-gray);
+    opacity: 1;
+}
+
+/* Players Section */
 .players-section {
     padding: 2rem 0;
 }
 
 .players-grid {
-    display:               grid;
+    display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap:                   1rem;
-    max-width:             var(--content-width);
-    margin:                0 auto;
+    gap: 1rem;
+    max-width: 70%;
+    margin: 0 auto;
 }
 
-/* ── Player Card ────────────────────────────────────────────── */
 .player-card {
-    background:    white;
-    border-radius: var(--radius-lg);
-    padding:       1.5rem;
-    box-shadow:    var(--shadow-medium);
-    cursor:        pointer;
-    border:        3px solid transparent;
-    position:      relative;
-    overflow:      visible;
-    transition:    var(--t-reveal);
-    will-change:   transform, box-shadow, border-color;
-    display:       flex;
-    flex-direction: column;
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: var(--shadow-medium);
+    cursor: pointer;
+    border: 2px solid transparent;
+    opacity: 0;
+    transform: translateY(50px);
+    position: relative;
+    overflow: visible;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    will-change: transform, box-shadow, border-color;
 }
 
 .player-card:hover {
     box-shadow: var(--shadow-hover);
-    transform:  scale(var(--hover-scale)) !important;
-    transition: var(--t-interact);
+    transform: translateY(-5px);
 }
 
-/* Position-specific hover border colours */
-.player-card[data-position="goalkeeper"]:hover { border-color: var(--dark-blue); }
-.player-card[data-position="defender"]:hover   { border-color: var(--dark-green); }
-.player-card[data-position="midfielder"]:hover { border-color: var(--dark-yellow); }
-.player-card[data-position="attacker"]:hover   { border-color: var(--dynamo-red); }
+.player-card.animate-in {
+    opacity: 1;
+    transform: translateY(0);
+}
 
-/* Filter state helpers */
-.player-card.filter-hidden   { display: none; }
-.player-card.filter-visible  { display: block; }
+.player-card[data-position="goalkeeper"]:hover {
+    border-color: var(--dark-blue);
+}
 
-/* ── Player Info ────────────────────────────────────────────── */
+.player-card[data-position="defender"]:hover {
+    border-color: var(--dark-green);
+}
+
+.player-card[data-position="midfielder"]:hover {
+    border-color: var(--dark-yellow);
+}
+
+.player-card[data-position="attacker"]:hover {
+    border-color: var(--dynamo-red);
+}
+
+.player-card.filter-hidden {
+    display: none;
+}
+
+.player-card.filter-visible {
+    display: block;
+}
+
+/* Player Info */
 .player-info {
     text-align: center;
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
 }
 
 .player-name {
-    font-size:     var(--text-lg);
-    font-weight:   700;
-    color:         var(--dark-gray);
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--dark-gray);
     margin-bottom: 0.4rem;
-    font-family:   'Poppins', sans-serif;
+    font-family: 'Poppins', sans-serif;
 }
 
 .player-position {
     text-transform: uppercase;
-    font-size:      var(--text-sm);
-    font-weight:    800;
-    margin-bottom:  0.8rem;
-    margin-top:     auto;
+    color: var(--dynamo-red);
+    font-size: 0.8rem;
+    font-weight: 800;
+    margin-bottom: 0.8rem;
 }
-
-.player-card .player-position {
-    display: block;
-}
-
-/* Position-specific text colours */
-.player-card[data-position="goalkeeper"] .player-position { color: var(--dark-blue); }
-.player-card[data-position="defender"]   .player-position { color: var(--dark-green); }
-.player-card[data-position="midfielder"] .player-position { color: var(--dark-yellow); }
-.player-card[data-position="attacker"]   .player-position { color: var(--dynamo-red); }
 
 .player-nationality {
-    display:         flex;
-    align-items:     center;
+    display: flex;
+    align-items: center;
     justify-content: center;
-    gap:             0.4rem;
-    color:           var(--medium-gray);
-    font-size:       var(--text-sm);
-    font-weight:     500;
-    padding:         0.4rem 0.8rem;
-    border-radius:   var(--radius-pill);
-    margin:          0 auto;
-    width:           fit-content;
+    gap: 0.4rem;
+    color: var(--medium-gray);
+    font-size: 0.85rem;
+    font-weight: 500;
+    padding: 0.4rem 0.8rem;
+    border-radius: 16px;
+    margin: 0 auto;
+    width: fit-content;
 }
 
 .player-nationality i {
-    color:     var(--dynamo-red);
-    font-size: 0.9em;
+    color: var(--dynamo-red);
+    font-size: 0.8rem;
 }
 
 .flag-icon {
-    width:          35px;
-    height:         auto;
+    width: 35px;
+    height: auto;
     vertical-align: middle;
 }
 
-/* ── Birthday Card Decorations ──────────────────────────────── */
+.player-card[data-position="goalkeeper"] .player-position {
+    color: var(--dark-blue);
+}
+
+.player-card[data-position="defender"] .player-position {
+    color: var(--dark-green);
+}
+
+.player-card[data-position="midfielder"] .player-position {
+    color: var(--dark-yellow);
+}
+
+.player-card[data-position="attacker"] .player-position {
+    color: var(--dynamo-red);
+}
+
+/* Birthday Card */
 .player-card.birthday > .player-info {
     position: relative;
-    z-index:  10;
+    z-index: 10;
 }
 
 .confetti-bg {
-    position:          absolute;
-    inset:             0;
-    background-image:  url('/dynamo/img/icons/birthday/confetti.png');
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('/dynamo/img/icons/confetti.png');
     background-repeat: repeat;
-    background-size:   60px 60px;
-    opacity:           0.1;
-    pointer-events:    none;
-    z-index:           0;
-    border-radius:     var(--radius-lg);
+    background-size: 60px 60px;
+    opacity: 0.1;
+    pointer-events: none;
+    z-index: 0;
+    border-radius: 12px;
 }
-
-.garland-left,
+/* Garland – top-left */
+.garland-left {
+    position: absolute;
+    top: -8px;
+    left: 0px;
+    width: 70px;
+    height: 70px;
+    background: url('/dynamo/img/icons/garland.png') no-repeat center / contain;
+    pointer-events: none;
+    z-index: 2;
+    transform: rotate(-30deg);
+    opacity: 0.5;
+}
+/* Garland – top-right */
 .garland-right {
-    position:          absolute;
-    top:               -8px;
-    width:             70px;
-    height:            70px;
-    background:        url('/dynamo/img/icons/birthday/garland.png') no-repeat center / contain;
-    pointer-events:    none;
-    z-index:           2;
-    opacity:           0.5;
+    position: absolute;
+    top: -8px;
+    right: 0px;
+    width: 70px;
+    height: 70px;
+    background: url('/dynamo/img/icons/garland.png') no-repeat center / contain;
+    transform: scaleX(-1) rotate(-30deg);
+    pointer-events: none;
+    z-index: 2;
+    opacity: 0.5;
 }
-
-.garland-left  { left:  0; transform: rotate(-30deg); }
-.garland-right { right: 0; transform: scaleX(-1) rotate(-30deg); }
-
-/* Crown above player name */
+/* Crown */
 .player-card.birthday .player-name::before {
-    content:           '';
-    position:          absolute;
-    top:               -25px;
-    left:              50%;
-    transform:         translateX(-50%);
-    width:             30px;
-    height:            30px;
-    background:        url('/dynamo/img/icons/birthday/crown.png') no-repeat center / contain;
-    pointer-events:    none;
-    z-index:           3;
+    content: "";
+    position: absolute;
+    top: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30px;
+    height: 30px;
+    background: url('/dynamo/img/icons/crown.png') no-repeat center / contain;
+    pointer-events: none;
+    z-index: 3;
 }
 
-/* ── Responsive: Tablet (≤ 768 px) ─────────────────────────── */
+/* Tablet View */
 @media (max-width: 768px) {
-    .filter-section {
-        padding: 1rem 0 0.5rem;
+    main .page-hero {
+        padding: 1rem 0.5rem;
     }
 
-    .filter-controls { gap: 0.6rem; }
+    main .page-hero h1 {
+        font-size: 2rem;
+    }
+
+    main .page-hero h1::before,
+    main .page-hero h1::after {
+        font-size: 1em;
+        margin: 6px;
+    }
+
+    .filter-section {
+        padding: 1rem 0 0.5rem 0;
+    }
+
+    .filter-controls {
+        gap: 0.6rem;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
 
     .filter-btn {
-        padding:      0.5rem 1rem;
-        max-width:    150px;
+        padding: 0.5rem 1rem;
+        font-size: 0.8rem;
+        width: auto;
+        max-width: 150px;
         justify-content: center;
+    }
+
+    .filter-btn i {
+        font-size: 0.8rem;
+    }
+
+    .search-wrapper {
+        width: 100%;
+        max-width: 250px;
+    }
+
+    .player-search {
+        padding: 0.5rem 0.7rem 0.5rem 2rem;
+        font-size: 0.8rem;
+    }
+
+    .search-icon {
+        font-size: 0.8rem;
+        left: 0.7rem;
     }
 
     .players-grid {
         grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 1rem;
+        max-width: 90%;
+        margin: 0 auto;
     }
 
-    .player-card { padding: 1.2rem; }
-
-    /* Disable hover lift on touch */
-    .player-card:hover {
-        transform:  translateY(0) !important;
-        box-shadow: var(--shadow-hover);
-    }
-
-    .player-nationality { padding: 0.3rem 0.6rem; }
-    .flag-icon          { width: 30px; }
-
-    .garland-left,
-    .garland-right { width: 50px; height: 50px; top: -6px; }
-
-    .player-card.birthday .player-name::before { width: 22px; height: 22px; top: -18px; }
-}
-
-/* ── Responsive: Mobile (≤ 480 px) ─────────────────────────── */
-@media (max-width: 480px) {
-    .filter-section {
-        padding: 0.8rem 0 0;
-    }
-
-    /* Switch to 2-column grid for filters on mobile */
-    .filter-controls {
-        display:               grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap:                   0.8rem;
-        padding:               0;
-        margin-bottom:         0;
-        min-width:             0;
-        width:                 100%;
-    }
-
-    .filter-btn {
-        padding:    0.5rem 0.9rem;
-        max-width:  none;      /* Removed max-width so they span full column */
-        min-height: 40px;
-        width:      100%;
-        box-sizing: border-box;
-    }
-
-    /* "All" button is perfectly centered and perfectly sized */
-    .filter-btn:first-child {
-        grid-column:  1 / -1;
-        width:        calc(50% - 0.4rem);
-        max-width:    none;
-        justify-self: center;
-    }
-
-    .players-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap:     0.8rem;
-        padding: 0;
-        width: 100%
+    .player-card {
+        padding: 1.2rem;
     }
 
     .player-name {
-        margin-bottom: 0.3rem;
-        word-break: break-word; /* Prevent long names from breaking the grid */
+        font-size: 1.1rem;
     }
 
-    .player-card     { padding: 0.9rem; }
-    .player-name     { margin-bottom: 0.3rem; }
-    .player-position { margin-bottom: 0.6rem; }
-    .player-nationality { padding: 0.25rem 0.5rem; }
-    .flag-icon       { width: 24px; }
+    .player-position {
+        font-size: 0.75rem;
+    }
+
+    .player-nationality {
+        font-size: 0.8rem;
+        padding: 0.3rem 0.6rem;
+    }
+
+    .flag-icon {
+        width: 30px;
+    }
 
     .garland-left,
-    .garland-right { width: 40px; height: 40px; top: -5px; }
+    .garland-right {
+        width:50px;
+        height:50px;
+        top:-6px;
+    }
 
-    .player-card.birthday .player-name::before { width: 18px; height: 18px; top: -15px; }
+    .player-card.birthday .player-name::before {
+        width:22px;
+        height:22px;
+        top:-18px;
+    }
+}
 
-    /* ── Search bar on mobile ───────────────────────────────── */
-    .search-section {
-        padding: 0.8rem 0 0;
+/* Mobile View */
+@media (max-width: 480px) {
+    .filter-section {
+        padding: 0.8rem 0 0.4rem 0;
+    }
+
+    .filter-controls {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        row-gap: 0.75rem;
+        column-gap: 0.3rem;
+        justify-items: center;
+        padding: 0 2.5rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .filter-btn {
+        padding: 0.5rem 0.9rem;
+        font-size: 0.75rem;
+        max-width: 140px;
+        min-height: 40px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .filter-btn:first-child {
+        grid-column: 1 / -1;
+        max-width: 160px;
+    }
+
+    .filter-btn i {
+        font-size: 0.75rem;
     }
 
     .search-wrapper {
-        width:     calc(45% - 0.4rem);
-        max-width: none;
+        width: 100%;
+        max-width: 291px;
+        margin: 0 auto;
     }
 
-    .players-section {
-        padding: 0.8rem 0 2rem;
+    .player-search {
+        padding: 0.5rem 0.7rem 0.5rem 2rem;
+        font-size: 0.75rem;
+        min-height: 40px;
+    }
+
+    .search-icon {
+        font-size: 0.75rem;
+        left: 0.7rem;
+    }
+
+    .players-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.8rem;
+        max-width: 90%;
+        margin: 0 auto;
+        padding: 0;
+    }
+
+    .player-card {
+        padding: 0.8rem;
+        border-radius: 10px;
+        box-shadow: var(--shadow-medium, 0 2px 4px rgba(0, 0, 0, 0.1));
+    }
+
+    .player-name {
+        font-size: 0.95rem;
+        margin-bottom: 0.3rem;
+    }
+
+    .player-position {
+        font-size: 0.65rem;
+        margin-bottom: 0.6rem;
+    }
+
+    .player-nationality {
+        font-size: 0.7rem;
+        padding: 0.25rem 0.5rem;
+    }
+
+    .flag-icon {
+        width: 26px;
+    }
+
+    .filter-controls {
+        row-gap: 0.75rem;
+        padding: 0 2.5rem;
+    }
+
+    .player-card {
+        padding: 0.9rem;
+    }
+
+    .player-name {
+        font-size: 0.8rem;
+    }
+
+    .player-position {
+        font-size: 0.6rem;
+    }
+
+    .player-nationality {
+        font-size: 0.65rem;
+    }
+
+    .flag-icon {
+        width: 24px;
+    }
+
+    .garland-left,
+    .garland-right {
+        width:40px;
+        height:40px;
+        top:-5px;
+    }
+
+    .player-card.birthday .player-name::before {
+        width:18px;
+        height:18px;
+        top:-15px;
     }
 }

@@ -1,46 +1,45 @@
-/**
- * layout/footer.js
- */
-
-document.addEventListener('DOMContentLoaded', () => {
-    initFooter();
+/* Footer Loader */
+document.addEventListener('DOMContentLoaded', function() {
+    loadFooter();
 });
 
-// ── Footer Loading ────────────────────────────────────────────────────────────
-
-async function initFooter() {
-    const footerPath = '/dynamo/html/layout/footer.html';
-
+async function loadFooter() {
     try {
+        const footerPath = '/dynamo/html/partials/footer.html';
         const response = await fetch(footerPath);
+
         if (!response.ok) {
             console.error(`Failed to load footer from ${footerPath}: ${response.status} ${response.statusText}`);
-            renderFallbackFooter();
+            loadFallbackFooter();
             return;
         }
 
         const footerHTML = await response.text();
-        if (!footerHTML.trim()) { renderFallbackFooter(); return; }
 
-        const placeholder = document.getElementById('footer-placeholder');
-        if (placeholder) {
-            placeholder.outerHTML = footerHTML;
+        if (!footerHTML.trim()) {
+            console.error('Footer file is empty');
+            loadFallbackFooter();
+            return;
+        }
+
+        const footerPlaceholder = document.getElementById('footer-placeholder');
+        if (footerPlaceholder) {
+            footerPlaceholder.outerHTML = footerHTML;
         } else {
             document.body.insertAdjacentHTML('beforeend', footerHTML);
         }
 
-        updateFooterYear();
+        configureFooter();
     } catch (error) {
         console.error('Error loading footer:', error);
-        renderFallbackFooter();
+        loadFallbackFooter();
     }
 }
 
-function renderFallbackFooter() {
+function loadFallbackFooter() {
     const logoGreyPath = '/dynamo/img/logos/gray-outlined-logo.png';
-    const logoRedPath  = '/dynamo/img/logos/red-outlined-logo.png';
-    const homePath     = '/dynamo/index.html';
-    const currentYear  = new Date().getFullYear();
+    const logoRedPath = '/dynamo/img/logos/red-outlined-logo.png';
+    const homePath = '/dynamo/index.html';
 
     const fallbackFooter = `
         <footer class="footer">
@@ -57,10 +56,10 @@ function renderFallbackFooter() {
                             </a>
                         </div>
                         <div class="footer-brand">
-                            <a href="${homePath}" aria-label="Dynamo Beirs Homepage" class="logo-link">
+                            <a href="${homePath}" aria-label="Dynamo Beirs Homepage" class="logo-link" id="footer-logo-link">
                                 <div class="logo-container">
-                                    <img src="${logoGreyPath}" alt="Gray" class="footer-logo footer-logo-grey">
-                                    <img src="${logoRedPath}"  alt="Red"  class="footer-logo footer-logo-red">
+                                    <img src="${logoGreyPath}" alt="Gray Outlined Dynamo Beirs Logo" class="footer-logo footer-logo-grey" id="footer-logo-grey">
+                                    <img src="${logoRedPath}" alt="Red Outlined Dynamo Beirs Logo" class="footer-logo footer-logo-red" id="footer-logo-red">
                                 </div>
                             </a>
                         </div>
@@ -76,22 +75,36 @@ function renderFallbackFooter() {
                     <span class="line-right"></span>
                 </div>
                 <div class="footer-copyright">
-                    <p>© <span>${currentYear}</span> Dynamo Beirs</p>
+                    <p>© <span id="year-fallback">${new Date().getFullYear()}</span> Dynamo Beirs</p>
                 </div>
             </div>
         </footer>
     `;
 
-    const placeholder = document.getElementById('footer-placeholder');
-    if (placeholder) {
-        placeholder.outerHTML = fallbackFooter;
+    const footerPlaceholder = document.getElementById('footer-placeholder');
+    if (footerPlaceholder) {
+        footerPlaceholder.outerHTML = fallbackFooter;
     } else {
         document.body.insertAdjacentHTML('beforeend', fallbackFooter);
     }
 }
 
-/** Sets the copyright year span to the current year. */
-function updateFooterYear() {
+function configureFooter() {
+    const logoLink = document.getElementById('footer-logo-link');
+    const logoGrey = document.getElementById('footer-logo-grey');
+    const logoRed = document.getElementById('footer-logo-red');
+
     const yearSpan = document.getElementById('year');
-    if (yearSpan) yearSpan.textContent = new Date().getFullYear();
+    if (yearSpan) {
+        yearSpan.textContent = new Date().getFullYear();
+    }
+
+    if (!logoLink || !logoGrey || !logoRed) {
+        console.warn('Footer logo elements not found');
+        return;
+    }
+
+    logoLink.href = '/dynamo/index.html';
+    logoGrey.src = '/dynamo/img/logos/gray-outlined-logo.png';
+    logoRed.src = '/dynamo/img/logos/red-outlined-logo.png';
 }

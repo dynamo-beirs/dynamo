@@ -1,185 +1,345 @@
-/* ============================================================
-   COMPONENTS/PLAYERMODAL.CSS
-   Requires: modal-shared.css
-   ============================================================ */
-
-/* Width constraint for this modal specifically */
-.modal-content {
-    max-width: 500px;
-    border: 3px solid var(--modal-theme);
+/* Body and Overlay */
+body.modal-open {
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
 }
 
-/* ── Position-based Theme Variables ─────────────────────────── */
-/* Set on .modal-content; consumed by ::after underlines and position label */
-.modal-content.goalkeeper { --modal-theme: var(--dark-blue); }
-.modal-content.defender   { --modal-theme: var(--dark-green); }
-.modal-content.midfielder { --modal-theme: var(--dark-yellow); }
-.modal-content.attacker   { --modal-theme: var(--dynamo-red); }
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    backdrop-filter: blur(3px);
+    display: none;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
 
-/* ── Player Header ──────────────────────────────────────────── */
+.modal-overlay.show {
+    display: flex !important;
+    visibility: visible;
+    opacity: 1;
+}
+
+/* Modal Content */
+.modal-content {
+    background: var(--off-white);
+    border-radius: 16px;
+    box-shadow: var(--shadow-medium);
+    padding: 1.5rem;
+    width: 90%;
+    max-width: 500px;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    color: var(--dark-gray);
+    font-family: 'Poppins', sans-serif;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.modal-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.modal-content::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 10px;
+    margin: 16px 0;
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+    background: var(--light-gray);
+    border-radius: 10px;
+}
+
+.modal-content::-webkit-scrollbar-thumb:hover {
+    background: var(--medium-gray);
+}
+
+/* Close Button */
+.close-modal {
+    position: sticky;
+    top: 0px;
+    float: right;
+    background: white;
+    margin-top: -5px;
+    margin-right: -5px;
+    margin-bottom: -36px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow-medium);
+    line-height: 1;
+    padding: 0;
+    z-index: 10000;
+}
+.close-modal i {
+    font-size: 1.3rem;
+    line-height: 1;
+    color: var(--medium-gray);
+    pointer-events: none;
+}
+.close-modal:hover {
+    box-shadow: var(--shadow-hover);
+    border-color: var(--dynamo-red);
+}
+.close-modal:hover i {
+    color: var(--dynamo-red);
+}
+
+
+/* Player Header (Name, Position, Flag) */
 .player-header {
-    text-align:    center;
+    text-align: center;
     margin-bottom: 1.5rem;
 }
 
 .player-header .flag-icon {
     display: block;
-    margin:  1rem auto;
-    width:   40px;
-    height:  auto;
+    margin: 0.5rem auto 0 auto;
+    width: 40px;
+    height: auto;
 }
 
 #modalPlayerName {
-    margin:      0.5rem 0 0.3rem;
-    font-size:   var(--text-h3);
+    margin: 0.5rem 0 0.5rem 0;
+    font-size: 2rem;
     font-weight: 800;
-    color:       var(--dark-gray);
+    color: var(--dark-gray);
     font-family: 'Poppins', sans-serif;
-    position:    relative;
+    position: relative;
 }
 
 #modalPlayerName::after {
-    content:       '';
-    position:      absolute;
-    bottom:        0;
-    left:          50%;
-    transform:     translateX(-50%);
-    width:         50px;
-    height:        3px;
-    border-radius: var(--radius-sm);
-    background:    var(--modal-theme, var(--dynamo-red));
+    content: '';
+    position: absolute;
+    bottom: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px;
+    height: 3px;
+    border-radius: 2px;
+}
+
+.modal-content.goalkeeper #modalPlayerName::after {
+    background: var(--dark-blue);
+}
+
+.modal-content.defender #modalPlayerName::after {
+    background: var(--dark-green);
+}
+
+.modal-content.midfielder #modalPlayerName::after {
+    background: var(--dark-yellow);
+}
+
+.modal-content.attacker #modalPlayerName::after {
+    background: var(--dynamo-red);
 }
 
 #playerPosition {
-    font-family:    'Poppins', sans-serif;
-    margin:         1rem auto;
-    font-weight:    600;
-    font-size:      var(--text-body);
-    text-align:     center;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 1rem;
+    text-align: center;
+    margin: 0 0 0.5rem 0;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    color:          var(--modal-theme, var(--dynamo-red));
 }
 
-/* ── Stats Sections ─────────────────────────────────────────── */
+.modal-content.goalkeeper #playerPosition {
+    color: var(--dark-blue);
+}
+
+.modal-content.defender #playerPosition {
+    color: var(--dark-green);
+}
+
+.modal-content.midfielder #playerPosition {
+    color: var(--dark-yellow);
+}
+
+.modal-content.attacker #playerPosition {
+    color: var(--dynamo-red);
+}
+
+/* Stats Sections */
 .season-stats-section,
 .all-time-stats-section {
     margin-bottom: 1.5rem;
-    padding:       1.2rem;
-    background:    white;
-    border-radius: var(--radius-lg);
-    border:        1px solid transparent;
-    box-shadow:    var(--shadow-medium);
-    transition:    var(--t-interact);
+    padding: 1.2rem;
+    background: white;
+    border-radius: 12px;
+    border: 1px solid transparent;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow-medium);
+    opacity: 0;
+    transform: translateY(20px);
 }
 
 .season-stats-section:hover,
 .all-time-stats-section:hover {
-    transform:  scale(var(--hover-scale));
-    box-shadow: var(--shadow-hover);
+    transform: translateY(-2px) !important;
+    box-shadow: var(--shadow-hover) !important;
 }
 
-/* Remove bottom margin from last stat section */
-.modal-content > .all-time-stats-section:last-of-type,
-.modal-content > .season-stats-section:last-child {
-    margin-bottom: 0;
+.season-stats-section.animate-in,
+.all-time-stats-section.animate-in {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
 }
 
-/* ── Section Headings ───────────────────────────────────────── */
 .season-stats-section h3,
 .all-time-stats-section h3 {
     margin-bottom: 0.8rem;
-    color:         var(--dark-gray);
-    font-size:     var(--text-lg);
-    text-align:    center;
-    font-weight:   700;
-    font-family:   'Poppins', sans-serif;
-    position:      relative;
+    color: var(--dark-gray);
+    font-size: 1.2rem;
+    text-align: center;
+    font-weight: 700;
+    font-family: 'Poppins', sans-serif;
+    position: relative;
 }
 
 .season-stats-section h3::after,
 .all-time-stats-section h3::after {
-    content:       '';
-    position:      absolute;
-    bottom:        -4px;
-    left:          50%;
-    transform:     translateX(-50%);
-    width:         35px;
-    height:        2px;
-    border-radius: var(--radius-sm);
-    background:    var(--modal-theme, var(--dynamo-red));
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 35px;
+    height: 2px;
+    border-radius: 1px;
 }
 
-/* ── Stat Boxes ─────────────────────────────────────────────── */
+.modal-content.goalkeeper h3::after {
+    background: var(--dark-blue);
+}
+
+.modal-content.defender h3::after {
+    background: var(--dark-green);
+}
+
+.modal-content.midfielder h3::after {
+    background: var(--dark-yellow);
+}
+
+.modal-content.attacker h3::after {
+    background: var(--dynamo-red);
+}
+
+/* Stats Containers */
 .stats-container {
-    display:         flex;
-    flex-wrap:       wrap;
+    display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
-    gap:             0.5rem;
+    gap: 0.5rem;
 }
 
 .stat-box {
-    flex:       1;
-    min-width:  120px;
+    flex: 1;
+    min-width: 120px;
     text-align: center;
 }
 
 .stat-box p {
-    text-align:      center;
-    font-size:       var(--text-sm);
-    color:           var(--dark-gray);
-    font-weight:     600;
-    font-family:     'Poppins', sans-serif;
-    line-height:     1.4;
-    margin:          0;
-    padding:         0.8rem;
-    background:      var(--nested-box);
-    border-radius:   var(--radius-md);
-    border:          1px solid transparent;
-    box-shadow:      var(--shadow-medium);
-    display:         flex;
-    align-items:     center;
+    text-align: center;
+    font-size: 1rem;
+    color: var(--dark-gray);
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+    line-height: 1.4;
+    margin: 0;
+    padding: 0.8rem;
+    background: var(--nested-box);
+    border-radius: 10px;
+    border: 1px solid transparent;
+    box-shadow: var(--shadow-medium);
+    display: flex;
+    align-items: center;
     justify-content: center;
-    gap:             4px;
+    gap: 4px;
 }
 
+/* Icons */
 .stat-box i {
-    color:       var(--medium-gray);
+    color: var(--medium-gray);
     margin-right: 8px;
-    font-size:   1.1em;
+    font-size: 1rem;
 }
 
-/* ── Responsive: Tablet (≤ 768 px) ─────────────────────────── */
+/* Tablet View */
 @media (max-width: 768px) {
-    .player-header .flag-icon { width: 35px; }
-
-    #modalPlayerName { margin-bottom: 1.2rem; }
-
-    .season-stats-section,
-    .all-time-stats-section {
-        padding:       1rem;
+    .modal-content {
+        width: 90%;
+        max-width: none;
+        padding: 1.2rem;
+        max-height: 85vh;
+    }
+    .player-header .flag-icon {
+        width: 35px;
+    }
+    #modalPlayerName {
+        font-size: 1.7rem;
         margin-bottom: 1.2rem;
     }
-
-    .stats-container { flex-direction: row; flex-wrap: wrap; }
-
-    .stat-box {
-        flex:      1 1 calc(50% - 0.5rem);
-        min-width: calc(50% - 0.5rem);
+    .season-stats-section,
+    .all-time-stats-section {
+        padding: 1rem;
+        margin-bottom: 1.2rem;
     }
-
-    /* Disable hover lift on touch */
-    .season-stats-section.animate-in:hover,
-    .all-time-stats-section.animate-in:hover {
-        transform:  translateY(0) !important;
-        box-shadow: var(--shadow-hover);
+    .season-stats-section h3,
+    .all-time-stats-section h3 {
+        font-size: 1.1rem;
+    }
+    .close-modal {
+        width: 32px;
+        height: 32px;
+        font-size: 1.1rem;
+        top: 10px;
+        right: 10px;
+    }
+    .stats-container {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+    .stat-box {
+        flex: 1 1 calc(50% - 0.5rem);
+        min-width: calc(50% - 0.5rem);
     }
 }
 
-/* ── Responsive: Mobile (≤ 480 px) ─────────────────────────── */
+/* Mobile View */
 @media (max-width: 480px) {
-    .player-header .flag-icon { width: 30px; }
-
-    .stat-box p { padding: 0.6rem 0.8rem; }
-    .stat-box i { margin-right: 2px; }
+    .modal-content {
+        width: 90%;
+        max-width: none;
+        padding: 1rem;
+    }
+    .player-header .flag-icon {
+        width: 30px;
+    }
+    #modalPlayerName {
+        font-size: 1.4rem;
+    }
+    .stat-box p {
+        font-size: 0.80rem;
+        padding: 0.6rem 0.8rem;
+    }
+    .stat-box i {
+        margin-right: 2px;
+    }
 }

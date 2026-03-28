@@ -1,100 +1,380 @@
-/* ============================================================
-   SEARCH.CSS
-   NOTE: .dropdown base styles are now in general.css.
-         .sort-controls base layout is now in general.css.
-         .match-card entrance animation is handled by general.css.
-   ============================================================ */
-
-/* ── Search Section ─────────────────────────────────────────── */
+/* Search Section */
 .search-section {
-    padding:  1.5rem 0;
+    padding: 1.5rem 0;
+}
+
+.results-header-hidden {
+    display: none !important;
+}
+
+/* Search Container */
+.search-container {
+    margin: 0.8rem 0;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.search-container.animate-in {
+    opacity: 1;
+    transform: none;
+}
+
+/* Search Wrapper */
+.search-wrapper {
     position: relative;
-    z-index:  var(--z-dropdown);
+    display: inline-block;
+    width: 90%;
+    max-width: 280px;
+    z-index: 100;
 }
 
-/* ── Autocomplete List ──────────────────────────────────────── */
-.autocomplete-list {
-    position:    absolute;
-    top:         100%;
-    left:        0;
-    right:       0;
-    background:  white;
-    border-radius: var(--radius-md);
-    border:      3px solid var(--medium-gray);
-    box-shadow:  var(--shadow-medium);
-    list-style:  none;
-    margin:      0.2rem 0 0;
-    z-index:     var(--z-dropdown);
-    display:     none;
-    max-height:  200px;
-    overflow-y:  auto;
+/* Search Icon */
+.search-icon {
+    position: absolute;
+    left: 0.8rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--medium-gray);
+    font-size: 0.9rem;
+    pointer-events: none;
 }
 
-.autocomplete-item {
-    padding:     0.5rem 1rem;
+/* Search Input */
+.player-search {
+    padding: 0.6rem 0.8rem 0.6rem 2.2rem;
+    border: 2px solid white;
+    border-radius: 20px;
     font-family: 'Poppins', sans-serif;
-    font-size:   var(--text-sm);
-    color:       var(--dark-gray);
-    cursor:      pointer;
-    transition:  var(--t-color), var(--t-color);
+    font-size: 0.85rem;
+    width: 100%;
+    box-sizing: border-box;
+    text-align: center;
+    transition: all 0.3s ease;
+    outline: none;
+    box-shadow: var(--shadow-medium);
+    min-height: 44px;
+}
+
+.player-search:focus {
+    border-color: var(--dark-blue);
+}
+
+.player-search::placeholder {
+    color: var(--medium-gray);
+    opacity: 1;
+}
+
+/* Autocomplete List */
+.autocomplete-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border-radius: 12px;
+    box-shadow: var(--shadow-medium);
+    list-style: none;
+    padding: 0.5rem 0;
+    margin: 0.2rem 0 0;
+    z-index: 100000;
+    display: none;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+/* Autocomplete Item */
+.autocomplete-item {
+    padding: 0.5rem 1rem;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.85rem;
+    color: var(--dark-gray);
+    cursor: pointer;
+    transition: background 0.2s ease;
 }
 
 .autocomplete-item:hover,
 .autocomplete-item.active {
-    color:       var(--medium-gray);
-    font-weight: 700;
+    background: var(--silver-mist);
 }
 
-/* ── Sort Controls ──────────────────────────────────────────── */
-/* Base layout from general.css; this page centres the controls */
-.sort-controls { justify-content: center; }
-
-.dropdown .options {
-    width: max-content;
+/* Sort Controls */
+.sort-controls {
+    margin-bottom: 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    max-width: 70%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-/* ── Match Season Label ─────────────────────────────────────── */
+.custom-dropdown {
+    position: relative;
+    border: 2px solid var(--dark-blue);
+    border-radius: 25px;
+    background: white;
+    cursor: pointer;
+    box-shadow: var(--shadow-small);
+    user-select: none;
+    font-weight: 500;
+    color: var(--dark-gray);
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.custom-dropdown .selected {
+    padding: 0.6rem 2rem 0.6rem 1rem;
+    border-radius: 25px;
+    width: auto;
+    box-sizing: border-box;
+    text-align: center;
+    position: relative;
+    transition: background 0.2s ease;
+}
+
+.custom-dropdown .selected::after {
+    content: '\f0d7';
+    font-family: 'Font Awesome 6 Free', serif;
+    font-weight: 900;
+    position: absolute;
+    right: 0.6rem;
+    top: 50%;
+    transform: translateY(-55%);
+    font-size: 1.2rem;
+    color: var(--dark-gray);
+    transition: transform 0.3s ease, content 0s;
+}
+
+.custom-dropdown.active .selected::after {
+    content: '\f0d8';
+    transform: translateY(-50%);
+}
+
+.custom-dropdown .options {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    border: 2px solid var(--dark-blue);
+    border-radius: 10px;
+    box-shadow: var(--shadow-medium);
+    list-style: none;
+    margin: 5px 0 0;
+    padding: 0;
+    display: none;
+    z-index: 1000;
+    width: 240px;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.custom-dropdown .options li {
+    padding: 0.6rem 1rem;
+    text-align: center;
+    transition: background 0.2s;
+}
+
+.custom-dropdown .options li:hover {
+    color: var(--dark-blue);
+}
+
+.custom-dropdown.active .options {
+    display: block;
+}
+
+/* Search Message */
+#search-message {
+    text-align: center;
+    font-size: 0.95rem;
+    color: var(--medium-gray);
+    margin-top: 1rem;
+}
+
+/* Match Season */
 .match-season {
-    color:       var(--medium-gray);
-    font-size:   var(--text-sm);
+    color: var(--medium-gray);
+    font-size: 0.95rem;
     font-family: 'Poppins', sans-serif;
     font-weight: 500;
-    display:     flex;
+    display: flex;
     align-items: center;
-    gap:         6px;
+    gap: 6px;
 }
 
-.match-season i { font-size: 0.9em; opacity: 0.8; }
-
-/* ── Match Card (search context) ────────────────────────────── */
-/*
- * .match-card base animation (opacity: 0, translateY) is handled
- * by general.css. Only search-specific overrides live here.
- */
-.matches-section .section-title::after{
-    background-color: var(--dark-blue);
+.match-season i {
+    font-size: 0.9rem;
+    opacity: 0.8;
 }
-.match-card {
+
+/* Match Card */
+.match-card.modern {
     cursor: default;
 }
 
-/* ── Responsive: Tablet (≤ 768 px) ─────────────────────────── */
+.match-card.modern:hover,
+.match-card.modern.hover {
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-5px) !important;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.match-card {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 0.6s ease-out, transform 0.3s ease-out, box-shadow 0.3s ease;
+    will-change: transform, opacity;
+}
+
+.match-card.animate-in {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+#search-loading,
+#search-error {
+    text-align: center;
+    margin: 2rem 0;
+}
+
+/* Tablet View */
 @media (max-width: 768px) {
-    .search-section { padding: 2rem 0 1rem; }
+    .search-section {
+        padding: 2rem 0 1rem;
+    }
 
-    .autocomplete-item { padding: 0.4rem 0.9rem; }
+    .search-wrapper {
+        width: 100%;
+        max-width: 250px;
+    }
 
-    .match-season { gap: 5px; }
+    .player-search {
+        padding: 0.5rem 0.7rem 0.5rem 2rem;
+        font-size: 0.8rem;
+    }
 
-    /* Disable hover lift on touch */
-    .match-card:hover {
-        transform:  translateY(0) !important;
-        box-shadow: var(--shadow-hover);
+    .search-icon {
+        font-size: 0.8rem;
+        left: 0.7rem;
+    }
+
+    .autocomplete-item {
+        padding: 0.4rem 0.9rem;
+    }
+
+    #search-message {
+        font-size: 0.85rem;
+    }
+
+    .match-season {
+        font-size: 0.85rem;
+        gap: 5px;
+    }
+
+    .match-season i {
+        font-size: 0.8rem;
+    }
+
+    .match-card.modern:hover,
+    .match-card.modern.hover {
+        transform: translateY(-3px);
+    }
+    .sort-controls {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.8rem;
+        margin-bottom: 1rem;
+    }
+
+    .custom-dropdown {
+        border-radius: 20px;
+        box-shadow: var(--shadow-small);
+    }
+
+    .custom-dropdown .selected {
+        padding: 0.5rem 1.8rem 0.5rem 0.8rem;
+        font-size: 0.85rem;
+    }
+
+    .custom-dropdown .selected::after {
+        font-size: 1rem;
+    }
+
+    .custom-dropdown .options {
+        width: 200px;
+        border-radius: 8px;
+        box-shadow: var(--shadow-small);
+    }
+
+    .custom-dropdown .options li {
+        padding: 0.5rem 0.8rem;
+        font-size: 0.85rem;
     }
 }
 
-/* ── Responsive: Mobile (≤ 480 px) ─────────────────────────── */
+/* Mobile View */
 @media (max-width: 480px) {
-    .search-section    { padding: 1rem 0 0.8rem; }
-    .autocomplete-item { padding: 0.4rem 0.8rem; }
+    .search-section {
+        padding: 1rem 0 0.8rem;
+    }
+
+    .search-wrapper {
+        width: 100%;
+        max-width: 291px;
+        z-index: 999;
+    }
+
+    .player-search {
+        padding: 0.5rem 0.7rem 0.5rem 2rem;
+        font-size: 0.75rem;
+        min-height: 40px;
+    }
+
+    .search-icon {
+        font-size: 0.75rem;
+        left: 0.7rem;
+    }
+
+    .autocomplete-item {
+        padding: 0.4rem 0.8rem;
+    }
+
+    #search-message {
+        font-size: 0.8rem;
+    }
+
+    .match-season {
+        font-size: 0.8rem;
+    }
+
+    .match-season i {
+        font-size: 0.75rem;
+    }
+
+    .sort-controls {
+        gap: 0.6rem;
+    }.custom-dropdown {
+         border-radius: 18px;
+     }
+
+    .custom-dropdown .selected {
+        padding: 0.4rem 1.6rem 0.4rem 0.7rem;
+        font-size: 0.8rem;
+    }
+
+    .custom-dropdown .selected::after {
+        font-size: 0.9rem;
+    }
+
+    .custom-dropdown .options {
+        width: 180px;
+        border-radius: 6px;
+    }
+
+    .custom-dropdown .options li {
+        padding: 0.4rem 0.7rem;
+        font-size: 0.8rem;
+    }
 }
