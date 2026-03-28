@@ -844,7 +844,7 @@ body {
 .match-card.loss:hover { border-color: var(--soft-coral)    !important; }
 
 /* Positioned result icon badge */
-.match-card .result-icon {
+.match-card > .result-icon {
     display:         flex;
     position:        absolute;
     top:             16px;
@@ -853,6 +853,7 @@ body {
     justify-content: center;
     align-items:     center;
 }
+
 
 .match-card .result-icon i {
     display:     block;
