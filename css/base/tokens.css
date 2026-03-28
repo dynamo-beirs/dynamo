@@ -1,0 +1,166 @@
+/* ============================================================
+   base/tokens.css
+   Single source of truth for all CSS custom properties.
+   No selectors other than :root and responsive :root overrides
+   belong in this file.
+   ============================================================ */
+
+:root {
+
+    /* ── Brand Colours ──────────────────────────────────────── */
+    --dynamo-red:    #B90A0A;
+    --soft-coral:    #E07A5F;
+    --golden-yellow: #E8B04B;
+    --dark-yellow:   #C69436;
+    --dark-green:    #648F5F;
+    --light-green:   #84B281;
+    --dusty-blue:    #7B96B7;
+    --dark-blue:     #3D5A80;
+
+    /* ── Neutrals ───────────────────────────────────────────── */
+    --dark-gray:   #333;
+    --medium-gray: #666;
+    --line-gray:   #999;
+    --light-gray:  #ccc;
+    --silver-mist: #E8E8E8;
+    --off-white:   #FAF9F5;
+    --nested-box:  #EFF2F7;
+
+    /* ── Shadows ────────────────────────────────────────────── */
+    --shadow-small:  0 8px 20px rgba(0,0,0,0.10);
+    --shadow-medium: 0 8px 20px rgba(0,0,0,0.20);
+    --shadow-hover:  0 8px 20px rgba(0,0,0,0.35);
+
+    /* ── Border Radii ───────────────────────────────────────── */
+    --radius-sm:     8px;
+    --radius-md:     12px;
+    --radius-lg:     16px;
+    --radius-xl:     24px;
+    --radius-pill:   999px;
+    --radius-circle: 50%;
+
+    /* ── Typography Scale ───────────────────────────────────── */
+    --text-hero: 3.5rem;   /* 404 title, massive headers */
+    --text-h1:   3rem;     /* Page hero h1 */
+    --text-h2:   2.5rem;   /* .section-title */
+    --text-h3:   1.6rem;   /* .section-subtitle, card headings */
+    --text-lg:   1.2rem;   /* Player names, stat numbers */
+    --text-body: 1rem;     /* Standard paragraphs */
+    --text-sm:   0.85rem;  /* Meta info, dates, tags */
+
+    /* ── Layout ─────────────────────────────────────────────── */
+    --content-width: 70%;
+
+    /* ── Z-Index Stack ──────────────────────────────────────── */
+    --z-dropdown:  100;
+    --z-header:    200;
+    --z-modal:     1000;
+    --z-close-btn: 1010;
+
+    /* ── Durations ──────────────────────────────────────────── */
+    --dur-fast:   0.12s;   /* Instant feedback: scroll bar, tooltips, focus */
+    --dur-base:   0.22s;   /* Default interaction: hover fills, colour shifts */
+    --dur-slow:   0.50s;   /* Entrances: scroll reveals, page load */
+    --dur-loader: 1s;      /* Pulse keyframe cycle */
+    --dur-ticker: 30s;     /* Sponsor ticker loop */
+
+    /* ── Easing ─────────────────────────────────────────────── */
+    /*
+     * --ease-spring  snappy spring with slight overshoot; ideal for scale
+     *                hovers and button presses.
+     * --ease-out     expo-style deceleration; ideal for elements arriving
+     *                on screen (scroll reveals, modals, hero text).
+     * --ease-ui      symmetric Material-style curve; ideal for colour/bg
+     *                state changes and toggles.
+     */
+    --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+    --ease-out:    cubic-bezier(0.16, 1, 0.30, 1);
+    --ease-ui:     cubic-bezier(0.40, 0, 0.20, 1);
+
+    /* ── Interaction ────────────────────────────────────────── */
+    --hover-scale: 1.02;
+    --hover-lift:  -5px;
+    --reveal-lift: 20px;
+
+    /* ── Delays ─────────────────────────────────────────────── */
+    --delay-stagger: 0.10s;
+
+    /* ── Compound Transition Shorthands ─────────────────────── */
+
+    /* Scale + shadow for card/button hover states */
+    --t-interact:
+            transform  var(--dur-base) var(--ease-spring),
+            box-shadow var(--dur-base) var(--ease-out);
+
+    /* Colour & background state changes */
+    --t-color:
+            color            var(--dur-base) var(--ease-ui),
+            background-color var(--dur-base) var(--ease-ui);
+
+    /* Scroll-triggered entrances */
+    --t-reveal:
+            opacity   var(--dur-slow) var(--ease-out),
+            transform var(--dur-slow) var(--ease-out);
+
+    /* Modal overlay show/hide */
+    --t-modal:
+            opacity    var(--dur-base) var(--ease-ui),
+            visibility var(--dur-base) var(--ease-ui);
+
+    /* Tooltip show/hide */
+    --t-tooltip:
+            opacity    var(--dur-fast) var(--ease-ui),
+            visibility var(--dur-fast) var(--ease-ui);
+
+    /* ── Contextual Tokens ──────────────────────────────────── */
+    /*
+     * --hero-pipe-color: colour of the | pipe decorators in .page-hero h1.
+     *   Override per-page to change accent (players.css sets this
+     *   dynamically via body.filter-* classes).
+     */
+    --hero-pipe-color: var(--dynamo-red);
+
+    /*
+     * --dropdown-border-color: border/accent colour for .dropdown.
+     *   Set on a parent scope (body, section) to theme dropdowns per-page.
+     */
+    --dropdown-border-color: var(--dark-blue);
+}
+
+/* ── Responsive Token Scaling ───────────────────────────────── */
+/*
+ * Radius and typography scale down at smaller viewports.
+ * These are still tokens, not component rules — they belong here.
+ */
+
+@media (max-width: 1024px) {
+    :root {
+        --radius-sm:     6px;
+        --radius-md:     10px;
+        --radius-lg:     14px;
+        --radius-xl:     20px;
+        --content-width: 90%;
+        --text-hero:     2.75rem;
+        --text-h1:       2rem;
+        --text-h2:       1.8rem;
+        --text-h3:       1.4rem;
+        --text-lg:       1.1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    :root {
+        --radius-sm:     4px;
+        --radius-md:     8px;
+        --radius-lg:     12px;
+        --radius-xl:     16px;
+        --content-width: 90%;
+        --text-hero:     2.25rem;
+        --text-h1:       1.8rem;
+        --text-h2:       1.5rem;
+        --text-h3:       1.2rem;
+        --text-lg:       1rem;
+        --text-body:     0.95rem;
+        --text-sm:       0.8rem;
+    }
+}

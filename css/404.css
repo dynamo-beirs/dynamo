@@ -1,147 +1,115 @@
-/* Error Section */
+/* ============================================================
+   404.CSS
+   ============================================================ */
+
+/* ── Error Section ──────────────────────────────────────────── */
 .error-section {
-    padding: 4rem 1rem;
-    text-align: center;
-    min-height: calc(100vh - 200px);
-    display: flex;
-    align-items: center;
+    padding:         4rem 1rem;
+    text-align:      center;
+    min-height:      calc(100vh - 200px);
+    display:         flex;
+    align-items:     center;
     justify-content: center;
-    flex-direction: column;
+    flex-direction:  column;
     background-color: var(--off-white);
 }
 
 .error-section .container {
-    width: 100%;
+    width:     100%;
     max-width: 900px;
-    padding: 0 1.5rem;
-    margin: 0 auto;
+    padding:   0 1.5rem;
+    margin:    0 auto;
 }
 
-/* Error Content */
+/* ── Error Content ──────────────────────────────────────────── */
 .error-title {
-    font-size: 4rem;
-    font-weight: 900;
-    color: var(--dynamo-red);
+    font-size:     var(--text-hero);
+    font-weight:   900;
+    color:         var(--dynamo-red);
     margin-bottom: 1.5rem;
-    line-height: 1.2;
+    line-height:   1.2;
 }
 
+/* .error-message is already defined in general.css;
+   these properties extend it for the 404 context only */
 .error-message {
-    font-size: 1.25rem;
-    color: var(--medium-gray);
+    font-size:    var(--text-lg);
+    color:        var(--medium-gray);
     margin-bottom: 2rem;
-    max-width: 700px;
-    line-height: 1.6;
-    margin-left: auto;
+    max-width:    var(--content-width);
+    line-height:  1.6;
+    margin-left:  auto;
     margin-right: auto;
 }
 
-/* CTA Button */
+/* ── CTA Button ─────────────────────────────────────────────── */
 .error-cta {
-    background: white;
-    border: none;
-    color: var(--medium-gray);
-    padding: 0.75rem 1.5rem;
-    border-radius: 25px;
-    font-family: 'Poppins', sans-serif;
-    font-weight: 700;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    box-shadow: var(--shadow-medium);
-    position: relative;
-    overflow: hidden;
-    z-index: 1;
-    min-height: 48px;
+    background:      white;
+    border:          3px solid var(--dynamo-red);
+    color:           var(--dynamo-red);
+    padding:         0.75rem 1.5rem;
+    border-radius:   var(--radius-pill);
+    font-family:     'Poppins', sans-serif;
+    font-weight:     700;
+    font-size:       var(--text-body);
+    cursor:          pointer;
+    transition:      all var(--dur-base) var(--ease-ui);
+    display:         inline-flex;
+    align-items:     center;
+    gap:             0.5rem;
+    position:        relative;
+    z-index:         1;
+    min-height:      48px;
     text-decoration: none;
     justify-content: center;
 }
 
 .error-cta i {
-    font-size: 1rem;
-    z-index: 2;
-    position: relative;
-}
-
-.error-cta .hover-effect {
-    position: absolute;
-    display: block;
-    width: 0;
-    height: 0;
-    border-radius: 50%;
-    transition: width 0.4s ease-in-out, height 0.4s ease-in-out;
-    transform: translate(-50%, -50%);
-    z-index: -1;
-    background-color: var(--dynamo-red);
+    font-size: 1.1em;
 }
 
 .error-cta:hover {
-    color: var(--off-white);
-}
-
-.error-cta:hover .hover-effect {
-    width: 250%;
-    height: 200px;
-}
-
-.error-cta:active {
-    color: var(--off-white);
     background: var(--dynamo-red);
+    color:      white;
 }
 
-/* Tablet View */
+/* ── Responsive: Tablet (≤ 768 px) ─────────────────────────── */
 @media (max-width: 768px) {
     .error-section {
-        padding: 3rem 1rem;
+        padding:    3rem 1rem;
         min-height: calc(100vh - 180px);
     }
 
-    .error-section .container {
-        padding: 0 1rem;
-    }
-
-    .error-title {
-        font-size: 2.75rem;
-    }
-
-    .error-message {
-        font-size: 1.1rem;
-        max-width: 90%;
-    }
+    .error-section .container { padding: 0 1rem; }
 
     .error-cta {
-        padding: 0.65rem 1.25rem;
-        font-size: 0.9rem;
+        padding:    0.65rem 1.25rem;
         min-height: 44px;
+    }
+
+    .error-cta:hover .hover-effect {
+        width:      0 !important;
+        height:     0 !important;
+        transition: none !important;
+    }
+
+    .error-cta:hover {
+        background: var(--dynamo-red);
+        color:      var(--off-white);
     }
 }
 
-/* Mobile View */
+/* ── Responsive: Mobile (≤ 480 px) ─────────────────────────── */
 @media (max-width: 480px) {
     .error-section {
-        padding: 2rem 0.75rem;
+        padding:    2rem 0.75rem;
         min-height: calc(100vh - 160px);
     }
 
-    .error-section .container {
-        padding: 0 0.75rem;
-    }
-
-    .error-title {
-        font-size: 2.25rem;
-    }
-
-    .error-message {
-        font-size: 0.95rem;
-        max-width: 90%;
-    }
+    .error-section .container { padding: 0 0.75rem; }
 
     .error-cta {
-        padding: 0.6rem 1rem;
-        font-size: 0.85rem;
+        padding:    0.6rem 1rem;
         min-height: 40px;
     }
 }

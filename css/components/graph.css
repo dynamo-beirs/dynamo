@@ -1,40 +1,41 @@
+/* ============================================================
+   COMPONENTS/GRAPH.CSS
+   ============================================================ */
+
 .comparison-graph-container {
     background-color: white;
-    border-radius: 15px;
-    box-shadow: var(--shadow-medium);
-    overflow: hidden;
-    width: 100%;
+    border-radius:    var(--radius-lg);
+    box-shadow:       var(--shadow-medium);
+    overflow:         hidden;
+    width:            100%;
+    margin:           0 auto;
 }
 
 .mainSVG {
-    width: 100%;
-    height: auto;
+    width:    100%;
+    height:   auto;
     overflow: visible;
 }
 
 .boxLabel {
-    text-anchor: middle;
-    font-size: 21px;
-    user-select: none;
+    text-anchor:    middle;
+    font-size:      var(--text-h3);
+    user-select:    none;
     -webkit-user-select: none;
     pointer-events: none;
-    font-family: 'Poppins', sans-serif;
-    font-weight: 700;
+    font-family:    'Poppins', sans-serif;
+    font-weight:    700;
 }
 
 .box {
     opacity: 0;
 }
 
+/* Remove tap highlight on SVG circles (mobile) */
 circle {
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
-/* Responsieve weergave voor mobiele telefoons */
-@media (max-width: 768px){
-    .comparison-graph-container {
-        width: 90%;
-        margin-left: auto !important;
-        margin-right: auto !important;
-    }
+@media (max-width: 768px) {
+    .comparison-graph-container { width: 90%; }
 }

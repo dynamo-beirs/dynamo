@@ -1,307 +1,410 @@
-/* Algemene opmaak voor de archief content en sectietitels */
-.archive-content-section {
+/* ============================================================
+   ARCHIVE.CSS
+   ============================================================ */
+
+/* ── Content Section ────────────────────────────────────────── */
+.archive-section {
     padding: 2rem 0 4rem;
 }
 
-.archive-content-section ~ * .page-hero h1::before,
-.archive-content-section ~ * .page-hero h1::after {
-    color: #B90A0A;
+/* ── Hero Pipe / Underline Overrides ────────────────────────── */
+.archive-page .page-hero h1::before,
+.archive-page .page-hero h1::after {
+    color: var(--dynamo-red);
 }
 
-.page-hero h1::before,
-.page-hero h1::after {
-    color: #B90A0A !important;
-}
-
-#archive-season-title::after {
-    background: #3D5A80 !important;
+.archive-page #archive-season-title::after {
+    background: var(--dark-blue);
 }
 
 #archive-stats-grid .stat-number {
-    color: #3D5A80;
+    color: var(--dark-blue);
 }
 
+/* ── Subsections ────────────────────────────────────────────── */
 .archive-subsection {
     margin-top: 3.5rem;
 }
 
 .archive-subsection .section-title {
-    text-align: center;
+    text-align:    center;
     margin-bottom: 1.5rem;
 }
 
-/* Dropdown voor seizoensselectie en bijbehorende animaties */
-.season-selector-section {
-    padding: 1rem 0;
-    position: relative;
-    z-index: 100;
+/* ── Season Selector Dropdown ───────────────────────────────── */
+/*
+ * #season-select is a custom-styled native select widget unique to
+ * the archive page. It mirrors the .dropdown pattern but is
+ * scoped to its own ID to avoid selector conflicts.
+ */
+.picker-section {
+    padding:   1rem 0;
+    position:  relative;
+    z-index:   var(--z-dropdown);
 }
 
-.dropdown-container {
-    display: flex;
+.picker-section,
+.season-picker {
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.season-picker {
+    display:         flex;
     justify-content: center;
-    align-items: center;
-    gap: 1rem;
-    max-width: 100%;
-    position: relative;
-    z-index: 101;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-    visibility: hidden;
+    align-items:     center;
+    gap:             1rem;
+    max-width:       100%;
+    position:        relative;
+    z-index:         101;
+    opacity:         0;
+    transform:       translateY(var(--reveal-lift));
+    transition:      var(--t-reveal);
+    visibility:      hidden;
 }
 
-.dropdown-container.reveal,
-.dropdown-container.animate-in {
-    opacity: 1;
-    transform: translateY(0);
+.season-picker.reveal,
+.season-picker.animate-in {
+    opacity:    1;
+    transform:  translateY(0);
     visibility: visible;
 }
 
-.dropdown-container span {
+.season-picker span {
     font-weight: 600;
-    color: var(--dark-gray);
+    color:       var(--dark-gray);
 }
 
 #season-select {
-    position: relative;
-    border: 2px solid var(--dynamo-red);
-    border-radius: 25px;
-    background: white;
-    cursor: pointer;
-    box-shadow: var(--shadow-small);
-    user-select: none;
-    font-weight: 600;
-    color: var(--dark-gray);
-    transition: box-shadow 0.3s ease, transform 0.3s ease;
-    min-width: 180px;
-    z-index: 102;
+    position:      relative;
+    border:        3px solid var(--dynamo-red);
+    border-radius: var(--radius-pill);
+    background:    white;
+    cursor:        pointer;
+    box-shadow:    var(--shadow-small);
+    user-select:   none;
+    font-weight:   600;
+    color:         var(--dark-gray);
+    transition:    var(--t-interact);
+    min-width:     180px;
+    z-index:       102;
+    font-size:     var(--text-body);
 }
 
 #season-select .selected {
-    padding: 0.6rem 2rem 0.6rem 1rem;
-    border-radius: 25px;
-    width: auto;
-    box-sizing: border-box;
-    text-align: center;
-    position: relative;
-    transition: background 0.2s ease;
+    padding:       0.6rem 2rem 0.6rem 1rem;
+    border-radius: var(--radius-pill);
+    box-sizing:    border-box;
+    text-align:    center;
+    position:      relative;
+    transition:    var(--t-color);
 }
 
 #season-select .selected::after {
-    content: '\f0d7';
+    content:     '\f0d7';
     font-family: 'Font Awesome 6 Free', serif;
     font-weight: 900;
-    position: absolute;
-    right: 0.8rem;
-    top: 50%;
-    transform: translateY(-55%);
-    font-size: 1.2rem;
-    color: var(--dark-gray);
-    transition: transform 0.3s ease;
+    position:    absolute;
+    right:       0.8rem;
+    top:         50%;
+    transform:   translateY(-55%);
+    font-size:   var(--text-lg);
+    color:       var(--dark-gray);
+    transition:  transform var(--dur-base) var(--ease-ui);
 }
 
 #season-select.active .selected::after {
-    content: '\f0d8';
+    content:   '\f0d8';
     transform: translateY(-50%);
 }
 
 #season-select .options {
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    background: white;
-    border: 2px solid var(--dynamo-red);
-    border-radius: 10px;
-    box-shadow: var(--shadow-medium);
-    list-style: none;
-    margin: 5px 0 0;
-    padding: 0;
-    display: none;
-    z-index: 1000;
-    width: 100%;
-    box-sizing: border-box;
-    overflow: hidden;
+    position:      absolute;
+    top:           100%;
+    left:          50%;
+    transform:     translateX(-50%);
+    background:    white;
+    border:        3px solid var(--dynamo-red);
+    border-radius: var(--radius-md);
+    box-shadow:    var(--shadow-medium);
+    list-style:    none;
+    margin:        5px 0 0;
+    padding:       0;
+    display:       none;
+    z-index:       var(--z-dropdown);
+    width:         100%;
+    box-sizing:    border-box;
+    overflow:      hidden;
 }
 
 #season-select .options li {
-    padding: 0.6rem 1rem;
+    padding:    0.6rem 1rem;
     text-align: center;
-    transition: background 0.2s;
+    transition: var(--t-color);
 }
 
 #season-select .options li:hover {
-    color: var(--dynamo-red);
+    color:       var(--dynamo-red);
+    font-weight: 700;
 }
 
-#season-select.active .options {
-    display: block;
-}
+#season-select.active .options { display: block; }
 
-/* Grid lay-out en styling voor de statistiekenkaarten */
-.stats-grid {
-    display: grid;
+/* ── Archive Stats Grid ─────────────────────────────────────── */
+/* Overrides the base .stats-grid from general.css for 3-col layout */
+#archive-stats-grid {
     grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
-    margin-top: 2rem;
-    width: 70%;
-    margin-left: auto;
-    margin-right: auto;
+    gap:                   1.5rem;
+    margin-top:            2rem;
 }
 
-.stat-card {
-    background: white;
-    padding: 2rem;
-    border-radius: 15px;
-    box-shadow: var(--shadow-medium);
-    text-align: center;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+/* ── Players Section Colour Overrides ───────────────────────── */
+
+#archive-players-section .sort-controls {
+    justify-content: flex-end;
 }
 
-.stat-card:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--shadow-hover);
+#archive-players-section {
+    --dropdown-border-color: var(--dark-green);
+    --primary-theme-color:   var(--dark-green);
 }
 
-.stat-number {
-    font-size: 2.5rem;
-    font-weight: 900;
-    line-height: 1;
-    margin-bottom: 0.5rem;
-}
-
-.stat-label {
-    color: var(--medium-gray);
-    font-weight: 600;
-    text-transform: uppercase;
-    font-size: 0.9rem;
-    letter-spacing: 1px;
-}
-
-/* Kleuren, tooltips en overschrijvingen specifiek voor de spelerstabel */
 #archive-players-section .section-title::after {
-    background: var(--dark-green) !important;
+    background-color: var(--dark-green);
 }
 
-#archive-players-section .table-header {
-    background: var(--dark-green) !important;
+/* ── Golden Shoe ───────────────────────────────────── */
+#archive-golden-shoe-section .section-subtitle::after {
+    background: var(--dynamo-red);
 }
 
-#archive-players-section .player-name {
-    color: var(--dark-green) !important;
+.podium-container {
+    display:         flex;
+    align-items:     flex-end;
+    justify-content: center;
+    gap:             1rem;
+    margin:          1rem auto 0;
+    padding:         1rem 0;
+    width:           var(--content-width);
 }
 
-#archive-players-section .player-rank {
-    background: var(--dark-green) !important;
-    color: white;
+.podium-step {
+    flex:           1;
+    max-width:      160px;
+    display:        flex;
+    flex-direction: column;
+    align-items:    center;
+    opacity:        0;
+    transform:      translateY(30px);
+    transition:     var(--t-reveal);
 }
 
-#archive-players-section .custom-dropdown {
-    border-color: var(--dark-green) !important;
-}
-
-#archive-players-section .custom-dropdown .options {
-    border-color: var(--dark-green) !important;
-}
-
-#archive-players-section .custom-dropdown .options li:hover {
-    color: var(--dark-green);
-}
-
-#archive-players-section .table-cell.player-position::after,
-#archive-players-section .table-cell.player-position:hover::after {
-    display: none !important;
-    content: none !important;
-}
-
-#archive-players-section .table-cell.player-position .tooltip {
-    background-color: var(--dark-green) !important;
-}
-
-/* Opmaak en animaties voor de wedstrijden in het archief */
-#archive-matches-section .section-title::after {
-    background: var(--dark-yellow) !important;
-}
-
-.archive-subsection .matches-grid {
-    width: 70%;
-    margin: 0 auto;
-}
-
-.archive-match-card {
-    opacity: 0;
-    transform: translateY(50px);
-    transition: opacity 0.4s ease-out, transform 0.4s ease-out, box-shadow 0.3s ease;
-}
-
-.archive-match-card.animate-in {
-    opacity: 1;
+.podium-step.animate-in {
+    opacity:   1;
     transform: translateY(0);
 }
 
-.archive-match-card:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--shadow-hover);
+/* Stagger entrances natively in CSS based on standard class additions */
+.podium-step.silver { transition-delay: 0.1s; }
+.podium-step.gold   { transition-delay: 0.2s; }
+.podium-step.bronze { transition-delay: 0.3s; }
+
+.podium-player {
+    font-size:     var(--text-body);
+    font-weight:   700;
+    color:         var(--dark-gray);
+    text-align:    center;
+    margin-bottom: 0.4rem;
+    font-family:   'Poppins', sans-serif;
+    line-height:   1.2;
+}
+
+.podium-block {
+    width:            100%;
+    background:       white;
+    box-shadow:       var(--shadow-medium);
+    border-radius:    var(--radius-md) var(--radius-md) 0 0;
+    display:          flex;
+    flex-direction:   column;
+    align-items:      center;
+    justify-content:  flex-end;
+    gap:              1rem;
+    padding:          1rem 0.5rem;
+    position:         relative;
+    transition:       var(--t-interact);
+}
+
+.podium-block:hover{
+    transform:  scale(var(--hover-scale));
+    box-shadow:  var(--shadow-hover);
+}
+
+.podium-block i {
+    font-size: 1.8rem;
+    opacity:   0.9;
+}
+
+.podium-shoe-name {
+    font-size:      0.75rem;
+    font-weight:    800;
+    text-transform: uppercase;
+    text-align:     center;
+    line-height:    1.2;
+    font-family:    'Poppins', sans-serif;
+}
+
+
+/* Podium Heights & Accent Colors */
+.podium-step.gold .podium-block {
+    height:     160px;
+    border-top: 6px solid #D4AF37;
+}
+.podium-step.gold .podium-block i,
+.podium-step.gold .podium-shoe-name {
+    color: #D4AF37;
+}
+
+.podium-step.silver .podium-block {
+    height:     130px;
+    border-top: 6px solid #C0C0C0;
+}
+.podium-step.silver .podium-block i,
+.podium-step.silver .podium-shoe-name {
+    color: #A0A0A0;
+}
+
+.podium-step.bronze .podium-block {
+    height:     100px;
+    border-top: 6px solid #CD7F32;
+}
+.podium-step.bronze .podium-block i,
+.podium-step.bronze .podium-shoe-name {
+    color: #CD7F32;
+}
+
+/* ── Matches Section ─────────────────────────────────────────── */
+#archive-matches-section .section-title::after {
+    background: var(--dark-yellow);
+}
+
+.archive-subsection .matches-grid {
+    width:  var(--content-width);
+    margin: 0 auto;
+}
+
+/* Theme the dropdown in the archive matches section */
+#archive-matches-section {
+    --dropdown-border-color: var(--dark-yellow);
+}
+
+#archive-matches-section .sort-controls {
+    justify-content: center;
+    margin-bottom:   2rem;
+}
+
+.dropdown .options {
+    width: max-content;
+}
+
+/* Archive match cards use the standard scroll-reveal pattern */
+.archive-match-card {
+    opacity:    0;
+    transform:  translateY(var(--reveal-lift));
+    transition: var(--t-reveal);
+}
+
+.archive-match-card.animate-in {
+    opacity:   1;
+    transform: translateY(0);
 }
 
 .archive-empty-msg {
     grid-column: 1 / -1;
-    text-align: center;
-    padding: 2rem;
-    color: var(--medium-gray);
+    text-align:  center;
+    padding:     2rem;
+    color:       var(--medium-gray);
     font-weight: 600;
-    font-size: 1rem;
+    font-size:   var(--text-body);
 }
 
-/* Responsieve weergave voor tablets en middelgrote schermen */
+/* ── Archive Graph Tooltip ──────────────────────────────────── */
+.archive-graph-tooltip {
+    background:    white;
+    border:        3px solid var(--dark-blue);
+    border-radius: var(--radius-md);
+    padding:       10px 8px;
+    box-shadow:    0 4px 10px rgba(0,0,0,0.1);
+    width:         90px;
+    box-sizing:    border-box;
+    text-align:    center;
+    font-family:   'Poppins', sans-serif;
+}
+
+.archive-graph-tooltip-title {
+    margin:      0 0 6px;
+    font-size:   1.3rem;
+    font-weight: 800;
+    color:       var(--dark-blue);
+    line-height: 1;
+}
+
+.archive-graph-tooltip-row {
+    display:         flex;
+    justify-content: center;
+    align-items:     center;
+    gap:             8px;
+    margin-bottom:   6px;
+}
+
+.archive-graph-tooltip-row:last-child {
+    margin-bottom: 0;
+}
+
+.archive-graph-tooltip .result-icon {
+    font-size:  11px;
+}
+
+.archive-graph-tooltip .result-icon i {
+    line-height: 1;
+    transform:   translateY(1px) translateX(0.5px);
+}
+
+.archive-graph-tooltip-value {
+    font-size:   0.95rem;
+    font-weight: 600;
+    color:       var(--dark-gray);
+    width:       16px;
+    text-align:  left;
+}
+
+/* ── Responsive: Tablet (≤ 768 px) ─────────────────────────── */
 @media (max-width: 768px) {
-    .dropdown-container {
-        flex-direction: column;
-        gap: 0.5rem;
+    .season-picker { flex-direction: column; gap: 0.5rem; }
+
+    /* Disable hover lift on touch */
+    .archive-match-card:hover {
+        transform:  translateY(0) !important;
+        box-shadow: var(--shadow-hover);
     }
 
-    .stats-grid {
+    #archive-stats-grid {
         grid-template-columns: repeat(2, 1fr);
-        gap: 1rem;
-        width: 90%;
-    }
-
-    .stat-card {
-        padding: 1.5rem 1rem;
-    }
-
-    .stat-number {
-        font-size: 2rem;
-    }
-
-    .archive-subsection .matches-grid {
-        width: 90%;
+        gap:                   1rem;
     }
 }
 
-/* Responsieve weergave voor mobiele telefoons */
+/* Responsive tweaks for mobile */
 @media (max-width: 480px) {
-    .stats-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 0.8rem;
-        width: 90%;
-    }
+    .podium-container { gap: 0.5rem; }
+    .podium-player { font-size: var(--text-sm); }
+    .podium-block { padding: 0.8rem 0.3rem; }
+    .podium-block i { font-size: 1.4rem; }
+    .podium-shoe-name { font-size: 0.65rem; }
 
-    .stat-card {
-        padding: 1rem;
-        border-radius: 12px;
-    }
+    .podium-step.gold .podium-block { height: 130px; }
+    .podium-step.silver .podium-block { height: 105px; }
+    .podium-step.bronze .podium-block { height: 80px; }
 
-    .stat-number {
-        font-size: 1.6rem;
-    }
+    #archive-stats-grid { gap: 0.8rem; }
 
-    .stat-label {
-        font-size: 0.75rem;
-    }
-
-    .archive-subsection .matches-grid {
-        width: 90%;
-    }
 }
