@@ -83,15 +83,21 @@ const getTooltipHTML = (d) => `
     <div class="archive-graph-tooltip">
         <h4 class="archive-graph-tooltip-title">${d.matches}</h4>
         <div class="archive-graph-tooltip-row">
-            <span class="result-icon win"><i class="fas fa-check"></i></span>
+            <span class="result-icon win">
+                <i style="font-family: 'Font Awesome 6 Free'; font-weight: 900; font-style: normal;">&#xf00c;</i>
+            </span>
             <span class="archive-graph-tooltip-value">${d.winst}</span>
         </div>
         <div class="archive-graph-tooltip-row">
-            <span class="result-icon draw"><i class="fas fa-minus"></i></span>
+            <span class="result-icon draw">
+                <i style="font-family: 'Font Awesome 6 Free'; font-weight: 900; font-style: normal;">&#xf068;</i>
+            </span>
             <span class="archive-graph-tooltip-value">${d.gelijk}</span>
         </div>
         <div class="archive-graph-tooltip-row">
-            <span class="result-icon loss"><i class="fas fa-times"></i></span>
+            <span class="result-icon loss">
+                <i style="font-family: 'Font Awesome 6 Free'; font-weight: 900; font-style: normal;">&#xf00d;</i>
+            </span>
             <span class="archive-graph-tooltip-value">${d.verlies}</span>
         </div>
     </div>
