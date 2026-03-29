@@ -14,6 +14,19 @@
  *   - Internal closures (graphPress, graphRelease, connectLine, updateGraph,
  *     getProgressForX, updateTimeline) are scoped inside initGSAP per-dataset
  *     and do not leak into any other module — no rename needed.
+ *
+ * iOS Safari fixes (foreignObject workaround):
+ *   - Custom tooltips are rendered as plain HTML divs placed as siblings to
+ *     the SVG inside the container div, instead of inside a <foreignObject>.
+ *     This ensures CSS custom properties (var()), web fonts (Poppins), and
+ *     Font Awesome icons all resolve correctly on real iOS devices.
+ *   - svgToPx() converts SVG viewBox coordinates → container-relative pixels
+ *     so GSAP can position the HTML overlay to match the SVG dot position.
+ *   - svgScale (clientWidth / 800) is applied to the overlay via scaleX/scaleY
+ *     so the tooltip renders at the same visual size as it did inside the SVG
+ *     at every viewport width.
+ *   - The overlay close tween is guarded by a display !== 'none' check so it
+ *     never fires on initial load, preventing a flash of the tooltip.
  */
 export class LineGraph {
 
@@ -109,11 +122,11 @@ export class LineGraph {
             hLines  += `<line class="horizontalLine" x1="780" y1="${yPos + 6.7}" opacity="0.4" x2="20" y2="${yPos + 6.7}"/>`;
         }
 
-        let linesSVG = '';
+        let linesSVG     = '';
         let interactionSVG = '';
-        let overlaysSVG = '';
-        let xLabels = '';
-        let barsSVG = '';
+        let overlaysSVG  = '';
+        let xLabels      = '';
+        let barsSVG      = '';
         let barLabelsSVG = '';
 
         if (this.isMultiLine) {
@@ -130,7 +143,7 @@ export class LineGraph {
                     tooltipHTML: d.tooltipHTML || null
                 }));
 
-                const dPath      = `M${dataset.mappedPoints[0].x},${dataset.mappedPoints[0].y} ` + dataset.mappedPoints.slice(1).map(p => `L${p.x},${p.y}`).join(' ');
+                const dPath       = `M${dataset.mappedPoints[0].x},${dataset.mappedPoints[0].y} ` + dataset.mappedPoints.slice(1).map(p => `L${p.x},${p.y}`).join(' ');
                 const strokeColor = this.options.hideLineAndDots ? 'transparent' : dataset.color;
                 linesSVG += `<path class="graphLine graphLine-${key}" fill="none" stroke-linecap="round" stroke="${strokeColor}" stroke-width="4" stroke-miterlimit="10" d="${dPath}"/>`;
 
@@ -186,7 +199,7 @@ export class LineGraph {
 
             this.points.forEach(p => {
                 if (p.stacked && p.stacked.length > 0) {
-                    let currentY  = this.options.yBase - ((0 - yMin) * this.yRatio);
+                    let currentY   = this.options.yBase - ((0 - yMin) * this.yRatio);
                     const barWidth = 34;
 
                     p.stacked.forEach((stack, stackIndex) => {
@@ -201,7 +214,7 @@ export class LineGraph {
                 }
             });
 
-            const dPath      = `M${this.points[0].x},${this.points[0].y} ` + this.points.slice(1).map(p => `L${p.x},${p.y}`).join(' ');
+            const dPath       = `M${this.points[0].x},${this.points[0].y} ` + this.points.slice(1).map(p => `L${p.x},${p.y}`).join(' ');
             const strokeColor = this.options.hideLineAndDots ? 'transparent' : this.options.color;
             linesSVG += `<path class="graphLine" fill="none" stroke-linecap="round" stroke="${strokeColor}" stroke-width="4" stroke-miterlimit="10" d="${dPath}"/>`;
 
@@ -233,7 +246,6 @@ export class LineGraph {
                 </g>
             `;
 
-            // Add overlay for single-line case
             overlaysSVG = `<div class="custom-tooltip-overlay"
                 style="position:absolute;top:0;left:0;display:none;pointer-events:none;z-index:10;">
                 <div class="box-html-content"></div>
@@ -284,15 +296,22 @@ export class LineGraph {
 
         const datasets = this.isMultiLine ? Object.keys(this.options.data) : ['default'];
 
+        // Converts SVG viewBox coordinates to container-relative CSS pixels.
+        // Used to position the HTML overlay divs to match their SVG counterparts.
         const svgToPx = (svgX, svgY) => {
             const scale = this.container.querySelector('.comparison-graph-container').clientWidth / 800;
             return { x: svgX * scale, y: svgY * scale };
         };
 
         datasets.forEach(key => {
-            const suffix      = this.isMultiLine ? `-${key}` : '';
+            const suffix       = this.isMultiLine ? `-${key}` : '';
             const lineSelector = this.isMultiLine ? `.graphLine-${key}` : '.graphLine';
-            const pointsData  = this.isMultiLine ? this.options.data[key].mappedPoints : this.points;
+            const pointsData   = this.isMultiLine ? this.options.data[key].mappedPoints : this.points;
+
+            // Snapshot the SVG-to-CSS scale ratio at mount time.
+            // Applied to the overlay via scaleX/scaleY so the tooltip renders
+            // at the same visual size as it would have inside a <foreignObject>.
+            const svgScale = this.container.querySelector('.comparison-graph-container').clientWidth / 800;
 
             const els = {
                 box:       this.container.querySelector(`.box${suffix}`),
@@ -305,6 +324,13 @@ export class LineGraph {
                 clickDots: this.container.querySelectorAll(`.static-dot${suffix}`),
                 overlayEl: this.container.querySelector(`.custom-tooltip-overlay${suffix}`)
             };
+
+            // Initialise the overlay fully collapsed so it is never visible
+            // before the user interacts — prevents the load-time flash.
+            gsap.set(els.overlayEl, {
+                opacity: 0, scaleX: 0, scaleY: 0,
+                transformOrigin: 'top left'
+            });
 
             let boxPos             = { x: 0, y: 0 };
             let isPressed          = false;
@@ -385,6 +411,7 @@ export class LineGraph {
                         x: boxPos.x, y: boxPos.y,
                         ease: 'elastic.out(0.7, 0.7)', overwrite: 'auto'
                     });
+                    // Only update position here — scale is owned by graphPress/graphRelease.
                     gsap.to(els.overlayEl, {
                         duration: isPressed ? 1 : 0.4,
                         x: px.x, y: px.y,
@@ -412,15 +439,21 @@ export class LineGraph {
                         y: gsap.getProperty(els.dragger, 'y'),
                         scale: 0, opacity: 0
                     });
+                    // Mirror the collapsed state on the overlay so the pop-in
+                    // entrance has something to animate from on first open.
+                    gsap.set(els.overlayEl, { scaleX: 0, scaleY: 0, opacity: 0 });
                 }
+
                 const pxPress = svgToPx(boxPos.x, boxPos.y);
                 gsap.to(els.box, {
                     duration: 0.8, scale: 1, opacity: 1,
                     x: boxPos.x, y: boxPos.y,
                     ease: 'back.out(1.2)', overwrite: 'auto'
                 });
+                // Pop in to svgScale (not 1) so the tooltip matches the SVG's
+                // rendered size at the current viewport width.
                 gsap.to(els.overlayEl, {
-                    duration: 0.8, scale: 1, opacity: 1,
+                    duration: 0.8, scaleX: svgScale, scaleY: svgScale, opacity: 1,
                     x: pxPress.x, y: pxPress.y,
                     ease: 'back.out(1.2)', overwrite: 'auto'
                 });
@@ -441,12 +474,16 @@ export class LineGraph {
                         y: gsap.getProperty(els.dragger, 'y'),
                         ease: 'back.in(1.2)', overwrite: 'auto'
                     });
-                    gsap.to(els.overlayEl, {
-                        duration: 0.8, scale: 0, opacity: 0,
-                        ease: 'back.in(1.2)', overwrite: 'auto',
-                        onComplete: () => { els.overlayEl.style.display = 'none'; }
-                    });
-
+                    // Guard: only animate close if the overlay is actually visible.
+                    // Without this, the tween fires on initial load (called by the
+                    // graphRelease(true) setup call) and causes a flash.
+                    if (els.overlayEl.style.display !== 'none') {
+                        gsap.to(els.overlayEl, {
+                            duration: 0.8, scaleX: 0, scaleY: 0, opacity: 0,
+                            ease: 'back.in(1.2)', overwrite: 'auto',
+                            onComplete: () => { els.overlayEl.style.display = 'none'; }
+                        });
+                    }
                     activeDotIndex = -1;
                 } else {
                     activeDotIndex = pointsData.indexOf(nearest);
