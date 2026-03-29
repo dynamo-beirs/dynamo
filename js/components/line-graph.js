@@ -329,7 +329,7 @@ export class LineGraph {
             // before the user interacts — prevents the load-time flash.
             gsap.set(els.overlayEl, {
                 opacity: 0, scaleX: 0, scaleY: 0,
-                transformOrigin: 'top left'
+                transformOrigin: 'bottom center'
             });
 
             let boxPos             = { x: 0, y: 0 };
@@ -433,16 +433,25 @@ export class LineGraph {
                 gsap.to(els.dragger, { duration: 1, attr: { r: 30 }, ease: 'elastic.out(1, 0.7)' });
                 updateGraph();
 
-                if (gsap.getProperty(els.box, 'opacity') < 0.5) {
-                    gsap.set(els.box, {
-                        x: gsap.getProperty(els.dragger, 'x'),
-                        y: gsap.getProperty(els.dragger, 'y'),
-                        scale: 0, opacity: 0
-                    });
-                    // Mirror the collapsed state on the overlay so the pop-in
-                    // entrance has something to animate from on first open.
-                    gsap.set(els.overlayEl, { scaleX: 0, scaleY: 0, opacity: 0 });
-                }
+            if (gsap.getProperty(els.box, 'opacity') < 0.5) {
+                const startX = gsap.getProperty(els.dragger, 'x');
+                const startY = gsap.getProperty(els.dragger, 'y');
+
+                gsap.set(els.box, {
+                    x: startX,
+                    y: startY,
+                    scale: 0, opacity: 0
+                });
+
+                // Mirror the collapsed state AND initial position on the overlay
+                const pxStart = svgToPx(startX, startY);
+                gsap.set(els.overlayEl, { 
+                    x: pxStart.x, 
+                    y: pxStart.y, 
+                    scaleX: 0, scaleY: 0, opacity: 0 
+                });
+            }
+
 
                 const pxPress = svgToPx(boxPos.x, boxPos.y);
                 gsap.to(els.box, {
@@ -474,16 +483,21 @@ export class LineGraph {
                         y: gsap.getProperty(els.dragger, 'y'),
                         ease: 'back.in(1.2)', overwrite: 'auto'
                     });
-                    // Guard: only animate close if the overlay is actually visible.
-                    // Without this, the tween fires on initial load (called by the
-                    // graphRelease(true) setup call) and causes a flash.
-                    if (els.overlayEl.style.display !== 'none') {
-                        gsap.to(els.overlayEl, {
-                            duration: 0.8, scaleX: 0, scaleY: 0, opacity: 0,
-                            ease: 'back.in(1.2)', overwrite: 'auto',
-                            onComplete: () => { els.overlayEl.style.display = 'none'; }
-                        });
-                    }
+                                    // Guard: only animate close if the overlay is actually visible.
+                // Without this, the tween fires on initial load (called by the
+                // graphRelease(true) setup call) and causes a flash.
+                if (els.overlayEl.style.display !== 'none') {
+                    const closeX = gsap.getProperty(els.dragger, 'x');
+                    const closeY = gsap.getProperty(els.dragger, 'y');
+                    const pxClose = svgToPx(closeX, closeY);
+
+                    gsap.to(els.overlayEl, {
+                        duration: 0.8, scaleX: 0, scaleY: 0, opacity: 0,
+                        x: pxClose.x, y: pxClose.y, // <-- Now it travels back down to the dot
+                        ease: 'back.in(1.2)', overwrite: 'auto',
+                        onComplete: () => { els.overlayEl.style.display = 'none'; }
+                    });
+                }
                     activeDotIndex = -1;
                 } else {
                     activeDotIndex = pointsData.indexOf(nearest);
