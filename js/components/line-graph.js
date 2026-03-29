@@ -350,7 +350,7 @@ initGSAP() {
         // before the user interacts — prevents the load-time flash.
         gsap.set(els.overlayEl, {
             opacity: 0, scaleX: 0, scaleY: 0,
-            transformOrigin: 'bottom center'
+            transformOrigin: 'top left'
         });
 
         let boxPos             = { x: 0, y: 0 };
