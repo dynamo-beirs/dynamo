@@ -844,7 +844,7 @@ body {
 .match-card.loss:hover { border-color: var(--soft-coral)    !important; }
 
 /* Positioned result icon badge */
-.match-card .result-icon {
+.match-card > .result-icon {
     display:         flex;
     position:        absolute;
     top:             16px;
@@ -853,6 +853,7 @@ body {
     justify-content: center;
     align-items:     center;
 }
+
 
 .match-card .result-icon i {
     display:     block;
@@ -1007,7 +1008,7 @@ body {
     .vs-divider   { margin: 6px 0; }
     .match-score { font-size: 1.2rem; padding: 8px 14px; border: 3px solid var(--dusty-blue); box-shadow: var(--shadow-small); margin: auto 0 12px; }
     .match-card:not(.result) .match-score { font-size: 1rem; }
-    .match-card .result-icon { font-size: 1rem; top: -8px; right: -8px; box-shadow: var(--shadow-small); }
+    .match-card > .result-icon { font-size: 1rem; top: -8px; right: -8px; box-shadow: var(--shadow-small); }
     .match-date, .match-venue { gap: 5px; }
 
     .container { padding: 0 10px; }
