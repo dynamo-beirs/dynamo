@@ -78,42 +78,24 @@ let archivePlayers = [];
 let archiveMatches = [];
 
 // ── Tooltip Template ──────────────────────────────────────────────────────────
-//
-// All styles are fully inlined and all colours are hard-coded values from
-// tokens.css.  This is intentional: SVG <foreignObject> on iOS Safari does
-// NOT inherit CSS custom properties (var()) from the parent document, and web
-// fonts (Font Awesome) fail to load inside that rendering context.  Relying on
-// classes or var() here produces invisible icons and misplaced glyphs on real
-// iOS devices (even though Chrome DevTools mobile simulation works fine).
-//
-// Unicode characters ✓ − ✕ are used in place of Font Awesome <i> tags for
-// the same reason — they render using the system font and require no external
-// font loading at all.
 
-const _TIP_ICON = (bg, glyph) =>
-    `<span style="display:inline-flex;justify-content:center;align-items:center;` +
-    `width:22px;height:22px;border-radius:50%;background:${bg};` +
-    `color:white;font-size:12px;font-weight:900;` +
-    `font-family:Arial,Helvetica,sans-serif;` +
-    `box-shadow:0 4px 10px rgba(0,0,0,0.2);flex-shrink:0;line-height:1;">${glyph}</span>`;
-
-const _TIP_ROW = (iconHtml, value, extraStyle = '') =>
-    `<div style="display:flex;justify-content:center;align-items:center;gap:8px;${extraStyle}">` +
-    `${iconHtml}` +
-    `<span style="font-size:0.95rem;font-weight:600;color:#333;` +
-    `width:16px;text-align:left;font-family:Arial,Helvetica,sans-serif;">${value}</span>` +
-    `</div>`;
-
-const getTooltipHTML = (d) =>
-    `<div style="background:white;border:3px solid #3D5A80;border-radius:12px;` +
-    `padding:10px 8px;box-shadow:0 4px 10px rgba(0,0,0,0.1);` +
-    `width:90px;box-sizing:border-box;text-align:center;font-family:Arial,Helvetica,sans-serif;">` +
-    `<div style="margin:0 0 6px;font-size:1.3rem;font-weight:800;color:#3D5A80;` +
-    `line-height:1;font-family:Arial,Helvetica,sans-serif;">${d.matches}</div>` +
-    _TIP_ROW(_TIP_ICON('#84B281', '✓'), d.winst,  'margin-bottom:6px;') +
-    _TIP_ROW(_TIP_ICON('#E8B04B', '−'), d.gelijk, 'margin-bottom:6px;') +
-    _TIP_ROW(_TIP_ICON('#E07A5F', '✕'), d.verlies) +
-    `</div>`;
+const getTooltipHTML = (d) => `
+    <div class="archive-graph-tooltip">
+        <h4 class="archive-graph-tooltip-title">${d.matches}</h4>
+        <div class="archive-graph-tooltip-row">
+            <span class="result-icon win"><i class="fas fa-check"></i></span>
+            <span class="archive-graph-tooltip-value">${d.winst}</span>
+        </div>
+        <div class="archive-graph-tooltip-row">
+            <span class="result-icon draw"><i class="fas fa-minus"></i></span>
+            <span class="archive-graph-tooltip-value">${d.gelijk}</span>
+        </div>
+        <div class="archive-graph-tooltip-row">
+            <span class="result-icon loss"><i class="fas fa-times"></i></span>
+            <span class="archive-graph-tooltip-value">${d.verlies}</span>
+        </div>
+    </div>
+`;
 
 
 // ── Page Initialization ───────────────────────────────────────────────────────
