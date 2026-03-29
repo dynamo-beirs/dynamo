@@ -55,7 +55,6 @@ let _globalCloseRegistered = false;
  * Registers a single document-level click listener that closes any `.dropdown`
  * whose subtree does not contain the clicked target.
  *
- * Idempotent — calling this more than once is harmless.
  */
 export function bindDropdownClose() {
     if (_globalCloseRegistered) return;
