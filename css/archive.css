@@ -7,18 +7,6 @@
     padding: 2rem 0 4rem;
 }
 
-.archive-graph-tooltip .result-icon {
-    position:    relative !important;
-    top:         auto !important;
-    right:       auto !important;
-    font-size:   11px;
-    width:       2em;
-    height:      2em;
-    box-shadow:  none;
-    flex-shrink: 0;
-}
-
-
 /* ── Hero Pipe / Underline Overrides ────────────────────────── */
 .archive-page .page-hero h1::before,
 .archive-page .page-hero h1::after {
