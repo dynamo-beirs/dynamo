@@ -514,6 +514,12 @@ initGSAP() {
         };
 
         const connectLine = () => {
+            
+            if (!document.contains(els.graphLine)) {
+        gsap.ticker.remove(connectLine);
+        return;
+    }
+            
             if (isPressed || activeDotIndex !== -1) {
                 gsap.set(els.connector, {
                     attr: {
