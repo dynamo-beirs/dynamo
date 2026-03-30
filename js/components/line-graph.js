@@ -118,8 +118,9 @@ export class LineGraph {
 
         for (let i = yMin; i <= yMax; i += this.options.yStep) {
             const yPos = this.options.yBase - ((i - yMin) * this.yRatio);
-            yLabels += `<text class="yLabel" transform="translate(20 ${yPos})">${i}</text>`;
-            hLines  += `<line class="horizontalLine" x1="780" y1="${yPos + 6.7}" opacity="0.4" x2="20" y2="${yPos + 6.7}"/>`;
+            hLines += `<line class="horizontalLine" x1="780" y1="${yPos}" opacity="0.4" x2="20" y2="${yPos}"/>`;
+            const labelY = yPos - 10;
+            yLabels += `<text class="yLabel" transform="translate(20 ${labelY})" dy="0.35em">${i}</text>`;
         }
 
         let linesSVG     = '';
@@ -266,13 +267,19 @@ export class LineGraph {
                             </feMerge>
                         </filter>
                     </defs>
-
+        
                     <text x="400" y="50" font-size="25" fill="#333" font-family="Poppins" font-weight="700" text-anchor="middle">${this.options.title}</text>
                     <g opacity="0.7" font-size="15" fill="#333" font-family="Poppins" font-weight="700" text-anchor="start">${yLabels}</g>
                     <g opacity="0.7" font-size="15" fill="#333" font-family="Poppins" font-weight="700" text-anchor="middle">${xLabels}</g>
-                    <g fill="none" stroke="#999" stroke-miterlimit="10">${hLines}</g>
+        
+                    <!-- Bars first (so their white stroke is painted early) -->
                     <g class="bar-group">${barsSVG}</g>
                     <g class="bar-labels-group">${barLabelsSVG}</g>
+        
+                    <!-- Grid lines AFTER the bars → they will sit on top of the bar borders -->
+                    <g fill="none" stroke="#999" stroke-miterlimit="10">${hLines}</g>
+        
+                    <!-- Line graphs on top of everything -->
                     <g filter="url(#glow-${this.uid})">${linesSVG}</g>
                     ${interactionSVG}
                 </svg>
@@ -394,7 +401,7 @@ export class LineGraph {
                         currentTooltipHTML = nearest.tooltipHTML;
                     }
                     boxPos.x = dX - 45;
-                    boxPos.y = dY - 130;
+                    boxPos.y = nearest.y - 130;
                 } else {
                     els.box.querySelector('.default-tooltip').style.display = 'block';
                     els.overlayEl.style.display = 'none';
