@@ -232,7 +232,7 @@
     .timeline { min-height: 140px; transform: translateY(10px); }
     .timeline-start-knob { width: 8px; height: 8px; }
     .timeline::before { top: 50.5%; height: 2px; right: 0.6rem; }
-    .timeline::after  { top: 50%; font-size: 18px; }
+    .timeline::after  { top: 49.5%; font-size: 18px; }
 
     .timeline-item { min-width: 90px; padding: 0 6px; }
     .timeline-item small { padding: 0.2rem 0.4rem; }
