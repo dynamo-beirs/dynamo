@@ -328,7 +328,7 @@ export class LineGraph {
             // Initialise the overlay fully collapsed so it is never visible
             gsap.set(els.overlayEl, {
                 opacity: 0, scaleX: 0, scaleY: 0,
-                transformOrigin: 'top left'
+                transformOrigin: 'bottom center'
             });
 
             let boxPos             = { x: 0, y: 0 };
