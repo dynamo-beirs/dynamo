@@ -179,7 +179,38 @@ export class LineGraph {
                         const h = stack.value * this.yRatio;
                         if (h > 0) {
                             currentY -= h;
-                            barsSVG += `<rect class="bar-rect stack-${stackIndex}" x="${p.x - (barWidth / 2)}" y="${currentY}" width="${barWidth}" height="${h}" fill="${stack.color}" stroke="#FFF" stroke-width="2" opacity="0.85" />`;
+                            const barX = p.x - (barWidth / 2);
+
+                            // 1. Define your border radius
+                            const r = 6;
+
+                            // 2. Identify if this is the bottom-most segment
+                            const isLowestBar = stackIndex === 0;
+
+                            // 3. Prevent radius from breaking if a segment is extremely short.
+                            // If it curves both top and bottom, the max radius is half the height.
+                            const maxRadiusY = isLowestBar ? h : h / 2;
+                            const radius = Math.min(r, barWidth / 2, maxRadiusY);
+
+                            // 4. Set radii independently
+                            const rTop = radius;
+                            const rBottom = isLowestBar ? 0 : radius;
+
+                            // 5. Draw the path with dynamic bottom corners
+                            const pathData = `
+                                M ${barX},${currentY + h - rBottom} 
+                                V ${currentY + rTop} 
+                                Q ${barX},${currentY} ${barX + rTop},${currentY} 
+                                H ${barX + barWidth - rTop} 
+                                Q ${barX + barWidth},${currentY} ${barX + barWidth},${currentY + rTop} 
+                                V ${currentY + h - rBottom} 
+                                Q ${barX + barWidth},${currentY + h} ${barX + barWidth - rBottom},${currentY + h} 
+                                H ${barX + rBottom} 
+                                Q ${barX},${currentY + h} ${barX},${currentY + h - rBottom} 
+                                Z
+                            `.replace(/\s+/g, ' ').trim();
+
+                            barsSVG += `<path class="bar-rect stack-${stackIndex}" d="${pathData}" fill="${stack.color}" stroke="#FFF" stroke-width="2" opacity="0.85" />`;
                         }
                     });
 
