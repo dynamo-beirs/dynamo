@@ -3,7 +3,6 @@
  */
 export class LineGraph {
 
-    // Class Initialization
     constructor(containerSelector, options) {
         this.container = document.querySelector(containerSelector);
         if (!this.container) {
@@ -26,7 +25,6 @@ export class LineGraph {
         this.isMultiLine = !Array.isArray(this.options.data);
 
         this.calculateDomain();
-
         const yRange = this.options.yMax - this.options.yMin;
         this.yRatio = 300 / (yRange || 1);
 
@@ -34,10 +32,8 @@ export class LineGraph {
         this.initGSAP();
     }
 
-    // Domain Calculation
     calculateDomain() {
         let allValues = [];
-
         if (this.isMultiLine) {
             for (const key in this.options.data) {
                 this.options.data[key].points.forEach(p => allValues.push(p.value));
@@ -47,10 +43,7 @@ export class LineGraph {
         }
 
         if (allValues.length === 0) {
-            this.options.yMin = 0;
-            this.options.yMax = 10;
-            this.options.yStep = 2;
-            return;
+            this.options.yMin = 0; this.options.yMax = 10; this.options.yStep = 2; return;
         }
 
         let dataMin = Math.min(...allValues);
@@ -65,67 +58,46 @@ export class LineGraph {
         const magnitude = Math.pow(10, Math.floor(Math.log10(rawStep || 1)));
         const residual = rawStep / magnitude;
 
-        let niceStep;
-        if (residual > 5) niceStep = 10 * magnitude;
-        else if (residual > 2) niceStep = 5 * magnitude;
-        else if (residual > 1) niceStep = 2 * magnitude;
-        else niceStep = 1 * magnitude;
-
+        let niceStep = residual > 5 ? 10 * magnitude : residual > 2 ? 5 * magnitude : residual > 1 ? 2 * magnitude : magnitude;
         if (niceStep < 1) niceStep = 1;
 
         this.options.yStep = niceStep;
         this.options.yMin = Math.floor(dataMin / niceStep) * Math.floor(niceStep);
         this.options.yMax = Math.ceil(dataMax / niceStep) * niceStep;
-
-        if (this.options.yMax === dataMax) {
-            this.options.yMax += niceStep;
-        }
+        if (this.options.yMax === dataMax) this.options.yMax += niceStep;
     }
 
-    // SVG Construction
     buildSVG() {
-        let yLabels = '';
-        let hLines = '';
-        const yMin = this.options.yMin;
-        const yMax = this.options.yMax;
+        let yLabels = ''; let hLines = '';
+        const yMin = this.options.yMin; const yMax = this.options.yMax;
 
         for (let i = yMin; i <= yMax; i += this.options.yStep) {
             const yPos = this.options.yBase - ((i - yMin) * this.yRatio);
             hLines += `<line class="horizontalLine" x1="780" y1="${yPos}" opacity="0.4" x2="20" y2="${yPos}"/>`;
-            const labelY = yPos - 10;
-            yLabels += `<text class="yLabel" transform="translate(20 ${labelY})" dy="0.35em">${i}</text>`;
+            yLabels += `<text class="yLabel" transform="translate(20 ${yPos - 10})" dy="0.35em">${i}</text>`;
         }
 
-        let linesSVG     = '';
-        let interactionSVG = '';
-        let overlaysSVG  = '';
-        let xLabels      = '';
-        let barsSVG      = '';
-        let barLabelsSVG = '';
+        let linesSVG = ''; let interactionSVG = ''; let overlaysSVG = ''; let xLabels = ''; let barsSVG = ''; let barLabelsSVG = '';
 
         if (this.isMultiLine) {
             let firstDataset = true;
             for (const [key, dataset] of Object.entries(this.options.data)) {
-                const n     = dataset.points.length;
+                const n = dataset.points.length;
                 const xStep = (this.options.xEnd - this.options.xStart) / (n - 1 || 1);
 
                 dataset.mappedPoints = dataset.points.map((d, i) => ({
                     x: this.options.xStart + (i * xStep),
                     y: this.options.yBase - ((d.value - yMin) * this.yRatio),
-                    label: d.label,
-                    value: d.value,
-                    tooltipHTML: d.tooltipHTML || null
+                    label: d.label, value: d.value, tooltipHTML: d.tooltipHTML || null
                 }));
 
-                const dPath       = `M${dataset.mappedPoints[0].x},${dataset.mappedPoints[0].y} ` + dataset.mappedPoints.slice(1).map(p => `L${p.x},${p.y}`).join(' ');
+                const dPath = `M${dataset.mappedPoints[0].x},${dataset.mappedPoints[0].y} ` + dataset.mappedPoints.slice(1).map(p => `L${p.x},${p.y}`).join(' ');
                 const strokeColor = this.options.hideLineAndDots ? 'transparent' : dataset.color;
                 linesSVG += `<path class="graphLine graphLine-${key}" fill="none" stroke-linecap="round" stroke="${strokeColor}" stroke-width="4" stroke-miterlimit="10" d="${dPath}"/>`;
 
                 let dots = '';
                 dataset.mappedPoints.forEach((p, i) => {
-                    if (firstDataset) {
-                        xLabels += `<text x="${p.x}" y="${this.options.yBase + 30}">${p.label}</text>`;
-                    }
+                    if (firstDataset) xLabels += `<text x="${p.x}" y="${this.options.yBase + 30}">${p.label}</text>`;
                     if (this.options.hideLineAndDots) {
                         dots += `<rect class="static-dot static-dot-${key}" data-index="${i}" x="${p.x - 25}" y="${p.y}" width="50" height="${this.options.yBase - p.y}" fill="transparent" style="cursor:pointer;"/>`;
                     } else {
@@ -152,29 +124,23 @@ export class LineGraph {
                 `;
 
                 overlaysSVG += `<div class="custom-tooltip-overlay custom-tooltip-overlay-${key}">
-                    <div class="box-html-content box-html-content-${key}"></div>
+                    <div class="box-html-content"></div>
                 </div>`;
-
                 firstDataset = false;
             }
         } else {
-            const n     = this.options.data.length;
+            const n = this.options.data.length;
             const xStep = (this.options.xEnd - this.options.xStart) / (n - 1 || 1);
 
             this.points = this.options.data.map((d, i) => ({
-                x: this.options.xStart + (i * xStep),
-                y: this.options.yBase - ((d.value - yMin) * this.yRatio),
-                label: d.label,
-                value: d.value,
-                stacked: d.stacked,
-                tooltipHTML: d.tooltipHTML || null
+                x: this.options.xStart + (i * xStep), y: this.options.yBase - ((d.value - yMin) * this.yRatio),
+                label: d.label, value: d.value, stacked: d.stacked, tooltipHTML: d.tooltipHTML || null
             }));
 
             this.points.forEach(p => {
                 if (p.stacked && p.stacked.length > 0) {
-                    let currentY   = this.options.yBase - ((0 - yMin) * this.yRatio);
+                    let currentY = this.options.yBase - ((0 - yMin) * this.yRatio);
                     const barWidth = 34;
-
                     p.stacked.forEach((stack, stackIndex) => {
                         const h = stack.value * this.yRatio;
                         if (h > 0) {
@@ -182,12 +148,11 @@ export class LineGraph {
                             barsSVG += `<rect class="bar-rect stack-${stackIndex}" x="${p.x - (barWidth / 2)}" y="${currentY}" width="${barWidth}" height="${h}" fill="${stack.color}" stroke="#FFF" stroke-width="2" opacity="0.85" />`;
                         }
                     });
-
                     barLabelsSVG += `<text class="bar-label" x="${p.x}" y="${currentY - 10}" fill="${this.options.dotColor}" font-family="Poppins" font-weight="800" font-size="21px" text-anchor="middle">${p.value}</text>`;
                 }
             });
 
-            const dPath       = `M${this.points[0].x},${this.points[0].y} ` + this.points.slice(1).map(p => `L${p.x},${p.y}`).join(' ');
+            const dPath = `M${this.points[0].x},${this.points[0].y} ` + this.points.slice(1).map(p => `L${p.x},${p.y}`).join(' ');
             const strokeColor = this.options.hideLineAndDots ? 'transparent' : this.options.color;
             linesSVG += `<path class="graphLine" fill="none" stroke-linecap="round" stroke="${strokeColor}" stroke-width="4" stroke-miterlimit="10" d="${dPath}"/>`;
 
@@ -224,8 +189,6 @@ export class LineGraph {
             </div>`;
         }
 
-        // HTML tooltips now live inside a dedicated .html-overlay-container
-        // that sits exactly over the SVG and perfectly matches its coordinate system.
         this.container.innerHTML = `
             <div class="comparison-graph-container">
                 <svg class="mainSVG" viewBox="0 0 800 460" preserveAspectRatio="xMidYMid meet">
@@ -235,53 +198,28 @@ export class LineGraph {
                             <feOffset dx="0" dy="20" result="offsetblur"></feOffset>
                             <feFlood flood-color="#000" flood-opacity="0.123"></feFlood>
                             <feComposite in2="offsetblur" operator="in"></feComposite>
-                            <feMerge>
-                                <feMergeNode/><feMergeNode in="SourceGraphic"></feMergeNode>
-                            </feMerge>
+                            <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"></feMergeNode></feMerge>
                         </filter>
                     </defs>
-        
                     <text x="400" y="50" font-size="25" fill="#333" font-family="Poppins" font-weight="700" text-anchor="middle">${this.options.title}</text>
                     <g opacity="0.7" font-size="15" fill="#333" font-family="Poppins" font-weight="700" text-anchor="start">${yLabels}</g>
                     <g opacity="0.7" font-size="15" fill="#333" font-family="Poppins" font-weight="700" text-anchor="middle">${xLabels}</g>
-        
                     <g class="bar-group">${barsSVG}</g>
                     <g class="bar-labels-group">${barLabelsSVG}</g>
-        
                     <g fill="none" stroke="#999" stroke-miterlimit="10">${hLines}</g>
-        
                     <g filter="url(#glow-${this.uid})">${linesSVG}</g>
                     ${interactionSVG}
                 </svg>
-                <div class="html-overlay-container">
-                    ${overlaysSVG}
-                </div>
+                ${overlaysSVG}
             </div>
         `;
     }
 
-    // GSAP Initialization
     initGSAP() {
         if (typeof gsap === 'undefined') return;
         gsap.registerPlugin(Draggable, MotionPathPlugin);
 
         this.introTimelines = [];
-
-        // Watch the container width to seamlessly scale the HTML overlay wrapper
-        // to match the exact mathematical scale of the SVG's viewBox.
-        const graphContainer = this.container.querySelector('.comparison-graph-container');
-        const overlayContainer = this.container.querySelector('.html-overlay-container');
-        if (graphContainer && overlayContainer) {
-            const ro = new ResizeObserver(entries => {
-                for (let entry of entries) {
-                    // Mobile fix: The HTML layer scales proportionally, so tooltips
-                    // shrink gracefully on phones instead of looking gigantic.
-                    const ratio = entry.contentRect.width / 800;
-                    gsap.set(overlayContainer, { scale: ratio });
-                }
-            });
-            ro.observe(graphContainer);
-        }
 
         const hLines = this.container.querySelectorAll('.horizontalLine');
         hLines.forEach(line => {
@@ -291,40 +229,40 @@ export class LineGraph {
 
         const datasets = this.isMultiLine ? Object.keys(this.options.data) : ['default'];
 
+        // Core fix: Native coordinate conversion without scaling a parent container
+        const svgToPx = (svgX, svgY) => {
+            const scale = this.container.querySelector('.comparison-graph-container').clientWidth / 800;
+            return { x: svgX * scale, y: svgY * scale };
+        };
+
         datasets.forEach(key => {
-            const suffix       = this.isMultiLine ? `-${key}` : '';
-            const lineSelector = this.isMultiLine ? `.graphLine-${key}` : '.graphLine';
-            const pointsData   = this.isMultiLine ? this.options.data[key].mappedPoints : this.points;
+            const suffix = this.isMultiLine ? `-${key}` : '';
+            const pointsData = this.isMultiLine ? this.options.data[key].mappedPoints : this.points;
 
             const els = {
                 box:          this.container.querySelector(`.box${suffix}`),
+                svgTooltip:   this.container.querySelector(`.box${suffix} .default-tooltip`),
                 connector:    this.container.querySelector(`.connector${suffix}`),
                 dragger:      this.container.querySelector(`.dragger${suffix}`),
                 graphDot:     this.container.querySelector(`.graphDot${suffix}`),
                 boxLabel:     this.container.querySelector(`.boxLabel${suffix}`),
                 nullDot:      this.container.querySelector(`.nullDot${suffix}`),
-                graphLine:    this.container.querySelector(lineSelector),
+                graphLine:    this.container.querySelector(this.isMultiLine ? `.graphLine-${key}` : '.graphLine'),
                 clickDots:    this.container.querySelectorAll(`.static-dot${suffix}`),
                 overlayEl:    this.container.querySelector(`.custom-tooltip-overlay${suffix}`),
+                htmlTooltip:  this.container.querySelector(`.custom-tooltip-overlay${suffix} .box-html-content`),
             };
 
-            // The tooltip's inner content handles the pop-in scale animation
-            els.tooltipInner = els.overlayEl.querySelector('.box-html-content');
-
-            // Apply starting state ONLY to the inner content
-            gsap.set(els.tooltipInner, {
-                opacity: 0, scale: 0,
-                transformOrigin: 'bottom center'
+            // Set up inner scaling elements initially hidden
+            gsap.set([els.svgTooltip, els.htmlTooltip], {
+                opacity: 0, scale: 0, transformOrigin: 'bottom center'
             });
 
-            // Because the .html-overlay-container is strictly 800x460 and scaled by
-            // the ResizeObserver, overlayPos translates directly 1:1 with SVG coordinates!
-            // No svgToPx() required anymore.
-            let boxPos             = { x: 0, y: 0 };
-            let overlayPos         = { x: 0, y: 0 };
-            let isPressed          = false;
-            let activeDotIndex     = -1;
-            let hasInteracted      = false;
+            let boxPos = { x: 0, y: 0 };
+            let overlayPos = { x: 0, y: 0 };
+            let isPressed = false;
+            let activeDotIndex = -1;
+            let hasInteracted = false;
             let currentTooltipHTML = null;
 
             gsap.set([els.graphDot, els.dragger], { opacity: 0 });
@@ -334,15 +272,13 @@ export class LineGraph {
 
             const tl = gsap.timeline({ onUpdate: updateGraph, paused: true });
             tl.to([els.graphDot, els.dragger], {
-                duration: 5,
-                motionPath: { path: els.graphLine, align: els.graphLine, alignOrigin: [0.5, 0.5] },
-                ease: 'none'
+                duration: 5, motionPath: { path: els.graphLine, align: els.graphLine, alignOrigin: [0.5, 0.5] }, ease: 'none'
             });
 
             pointsData.forEach(p => {
                 let closestLength = 0, smallestDiff = Infinity;
                 for (let i = 0; i <= pathLength; i++) {
-                    const pt   = els.graphLine.getPointAtLength(i);
+                    const pt = els.graphLine.getPointAtLength(i);
                     const diff = Math.abs(pt.x - p.x);
                     if (diff < smallestDiff) { smallestDiff = diff; closestLength = i; }
                 }
@@ -364,35 +300,30 @@ export class LineGraph {
                 return 0;
             };
 
-            const updateTimeline = () => {
-                const xPos = gsap.getProperty(els.nullDot, 'x');
-                gsap.to(tl, { duration: 0.3, progress: getProgressForX(xPos), overwrite: 'auto' });
-            };
+            const updateTimeline = () => gsap.to(tl, { duration: 0.3, progress: getProgressForX(gsap.getProperty(els.nullDot, 'x')), overwrite: 'auto' });
 
             function updateGraph() {
-                const dX      = gsap.getProperty(els.dragger, 'x');
-                const dY      = gsap.getProperty(els.dragger, 'y');
-                const nearest = pointsData.reduce((prev, curr) =>
-                    Math.abs(curr.x - dX) < Math.abs(prev.x - dX) ? curr : prev
-                );
+                const dX = gsap.getProperty(els.dragger, 'x');
+                const dY = gsap.getProperty(els.dragger, 'y');
+                const nearest = pointsData.reduce((prev, curr) => Math.abs(curr.x - dX) < Math.abs(prev.x - dX) ? curr : prev);
 
                 if (nearest.tooltipHTML) {
-                    els.box.querySelector('.default-tooltip').style.display = 'none';
+                    els.svgTooltip.style.display = 'none';
                     els.overlayEl.style.display = 'block';
                     if (currentTooltipHTML !== nearest.tooltipHTML) {
-                        els.tooltipInner.innerHTML = nearest.tooltipHTML;
+                        els.htmlTooltip.innerHTML = nearest.tooltipHTML;
                         currentTooltipHTML = nearest.tooltipHTML;
                     }
 
                     boxPos.x = dX - 45;
                     boxPos.y = nearest.y - 130;
 
-                    // Absolute parity - the HTML wrapper is geometrically
-                    // identical to the SVG viewBox.
-                    overlayPos.x = dX - 45;
-                    overlayPos.y = Math.max(8, nearest.y - 130);
+                    // Compute precise CSS pixels using your logic
+                    const barPx = svgToPx(dX, nearest.y);
+                    overlayPos.x = barPx.x - 45;
+                    overlayPos.y = Math.max(8, barPx.y - 130);
                 } else {
-                    els.box.querySelector('.default-tooltip').style.display = 'block';
+                    els.svgTooltip.style.display = 'block';
                     els.overlayEl.style.display = 'none';
                     els.boxLabel.textContent = nearest.value;
                     boxPos.x = dX - 40;
@@ -400,90 +331,61 @@ export class LineGraph {
                 }
 
                 if (isPressed || activeDotIndex !== -1) {
-                    gsap.to(els.box, {
-                        duration: isPressed ? 1 : 0.4,
-                        x: boxPos.x, y: boxPos.y,
-                        ease: 'elastic.out(0.7, 0.7)', overwrite: 'auto'
-                    });
-                    // Only track Position on the HTML element parent
-                    gsap.to(els.overlayEl, {
-                        duration: isPressed ? 1 : 0.4,
-                        x: overlayPos.x, y: overlayPos.y,
-                        ease: 'elastic.out(0.7, 0.7)', overwrite: 'auto'
-                    });
+                    // Moving ONLY the parents (no scale matrices involved here)
+                    gsap.to(els.box, { duration: isPressed ? 1 : 0.4, x: boxPos.x, y: boxPos.y, ease: 'elastic.out(0.7, 0.7)', overwrite: 'auto' });
+                    gsap.to(els.overlayEl, { duration: isPressed ? 1 : 0.4, x: overlayPos.x, y: overlayPos.y, ease: 'elastic.out(0.7, 0.7)', overwrite: 'auto' });
                 }
             }
 
             const graphPress = () => {
                 isPressed = true;
-
                 if (!hasInteracted) {
                     hasInteracted = true;
-                    if (!this.options.hideLineAndDots) {
-                        gsap.to([els.graphDot, els.dragger], { duration: 0.3, opacity: 1 });
-                    }
+                    if (!this.options.hideLineAndDots) gsap.to([els.graphDot, els.dragger], { duration: 0.3, opacity: 1 });
                 }
 
                 gsap.to(els.dragger, { duration: 1, attr: { r: 30 }, ease: 'elastic.out(1, 0.7)' });
-                updateGraph();
+                updateGraph(); // Computes targets first
 
-                if (gsap.getProperty(els.box, 'opacity') < 0.5) {
-                    gsap.set(els.box, {
-                        x: gsap.getProperty(els.dragger, 'x'),
-                        y: gsap.getProperty(els.dragger, 'y'),
-                        scale: 0, opacity: 0
-                    });
+                if (gsap.getProperty(els.htmlTooltip, 'opacity') < 0.5 && gsap.getProperty(els.svgTooltip, 'opacity') < 0.5) {
+                    const dotX = gsap.getProperty(els.dragger, 'x');
+                    const dotY = gsap.getProperty(els.dragger, 'y');
 
-                    // Match starting positions
-                    gsap.set(els.overlayEl, {
-                        x: gsap.getProperty(els.dragger, 'x'),
-                        y: gsap.getProperty(els.dragger, 'y')
-                    });
-                    gsap.set(els.tooltipInner, { scale: 0, opacity: 0 });
+                    // Snap parents to dot for origin point
+                    gsap.set(els.box, { x: dotX, y: dotY });
+
+                    const dotPx = svgToPx(dotX, dotY);
+                    gsap.set(els.overlayEl, { x: dotPx.x - 45, y: dotPx.y - 130 });
+
+                    // Ensure children start collapsed
+                    gsap.set([els.svgTooltip, els.htmlTooltip], { scale: 0, opacity: 0 });
                 }
 
-                gsap.to(els.box, {
-                    duration: 0.8, scale: 1, opacity: 1,
-                    x: boxPos.x, y: boxPos.y,
-                    ease: 'back.out(1.2)', overwrite: 'auto'
-                });
+                // Parent translates (x/y only)
+                gsap.to(els.box, { duration: 0.8, x: boxPos.x, y: boxPos.y, ease: 'back.out(1.2)', overwrite: 'auto' });
+                gsap.to(els.overlayEl, { duration: 0.8, x: overlayPos.x, y: overlayPos.y, ease: 'back.out(1.2)', overwrite: 'auto' });
 
-                // Desktop Glitch Fix: Separation of concerns!
-                // 1. Move the parent (avoids matrix conflict)
-                gsap.to(els.overlayEl, {
-                    duration: 0.8,
-                    x: overlayPos.x, y: overlayPos.y,
-                    ease: 'back.out(1.2)', overwrite: 'auto'
-                });
-
-                // 2. Scale the child (keeps perfect circle geometry)
-                gsap.to(els.tooltipInner, {
-                    duration: 0.8, scale: 1, opacity: 1,
-                    ease: 'back.out(1.2)', overwrite: 'auto'
-                });
+                // Child scales (force3D: false prevents font distortion during subpixel rendering)
+                gsap.to(els.svgTooltip, { duration: 0.8, scale: 1, opacity: 1, ease: 'back.out(1.2)', force3D: false, overwrite: 'auto' });
+                gsap.to(els.htmlTooltip, { duration: 0.8, scale: 1, opacity: 1, ease: 'back.out(1.2)', force3D: false, overwrite: 'auto' });
             };
 
             const graphRelease = (closeLabel = true) => {
                 isPressed = false;
                 gsap.to(els.dragger, { duration: 0.3, attr: { r: 15 }, ease: 'elastic.out(0.7, 0.7)' });
 
-                const nearest = pointsData.reduce((prev, curr) =>
-                    Math.abs(curr.x - gsap.getProperty(els.nullDot, 'x')) < Math.abs(prev.x - gsap.getProperty(els.nullDot, 'x')) ? curr : prev
-                );
+                const nearest = pointsData.reduce((prev, curr) => Math.abs(curr.x - gsap.getProperty(els.nullDot, 'x')) < Math.abs(prev.x - gsap.getProperty(els.nullDot, 'x')) ? curr : prev);
 
                 if (closeLabel) {
-                    gsap.to(els.box, {
-                        duration: 0.8, scale: 0, opacity: 0,
-                        x: gsap.getProperty(els.dragger, 'x'),
-                        y: gsap.getProperty(els.dragger, 'y'),
-                        ease: 'back.in(1.2)', overwrite: 'auto'
-                    });
+                    // Fly parents back to origin
+                    gsap.to(els.box, { duration: 0.8, x: gsap.getProperty(els.dragger, 'x'), y: gsap.getProperty(els.dragger, 'y'), ease: 'back.in(1.2)', overwrite: 'auto' });
+
+                    // Collapse children
+                    gsap.to(els.svgTooltip, { duration: 0.8, scale: 0, opacity: 0, ease: 'back.in(1.2)', overwrite: 'auto' });
 
                     if (els.overlayEl.style.display !== 'none') {
-                        // Collapse the child back down
-                        gsap.to(els.tooltipInner, {
-                            duration: 0.8, scale: 0, opacity: 0,
-                            ease: 'back.in(1.2)', overwrite: 'auto',
+                        gsap.to(els.htmlTooltip, {
+                            duration: 0.8, scale: 0, opacity: 0, ease: 'back.in(1.2)', overwrite: 'auto',
                             onComplete: () => { els.overlayEl.style.display = 'none'; }
                         });
                     }
@@ -491,7 +393,6 @@ export class LineGraph {
                 } else {
                     activeDotIndex = pointsData.indexOf(nearest);
                 }
-
                 gsap.to(els.nullDot, { duration: 0.4, x: nearest.x, onUpdate: () => updateTimeline() });
             };
 
@@ -506,26 +407,20 @@ export class LineGraph {
                         }
                     });
                 } else {
-                    const dx = gsap.getProperty(els.graphDot, 'x');
-                    const dy = gsap.getProperty(els.graphDot, 'y');
+                    const dx = gsap.getProperty(els.graphDot, 'x'); const dy = gsap.getProperty(els.graphDot, 'y');
                     gsap.to(els.connector, { duration: 0.1, attr: { x1: dx, x2: dx, y1: dy, y2: dy } });
                 }
             };
 
             Draggable.create(els.nullDot, {
-                type: 'x', trigger: els.dragger,
-                bounds: { minX: this.options.xStart, maxX: this.options.xEnd },
-                onPress:     () => graphPress(),
-                onDrag:      () => updateTimeline(),
-                onDragEnd:   () => graphRelease(false),
+                type: 'x', trigger: els.dragger, bounds: { minX: this.options.xStart, maxX: this.options.xEnd },
+                onPress: () => graphPress(), onDrag: () => updateTimeline(), onDragEnd: () => graphRelease(false),
                 onClick: () => {
                     if (activeDotIndex !== -1) {
                         graphRelease(true);
                     } else {
                         const currentX = gsap.getProperty(els.nullDot, 'x');
-                        const nearest  = pointsData.reduce((prev, curr) =>
-                            Math.abs(curr.x - currentX) < Math.abs(prev.x - currentX) ? curr : prev
-                        );
+                        const nearest  = pointsData.reduce((prev, curr) => Math.abs(curr.x - currentX) < Math.abs(prev.x - currentX) ? curr : prev);
                         activeDotIndex = pointsData.indexOf(nearest);
                         gsap.to(els.nullDot, { duration: 0.4, x: nearest.x, onUpdate: () => updateTimeline() });
                         graphPress();
@@ -553,38 +448,28 @@ export class LineGraph {
             this.introTimelines.push(introTl);
 
             introTl.to(els.graphLine, { duration: 2.3, strokeDashoffset: 0, ease: 'power3.inOut' }, 0);
-
             if (!this.options.hideLineAndDots) {
-                introTl.from(this.container.querySelectorAll('.inner-dot'), {
-                    duration: 0.5, attr: { r: 0 }, ease: 'elastic.out(1, 0.7)', stagger: 0.05
-                }, 0.5);
+                introTl.from(this.container.querySelectorAll('.inner-dot'), { duration: 0.5, attr: { r: 0 }, ease: 'elastic.out(1, 0.7)', stagger: 0.05 }, 0.5);
             }
 
             let barDelay = 0.2;
             for (let stackIndex = 0; stackIndex < 10; stackIndex++) {
                 const stackBars = this.container.querySelectorAll(`.bar-rect.stack-${stackIndex}`);
                 if (stackBars.length > 0) {
-                    introTl.from(stackBars, {
-                        duration: 0.45, scaleY: 0, transformOrigin: 'bottom center',
-                        stagger: 0.05, ease: 'power2.out'
-                    }, barDelay);
+                    introTl.from(stackBars, { duration: 0.45, scaleY: 0, transformOrigin: 'bottom center', stagger: 0.05, ease: 'power2.out' }, barDelay);
                     barDelay += 0.3;
                 }
             }
 
             const barLabels = this.container.querySelectorAll('.bar-label');
             if (barLabels.length > 0) {
-                introTl.from(barLabels, {
-                    duration: 0.6, opacity: 0, y: '+=15', stagger: 0.05, ease: 'back.out(1.5)'
-                }, barDelay - 0.2);
+                introTl.from(barLabels, { duration: 0.6, opacity: 0, y: '+=15', stagger: 0.05, ease: 'back.out(1.5)' }, barDelay - 0.2);
             }
         });
 
         const bgTl = gsap.timeline({ paused: true });
         this.introTimelines.push(bgTl);
-
-        bgTl.to(hLines, { duration: 1, strokeDashoffset: 0, opacity: 0.4, stagger: 0.1 }, 0)
-            .from(this.container.querySelectorAll('.yLabel'), { duration: 1, opacity: 0, stagger: 0.1 }, 0);
+        bgTl.to(hLines, { duration: 1, strokeDashoffset: 0, opacity: 0.4, stagger: 0.1 }, 0).from(this.container.querySelectorAll('.yLabel'), { duration: 1, opacity: 0, stagger: 0.1 }, 0);
 
         const observer = new IntersectionObserver((entries, obs) => {
             entries.forEach(entry => {
@@ -594,7 +479,6 @@ export class LineGraph {
                 }
             });
         }, { threshold: 0.15 });
-
         observer.observe(this.container);
     }
 }
