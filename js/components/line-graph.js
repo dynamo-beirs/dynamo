@@ -326,7 +326,6 @@ export class LineGraph {
             };
 
             // Initialise the overlay fully collapsed so it is never visible
-            // before the user interacts — prevents the load-time flash.
             gsap.set(els.overlayEl, {
                 opacity: 0, scaleX: 0, scaleY: 0,
                 transformOrigin: 'top left'
