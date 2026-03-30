@@ -445,10 +445,9 @@ export class LineGraph {
                 gsap.to(els.box, {
                     duration: 0.8, scale: 1, opacity: 1,
                     x: boxPos.x, y: boxPos.y,
-                    ease: 'back.out(1.2)', overwrite: 'auto'
+                    ease: 'power2.out', overwrite: 'auto'
                 });
 
-                // Desktop Glitch Fix: Separation of concerns!
                 // 1. Move the parent (avoids matrix conflict)
                 gsap.to(els.overlayEl, {
                     duration: 0.8,
