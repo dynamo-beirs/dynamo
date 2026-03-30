@@ -39,18 +39,33 @@ circle {
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
-/* ── HTML Tooltip Overlay ────────────────────────────────────
- * Positioned as an absolute sibling of the SVG inside
- * .comparison-graph-container. GSAP drives x / y / scale.
- * display: none is the GSAP-guarded initial state.
+/* ── HTML Tooltip Overlay Architecture ────────────────────────
+ * 1. .html-overlay-container: Locked to 800x460. GSAP scales
+ * this proportionally to match the SVG viewBox ratio.
+ * 2. .custom-tooltip-overlay: Moves in X/Y coordinates.
+ * 3. .box-html-content: Animates the scale pop-in.
  * ─────────────────────────────────────────────────────────── */
+.html-overlay-container {
+    position:         absolute;
+    top:              0;
+    left:             0;
+    width:            800px;
+    height:           460px;
+    transform-origin: top left;
+    pointer-events:   none;
+    z-index:          10;
+}
+
 .custom-tooltip-overlay {
-    position:       absolute;
-    top:            0;
-    left:           0;
-    display:        none;
-    pointer-events: none;
-    z-index:        10;
+    position:         absolute;
+    top:              0;
+    left:             0;
+    display:          none;
+}
+
+.box-html-content {
+    position:         relative;
+    transform-origin: bottom center;
 }
 
 @media (max-width: 768px) {

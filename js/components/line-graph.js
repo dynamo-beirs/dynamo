@@ -1,37 +1,5 @@
 /**
  * components/line-graph.js
- *
- * No renames applied. This is a self-contained GSAP-driven graph component
- * whose internal naming (boxLabel, graphDot, nullDot, dragger, etc.) mirrors
- * the SVG element class names it creates. Renaming these would require
- * matching CSS selector updates and would not improve readability given the
- * tight coupling between the JS and the SVG DOM it generates.
- *
- * Audit notes:
- *   - `initGSAP`         → well-named, no change needed
- *   - `buildSVG`         → well-named, no change needed
- *   - `calculateDomain`  → well-named, no change needed
- *   - Internal closures (graphPress, graphRelease, connectLine, updateGraph,
- *     getProgressForX, updateTimeline) are scoped inside initGSAP per-dataset
- *     and do not leak into any other module — no rename needed.
- *
- * iOS Safari fixes (foreignObject workaround):
- *   - Custom tooltips are rendered as plain HTML divs placed as siblings to
- *     the SVG inside the container div, instead of inside a <foreignObject>.
- *     This ensures CSS custom properties (var()), web fonts (Poppins), and
- *     Font Awesome icons all resolve correctly on real iOS devices.
- *   - svgToPx() converts SVG viewBox coordinates → container-relative pixels
- *     so GSAP can position the HTML overlay to match the SVG dot position.
- *   - The overlay is always rendered at its natural CSS size (scale: 1) so
- *     that the tooltip is readable at every viewport width and FA icons never
- *     suffer non-uniform scaling artefacts during the pop-in animation.
- *   - overlayPos (CSS-pixel coordinates) is computed separately from boxPos
- *     (SVG-coordinate space). The fixed CSS offsets for horizontal centering
- *     and vertical placement (45 px, 130 px) must be subtracted AFTER the
- *     SVG→px conversion, not before — otherwise they are scaled down on
- *     narrow viewports and the tooltip drifts right / downward on mobile.
- *   - The overlay close tween is guarded by a display !== 'none' check so it
- *     never fires on initial load, preventing a flash of the tooltip.
  */
 export class LineGraph {
 
@@ -183,9 +151,8 @@ export class LineGraph {
                     </g>
                 `;
 
-                // Overlay styles live in graph.css (.custom-tooltip-overlay)
                 overlaysSVG += `<div class="custom-tooltip-overlay custom-tooltip-overlay-${key}">
-                    <div class="box-html-content"></div>
+                    <div class="box-html-content box-html-content-${key}"></div>
                 </div>`;
 
                 firstDataset = false;
@@ -252,14 +219,13 @@ export class LineGraph {
                 </g>
             `;
 
-            // Overlay styles live in graph.css (.custom-tooltip-overlay)
             overlaysSVG = `<div class="custom-tooltip-overlay">
                 <div class="box-html-content"></div>
             </div>`;
         }
 
-        // The comparison-graph-container layout rules (position, aspect-ratio,
-        // max-width, margin) now live in graph.css — no inline styles needed.
+        // HTML tooltips now live inside a dedicated .html-overlay-container
+        // that sits exactly over the SVG and perfectly matches its coordinate system.
         this.container.innerHTML = `
             <div class="comparison-graph-container">
                 <svg class="mainSVG" viewBox="0 0 800 460" preserveAspectRatio="xMidYMid meet">
@@ -279,18 +245,17 @@ export class LineGraph {
                     <g opacity="0.7" font-size="15" fill="#333" font-family="Poppins" font-weight="700" text-anchor="start">${yLabels}</g>
                     <g opacity="0.7" font-size="15" fill="#333" font-family="Poppins" font-weight="700" text-anchor="middle">${xLabels}</g>
         
-                    <!-- Bars first (so their white stroke is painted early) -->
                     <g class="bar-group">${barsSVG}</g>
                     <g class="bar-labels-group">${barLabelsSVG}</g>
         
-                    <!-- Grid lines AFTER the bars → they will sit on top of the bar borders -->
                     <g fill="none" stroke="#999" stroke-miterlimit="10">${hLines}</g>
         
-                    <!-- Line graphs on top of everything -->
                     <g filter="url(#glow-${this.uid})">${linesSVG}</g>
                     ${interactionSVG}
                 </svg>
-                ${overlaysSVG}
+                <div class="html-overlay-container">
+                    ${overlaysSVG}
+                </div>
             </div>
         `;
     }
@@ -302,6 +267,22 @@ export class LineGraph {
 
         this.introTimelines = [];
 
+        // Watch the container width to seamlessly scale the HTML overlay wrapper
+        // to match the exact mathematical scale of the SVG's viewBox.
+        const graphContainer = this.container.querySelector('.comparison-graph-container');
+        const overlayContainer = this.container.querySelector('.html-overlay-container');
+        if (graphContainer && overlayContainer) {
+            const ro = new ResizeObserver(entries => {
+                for (let entry of entries) {
+                    // Mobile fix: The HTML layer scales proportionally, so tooltips
+                    // shrink gracefully on phones instead of looking gigantic.
+                    const ratio = entry.contentRect.width / 800;
+                    gsap.set(overlayContainer, { scale: ratio });
+                }
+            });
+            ro.observe(graphContainer);
+        }
+
         const hLines = this.container.querySelectorAll('.horizontalLine');
         hLines.forEach(line => {
             const l = Math.ceil(line.getTotalLength());
@@ -310,46 +291,35 @@ export class LineGraph {
 
         const datasets = this.isMultiLine ? Object.keys(this.options.data) : ['default'];
 
-        // Converts SVG viewBox coordinates → container-relative CSS pixels.
-        // Reads clientWidth on every call so it stays accurate after a resize.
-        const svgToPx = (svgX, svgY) => {
-            const scale = this.container.querySelector('.comparison-graph-container').clientWidth / 800;
-            return { x: svgX * scale, y: svgY * scale };
-        };
-
         datasets.forEach(key => {
             const suffix       = this.isMultiLine ? `-${key}` : '';
             const lineSelector = this.isMultiLine ? `.graphLine-${key}` : '.graphLine';
             const pointsData   = this.isMultiLine ? this.options.data[key].mappedPoints : this.points;
 
             const els = {
-                box:       this.container.querySelector(`.box${suffix}`),
-                connector: this.container.querySelector(`.connector${suffix}`),
-                dragger:   this.container.querySelector(`.dragger${suffix}`),
-                graphDot:  this.container.querySelector(`.graphDot${suffix}`),
-                boxLabel:  this.container.querySelector(`.boxLabel${suffix}`),
-                nullDot:   this.container.querySelector(`.nullDot${suffix}`),
-                graphLine: this.container.querySelector(lineSelector),
-                clickDots: this.container.querySelectorAll(`.static-dot${suffix}`),
-                overlayEl: this.container.querySelector(`.custom-tooltip-overlay${suffix}`)
+                box:          this.container.querySelector(`.box${suffix}`),
+                connector:    this.container.querySelector(`.connector${suffix}`),
+                dragger:      this.container.querySelector(`.dragger${suffix}`),
+                graphDot:     this.container.querySelector(`.graphDot${suffix}`),
+                boxLabel:     this.container.querySelector(`.boxLabel${suffix}`),
+                nullDot:      this.container.querySelector(`.nullDot${suffix}`),
+                graphLine:    this.container.querySelector(lineSelector),
+                clickDots:    this.container.querySelectorAll(`.static-dot${suffix}`),
+                overlayEl:    this.container.querySelector(`.custom-tooltip-overlay${suffix}`),
             };
 
-            // Initialise the overlay fully collapsed so it is never visible.
-            // `scale` (not scaleX/scaleY) keeps both axes driven by the same
-            // tween value — prevents the brief non-uniform distortion on FA icons
-            // that occurred when the two axes were animated as separate properties.
-            gsap.set(els.overlayEl, {
+            // The tooltip's inner content handles the pop-in scale animation
+            els.tooltipInner = els.overlayEl.querySelector('.box-html-content');
+
+            // Apply starting state ONLY to the inner content
+            gsap.set(els.tooltipInner, {
                 opacity: 0, scale: 0,
                 transformOrigin: 'bottom center'
             });
 
-            // boxPos    → SVG-coordinate space, used to drive the SVG .box element.
-            // overlayPos → CSS-pixel space, used to drive the HTML overlay div.
-            //
-            // The two spaces diverge on narrow viewports (mobile). The fixed offsets
-            // for centering (-45 px) and vertical lift (-130 px) are CSS pixel values
-            // and must be applied AFTER svgToPx(), not before — otherwise they get
-            // scaled down proportionally and the tooltip drifts right and downward.
+            // Because the .html-overlay-container is strictly 800x460 and scaled by
+            // the ResizeObserver, overlayPos translates directly 1:1 with SVG coordinates!
+            // No svgToPx() required anymore.
             let boxPos             = { x: 0, y: 0 };
             let overlayPos         = { x: 0, y: 0 };
             let isPressed          = false;
@@ -410,23 +380,17 @@ export class LineGraph {
                     els.box.querySelector('.default-tooltip').style.display = 'none';
                     els.overlayEl.style.display = 'block';
                     if (currentTooltipHTML !== nearest.tooltipHTML) {
-                        els.overlayEl.querySelector('.box-html-content').innerHTML = nearest.tooltipHTML;
+                        els.tooltipInner.innerHTML = nearest.tooltipHTML;
                         currentTooltipHTML = nearest.tooltipHTML;
                     }
-                    // SVG-space position for the (invisible) .box SVG element.
+
                     boxPos.x = dX - 45;
                     boxPos.y = nearest.y - 130;
 
-                    // CSS-pixel position for the HTML overlay.
-                    // Convert bar center (dX) and bar top (nearest.y) to CSS px first,
-                    // then subtract the fixed CSS offsets:
-                    //   - 45 px = half of the 90 px tooltip width  (horizontal centering)
-                    //   - 130 px = tooltip height + small gap       (place above bar top)
-                    // Math.max(8, …) prevents the tooltip from drifting above the
-                    // container on tall bars where barPx.y < 130 px.
-                    const barPx  = svgToPx(dX, nearest.y);
-                    overlayPos.x = barPx.x - 45;
-                    overlayPos.y = Math.max(8, barPx.y - 130);
+                    // Absolute parity - the HTML wrapper is geometrically
+                    // identical to the SVG viewBox.
+                    overlayPos.x = dX - 45;
+                    overlayPos.y = Math.max(8, nearest.y - 130);
                 } else {
                     els.box.querySelector('.default-tooltip').style.display = 'block';
                     els.overlayEl.style.display = 'none';
@@ -441,7 +405,7 @@ export class LineGraph {
                         x: boxPos.x, y: boxPos.y,
                         ease: 'elastic.out(0.7, 0.7)', overwrite: 'auto'
                     });
-                    // Only update position here — scale is owned by graphPress/graphRelease.
+                    // Only track Position on the HTML element parent
                     gsap.to(els.overlayEl, {
                         duration: isPressed ? 1 : 0.4,
                         x: overlayPos.x, y: overlayPos.y,
@@ -461,8 +425,6 @@ export class LineGraph {
                 }
 
                 gsap.to(els.dragger, { duration: 1, attr: { r: 30 }, ease: 'elastic.out(1, 0.7)' });
-                // updateGraph() runs first so overlayPos is up-to-date before
-                // the pop-in tween below reads it.
                 updateGraph();
 
                 if (gsap.getProperty(els.box, 'opacity') < 0.5) {
@@ -471,9 +433,13 @@ export class LineGraph {
                         y: gsap.getProperty(els.dragger, 'y'),
                         scale: 0, opacity: 0
                     });
-                    // Mirror the collapsed state on the overlay so the pop-in
-                    // entrance has something to animate from on first open.
-                    gsap.set(els.overlayEl, { scale: 0, opacity: 0 });
+
+                    // Match starting positions
+                    gsap.set(els.overlayEl, {
+                        x: gsap.getProperty(els.dragger, 'x'),
+                        y: gsap.getProperty(els.dragger, 'y')
+                    });
+                    gsap.set(els.tooltipInner, { scale: 0, opacity: 0 });
                 }
 
                 gsap.to(els.box, {
@@ -481,15 +447,18 @@ export class LineGraph {
                     x: boxPos.x, y: boxPos.y,
                     ease: 'back.out(1.2)', overwrite: 'auto'
                 });
-                // Animate to scale: 1 (natural CSS size) so the tooltip is always
-                // rendered at full resolution on every viewport width. FA icons
-                // in the tooltip are painted at a fixed pixel size — no scaling
-                // artefacts during the animation.
-                // overlayPos is already in CSS pixels (computed in updateGraph above),
-                // so no further conversion is needed here.
+
+                // Desktop Glitch Fix: Separation of concerns!
+                // 1. Move the parent (avoids matrix conflict)
                 gsap.to(els.overlayEl, {
-                    duration: 0.8, scale: 1, opacity: 1,
+                    duration: 0.8,
                     x: overlayPos.x, y: overlayPos.y,
+                    ease: 'back.out(1.2)', overwrite: 'auto'
+                });
+
+                // 2. Scale the child (keeps perfect circle geometry)
+                gsap.to(els.tooltipInner, {
+                    duration: 0.8, scale: 1, opacity: 1,
                     ease: 'back.out(1.2)', overwrite: 'auto'
                 });
             };
@@ -509,11 +478,10 @@ export class LineGraph {
                         y: gsap.getProperty(els.dragger, 'y'),
                         ease: 'back.in(1.2)', overwrite: 'auto'
                     });
-                    // Guard: only animate close if the overlay is actually visible.
-                    // Without this, the tween fires on initial load (called by the
-                    // graphRelease(true) setup call) and causes a flash.
+
                     if (els.overlayEl.style.display !== 'none') {
-                        gsap.to(els.overlayEl, {
+                        // Collapse the child back down
+                        gsap.to(els.tooltipInner, {
                             duration: 0.8, scale: 0, opacity: 0,
                             ease: 'back.in(1.2)', overwrite: 'auto',
                             onComplete: () => { els.overlayEl.style.display = 'none'; }
