@@ -8,7 +8,10 @@
     box-shadow:       var(--shadow-medium);
     overflow:         visible;
     width:            100%;
-    margin:           0 auto;
+    max-width:        800px;
+    margin:           0 auto 3rem;
+    position:         relative;
+    aspect-ratio:     800 / 460;
 }
 
 .mainSVG {
@@ -34,6 +37,20 @@
 /* Remove tap highlight on SVG circles (mobile) */
 circle {
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+/* ── HTML Tooltip Overlay ────────────────────────────────────
+ * Positioned as an absolute sibling of the SVG inside
+ * .comparison-graph-container. GSAP drives x / y / scale.
+ * display: none is the GSAP-guarded initial state.
+ * ─────────────────────────────────────────────────────────── */
+.custom-tooltip-overlay {
+    position:       absolute;
+    top:            0;
+    left:           0;
+    display:        none;
+    pointer-events: none;
+    z-index:        10;
 }
 
 @media (max-width: 768px) {
