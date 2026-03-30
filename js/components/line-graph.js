@@ -401,7 +401,7 @@ export class LineGraph {
                         currentTooltipHTML = nearest.tooltipHTML;
                     }
                     boxPos.x = dX - 45;
-                    boxPos.y = dY - 130;
+                    boxPos.y = nearest.y - 130;
                 } else {
                     els.box.querySelector('.default-tooltip').style.display = 'block';
                     els.overlayEl.style.display = 'none';
