@@ -1,0 +1,67 @@
+/* ============================================================
+   COMPONENTS/TICKER.CSS
+   Sponsor ticker carousel for displaying partner logos.
+   ============================================================ */
+
+.ticker-section {
+    padding:  1rem 0;
+    overflow: hidden;
+}
+
+.ticker-wrapper {
+    width:                  var(--content-width);
+    margin:                 0 auto;
+    overflow:               hidden;
+    position:               relative;
+    padding:                1rem 0;
+    mask-image:             linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    -webkit-mask-image:     linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+}
+
+.ticker-track {
+    display:     flex;
+    gap:         3rem;
+    width:       max-content;
+    align-items: center;
+}
+
+.ticker-track.centered  { width: 100%; justify-content: center; }
+.ticker-track.scrolling { animation: scroll-ticker var(--dur-ticker) linear infinite; }
+
+@keyframes scroll-ticker {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+}
+
+.sponsor-item {
+    display:         flex;
+    align-items:     center;
+    justify-content: center;
+    flex-shrink:     0;
+    transition:      transform var(--dur-base) var(--ease-ui);
+}
+
+.sponsor-item:hover { transform: scale(var(--hover-scale-sm)); }
+
+.sponsor-logo {
+    height:     70px;
+    width:      auto;
+    max-width:  180px;
+    object-fit: contain;
+    filter:     grayscale(100%);
+    opacity:    0.7;
+    transition: filter var(--dur-base) var(--ease-ui), opacity var(--dur-base) var(--ease-ui);
+}
+
+.sponsor-item:hover .sponsor-logo { filter: none; opacity: 1; }
+
+/* ── Responsive ────────────────────────────────────────────── */
+@media (max-width: 768px) {
+    .ticker-wrapper { padding: 1rem 0 0; }
+    .ticker-track   { gap: 2rem; }
+    .sponsor-logo   { height: 60px; }
+}
+
+@media (max-width: 480px) {
+    .sponsor-logo { height: 50px; }
+}

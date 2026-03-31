@@ -161,7 +161,7 @@ export function calcLossMargin(item) {
 }
 
 
-// ── General Utilities ─────────────────────────────────────────────────────────
+// ── General core ─────────────────────────────────────────────────────────
 /**
  * Creates a debounced function that delays invoking the provided function until after
  * `wait` milliseconds have elapsed since the last time the debounced function was invoked.

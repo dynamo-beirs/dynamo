@@ -78,9 +78,10 @@
     --ease-ui:     cubic-bezier(0.40, 0, 0.20, 1);
 
     /* ── Interaction ────────────────────────────────────────── */
-    --hover-scale: 1.02;
-    --hover-lift:  -5px;
-    --reveal-lift: 20px;
+    --hover-scale:      1.02;
+    --hover-scale-sm:   1.15;
+    --hover-lift:       -5px;
+    --reveal-lift:      20px;
 
     /* ── Delays ─────────────────────────────────────────────── */
     --delay-stagger: 0.10s;

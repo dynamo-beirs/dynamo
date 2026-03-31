@@ -97,7 +97,6 @@ const getTooltipHTML = (d) => `
     </div>
 `;
 
-
 // ── Page Initialization ───────────────────────────────────────────────────────
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -245,7 +244,7 @@ async function loadSeasonData(seasonString) {
             if (innerLoader)  innerLoader.classList.add('hidden');
             if (innerContent) innerContent.classList.remove('hidden');
 
-            animateMatchCards('.archive-match-card', '#archive-matches-grid');
+            animateMatchCards('.match-card', '#archive-matches-grid');
             animateOnScroll([
                 { selector: '.stat-card',                         containerSelector: 'section' },
                 { selector: '.archive-player-row',                containerSelector: 'section' },
@@ -275,7 +274,7 @@ async function loadSeasonData(seasonString) {
         if (innerLoader)  innerLoader.classList.add('hidden');
         if (innerContent) innerContent.classList.remove('hidden');
 
-        animateMatchCards('.archive-match-card', '#archive-matches-grid');
+        animateMatchCards('.match-card', '#archive-matches-grid');
         animateOnScroll([
             { selector: '.stat-card',                         containerSelector: 'section' },
             { selector: '.archive-player-row',                containerSelector: 'section' },
@@ -472,7 +471,7 @@ function renderArchivePlayers(sortBy = 'goals') {
     const list = document.getElementById('archive-player-list');
 
     if (sorted.length === 0) {
-        list.innerHTML = '<div class="archive-empty-msg">Geen data beschikbaar.</div>';
+        list.innerHTML = '<div class="empty-state-message">Geen data beschikbaar.</div>';
         return;
     }
 
@@ -494,7 +493,7 @@ function renderSeasonMatches(matches) {
     grid.innerHTML = '';
 
     if (matches.length === 0) {
-        grid.innerHTML = '<div class="archive-empty-msg">Geen wedstrijden beschikbaar voor dit seizoen.</div>';
+        grid.innerHTML = '<div class="empty-state-message">Geen wedstrijden beschikbaar voor dit seizoen.</div>';
         return;
     }
 
@@ -508,7 +507,7 @@ function renderSeasonMatches(matches) {
         const awayTeam = parts[1] || '';
 
         const card = document.createElement('div');
-        card.className = 'match-card result archive-match-card';
+        card.className = 'match-card result';
 
         // Archive cards use individual data-* attributes so bindArchiveMatchClicks
         // can reconstruct the matchData without relying on a single JSON blob.
@@ -559,7 +558,7 @@ function renderSortedMatches(sortKey = 'date-asc') {
     bindArchiveMatchClicks();
 
     if (!document.getElementById('archive-season-content').classList.contains('hidden')) {
-        animateMatchCards('.archive-match-card', '#archive-matches-grid');
+        animateMatchCards('.match-card', '#archive-matches-grid');
     }
 }
 
@@ -577,7 +576,7 @@ function initSortHeaders() {
  * This keeps the click handler local rather than using the shared bindMatchCardClicks.
  */
 function bindArchiveMatchClicks() {
-    document.querySelectorAll('#archive-matches-grid .archive-match-card').forEach(card => {
+    document.querySelectorAll('#archive-matches-grid .match-card').forEach(card => {
         card.style.cursor = 'pointer';
 
         card.addEventListener('click', () => {

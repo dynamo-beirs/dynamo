@@ -1,6 +1,6 @@
 /* ============================================================
-   COMPONENTS/MATCHMODAL.CSS
-   Requires: modal-shared.css
+   COMPONENTS/MATCH-MODAL.CSS
+   Requires: modal-base.css
    ============================================================ */
 
 /* Width constraint for this modal specifically */
@@ -21,7 +21,6 @@
 .match-title-container {
     text-align:    center;
     margin-bottom: 1.5rem;
-    font-family:   'Poppins', sans-serif;
     position:      relative;
 }
 
@@ -43,7 +42,6 @@
     font-size:     var(--text-h2);
     font-weight:   800;
     color:         var(--dark-gray);
-    font-family:   'Poppins', sans-serif;
     position:      relative;
 }
 
@@ -71,7 +69,6 @@
 
 /* ── Season Label ───────────────────────────────────────────── */
 .season {
-    font-family:    'Poppins', sans-serif;
     font-weight:    600;
     font-size:      var(--text-lg);
     color:          var(--medium-gray);
@@ -95,12 +92,10 @@
     font-size:     var(--text-h3);
     font-weight:   700;
     color:         var(--dark-gray);
-    font-family:   'Poppins', sans-serif;
     border:        3px solid var(--dusty-blue);
     box-shadow:    var(--shadow-medium);
     text-align:    center;
     min-width:     110px;
-    transition:    var(--t-interact);
 }
 
 /* Result-state score border overrides */
@@ -121,20 +116,10 @@
     border-radius: var(--radius-lg);
     border:        1px solid transparent;
     box-shadow:    var(--shadow-medium);
-    transition:    var(--t-interact);
 }
 
 /* Remove bottom margin from last child in modal */
 #matchCenterModal .modal-content > *:last-child { margin-bottom: 0 !important; }
-
-/* .animate-in state removed; keep standard hover */
-.modal-section:hover,
-.goalscorers-section:hover,
-.score-display:hover,
-#modalSponsorLink:hover {
-    transform:  scale(var(--hover-scale));
-    box-shadow: var(--shadow-hover);
-}
 
 /* ── Section Headings ───────────────────────────────────────── */
 .modal-section h3,
@@ -145,7 +130,6 @@
     font-size:     var(--text-lg);
     text-align:    center;
     font-weight:   700;
-    font-family:   'Poppins', sans-serif;
     position:      relative;
 }
 
@@ -184,7 +168,6 @@
 #modalSponsorLink {
     display:       inline-block;
     border-radius: var(--radius-md);
-    transition:    var(--t-interact);
 }
 
 #modalSponsorLogo {
@@ -217,7 +200,6 @@
     font-size:       var(--text-body);
     color:           var(--dark-gray);
     font-weight:     600;
-    font-family:     'Poppins', sans-serif;
     line-height:     1.4;
     margin:          0;
     padding:         0.8rem;
@@ -304,15 +286,6 @@
     .modal-section h3::after,
     .goalscorers-section h3::after,
     .modal-sponsor-container h3::after { width: 30px; height: 3px; }
-
-    /* Disable lift on touch */
-    .modal-section:hover,
-    .goalscorers-section:hover,
-    .score-display:hover,
-    #modalSponsorLink:hover {
-        transform:  translateY(0) !important;
-        box-shadow: var(--shadow-hover);
-    }
 
     .date-box p,
     .time-box p,

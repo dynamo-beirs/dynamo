@@ -1,7 +1,7 @@
 /**
  * utils/match-card.js
  *
- * Shared utilities for building, animating, and wiring up match cards.
+ * Shared core for building, animating, and wiring up match cards.
  * Centralises logic that was duplicated across matches.js, search.js, archive.js.
  *
  */

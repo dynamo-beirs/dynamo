@@ -26,21 +26,17 @@
     margin-top: 3.5rem;
 }
 
-.archive-subsection .section-title {
-    text-align:    center;
-    margin-bottom: 1.5rem;
+/* ── Season Selector Dropdown ───────────────────────────────── */
+#season-select {
+    min-width: 180px;
+    z-index: 102;
 }
 
-/* ── Season Selector Dropdown ───────────────────────────────── */
-/*
- * #season-select is a custom-styled native select widget unique to
- * the archive page. It mirrors the .dropdown pattern but is
- * scoped to its own ID to avoid selector conflicts.
- */
 .picker-section {
     padding:   1rem 0;
     position:  relative;
     z-index:   var(--z-dropdown);
+    --dropdown-border-color: var(--dynamo-red);
 }
 
 .picker-section,
@@ -75,83 +71,7 @@
     color:       var(--dark-gray);
 }
 
-#season-select {
-    position:      relative;
-    border:        3px solid var(--dynamo-red);
-    border-radius: var(--radius-pill);
-    background:    white;
-    cursor:        pointer;
-    box-shadow:    var(--shadow-small);
-    user-select:   none;
-    font-weight:   600;
-    color:         var(--dark-gray);
-    transition:    var(--t-interact);
-    min-width:     180px;
-    z-index:       102;
-    font-size:     var(--text-body);
-}
-
-#season-select .selected {
-    padding:       0.6rem 2rem 0.6rem 1rem;
-    border-radius: var(--radius-pill);
-    box-sizing:    border-box;
-    text-align:    center;
-    position:      relative;
-    transition:    var(--t-color);
-}
-
-#season-select .selected::after {
-    content:     '\f0d7';
-    font-family: 'Font Awesome 6 Free', serif;
-    font-weight: 900;
-    position:    absolute;
-    right:       0.8rem;
-    top:         50%;
-    transform:   translateY(-55%);
-    font-size:   var(--text-lg);
-    color:       var(--dark-gray);
-    transition:  transform var(--dur-base) var(--ease-ui);
-}
-
-#season-select.active .selected::after {
-    content:   '\f0d8';
-    transform: translateY(-50%);
-}
-
-#season-select .options {
-    position:      absolute;
-    top:           100%;
-    left:          50%;
-    transform:     translateX(-50%);
-    background:    white;
-    border:        3px solid var(--dynamo-red);
-    border-radius: var(--radius-md);
-    box-shadow:    var(--shadow-medium);
-    list-style:    none;
-    margin:        5px 0 0;
-    padding:       0;
-    display:       none;
-    z-index:       var(--z-dropdown);
-    width:         100%;
-    box-sizing:    border-box;
-    overflow:      hidden;
-}
-
-#season-select .options li {
-    padding:    0.6rem 1rem;
-    text-align: center;
-    transition: var(--t-color);
-}
-
-#season-select .options li:hover {
-    color:       var(--dynamo-red);
-    font-weight: 700;
-}
-
-#season-select.active .options { display: block; }
-
 /* ── Archive Stats Grid ─────────────────────────────────────── */
-/* Overrides the base .stats-grid from general.css for 3-col layout */
 #archive-stats-grid {
     grid-template-columns: repeat(3, 1fr);
     gap:                   1.5rem;
@@ -215,7 +135,6 @@
     color:         var(--dark-gray);
     text-align:    center;
     margin-bottom: 0.4rem;
-    font-family:   'Poppins', sans-serif;
     line-height:   1.2;
 }
 
@@ -231,12 +150,6 @@
     gap:              1rem;
     padding:          1rem 0.5rem;
     position:         relative;
-    transition:       var(--t-interact);
-}
-
-.podium-block:hover{
-    transform:  scale(var(--hover-scale));
-    box-shadow:  var(--shadow-hover);
 }
 
 .podium-block i {
@@ -245,14 +158,12 @@
 }
 
 .podium-shoe-name {
-    font-size:      0.75rem;
-    font-weight:    800;
+    font-size: 0.75rem;
+    font-weight: 800;
     text-transform: uppercase;
-    text-align:     center;
-    line-height:    1.2;
-    font-family:    'Poppins', sans-serif;
+    text-align: center;
+    line-height: 1.2;
 }
-
 
 /* Podium Heights & Accent Colors */
 .podium-step.gold .podium-block {
@@ -287,11 +198,6 @@
     background: var(--dark-yellow);
 }
 
-.archive-subsection .matches-grid {
-    width:  var(--content-width);
-    margin: 0 auto;
-}
-
 /* Theme the dropdown in the archive matches section */
 #archive-matches-section {
     --dropdown-border-color: var(--dark-yellow);
@@ -306,43 +212,21 @@
     width: max-content;
 }
 
-/* Archive match cards use the standard scroll-reveal pattern */
-.archive-match-card {
-    opacity:    0;
-    transform:  translateY(var(--reveal-lift));
-    transition: var(--t-reveal);
-}
-
-.archive-match-card.animate-in {
-    opacity:   1;
-    transform: translateY(0);
-}
-
-.archive-empty-msg {
-    grid-column: 1 / -1;
-    text-align:  center;
-    padding:     2rem;
-    color:       var(--medium-gray);
-    font-weight: 600;
-    font-size:   var(--text-body);
-}
-
 /* ── Archive Graph Tooltip ──────────────────────────────────── */
 .archive-graph-tooltip {
     background:    white;
     border:        3px solid var(--dark-blue);
     border-radius: var(--radius-md);
     padding:       10px 8px;
-    box-shadow:    0 4px 10px rgba(0,0,0,0.1);
+    box-shadow:    var(--shadow-small);
     width:         90px;
     box-sizing:    border-box;
     text-align:    center;
-    font-family:   'Poppins', sans-serif;
 }
 
 .archive-graph-tooltip-title {
     margin:      0 0 6px;
-    font-size:   1.3rem;
+    font-size:   var(--text-lg);
     font-weight: 800;
     color:       var(--dark-blue);
     line-height: 1;
@@ -370,7 +254,7 @@
 }
 
 .archive-graph-tooltip-value {
-    font-size:   0.95rem;
+    font-size:   var(--text-body);
     font-weight: 600;
     color:       var(--dark-gray);
     width:       16px;
@@ -380,12 +264,6 @@
 /* ── Responsive: Tablet (≤ 768 px) ─────────────────────────── */
 @media (max-width: 768px) {
     .season-picker { flex-direction: column; gap: 0.5rem; }
-
-    /* Disable hover lift on touch */
-    .archive-match-card:hover {
-        transform:  translateY(0) !important;
-        box-shadow: var(--shadow-hover);
-    }
 
     #archive-stats-grid {
         grid-template-columns: repeat(2, 1fr);
@@ -406,5 +284,4 @@
     .podium-step.bronze .podium-block { height: 80px; }
 
     #archive-stats-grid { gap: 0.8rem; }
-
 }

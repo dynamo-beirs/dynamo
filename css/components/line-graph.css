@@ -26,7 +26,6 @@
     user-select:    none;
     -webkit-user-select: none;
     pointer-events: none;
-    font-family:    'Poppins', sans-serif;
     font-weight:    700;
 }
 
@@ -39,12 +38,7 @@ circle {
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
-/* ── HTML Tooltip Overlay Architecture ────────────────────────
- * 1. .html-overlay-container: Locked to 800x460. GSAP scales
- * this proportionally to match the SVG viewBox ratio.
- * 2. .custom-tooltip-overlay: Moves in X/Y coordinates.
- * 3. .box-html-content: Animates the scale pop-in.
- * ─────────────────────────────────────────────────────────── */
+/* ── HTML Tooltip Overlay Architecture ── */
 .html-overlay-container {
     position:         absolute;
     top:              0;

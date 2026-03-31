@@ -1,8 +1,6 @@
 /* ============================================================
    STATISTICS.CSS
    Merged: statistics.css, team-season.css, team-all-time.css
-   NOTE: .dropdown base, .sort-controls base layout,
-         and .hidden are defined in general.css.
    ============================================================ */
 
 /* ── Statistics-Specific Design Tokens ─────────────────────── */
@@ -38,9 +36,6 @@ body.player-alltime {
 }
 
 /* ── Section Title Overrides ────────────────────────────────── */
-main .page-hero { width: 100%; }
-main .page-hero h1 { margin: 0 auto; }
-
 .section-title { white-space: normal; }
 
 .section-title::after,
@@ -261,7 +256,6 @@ body.player-alltime .player-rank {
     padding:       1.5rem;
     border-radius: var(--radius-lg);
     box-shadow:    var(--shadow-medium);
-    transition:    var(--t-interact);
 }
 
 .stats-categories > .stat-category:nth-child(1) {
@@ -274,24 +268,15 @@ body.player-alltime .player-rank {
     flex: 1 1 300px;
 }
 
-.stat-category:hover,
-.record-category:hover {
-    box-shadow: var(--shadow-hover);
-    transform:  scale(var(--hover-scale)) !important;
-}
-
 .stat-category h3,
 .record-category h3 {
     color:         var(--primary-theme-color);
     margin-bottom: 1.5rem;
     text-align:    center;
-    font-family:   'Poppins', sans-serif;
     font-weight:   700;
+    font-size:     var(--text-lg);
     transition:    var(--t-reveal);
 }
-
-.stat-category h3  { font-size: var(--text-lg); }
-.record-category h3 { font-size: var(--text-lg); }
 
 /* ── Shared List Items ──────────────────────────────────────── */
 .stat-item,
@@ -304,7 +289,6 @@ body.player-alltime .player-rank {
     gap:             1rem;
     border-radius:   var(--radius-sm);
     margin-bottom:   0.8rem;
-    font-family:     'Poppins', sans-serif;
     transition:      var(--t-reveal);
 }
 
@@ -346,14 +330,6 @@ body.player-alltime .player-rank {
 
 /* ── Responsive: Tablet (≤ 768 px) ─────────────────────────── */
 @media (max-width: 768px) {
-    .desktop-only {
-        display: none !important;
-    }
-
-    .mobile-only {
-        display: inline-block !important;
-    }
-
     .page-hero {
         padding: 1.5rem 0.8rem;
     }
@@ -362,12 +338,6 @@ body.player-alltime .player-rank {
     .stats-section,
     .detailed-stats {
         padding: 1.5rem 0;
-    }
-
-    .stat-category:hover,
-    .record-category:hover {
-        transform: translateY(0) !important;
-        box-shadow: var(--shadow-hover);
     }
 
     .stats-section .stats-grid {

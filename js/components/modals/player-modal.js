@@ -17,7 +17,7 @@ class PlayerModal extends ModalBase {
         if (this.isInitialized) return;
 
         try {
-            const response  = await fetch('/dynamo/html/components/playerModal.html');
+            const response  = await fetch('/dynamo/html/components/modals/player-modal.html');
             const modalHTML = await response.text();
 
             const placeholder = document.getElementById('player-modal-placeholder');

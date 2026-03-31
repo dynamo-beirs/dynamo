@@ -32,11 +32,10 @@
 
 .autocomplete-item {
     padding:     0.5rem 1rem;
-    font-family: 'Poppins', sans-serif;
     font-size:   var(--text-sm);
     color:       var(--dark-gray);
     cursor:      pointer;
-    transition:  var(--t-color), var(--t-color);
+    transition: var(--t-color);
 }
 
 .autocomplete-item:hover,
@@ -57,7 +56,6 @@
 .match-season {
     color:       var(--medium-gray);
     font-size:   var(--text-sm);
-    font-family: 'Poppins', sans-serif;
     font-weight: 500;
     display:     flex;
     align-items: center;
@@ -85,12 +83,6 @@
     .autocomplete-item { padding: 0.4rem 0.9rem; }
 
     .match-season { gap: 5px; }
-
-    /* Disable hover lift on touch */
-    .match-card:hover {
-        transform:  translateY(0) !important;
-        box-shadow: var(--shadow-hover);
-    }
 }
 
 /* ── Responsive: Mobile (≤ 480 px) ─────────────────────────── */

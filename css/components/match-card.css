@@ -1,0 +1,183 @@
+/* ============================================================
+   COMPONENTS/MATCH-CARD.CSS
+   .matches-grid, .match-card, and all card internals.
+   ============================================================ */
+
+/* ── Matches Grid ───────────────────────────────────────────── */
+.matches-grid {
+    display:               grid;
+    grid-template-columns: repeat(2, minmax(260px, 1fr));
+    gap:                   1rem;
+    width:                 var(--content-width);
+    margin:                0 auto;
+    padding:               0;
+}
+
+/* Empty-state variant — full width with centred message */
+.matches-grid.no-matches {
+    width:     100%;
+    max-width: 1200px;
+    padding:   0 15px;
+}
+
+.matches-grid.no-matches .upcoming-match-name {
+    grid-column:  1 / -1;
+    justify-self: center;
+    align-self:   center;
+    margin:       4rem auto;
+    max-width:    600px;
+}
+
+/* ── Match Card ─────────────────────────────────────────────── */
+.match-card {
+    background:     white;
+    border-radius:  var(--radius-lg);
+    box-shadow:     var(--shadow-medium);
+    cursor:         pointer;
+    border:         3px solid transparent;
+    position:       relative;
+    display:        flex;
+    flex-direction: column;
+}
+
+.match-card:hover {
+    border-color: var(--dusty-blue);
+}
+
+/* Result-state border overrides on hover */
+.match-card:has(.result-icon.win):hover,
+.match-card.win:hover  { border-color: var(--light-green)   !important; }
+.match-card:has(.result-icon.draw):hover,
+.match-card.draw:hover { border-color: var(--golden-yellow) !important; }
+.match-card:has(.result-icon.loss):hover,
+.match-card.loss:hover { border-color: var(--soft-coral)    !important; }
+
+/* ── Result Icon Badge Position ─────────────────────────────── */
+.match-card .result-icon {
+    display:         flex;
+    position:        absolute;
+    top:             16px;
+    right:           16px;
+    line-height:     1;
+    justify-content: center;
+    align-items:     center;
+}
+
+.match-card .result-icon i {
+    display:     block;
+    line-height: 1;
+    transform:   translateY(1px);
+}
+
+/* ── Card Body ──────────────────────────────────────────────── */
+.match-body {
+    padding:        20px 24px 24px;
+    display:        flex;
+    flex-direction: column;
+    align-items:    center;
+    text-align:     center;
+    flex-grow:      1;
+}
+
+.match-teams {
+    margin: 0 0 20px;
+    width:  100%;
+}
+
+.match-body .home-team,
+.match-body .away-team {
+    font-size:   var(--text-lg);
+    color:       var(--dark-gray);
+    font-weight: 600;
+    line-height: 1;
+    margin:      4px 0;
+}
+
+.vs-divider {
+    color:       var(--medium-gray);
+    font-size:   var(--text-sm);
+    font-weight: 500;
+    margin:      8px 0;
+}
+
+/* ── Score Badge ────────────────────────────────────────────── */
+.match-score {
+    background:    var(--off-white);
+    padding:       12px 20px;
+    border-radius: var(--radius-pill);
+    font-size:     2rem;
+    font-weight:   700;
+    color:         var(--dark-gray);
+    border:        3px solid var(--dusty-blue);
+    margin:        10px 0 20px;
+    box-shadow:    var(--shadow-medium);
+    transition:    var(--t-reveal);
+    margin-top:    auto;
+}
+
+/* Result-state score border overrides */
+.match-card:has(.result-icon.win)  .match-score,
+.match-card.win  .match-score { border-color: var(--light-green)   !important; }
+.match-card:has(.result-icon.draw) .match-score,
+.match-card.draw .match-score { border-color: var(--golden-yellow) !important; }
+.match-card:has(.result-icon.loss) .match-score,
+.match-card.loss .match-score { border-color: var(--soft-coral)    !important; }
+
+/* Upcoming card (no result yet) — smaller score text */
+.match-card:not(.result) .match-score { font-size: 1.3rem; }
+
+/* ── Match Details Footer ───────────────────────────────────── */
+.match-details {
+    display:        flex;
+    flex-direction: column;
+    gap:            8px;
+    align-items:    center;
+    width:          100%;
+}
+
+.match-date,
+.match-venue {
+    color:       var(--medium-gray);
+    font-size:   var(--text-sm);
+    font-weight: 500;
+    display:     flex;
+    align-items: center;
+    gap:         6px;
+}
+
+.match-date i,
+.match-venue i {
+    font-size:   0.9em;
+    opacity:     0.8;
+    line-height: 1;
+    transform: translateY(-1px);
+}
+
+/* ── Responsive: Tablet (≤ 1024 px) ────────────────────────── */
+@media (max-width: 1024px) {
+    .matches-grid { grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); }
+
+    .match-card           { box-shadow: var(--shadow-small); border: none; }
+    .match-body           { padding: 16px; }
+    .match-teams          { margin-bottom: 12px; }
+    .vs-divider           { margin: 6px 0; }
+    .match-score {
+        font-size:  1.2rem;
+        padding:    8px 14px;
+        border:     3px solid var(--dusty-blue);
+        box-shadow: var(--shadow-small);
+        margin:     auto 0 12px;
+    }
+    .match-card:not(.result) .match-score { font-size: 1rem; }
+    .match-card .result-icon              { font-size: 1rem; top: -8px; right: -8px; box-shadow: var(--shadow-small); }
+    .match-date, .match-venue             { gap: 5px; }
+}
+
+@media (max-width: 480px) {
+    .matches-grid                         { grid-template-columns: repeat(2, minmax(160px, 1fr)); gap: 0.8rem; }
+    .match-card                           { box-shadow: var(--shadow-medium); }
+    .match-body                           { padding: 14px; }
+    .vs-divider                           { margin: 5px 0; }
+    .match-score                          { font-size: 1.1rem; padding: 7px 12px; }
+    .match-card:not(.result) .match-score { font-size: 0.9rem; }
+}

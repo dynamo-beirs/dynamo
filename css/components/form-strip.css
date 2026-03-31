@@ -1,0 +1,100 @@
+/* ============================================================
+   COMPONENTS/FORM-STRIP.CSS
+   Recent-form bubble strip shown above match listings.
+   ============================================================ */
+
+/* ── Section Shell ──────────────────────────────────────────── */
+.form-section {
+    padding: 1.5rem 0;
+}
+
+.form-display {
+    text-align: center;
+}
+
+/* ── Bubble Row ─────────────────────────────────────────────── */
+.form-results {
+    display:         flex;
+    justify-content: center;
+    gap:             0.8rem;
+    margin-bottom:   1rem;
+}
+
+.form-result {
+    width:           50px;
+    height:          50px;
+    border-radius:   var(--radius-circle);
+    font-weight:     900;
+    color:           var(--off-white);
+    font-size:       1.6rem;
+    box-shadow:      var(--shadow-medium);
+    cursor:          default;
+    display:         flex;
+    justify-content: center;
+    align-items:     center;
+    --current-hover-scale: var(--hover-scale-sm) !important;
+}
+
+/* Most-recent result gets a highlight ring */
+.form-result:last-child {
+    border:  3px solid var(--off-white);
+    width:   calc(50px + 5px);
+    height:  calc(50px + 5px);
+    margin:  -2px;
+}
+
+/* ── Colours ────────────────────────────────────────────────── */
+.form-result.win  { background: var(--light-green); }
+.form-result.draw { background: var(--golden-yellow); }
+.form-result.loss { background: var(--soft-coral); }
+
+/* Ring colours for most-recent bubble */
+.form-result.win:last-child  { box-shadow: 0 0 0 3px var(--light-green); }
+.form-result.draw:last-child { box-shadow: 0 0 0 3px var(--golden-yellow); }
+.form-result.loss:last-child { box-shadow: 0 0 0 3px var(--soft-coral); }
+
+/* ── Hover ──────────────────────────────────────────────────── */
+.form-result.win:last-child:hover  { box-shadow: 0 0 0 3px var(--light-green),   var(--shadow-hover) !important; }
+.form-result.draw:last-child:hover { box-shadow: 0 0 0 3px var(--golden-yellow), var(--shadow-hover) !important; }
+.form-result.loss:last-child:hover { box-shadow: 0 0 0 3px var(--soft-coral),    var(--shadow-hover) !important; }
+
+/* ── Caption ────────────────────────────────────────────────── */
+.form-description {
+    display:        block;
+    font-size:      var(--text-sm);
+    color:          var(--medium-gray);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom:  1rem;
+    font-weight:    700;
+}
+
+/* ── Responsive: Tablet (≤ 1024 px) ────────────────────────── */
+@media (max-width: 1024px) {
+    .form-results { gap: 0.6rem; }
+
+    .form-result {
+        width:     35px;
+        height:    35px;
+        font-size: 1rem;
+    }
+
+    .form-result:last-child {
+        width:  calc(35px + 4px);
+        height: calc(35px + 4px);
+    }
+}
+
+@media (max-width: 480px) {
+    .form-result { width: 30px; height: 30px; }
+
+    .form-result:last-child {
+        width:  calc(30px + 4px);
+        height: calc(30px + 4px);
+        border: 2px solid var(--off-white);
+    }
+
+    .form-result.win:last-child  { box-shadow: 0 0 0 2px var(--light-green); }
+    .form-result.draw:last-child { box-shadow: 0 0 0 2px var(--golden-yellow); }
+    .form-result.loss:last-child { box-shadow: 0 0 0 2px var(--soft-coral); }
+}

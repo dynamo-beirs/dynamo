@@ -1,6 +1,6 @@
 /* ============================================================
-   COMPONENTS/PLAYERMODAL.CSS
-   Requires: modal-shared.css
+   COMPONENTS/MODALS/PLAYER-MODAL.CSS
+   Requires: modal-base.css
    ============================================================ */
 
 /* Width constraint for this modal specifically */
@@ -34,7 +34,6 @@
     font-size:   var(--text-h3);
     font-weight: 800;
     color:       var(--dark-gray);
-    font-family: 'Poppins', sans-serif;
     position:    relative;
 }
 
@@ -51,7 +50,6 @@
 }
 
 #playerPosition {
-    font-family:    'Poppins', sans-serif;
     margin:         1rem auto;
     font-weight:    600;
     font-size:      var(--text-body);
@@ -70,13 +68,6 @@
     border-radius: var(--radius-lg);
     border:        1px solid transparent;
     box-shadow:    var(--shadow-medium);
-    transition:    var(--t-interact);
-}
-
-.season-stats-section:hover,
-.all-time-stats-section:hover {
-    transform:  scale(var(--hover-scale));
-    box-shadow: var(--shadow-hover);
 }
 
 /* Remove bottom margin from last stat section */
@@ -93,7 +84,6 @@
     font-size:     var(--text-lg);
     text-align:    center;
     font-weight:   700;
-    font-family:   'Poppins', sans-serif;
     position:      relative;
 }
 
@@ -129,7 +119,6 @@
     font-size:       var(--text-sm);
     color:           var(--dark-gray);
     font-weight:     600;
-    font-family:     'Poppins', sans-serif;
     line-height:     1.4;
     margin:          0;
     padding:         0.8rem;
@@ -166,13 +155,6 @@
     .stat-box {
         flex:      1 1 calc(50% - 0.5rem);
         min-width: calc(50% - 0.5rem);
-    }
-
-    /* Disable hover lift on touch */
-    .season-stats-section.animate-in:hover,
-    .all-time-stats-section.animate-in:hover {
-        transform:  translateY(0) !important;
-        box-shadow: var(--shadow-hover);
     }
 }
 

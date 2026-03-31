@@ -182,7 +182,7 @@ function renderAllTimeStats() {
     ]);
 }
 
-// ── Player Table Shared Utilities ─────────────────────────────────────────────
+// ── Player Table Shared core ─────────────────────────────────────────────
 
 function sortPlayers(players, sortBy) {
     return [...players].sort((a, b) => {

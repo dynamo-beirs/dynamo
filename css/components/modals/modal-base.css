@@ -1,6 +1,6 @@
 /* ============================================================
-   COMPONENTS/MODAL-SHARED.CSS
-   Shared base styles consumed by matchModal.css and playerModal.css.
+   COMPONENTS/MODALS/MODAL-BASE.CSS
+   Shared base styles consumed by match-modal.css and player-modal.css.
    ============================================================ */
 
 /* ── Scroll Lock ────────────────────────────────────────────── */
@@ -24,7 +24,7 @@ body.modal-open {
     opacity:         0;
     visibility:      hidden;
     pointer-events:  none;
-    transition:      opacity 0.3s ease, visibility 0.3s ease;
+    transition:      var(--t-modal);
 }
 
 .modal-overlay.show {
@@ -44,7 +44,6 @@ body.modal-open {
     overflow-y: auto;
     position: relative;
     color: var(--dark-gray);
-    font-family: 'Poppins', sans-serif;
     font-size: var(--text-body);
     transform-origin: center center;
 }

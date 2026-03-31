@@ -1,0 +1,52 @@
+/* ============================================================
+   COMPONENTS/STAT-CARD.CSS
+   .stat-card, .stats-grid
+   ============================================================ */
+
+/* ── Stat Card ──────────────────────────────────────────────── */
+.stat-card {
+    background:    white;
+    padding:       2rem;
+    border-radius: var(--radius-lg);
+    box-shadow:    var(--shadow-medium);
+    text-align:    center;
+}
+
+.stat-number {
+    font-size:     var(--text-h2);
+    font-weight:   800;
+    line-height:   1;
+    margin-bottom: 0.5rem;
+}
+
+.stat-label {
+    color:          var(--medium-gray);
+    text-transform: uppercase;
+    font-weight:    600;
+    font-size:      var(--text-sm);
+    letter-spacing: 1px;
+    margin-top:     0.5rem;
+}
+
+/* ── Stats Grid ─────────────────────────────────────────────── */
+/*
+ * Base scaffold only. Pages set grid-template-columns:
+ *   home.css       → repeat(auto-fit, minmax(180px, 1fr))
+ *   archive.css    → repeat(3, 1fr)
+ *   statistics.css → repeat(3, 1fr)
+ */
+.stats-grid {
+    display: grid;
+    gap:     1rem;
+    width:   var(--content-width);
+    margin:  0 auto;
+}
+
+/* ── Responsive: Tablet (≤ 1024 px) ────────────────────────── */
+@media (max-width: 1024px) {
+    .stat-card { padding: 1.2rem; }
+}
+
+@media (max-width: 480px) {
+    .stat-card { padding: 1rem; }
+}

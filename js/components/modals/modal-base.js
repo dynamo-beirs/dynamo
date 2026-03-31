@@ -2,7 +2,7 @@
  * components/modals/modal-base.js
  * Abstract base class for FLIP-animated overlay modals.
  * Moved from utils/ — a base class for UI components belongs with components,
- * not in a general-purpose utilities folder.
+ * not in a general-purpose core folder.
  */
 export class ModalBase {
     constructor() {

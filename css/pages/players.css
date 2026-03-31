@@ -3,22 +3,11 @@
    ============================================================ */
 
 /* ── Position-based Hero Pipe Colour ────────────────────────── */
-/*
- * Overrides --hero-pipe-color (defined in general.css) so the | pipe
- * decorators in .page-hero h1 match the active position filter.
- * No need to re-declare the entire ::before/::after block.
- */
 body                    { --hero-pipe-color: var(--medium-gray); }
 body.filter-goalkeeper  { --hero-pipe-color: var(--dark-blue); }
 body.filter-defender    { --hero-pipe-color: var(--dark-green); }
 body.filter-midfielder  { --hero-pipe-color: var(--dark-yellow); }
 body.filter-attacker    { --hero-pipe-color: var(--dynamo-red); }
-body.filter-all         { --hero-pipe-color: var(--medium-gray); }
-
-/* ── Page Hero Overrides ────────────────────────────────────── */
-/* Width is explicitly 100% on this page (vs default auto on others) */
-main .page-hero { width: 100%; }
-main .page-hero h1 { margin: 0 auto; }
 
 /* ── Filter Section ─────────────────────────────────────────── */
 .filter-section {
@@ -36,10 +25,10 @@ main .page-hero h1 { margin: 0 auto; }
 
 .filter-controls {
     display:         flex;
-    justify-content: center;
-    gap:             0.8rem;
-    flex-wrap:       wrap;
-    width:           70%;
+    justify-content: space-between;
+    gap:             1rem;
+    flex-wrap:       nowrap;
+    width:           100%;
     max-width:       var(--content-width);
     min-width:       420px;
     margin:          0 auto;
@@ -55,22 +44,24 @@ main .page-hero h1 { margin: 0 auto; }
 .filter-btn[data-position="attacker"]   { --btn-color: var(--dynamo-red); }
 
 /* 2. Base Button Styling */
+/* 2. Base Button Styling */
 .filter-btn {
+    flex:           auto;
+    white-space:    nowrap;
     background:     white;
     border:         3px solid var(--btn-color);
     color:          var(--btn-color);
-    padding:        0.5rem 0.988rem;
+    padding:        0.5rem clamp(0.3rem, 1.5vw, 0.988rem);
     border-radius:  var(--radius-pill);
-    font-family:    'Poppins', sans-serif;
     font-weight:    700;
     letter-spacing: 1px;
     font-size:      var(--text-sm);
     cursor:         pointer;
-    transition:     all var(--dur-base) var(--ease-ui);
+    transition:     var(--t-color);
     display:        flex;
     align-items:    center;
     justify-content: center;
-    gap:            0.5rem;
+    gap:            clamp(0.3rem, 1vw, 0.5rem);
     box-shadow:     var(--shadow-small);
     min-height:     44px;
 }
@@ -134,12 +125,6 @@ main .page-hero h1 { margin: 0 auto; }
     flex-direction: column;
 }
 
-.player-card:hover {
-    box-shadow: var(--shadow-hover);
-    transform:  scale(var(--hover-scale)) !important;
-    transition: var(--t-interact);
-}
-
 /* Position-specific hover border colours */
 .player-card[data-position="goalkeeper"]:hover { border-color: var(--dark-blue); }
 .player-card[data-position="defender"]:hover   { border-color: var(--dark-green); }
@@ -148,7 +133,6 @@ main .page-hero h1 { margin: 0 auto; }
 
 /* Filter state helpers */
 .player-card.filter-hidden   { display: none; }
-.player-card.filter-visible  { display: block; }
 
 /* ── Player Info ────────────────────────────────────────────── */
 .player-info {
@@ -163,7 +147,6 @@ main .page-hero h1 { margin: 0 auto; }
     font-weight:   700;
     color:         var(--dark-gray);
     margin-bottom: 0.4rem;
-    font-family:   'Poppins', sans-serif;
 }
 
 .player-position {
@@ -262,11 +245,11 @@ main .page-hero h1 { margin: 0 auto; }
         padding: 1rem 0 0.5rem;
     }
 
-    .filter-controls { gap: 0.6rem; }
+    .filter-controls { gap: 0.6rem; flex-wrap: wrap; }
 
     .filter-btn {
         padding:      0.5rem 1rem;
-        max-width:    150px;
+        max-width:    none;
         justify-content: center;
     }
 
@@ -275,12 +258,6 @@ main .page-hero h1 { margin: 0 auto; }
     }
 
     .player-card { padding: 1.2rem; }
-
-    /* Disable hover lift on touch */
-    .player-card:hover {
-        transform:  translateY(0) !important;
-        box-shadow: var(--shadow-hover);
-    }
 
     .player-nationality { padding: 0.3rem 0.6rem; }
     .flag-icon          { width: 30px; }

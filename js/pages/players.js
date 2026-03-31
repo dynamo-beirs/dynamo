@@ -137,7 +137,6 @@ function filterPlayers(position) {
     globalPlayers.forEach(player => {
         const show = position === 'all' || player.position === position;
         player.element.classList.toggle('filter-hidden',  !show);
-        player.element.classList.toggle('filter-visible',  show);
     });
     toggleEmptyState();
 }
@@ -167,7 +166,6 @@ function onSearch(e) {
         const show          = matchesSearch && matchesFilter;
 
         player.element.classList.toggle('filter-hidden',  !show);
-        player.element.classList.toggle('filter-visible',  show);
     });
     toggleEmptyState();
 }
@@ -205,7 +203,7 @@ function setPositionTheme(position) {
 // ── Empty State ───────────────────────────────────────────────────────────────
 
 function toggleEmptyState() {
-    const visible = globalPlayers.filter(p => p.element?.classList.contains('filter-visible'));
+    const visible = globalPlayers.filter(p => !p.element?.classList.contains('filter-hidden'));
     if (visible.length === 0) {
         DOM.emptyState?.classList.remove('hidden');
         if (DOM.grid) DOM.grid.style.display = 'none';

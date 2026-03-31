@@ -58,8 +58,8 @@ export function appendTableToggle(tableContainer, tableId, totalItems, limit, re
     const toggleBtn = document.createElement('button');
     toggleBtn.className = 'btn-toggle-table';
     toggleBtn.innerHTML = isExpanded
-        ? 'Toon minder <i class="fas fa-chevron-up"></i>'
-        : `Toon alle ${totalItems} spelers <i class="fas fa-chevron-down"></i>`;
+        ? 'Toon minder <i class="fas fa-caret-up"></i>'
+        : `Toon alle ${totalItems} spelers <i class="fas fa-caret-down"></i>`;
 
     // 4. Bind the click event
     toggleBtn.addEventListener('click', () => {

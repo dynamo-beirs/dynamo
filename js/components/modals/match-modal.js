@@ -19,7 +19,7 @@ class MatchModal extends ModalBase {
         if (!placeholder) return;
 
         try {
-            const response = await fetch('/dynamo/html/components/matchModal.html');
+            const response = await fetch('/dynamo/html/components/modals/match-modal.html');
             placeholder.innerHTML = await response.text();
 
             this.modal = document.getElementById('matchCenterModal');

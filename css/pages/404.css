@@ -11,7 +11,6 @@
     align-items:     center;
     justify-content: center;
     flex-direction:  column;
-    background-color: var(--off-white);
 }
 
 .error-section .container {
@@ -49,11 +48,10 @@
     color:           var(--dynamo-red);
     padding:         0.75rem 1.5rem;
     border-radius:   var(--radius-pill);
-    font-family:     'Poppins', sans-serif;
     font-weight:     700;
     font-size:       var(--text-body);
     cursor:          pointer;
-    transition:      all var(--dur-base) var(--ease-ui);
+    transition:      var(--t-color);
     display:         inline-flex;
     align-items:     center;
     gap:             0.5rem;
@@ -85,12 +83,6 @@
     .error-cta {
         padding:    0.65rem 1.25rem;
         min-height: 44px;
-    }
-
-    .error-cta:hover .hover-effect {
-        width:      0 !important;
-        height:     0 !important;
-        transition: none !important;
     }
 
     .error-cta:hover {

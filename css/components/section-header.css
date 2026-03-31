@@ -1,0 +1,115 @@
+/* ============================================================
+   COMPONENTS/SECTION-HEADER.CSS
+   .page-hero, .section-title, .section-subtitle
+   ============================================================ */
+
+/* ── Page Hero ──────────────────────────────────────────────── */
+.page-hero {
+    padding:    1.5rem 1rem;
+    text-align: center;
+    background: transparent;
+    margin-top: 20px;
+}
+
+.page-hero h1 {
+    font-size:   var(--text-h1);
+    font-weight: 900;
+    color:       var(--dark-gray);
+    position:    relative;
+    display:     inline-block;
+}
+
+/*
+ * Pipe decorators — colour driven by --hero-pipe-color.
+ * Override that token per-page to change the accent
+ * (players.css sets it dynamically via body.filter-* classes).
+ */
+.page-hero h1::before,
+.page-hero h1::after {
+    content:          '|';
+    margin:           8px;
+    display:          inline-block;
+    position:         relative;
+    top:              1px;
+    height:           100%;
+    font-size:        1.2em;
+    color:            var(--hero-pipe-color);
+    opacity:          0;
+    transform:        scaleY(0);
+    transform-origin: center center;
+    transition:
+            opacity   var(--dur-slow) var(--ease-out)   var(--delay-stagger),
+            transform var(--dur-slow) var(--ease-spring) var(--delay-stagger),
+            color     var(--dur-base) var(--ease-ui);
+}
+
+.page-hero h1.animate-in {
+    opacity:   1;
+    transform: translateY(0);
+}
+
+.page-hero h1.animate-in::before,
+.page-hero h1.animate-in::after {
+    opacity:   1;
+    transform: scaleY(1);
+}
+
+/* ── Section Titles ─────────────────────────────────────────── */
+.section-title,
+.section-subtitle {
+    text-align:  center;
+    font-weight: 800;
+    color:       var(--dark-gray);
+    position:    relative;
+}
+
+.section-title {
+    font-size: var(--text-h2);
+    margin:    1.5rem 0 2rem;
+}
+
+.section-subtitle {
+    font-size:     var(--text-h3);
+    margin-bottom: 1.5rem;
+}
+
+/* Animated underline — scales in from left on .animate-in */
+.section-title::after,
+.section-subtitle::after {
+    content:          '';
+    position:         absolute;
+    left:             50%;
+    transform:        translateX(-50%) scaleX(0);
+    transform-origin: left center;
+    background:       var(--dynamo-red);
+    border-radius:    var(--radius-sm);
+    transition:       transform var(--dur-slow) var(--ease-out) var(--delay-stagger);
+}
+
+.section-title::after {
+    bottom: -8px;
+    width:  60px;
+    height: 4px;
+}
+
+.section-subtitle::after {
+    bottom: -6px;
+    width:  40px;
+    height: 3px;
+}
+
+.section-title.animate-in::after,
+.section-subtitle.animate-in::after {
+    transform: translateX(-50%) scaleX(1);
+}
+
+/* ── Responsive: Tablet (≤ 1024 px) ────────────────────────── */
+@media (max-width: 1024px) {
+    .page-hero { padding: 1rem 0.5rem; }
+
+    .page-hero h1::before,
+    .page-hero h1::after { margin: 6px; }
+
+    .section-title::after    { width: 50px; height: 3px; }
+    .section-subtitle::after { width: 35px; }
+}

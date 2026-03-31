@@ -134,10 +134,9 @@
 .timeline-item:hover::before { box-shadow: var(--shadow-hover); }
 
 .timeline-item small {
-    font-size:     0.8rem;
+    font-size:     var(--text-sm);
     color:         var(--medium-gray);
     font-weight:   600;
-    font-family:   'Poppins', sans-serif;
     text-align:    center;
     background:    white;
     padding:       0.3rem 0.6rem;
@@ -149,59 +148,6 @@
     margin-top:    1.5rem;
 }
 
-/* ── Sponsor Ticker ─────────────────────────────────────────── */
-.ticker-section {
-    padding:  1rem 0;
-    overflow: hidden;
-}
-
-.ticker-wrapper {
-    width:                  var(--content-width);
-    margin:                 0 auto;
-    overflow:               hidden;
-    position:               relative;
-    padding:                1rem 0;
-    mask-image:             linear-gradient(to right, transparent, black 10%, black 90%, transparent);
-    -webkit-mask-image:     linear-gradient(to right, transparent, black 10%, black 90%, transparent);
-}
-
-.ticker-track {
-    display:     flex;
-    gap:         3rem;
-    width:       max-content;
-    align-items: center;
-}
-
-.ticker-track.centered  { width: 100%; justify-content: center; }
-.ticker-track.scrolling { animation: scroll-ticker var(--dur-ticker) linear infinite; }
-
-@keyframes scroll-ticker {
-    from { transform: translateX(0); }
-    to   { transform: translateX(-50%); }
-}
-
-.sponsor-item {
-    display:         flex;
-    align-items:     center;
-    justify-content: center;
-    flex-shrink:     0;
-    transition:      transform var(--dur-base) var(--ease-ui);
-}
-
-.sponsor-item:hover { transform: scale(1.1); }
-
-.sponsor-logo {
-    height:     70px;
-    width:      auto;
-    max-width:  180px;
-    object-fit: contain;
-    filter:     grayscale(100%);
-    opacity:    0.7;
-    transition: filter var(--dur-base) var(--ease-ui), opacity var(--dur-base) var(--ease-ui);
-}
-
-.sponsor-item:hover .sponsor-logo { filter: grayscale(0%); opacity: 1; }
-
 /* ── Responsive: Tablet (≤ 768 px) ─────────────────────────── */
 @media (max-width: 768px) {
     .timeline-wrapper { min-height: 160px; margin: 0.8rem auto; }
@@ -211,16 +157,12 @@
     .timeline::after  { font-size: 20px; top: 49.7%; transform: translate(50%, -49%); }
 
     .timeline-item { min-width: 100px; padding: 0 8px; }
-    .timeline-item:hover, .timeline-item:hover .result-icon { transform: translateY(0) !important; }
     .timeline-item .result-icon { font-size: 0.85rem; margin-bottom: 0rem; }
     .timeline-item small { padding: 0.25rem 0.5rem; }
     .timeline-item::before { width: 16px; height: 16px; }
 
     .fixtures-section { margin-top: 0.8rem; }
     .upcoming-match-name h3 { margin: 0.5rem 0; }
-    .ticker-wrapper { padding: 1rem 0 0; }
-    .ticker-track   { gap: 2rem; }
-    .sponsor-logo   { height: 60px; }
 }
 
 /* ── Responsive: Mobile (≤ 480 px) ─────────────────────────── */
@@ -237,5 +179,4 @@
     .timeline-item { min-width: 90px; padding: 0 6px; }
     .timeline-item small { padding: 0.2rem 0.4rem; }
     .timeline-item::before { width: 14px; height: 14px; }
-    .sponsor-logo { height: 50px; }
 }
