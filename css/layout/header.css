@@ -355,7 +355,6 @@ body {
 
     /* Ensure the active page still highlights */
     .nav-link.active {
-        color:      var(--off-white);
         background: var(--dynamo-red);
     }
 
@@ -432,16 +431,15 @@ body {
 
     .nav-link {
         padding:         8px 8px;
-        background:      rgba(0, 0, 0, 0.03); /* Subtle inset look */
+        background:      transparent; /* Subtle inset look */
         border-radius:   var(--radius-pill);
         font-weight:     700;
-        justify-content: flex-start; /* Left-align the text for a cleaner list */
+        justify-content: flex-start;
     }
 
     /* Ensure the active state fills the new card shape */
     .nav-link.active {
         background: var(--dynamo-red);
-        color:      var(--off-white);
     }
 }
 

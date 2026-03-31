@@ -113,6 +113,7 @@
 
 /* ── Responsive: Tablet (≤ 1024 px) ────────────────────────── */
 @media (max-width: 1024px) {
+    .countdown-section {padding: 1rem 0;}
     .countdown     { gap: 0.8rem; flex-wrap: wrap; }
     .countdown-box { width: 70px; padding: 0.7rem; }
 }
