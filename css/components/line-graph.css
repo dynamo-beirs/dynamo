@@ -59,3 +59,10 @@ circle {
     position: relative;
     transform-origin: bottom center;
 }
+
+/* Responsive: Tablet + Mobile */
+@media (max-width: 1024px) {
+    .comparison-graph-container {
+        margin: 0 auto 1rem;
+    }
+}

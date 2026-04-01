@@ -49,7 +49,7 @@ async function loadMatches() {
 
     if (loadingEl) {
         loadingEl.classList.remove('hidden');
-        FootballLoader.show(loaderId, 'Wedstrijden worden geladen...');
+        FootballLoader.show(loaderId, 'Wedstrijden worden geladen ...');
     }
 
     document.getElementById(errorId)?.classList.add('hidden');

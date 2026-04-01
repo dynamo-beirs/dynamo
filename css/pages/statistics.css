@@ -1,4 +1,4 @@
-/* STATISTICS.CSS */
+/* pages/STATISTICS.CSS */
 
 /* Design Tokens */
 :root {
@@ -171,6 +171,7 @@ body.player-alltime {
 #season-alltime-toggle-btn .checkbox:checked ~ .btn-bg { background: var(--alltime-bg); }
 
 .toggle-label {
+    white-space: nowrap;
     display: flex;
     align-items: center;
     font-weight: 700;

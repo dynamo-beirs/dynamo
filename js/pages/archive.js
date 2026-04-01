@@ -142,8 +142,8 @@ async function loadSeason(seasonString) {
     const displayLabel = SEASON_CONFIG[seasonString]?.label || seasonString;
 
     titleEl.textContent = seasonString === 'Vergelijking'
-        ? 'Seizoenen Vergelijken'
-        : `Overzicht ${displayLabel}`;
+        ? 'Seizoenen vergelijken'
+        : `Seizoensoverzicht ${displayLabel}`;
     titleEl.classList.remove('animate-in');
 
     contentEl.style.display = 'none';
@@ -151,7 +151,7 @@ async function loadSeason(seasonString) {
 
     if (loadingEl) {
         loadingEl.classList.remove('hidden');
-        FootballLoader.show(loadingId, 'Gegevens worden geladen...');
+        FootballLoader.show(loadingId, 'Gegevens worden geladen ...');
     }
 
     try {
@@ -218,7 +218,7 @@ async function loadSeasonData(seasonString) {
 
     if (innerLoader) {
         innerLoader.classList.remove('hidden');
-        FootballLoader.show(innerLoadId, 'Seizoensgegevens worden geladen...');
+        FootballLoader.show(innerLoadId, 'Seizoensgegevens worden geladen ...');
     }
 
     document.getElementById(innerErrorId)?.classList.add('hidden');

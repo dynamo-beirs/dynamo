@@ -57,7 +57,7 @@ async function loadPlayers() {
 
     if (loadingEl) {
         loadingEl.classList.remove('hidden');
-        FootballLoader.show(loaderId, 'Spelers worden geladen...');
+        FootballLoader.show(loaderId, 'Spelers worden geladen ...');
     }
 
     if (gridEl) gridEl.style.opacity = '0';

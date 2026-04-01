@@ -50,7 +50,7 @@ async function loadMatches() {
 
     if (loaderEl) {
         loaderEl.classList.remove('hidden');
-        FootballLoader.show(loaderId, 'Wedstrijden worden geladen...');
+        FootballLoader.show(loaderId, 'Wedstrijden worden geladen ...');
     }
 
     if (knob) knob.style.opacity = '0';

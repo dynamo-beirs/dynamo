@@ -67,8 +67,8 @@ async function loadStats() {
     isLoading = true;
 
     const loaders = [
-        { id: 'team-season-loading',          text: 'Teamstatistieken worden geladen...' },
-        { id: 'team-season-detailed-loading', text: 'Teamstatistieken worden geladen...' }
+        { id: 'team-season-loading',          text: 'Teamstatistieken worden geladen ...' },
+        { id: 'team-season-detailed-loading', text: 'Teamstatistieken worden geladen ...' }
     ];
     const errorIds   = ['team-season-error', 'team-season-detailed-error'];
     const contentIds = ['team-season-grid', 'team-season-detailed-stats'];
@@ -104,7 +104,7 @@ async function loadStats() {
             if (el) el.innerHTML = text;
         };
 
-        setTitle('team-season-title',        `Overzicht ${season}`);
+        setTitle('team-season-title',        `Seizoensoverzicht ${season}`);
         setTitle('detailed-team-stats-title', `Teamstatistieken ${season}`);
         setTitle('player-season-title', `Spelersstatistieken ${season}`);
 
