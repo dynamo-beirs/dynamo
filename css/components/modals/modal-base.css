@@ -11,22 +11,21 @@ body.modal-open {
 /* ── Overlay ────────────────────────────────────────────────── */
 .modal-overlay {
     position:        fixed;
-    top:             0;
-    left:            0;
-    width:           100vw;
-    height:          100vh;
+    inset:           0;
+    width:           100dvw;
+    height:          100dvh;
     background:      rgba(0, 0, 0, 0.5);
     display:         flex;
     justify-content: center;
     align-items:     center;
     z-index:         var(--z-modal);
-    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    backdrop-filter:         blur(3px);
     opacity:         0;
     visibility:      hidden;
     pointer-events:  none;
     transition:      var(--t-modal);
 }
-
 .modal-overlay.show {
     opacity:        1 !important;
     visibility:     visible !important;
@@ -40,7 +39,7 @@ body.modal-open {
     box-shadow: var(--shadow-medium);
     padding: 1.5rem 0.7rem;
     width: var(--content-width);
-    max-height: 90vh;
+    max-height: 90dvh;
     overflow-y: auto;
     scrollbar-gutter: stable both-edges;
     position: relative;
@@ -90,8 +89,8 @@ body.modal-open {
 @media (max-width: 768px) {
     .modal-content {
         max-width:  none;
-        padding:    1.2rem 1.2rem;
-        max-height: 85vh;
+        padding:    1.2rem;
+        max-height: 85dvh;
         box-shadow: var(--shadow-small);
     }
 
@@ -106,8 +105,8 @@ body.modal-open {
 /* ── Responsive: Mobile (≤ 480 px) ─────────────────────────── */
 @media (max-width: 480px) {
     .modal-content {
-        padding:    1rem 1rem;
-        max-height: 82vh;
+        padding:    1.2rem 1rem;
+        max-height: 85dvh;
     }
 
     .close-modal {
