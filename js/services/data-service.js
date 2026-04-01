@@ -1,19 +1,25 @@
 /**
- * services/data-service.js
- * All data-fetching and CSV-parsing logic.
+ * services/data-service.js — Data service
+ *
+ * Central module for all data-fetching, CSV parsing, and data transformation logic.
+ * Used by home, matches, players, statistics, search, and archive pages.
  */
+
+/* Imports */
+
 import { fetchCsvCached } from './fetch-csv.js';
 import { MONTH_EN_TO_NL, parseDate, parseGoalscorers, POSITION_CODE_MAP } from '../core/helpers.js';
+
+/* Exports */
 
 export const gsap             = window.gsap;
 export const Draggable        = window.Draggable;
 export const MotionPathPlugin = window.MotionPathPlugin;
 
+/* Constants */
+
 const BASE_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQRCgon0xh9NuQ87NgqQzBNPCEmmZWcC_jrulRhLwmrudf5UQ2QBRA28F1qmWB9L5xP9uZ8-ct2aqfR';
 
-// ── Internal Constants ────────────────────────────────────────────────────────
-
-/** Row labels that represent section headings, not player data. */
 const TITLE_ROWS = new Set(['keeper', 'verdedigers', 'middenvelders', 'aanvallers']);
 
 const DUTCH_MONTH_NAMES = ['jan','feb','mrt','apr','mei','jun','jul','aug','sep','okt','nov','dec'];
@@ -24,10 +30,13 @@ const NATIONALITY_MAP = {
 };
 
 const POSITION_RANK = {
-    'goalkeeper': 1, 'defender': 2, 'midfielder': 3, 'attacker': 4
+    'goalkeeper': 1,
+    'defender':   2,
+    'midfielder': 3,
+    'attacker':   4
 };
 
-// ── Sheet URLs ────────────────────────────────────────────────────────────────
+/* Sheet URLs */
 
 export const SHEET_URLS = {
     currentSeason:   `${BASE_URL}/pub?gid=300017481&single=true&output=csv`,
@@ -42,7 +51,7 @@ export const SHEET_URLS = {
     season2122:      `${BASE_URL}/pub?gid=1020713465&single=true&output=csv`,
 };
 
-// ── Current Season Layout ─────────────────────────────────────────────────────
+/* Current Season Layout */
 
 export const CURRENT_SEASON_LAYOUT = {
     matchCols: { first: 5, last: 26 },
@@ -54,14 +63,13 @@ export const CURRENT_SEASON_LAYOUT = {
     form: { row: 82, startCol: 28, count: 5 }
 };
 
-/**
- * Wraps the third-party CSV parser so consumers don't need to know about it.
- */
+/* CSV Parser Wrapper */
+
 export function parseCsv(csvText, options = {}) {
     return window.Papa.parse(csvText, { delimiter: ',', ...options });
 }
 
-// ── 0. Current Season Matches (home.js & matches.js) ─────────────────────────
+/* Current Season Matches */
 
 export async function fetchCurrentSeasonMatches() {
     const csvText = await fetchCsvCached(SHEET_URLS.currentSeason);
@@ -69,7 +77,7 @@ export async function fetchCurrentSeasonMatches() {
 }
 
 function parseMatchesCsv(csvText, layout) {
-    const parsed  = parseCsv(csvText, { skipEmptyLines: true});
+    const parsed  = parseCsv(csvText, { skipEmptyLines: true });
     const rows    = parsed.data;
     const matches = { upcoming: [], past: [], all: [], form: [] };
 
@@ -93,25 +101,25 @@ function parseMatchesCsv(csvText, layout) {
             && !sponsorName.toLowerCase().includes('beschikbaar')
             && sponsorLogo && sponsorUrl;
 
-        const dateParts  = date.split(' ');
-        const monthEn    = dateParts[1]?.toLowerCase();
-        const monthDutch = MONTH_EN_TO_NL[monthEn] || monthEn;
+        const dateParts   = date.split(' ');
+        const monthEn     = dateParts[1]?.toLowerCase();
+        const monthDutch  = MONTH_EN_TO_NL[monthEn] || monthEn;
         const displayDate = `${dateParts[0]} ${monthDutch}`;
 
         const match = {
             title,
             dateTime: { date, time, displayDate },
-            season: detectSeason(date),
+            season:   detectSeason(date),
             stadium,
             isHome,
             sponsor: hasSponsor ? { name: sponsorName, logo: sponsorLogo, url: sponsorUrl } : null
         };
 
         if (result) {
-            const goalsScoredRaw  = rows[layout.rows.goalsFor]?.[colIdx]?.trim();
+            const goalsScoredRaw   = rows[layout.rows.goalsFor]?.[colIdx]?.trim();
             const goalsConcededRaw = rows[layout.rows.goalsAgainst]?.[colIdx]?.trim();
-            const goalsScored   = isHome ? goalsScoredRaw  : goalsConcededRaw;
-            const goalsConceded = isHome ? goalsConcededRaw : goalsScoredRaw;
+            const goalsScored      = isHome ? goalsScoredRaw : goalsConcededRaw;
+            const goalsConceded    = isHome ? goalsConcededRaw : goalsScoredRaw;
 
             match.score       = `${goalsScored}-${goalsConceded}`;
             match.result      = result;
@@ -137,7 +145,7 @@ function parseMatchesCsv(csvText, layout) {
     return matches;
 }
 
-// ── 1. Team Stats & Records (statistics.js & home.js) ────────────────────────
+/* Team Stats & Records */
 
 export async function fetchTeamSeasonStats() {
     const csvText = await fetchCsvCached(SHEET_URLS.teamSeasonStats);
@@ -199,14 +207,14 @@ export async function fetchSeasonRecords() {
     const seasonRow = rows[17];
 
     return {
-        mostWins:            { value: parseInt(recordRow[3])  || 0, season: seasonRow[3]  || 'Unknown' },
-        mostGoals:           { value: parseInt(recordRow[6])  || 0, season: seasonRow[6]  || 'Unknown' },
-        bestGoalDifference:  { value: parseInt(recordRow[8])  || 0, season: seasonRow[8]  || 'Unknown' },
-        mostCleanSheets:     { value: parseInt(recordRow[13]) || 0, season: seasonRow[13] || 'Unknown' }
+        mostWins:           { value: parseInt(recordRow[3])  || 0, season: seasonRow[3]  || 'Unknown' },
+        mostGoals:          { value: parseInt(recordRow[6])  || 0, season: seasonRow[6]  || 'Unknown' },
+        bestGoalDifference: { value: parseInt(recordRow[8])  || 0, season: seasonRow[8]  || 'Unknown' },
+        mostCleanSheets:    { value: parseInt(recordRow[13]) || 0, season: seasonRow[13] || 'Unknown' }
     };
 }
 
-// ── 2. Players (players.js & statistics.js) ───────────────────────────────────
+/* Players */
 
 export async function fetchSeasonPlayers(detailed = false) {
     const csvText = await fetchCsvCached(SHEET_URLS.currentSeason);
@@ -286,24 +294,24 @@ export async function fetchAllTimePlayers() {
     return players.sort((a, b) => b.goals - a.goals);
 }
 
-// ── 3. Search Matches (search.js) ─────────────────────────────────────────────
+/* Search Matches */
 
 export async function fetchSearchMatches() {
-    const csvText   = await fetchCsvCached(SHEET_URLS.searchAll);
-    const parsed  = parseCsv(csvText, { skipEmptyLines: true});
-    const rows      = parsed.data;
-    const matches   = [];
-    const now       = new Date();
+    const csvText = await fetchCsvCached(SHEET_URLS.searchAll);
+    const parsed  = parseCsv(csvText, { skipEmptyLines: true });
+    const rows    = parsed.data;
+    const matches = [];
+    const now     = new Date();
 
     for (let i = 2; i < rows.length; i++) {
-        const opponent        = rows[i][1]?.trim();
-        const dateRaw         = rows[i][4]?.trim();
-        const time            = rows[i][5]?.trim();
-        const stadium         = rows[i][6]?.trim();
-        const homeAwayRaw     = rows[i][7]?.trim();
-        const goalsScored     = rows[i][8]?.trim();
-        const goalsConceded   = rows[i][9]?.trim();
-        const goalscorersRaw  = rows[i][10]?.trim();
+        const opponent      = rows[i][1]?.trim();
+        const dateRaw       = rows[i][4]?.trim();
+        const time          = rows[i][5]?.trim();
+        const stadium       = rows[i][6]?.trim();
+        const homeAwayRaw   = rows[i][7]?.trim();
+        const goalsScored   = rows[i][8]?.trim();
+        const goalsConceded = rows[i][9]?.trim();
+        const goalscorersRaw = rows[i][10]?.trim();
 
         if (!opponent || !dateRaw || goalsScored === undefined || goalsConceded === undefined) continue;
 
@@ -337,14 +345,8 @@ export async function fetchSearchMatches() {
     return matches.sort((a, b) => parseDDMMYYYY(b.dateTime.date) - parseDDMMYYYY(a.dateTime.date));
 }
 
-/**
- * Parses a "DD-MM-YYYY" date string into a numeric timestamp.
- * Exported so search.js can import it instead of maintaining its own duplicate.
- *
- * Previously a private function named `parseSearchDate` in this file AND an
- * identical copy named `parseSearchDate` in search.js — both are replaced by
- * this single exported version.
- */
+/* Date Helpers */
+
 export function parseDDMMYYYY(d) {
     if (!d) return 0;
     const parts = d.split('-');
@@ -353,14 +355,6 @@ export function parseDDMMYYYY(d) {
         : 0;
 }
 
-
-/**
- * Detects the season label (e.g., '25-'26) based on a date string "DD Month" or "DD-MM-YYYY"
- */
-/**
- * Detects the season label (e.g., '25-'26) based on a date string.
- * Supports "DD Month" (Current Season) and "DD-MM-YYYY" (Historical).
- */
 function detectSeason(dateStr) {
     let year, month;
 
@@ -373,16 +367,15 @@ function detectSeason(dateStr) {
         }
     }
 
-    // Fallback for "DD Month" or if year couldn't be parsed (Current Season)
+    // Fallback for current season
     if (!year) {
         const now = new Date();
         year = now.getFullYear();
         month = now.getMonth() + 1;
     }
 
-    // Standard Sporting Season Logic:
     const seasonStartYear = month >= 8 ? year : year - 1;
-    const seasonEndYear = seasonStartYear + 1;
+    const seasonEndYear   = seasonStartYear + 1;
 
     return `'${String(seasonStartYear).slice(-2)}-'${String(seasonEndYear).slice(-2)}`;
 }

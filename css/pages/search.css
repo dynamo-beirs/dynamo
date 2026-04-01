@@ -1,78 +1,74 @@
-/* ============================================================
-   SEARCH.CSS
-   NOTE: .dropdown base styles are now in general.css.
-         .sort-controls base layout is now in general.css.
-         .match-card entrance animation is handled by general.css.
-   ============================================================ */
+/* SEARCH.CSS */
 
-/* ── Search Section ─────────────────────────────────────────── */
-/*
- * FIXED: tablet was `padding: 2rem 0 1rem` — the top was larger
- * on tablet than on desktop (1.5rem), making the section grow as
- * the viewport shrank. Now uses --section-pad which only goes down.
- */
+/* Search Section */
 .search-section {
-    padding: 0;
     position: relative;
-    z-index:  var(--z-dropdown);
+    padding: 0;
+    z-index: var(--z-dropdown);
 }
 
-/* ── Autocomplete List ──────────────────────────────────────── */
+/* Autocomplete List */
 .autocomplete-list {
-    position:      absolute;
-    top:           100%;
-    left:          0;
-    right:         0;
-    background:    white;
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    max-height: 200px;
+    margin: 0.2rem 0 0;
+    padding: 0;
+    overflow-y: auto;
+    list-style: none;
+    background: white;
+    border: 3px solid var(--medium-gray);
     border-radius: var(--radius-md);
-    border:        3px solid var(--medium-gray);
-    box-shadow:    var(--shadow-medium);
-    list-style:    none;
-    margin:        0.2rem 0 0;
-    z-index:       var(--z-dropdown);
-    display:       none;
-    max-height:    200px;
-    overflow-y:    auto;
+    box-shadow: var(--shadow-medium);
+    z-index: var(--z-dropdown);
 }
 
 .autocomplete-item {
-    padding:    0.5rem var(--grid-gap);
-    font-size:  var(--text-sm);
-    color:      var(--dark-gray);
-    cursor:     pointer;
+    padding: 0.5rem var(--grid-gap);
+    font-size: var(--text-sm);
+    color: var(--dark-gray);
+    cursor: pointer;
     transition: var(--t-color);
 }
 
 .autocomplete-item:hover,
 .autocomplete-item.active {
-    color:       var(--medium-gray);
     font-weight: 700;
+    color: var(--medium-gray);
 }
 
-/* ── Sort Controls ──────────────────────────────────────────── */
-/* Base layout from general.css; this page centres the controls */
-.sort-controls { justify-content: center; }
+/* Sort Controls */
+.sort-controls {
+    justify-content: center;
+}
 
 .dropdown .options {
     width: max-content;
 }
 
-/* ── Match Season Label ─────────────────────────────────────── */
-.match-season {
-    color:       var(--medium-gray);
-    font-size:   var(--text-sm);
-    font-weight: 500;
-    display:     flex;
-    align-items: center;
-    gap:         6px;
-}
-
-.match-season i { font-size: 0.9em; opacity: 0.8; }
-
-/* ── Match Card (search context) ────────────────────────────── */
+/* Matches Section */
 .matches-section .section-title::after {
     background-color: var(--dark-blue);
 }
+
+/* Match Card Context */
 .match-card {
     cursor: default;
+}
+
+.match-season {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 500;
+    font-size: var(--text-sm);
+    color: var(--medium-gray);
+}
+
+.match-season i {
+    font-size: 0.9em;
+    opacity: 0.8;
 }

@@ -1,13 +1,7 @@
-/* ============================================================
-   base/tokens.css
-   Single source of truth for all CSS custom properties.
-   No selectors other than :root and responsive :root overrides
-   belong in this file.
-   ============================================================ */
+/* base/TOKENS.CSS */
 
 :root {
-
-    /* ── Brand Colours ──────────────────────────────────────── */
+    /* Brand Colours */
     --dynamo-red:    #B90A0A;
     --soft-coral:    #E07A5F;
     --golden-yellow: #E8B04B;
@@ -17,7 +11,7 @@
     --dusty-blue:    #7B96B7;
     --dark-blue:     #3D5A80;
 
-    /* ── Neutrals ───────────────────────────────────────────── */
+    /* Neutrals */
     --dark-gray:   #333;
     --medium-gray: #666;
     --line-gray:   #999;
@@ -26,12 +20,12 @@
     --off-white:   #FAF9F5;
     --nested-box:  #EFF2F7;
 
-    /* ── Shadows ────────────────────────────────────────────── */
+    /* Shadows */
     --shadow-small:  0 8px 20px rgba(0,0,0,0.10);
     --shadow-medium: 0 8px 20px rgba(0,0,0,0.20);
     --shadow-hover:  0 8px 20px rgba(0,0,0,0.35);
 
-    /* ── Border Radii ───────────────────────────────────────── */
+    /* Border Radii */
     --radius-sm:     8px;
     --radius-md:     12px;
     --radius-lg:     16px;
@@ -39,31 +33,19 @@
     --radius-pill:   999px;
     --radius-circle: 50%;
 
-    /* ── Typography Scale ───────────────────────────────────── */
-    --text-hero: 3.5rem;   /* 404 title, massive headers */
-    --text-h1:   3rem;     /* Page hero h1 */
-    --text-h2:   2.5rem;   /* .section-title */
-    --text-h3:   1.6rem;   /* .section-subtitle, card headings */
-    --text-lg:   1.2rem;   /* Player names, stat numbers */
-    --text-body: 1rem;     /* Standard paragraphs */
-    --text-sm:   0.85rem;  /* Meta info, dates, tags */
+    /* Typography Scale */
+    --text-hero: 3.5rem;
+    --text-h1:   3rem;
+    --text-h2:   2.5rem;
+    --text-h3:   1.6rem;
+    --text-lg:   1.2rem;
+    --text-body: 1rem;
+    --text-sm:   0.85rem;
 
-    /* ── Layout ─────────────────────────────────────────────── */
+    /* Layout */
     --content-width: 70%;
 
-    /* ── Spacing Scale ──────────────────────────────────────── */
-    /*
-     * Single source of truth for all vertical/horizontal rhythm.
-     * Components and pages must reference these tokens instead of
-     * hard-coding padding, margin, or gap values.
-     *
-     * --section-pad   vertical padding on every page section
-     * --card-pad      padding inside card / box components
-     * --modal-pad     padding inside modal content areas
-     * --grid-gap      gap between grid and flex children
-     * --hero-pad-v    vertical padding for .page-hero
-     * --hero-pad-h    horizontal padding for .page-hero
-     */
+    /* Spacing Scale */
     --section-pad:  2rem;
     --card-pad:     1.5rem;
     --modal-pad:    1.5rem;
@@ -71,66 +53,46 @@
     --hero-pad-v:   1.5rem;
     --hero-pad-h:   1rem;
 
-    /* ── Z-Index Stack ──────────────────────────────────────── */
+    /* Z-Index Stack */
     --z-dropdown:  100;
     --z-header:    200;
     --z-modal:     1000;
     --z-close-btn: 1010;
 
-    /* ── Durations ──────────────────────────────────────────── */
-    --dur-fast:   0.12s;   /* Instant feedback: scroll bar, tooltips, focus */
-    --dur-base:   0.22s;   /* Default interaction: hover fills, colour shifts */
-    --dur-slow:   0.50s;   /* Entrances: scroll reveals, page load */
-    --dur-loader: 1s;      /* Pulse keyframe cycle */
-    --dur-ticker: 30s;     /* Sponsor ticker loop */
+    /* Durations */
+    --dur-fast:   0.12s;
+    --dur-base:   0.22s;
+    --dur-slow:   0.50s;
+    --dur-loader: 1s;
+    --dur-ticker: 30s;
 
-    /* ── Easing ─────────────────────────────────────────────── */
+    /* Easing */
     --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
     --ease-out:    cubic-bezier(0.16, 1, 0.30, 1);
     --ease-ui:     cubic-bezier(0.40, 0, 0.20, 1);
 
-    /* ── Interaction ────────────────────────────────────────── */
+    /* Interaction */
     --hover-scale:      1.02;
     --hover-scale-sm:   1.15;
     --hover-lift:       -5px;
     --reveal-lift:      20px;
 
-    /* ── Delays ─────────────────────────────────────────────── */
+    /* Delays */
     --delay-stagger: 0.10s;
 
-    /* ── Compound Transition Shorthands ─────────────────────── */
-    --t-interact:
-            transform  var(--dur-base) var(--ease-spring),
-            box-shadow var(--dur-base) var(--ease-out);
+    /* Compound Transition Shorthands */
+    --t-interact: transform  var(--dur-base) var(--ease-spring), box-shadow var(--dur-base) var(--ease-out);
+    --t-color: color var(--dur-base) var(--ease-ui), background-color var(--dur-base) var(--ease-ui);
+    --t-reveal: opacity var(--dur-slow) var(--ease-out), transform var(--dur-slow) var(--ease-out);
+    --t-modal: opacity var(--dur-base) var(--ease-ui), visibility var(--dur-base) var(--ease-ui);
+    --t-tooltip: opacity var(--dur-fast) var(--ease-ui), visibility var(--dur-fast) var(--ease-ui);
 
-    --t-color:
-            color            var(--dur-base) var(--ease-ui),
-            background-color var(--dur-base) var(--ease-ui);
-
-    --t-reveal:
-            opacity   var(--dur-slow) var(--ease-out),
-            transform var(--dur-slow) var(--ease-out);
-
-    --t-modal:
-            opacity    var(--dur-base) var(--ease-ui),
-            visibility var(--dur-base) var(--ease-ui);
-
-    --t-tooltip:
-            opacity    var(--dur-fast) var(--ease-ui),
-            visibility var(--dur-fast) var(--ease-ui);
-
-    /* ── Contextual Tokens ──────────────────────────────────── */
-    --hero-pipe-color:       var(--dynamo-red);
+    /* Contextual Tokens */
+    --hero-pipe-color: var(--dynamo-red);
     --dropdown-border-color: var(--dark-blue);
 }
 
-/* ── Responsive Token Scaling ───────────────────────────────── */
-/*
- * Radius, typography, and spacing all scale down at smaller
- * viewports. These are still tokens — not component rules.
- */
-
-/* Tablet (≤ 1024 px) — radius + typography */
+/* Responsive: Tablet */
 @media (max-width: 1024px) {
     :root {
         --radius-sm:     6px;
@@ -143,12 +105,6 @@
         --text-h2:       1.8rem;
         --text-h3:       1.4rem;
         --text-lg:       1.1rem;
-    }
-}
-
-/* Tablet (≤ 768 px) — spacing scale steps down */
-@media (max-width: 768px) {
-    :root {
         --section-pad: 1.5rem;
         --card-pad:    1.2rem;
         --modal-pad:   1.2rem;
@@ -156,7 +112,7 @@
     }
 }
 
-/* Mobile (≤ 480 px) — full reduction */
+/* Responsive: Mobile */
 @media (max-width: 480px) {
     :root {
         --radius-sm:     4px;

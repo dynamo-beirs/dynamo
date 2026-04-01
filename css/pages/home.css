@@ -1,121 +1,115 @@
-/* ============================================================
-   INDEX.CSS
-   ============================================================ */
+/* HOME.CSS  */
 
-/* ── Hero Section ───────────────────────────────────────────── */
-/*
- * The home hero is deliberately generous — it is the first thing
- * visitors see and uses a large vertical padding by design.
- * The 7rem top/bottom is intentional; only the horizontal
- * and the mobile fallback use spacing tokens.
- */
+/* Hero Section */
 .hero {
-    height:          20vh;
-    display:         flex;
-    align-items:     center;
-    position:        relative;
-    overflow:        hidden;
+    display: flex;
+    align-items: center;
+    width: var(--content-width);
+    height: 20vh;
+    margin: 0 auto;
+    padding: 7rem var(--hero-pad-h);
     background-size: cover;
-    width:           var(--content-width);
-    margin:          0 auto;
-    padding:         7rem var(--hero-pad-h);
+    position: relative;
+    overflow: hidden;
 }
 
 .hero-content {
-    position:        relative;
-    z-index:         2;
-    text-align:      center;
-    width:           100%;
-    display:         flex;
-    flex-direction:  column;
-    align-items:     center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
+    width: 100%;
+    text-align: center;
+    position: relative;
+    z-index: 2;
 }
 
 .hero h1 {
-    font-size:     var(--text-hero);
-    font-weight:   900;
     margin-bottom: 0.2rem;
-    color:         var(--dark-gray);
+    font-size: var(--text-hero);
+    font-weight: 900;
+    color: var(--dark-gray);
 }
 
-/* Animated underbar beneath the hero text */
 .hero-content::after {
-    content:          '';
-    position:         absolute;
-    bottom:           -4px;
-    left:             50%;
-    transform:        translateX(-50%) scaleX(0);
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 50%;
+    width: 100%;
+    height: 8px;
+    background: var(--dynamo-red);
+    border-radius: var(--radius-sm);
+    transform: translateX(-50%) scaleX(0);
     transform-origin: left center;
-    width:            100%;
-    height:           8px;
-    background:       var(--dynamo-red);
-    border-radius:    var(--radius-sm);
-    transition:       transform var(--dur-slow) var(--ease-out) var(--delay-stagger);
+    transition: transform var(--dur-slow) var(--ease-out) var(--delay-stagger);
 }
 
-.hero.animate-in .hero-content::after { transform: translateX(-50%) scaleX(1); }
+.hero.animate-in .hero-content::after {
+    transform: translateX(-50%) scaleX(1);
+}
 
-/* ── Carousel Section ───────────────────────────────────────── */
+/* Carousel Section */
 .carousel-container {
-    position:      relative;
-    width:         100%;
-    max-width:     380px;
-    aspect-ratio:  1365 / 2048;
+    width: 100%;
+    max-width: 380px;
+    margin: 0 auto;
+    aspect-ratio: 1365 / 2048;
     border-radius: var(--radius-xl);
-    overflow:      hidden;
-    box-shadow:    var(--shadow-medium);
-    margin:        0 auto;
-    transition:    var(--t-reveal);
+    overflow: hidden;
+    box-shadow: var(--shadow-medium);
+    position: relative;
+    transition: var(--t-reveal);
 }
 
 .carousel {
-    display:      flex;
-    width:        100%;
-    height:       100%;
+    display: flex;
+    width: 100%;
+    height: 100%;
     touch-action: none;
-    user-select:  none;
-    will-change:  transform;
+    user-select: none;
+    will-change: transform;
 }
 
 .slide {
     min-width: 100%;
-    height:    100%;
+    height: 100%;
 }
 
 .slide img {
-    width:      100%;
-    height:     100%;
+    display: block;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
-    display:    block;
     transition: transform var(--dur-slow) var(--ease-ui);
 }
 
-.slide:hover img { transform: scale(var(--hover-scale-sm)); }
+.slide:hover img {
+    transform: scale(var(--hover-scale-sm));
+}
 
-/* ── Carousel Navigation Buttons ────────────────────────────── */
 .nav-btn {
-    position:        absolute;
-    top:             50%;
-    transform:       translateY(-50%);
-    width:           44px;
-    height:          44px;
-    background:      rgba(255, 255, 255, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 50%;
+    width: 44px;
+    height: 44px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: var(--radius-circle);
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+    font-size: 1.1rem;
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    border:          1px solid rgba(255, 255, 255, 0.2);
-    border-radius:   var(--radius-circle);
-    color:           white;
-    font-size:       1.1rem;
-    cursor:          pointer;
-    display:         flex;
-    align-items:     center;
-    justify-content: center;
-    transition:      var(--t-interact);
-    z-index:         10;
-    opacity:         0;
-    pointer-events:  auto;
-    touch-action:    pan-y;
+    opacity: 0;
+    cursor: pointer;
+    pointer-events: auto;
+    touch-action: pan-y;
+    transform: translateY(-50%);
+    transition: var(--t-interact);
+    z-index: 10;
 }
 
 .carousel-container:hover .nav-btn,
@@ -125,242 +119,271 @@
 
 .nav-btn:hover {
     background: rgba(255, 255, 255, 0.3);
-    transform:  translateY(-50%) scale(var(--hover-scale-sm));
+    transform: translateY(-50%) scale(var(--hover-scale-sm));
 }
 
 .prev-btn { left: 16px; }
 .next-btn { right: 16px; }
 
-/* ── Carousel Dots ──────────────────────────────────────────── */
 .dots-container {
-    position:  absolute;
-    bottom:    20px;
-    left:      50%;
+    display: flex;
+    gap: 8px;
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
     transform: translateX(-50%);
-    display:   flex;
-    gap:       8px;
-    z-index:   10;
+    z-index: 10;
 }
 
 .dot {
-    width:         8px;
-    height:        8px;
+    width: 8px;
+    height: 8px;
     border-radius: var(--radius-circle);
-    background:    rgba(255, 255, 255, 0.4);
-    transition:    var(--t-color);
-    cursor:        pointer;
+    background: rgba(255, 255, 255, 0.4);
+    cursor: pointer;
+    transition: var(--t-color);
 }
 
 .dot.active {
-    width:         24px;
+    width: 24px;
     border-radius: var(--radius-pill);
-    background:    white;
+    background: white;
 }
 
-/* ── Stats Overview ─────────────────────────────────────────── */
+/* Statistics Overview */
 .overview-section .section-title::after {
     background: var(--dark-blue);
 }
 
-/* Grid columns — overrides the base .stats-grid from general.css */
 .overview-section .stats-grid {
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    justify-content:       center;
-    text-align:            center;
+    justify-content: center;
+    text-align: center;
 }
 
 .stat-number {
     color: var(--dark-blue);
 }
 
-/* ── Sponsor CTA Section ────────────────────────────────────── */
+/* CTA Sponsor Section */
 .cta-section {
-    background: var(--off-white);
+    width: var(--content-width);
+    margin: 0 auto;
     text-align: center;
-    width:      var(--content-width);
-    margin:     0 auto;
-    opacity:    0;
-    transform:  translateY(var(--reveal-lift));
+    background: var(--off-white);
+    opacity: 0;
+    transform: translateY(var(--reveal-lift));
     transition: var(--t-reveal);
 }
 
-.cta-section .section-title::after { background: var(--dark-green); }
+.cta-section .section-title::after {
+    background: var(--dark-green);
+}
 
 .cta-section p {
     max-width: 700px;
-    margin:    0 auto 1.5rem;
-    color:     var(--dark-gray);
+    margin: 0 auto 1.5rem;
+    color: var(--dark-gray);
+    opacity: 0;
+    transform: translateY(var(--reveal-lift));
+    transition: var(--t-reveal);
 }
 
-/* Internal children also animate in with parent */
-.cta-section p,
 .cta-section .btn-primary {
-    opacity:    0;
-    transform:  translateY(var(--reveal-lift));
+    opacity: 0;
+    transform: translateY(var(--reveal-lift));
     transition: var(--t-reveal);
 }
 
 .cta-section.animate-in,
 .cta-section.animate-in p,
 .cta-section.animate-in .btn-primary {
-    opacity:   1;
+    opacity: 1;
     transform: translateY(0);
 }
 
-/* ── Primary Button ─────────────────────────────────────────── */
 .btn-primary {
-    display:         inline-block;
-    padding:         0.8rem 2rem;
-    background:      var(--dark-green);
-    color:           white;
-    border-radius:   var(--radius-pill);
+    display: inline-block;
+    padding: 0.8rem 2rem;
+    border: 3px solid var(--dark-green);
+    border-radius: var(--radius-pill);
+    background: var(--dark-green);
+    color: white;
+    font-weight: 600;
+    font-size: var(--text-body);
     text-decoration: none;
-    font-weight:     600;
-    font-size:       var(--text-body);
-    border:          3px solid var(--dark-green);
-    transition:      var(--t-color);
+    transition: var(--t-color);
 }
 
 .btn-primary:hover {
     background: white;
-    color:      var(--dark-green);
+    color: var(--dark-green);
 }
 
-/* ── Contact Section ────────────────────────────────────────── */
-.contact-section .section-title::after { background: var(--dark-yellow); }
+/* Contact Section */
+.contact-section .section-title::after {
+    background: var(--dark-yellow);
+}
 
 .contact-grid {
-    display:               grid;
+    display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap:                   var(--grid-gap);
-    width:                 var(--content-width);
-    margin:                0 auto;
+    gap: var(--grid-gap);
+    width: var(--content-width);
+    margin: 0 auto;
 }
 
 .contact-card {
-    text-align:      center;
-    background:      white;
-    padding:         var(--card-pad);
-    border-radius:   var(--radius-lg);
-    box-shadow:      var(--shadow-medium);
+    display: block;
+    padding: var(--card-pad);
+    border: 3px solid transparent;
+    border-radius: var(--radius-lg);
+    background: white;
+    color: inherit;
+    text-align: center;
     text-decoration: none;
-    color:           inherit;
-    display:         block;
-    border:          3px solid transparent;
+    box-shadow: var(--shadow-medium);
 }
 
 .contact-card:hover {
-    border-color:   var(--dark-yellow);
+    border-color: var(--dark-yellow);
 }
 
 .contact-card i {
-    font-size:     1.8rem;
-    color:         var(--dark-yellow);
     margin-bottom: 0.8rem;
+    font-size: 1.8rem;
+    color: var(--dark-yellow);
 }
 
 .contact-card h3 {
-    font-size:     var(--text-body);
-    color:         var(--dark-gray);
     margin-bottom: 0.4rem;
-    font-weight:   600;
+    font-size: var(--text-body);
+    font-weight: 600;
+    color: var(--dark-gray);
 }
 
 .contact-card p {
-    color:       var(--medium-gray);
-    font-size:   var(--text-sm);
+    font-size: var(--text-sm);
     line-height: 1.6;
+    color: var(--medium-gray);
 }
 
-/* ── Map Container ─────────────────────────────────────────── */
+/* Map Container */
 .map-container {
-    margin-top:    var(--grid-gap);
+    width: var(--content-width);
+    height: 350px;
+    margin-top: var(--grid-gap);
+    margin-left: auto;
+    margin-right: auto;
     border-radius: var(--radius-lg);
-    overflow:      hidden;
-    box-shadow:    var(--shadow-medium);
-    height:        350px;
-    position:      relative;
-    width:         var(--content-width);
-    margin-left:   auto;
-    margin-right:  auto;
+    overflow: hidden;
+    box-shadow: var(--shadow-medium);
+    position: relative;
 }
 
 .map-container iframe {
-    width:  100%;
+    width: 100%;
     height: 100%;
     border: none;
 }
 
-/* ── Responsive: Tablet (≤ 768 px) ─────────────────────────── */
+/* Responsive: Tablet */
 @media (max-width: 768px) {
-    .hero h1 { white-space: nowrap; }
-
-    .hero-content::after {
-        height:    7px;
-        width:     124%;
-        max-width: 90vw;
+    .hero h1 {
+        white-space: nowrap;
     }
 
-    .slide:hover img  { transform: scale(1) !important; }
-    .nav-btn:hover    { transform: translateY(-50%) scale(1) !important; }
+    .hero-content::after {
+        width: 124%;
+        max-width: 90vw;
+        height: 7px;
+    }
 
-    .carousel-container  { max-width: 320px; }
+    .carousel-container {
+        max-width: 320px;
+    }
+
+    .slide:hover img {
+        transform: scale(1) !important;
+    }
+
+    .nav-btn:hover {
+        transform: translateY(-50%) scale(1) !important;
+    }
 
     .overview-section .stats-grid {
         grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
     }
 
-    .contact-card i { font-size: 1.6rem; }
-
-    .map-container { height: 300px; }
-}
-
-/* ── Responsive: Mobile (≤ 480 px) ─────────────────────────── */
-@media (max-width: 480px) {
-    .hero {
-        padding:         1rem var(--hero-pad-h);
-        justify-content: center;
+    .contact-card i {
+        font-size: 1.6rem;
     }
 
-    .hero-content { gap: 0.5rem; }
+    .map-container {
+        height: 300px;
+    }
+}
+
+/* Responsive: Mobile */
+@media (max-width: 480px) {
+    .hero {
+        justify-content: center;
+        padding: 1rem var(--hero-pad-h);
+    }
+
+    .hero-content {
+        gap: 0.5rem;
+    }
 
     .hero h1 {
-        margin:      0;
+        width: fit-content;
+        max-width: 90vw;
+        margin: 0;
+        padding: 0 0.5rem;
         line-height: 1.1;
-        overflow:    hidden;
-        max-width:   90vw;
-        width:       fit-content;
-        padding:     0 0.5rem;
+        overflow: hidden;
     }
 
     .hero-content::after {
         bottom: -8px;
-        width:  94%;
+        width: 94%;
         height: 6px;
     }
 
-    .carousel-container { max-width: 280px; }
+    .carousel-container {
+        max-width: 280px;
+    }
 
     .nav-btn {
-        width:     36px;
-        height:    36px;
+        width: 36px;
+        height: 36px;
         font-size: 0.9rem;
     }
 
     .prev-btn { left: 12px; }
     .next-btn { right: 12px; }
 
-    .dots-container { bottom: 16px; gap: 6px; }
-    .dot            { width: 6px; height: 6px; }
-    .dot.active     { width: 20px; }
+    .dots-container {
+        bottom: 16px;
+        gap: 6px;
+    }
+
+    .dot {
+        width: 6px;
+        height: 6px;
+    }
+
+    .dot.active {
+        width: 20px;
+    }
 
     .overview-section .stats-grid {
         grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     }
 
     .stat-card {
+        min-width: 150px;
         min-height: 44px;
-        min-width:  150px;
     }
 
     .contact-grid {
@@ -371,7 +394,11 @@
         min-height: 44px;
     }
 
-    .contact-card i { font-size: 1.4rem; }
+    .contact-card i {
+        font-size: 1.4rem;
+    }
 
-    .map-container { height: 200px; }
+    .map-container {
+        height: 200px;
+    }
 }

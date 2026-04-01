@@ -1,22 +1,17 @@
 /**
- * utils/animations.js
- * Scroll-reveal, stagger animations, and shared interaction helpers.
+ * utils/animations.js — Animation utilities
  *
+ * Handles scroll-reveal animations, player card staggering,
+ * smooth scrolling, and shared animation helpers.
  */
 
-// ── Singleton IntersectionObserver State ─────────────────────────────────────
+/* Shared Observer State */
 
 let sharedObserver = null;
 let observedSelectors = [];
 
-// ── Scroll-Based Animations ───────────────────────────────────────────────────
+/* Scroll-Based Animations */
 
-/**
- * Registers elements for staggered scroll-reveal using a singleton observer.
- * Calling this multiple times safely de-duplicates entries.
- *
- * @param {{ selector: string, containerSelector: string|string[]|null }[]} elements
- */
 export function animateOnScroll(elements = []) {
     const newElements = elements.filter(el =>
         !observedSelectors.some(existing => existing.selector === el.selector)
@@ -31,9 +26,9 @@ export function animateOnScroll(elements = []) {
                 const elementType = observedSelectors.find(el => entry.target.matches(el.selector));
                 if (!elementType) return;
 
-                const container       = resolveContainer(entry.target, elementType.containerSelector);
+                const container        = resolveContainer(entry.target, elementType.containerSelector);
                 const itemsInContainer = container.querySelectorAll(elementType.selector);
-                const itemIndex       = Array.from(itemsInContainer).indexOf(entry.target);
+                const itemIndex        = Array.from(itemsInContainer).indexOf(entry.target);
 
                 setTimeout(() => entry.target.classList.add('animate-in'), itemIndex * 100);
                 sharedObserver.unobserve(entry.target);
@@ -48,20 +43,16 @@ export function animateOnScroll(elements = []) {
     });
 }
 
-// ── Player Card Stagger ───────────────────────────────────────────────────────
+/* Player Card Stagger */
 
-/**
- * Staggered entrance animation for player cards, respecting the grid container.
- * Also re-observes on hash changes (position filter navigation).
- */
 export function animatePlayerCards() {
     const observer = new IntersectionObserver((entries, obs) => {
         entries.forEach(entry => {
             if (!entry.isIntersecting) return;
 
-            const container       = entry.target.closest('.players-grid') || document;
+            const container        = entry.target.closest('.players-grid') || document;
             const itemsInContainer = container.querySelectorAll('.player-card');
-            const itemIndex       = Array.from(itemsInContainer).indexOf(entry.target);
+            const itemIndex        = Array.from(itemsInContainer).indexOf(entry.target);
 
             entry.target.style.setProperty('--animation-delay', itemIndex);
             entry.target.classList.add('animate-in');
@@ -76,9 +67,8 @@ export function animatePlayerCards() {
     });
 }
 
-// ── Smooth Scrolling ──────────────────────────────────────────────────────────
+/* Smooth Scrolling */
 
-/** Enables smooth scrolling for all `<a href="#...">` anchor links on the page. */
 export function setupSmoothScrolling() {
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
@@ -91,14 +81,8 @@ export function setupSmoothScrolling() {
     });
 }
 
-// ── Private Helpers ───────────────────────────────────────────────────────────
+/* Private Helpers */
 
-/**
- * Walks up from `target` to find the nearest container matching `containerSelector`.
- * Falls back to `document` if no match is found.
- *
- * Renamed from `getContainer` → `resolveContainer` to better describe the action.
- */
 function resolveContainer(target, containerSelector) {
     if (!containerSelector) return document;
     if (Array.isArray(containerSelector)) {

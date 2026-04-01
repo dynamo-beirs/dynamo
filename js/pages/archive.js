@@ -1,6 +1,12 @@
 /**
  * archive.js — Archive page
+ *
+ * Handles the archive page with season selection, historical data loading,
+ * comparison graphs, player tables, match results, and golden shoe display.
  */
+
+/* Imports */
+
 import { animateOnScroll } from '../core/animations.js';
 import { LineGraph } from '../components/line-graph.js';
 import { SHEET_URLS, parseCsv } from '../services/data-service.js';
@@ -11,7 +17,7 @@ import { PLAYER_TABLE_HEADER_HTML, sliceForTable, resetTableState, buildPlayerRo
 import { initDropdown, bindDropdownClose } from '../components/dropdown.js';
 import { animateMatchCards } from '../components/match-card.js';
 
-// ── Animation Registry ────────────────────────────────────────────────────────
+/* Animation Elements Registry */
 
 const animationElements = [
     { selector: '.page-hero h1',                          containerSelector: 'section' },
@@ -21,7 +27,7 @@ const animationElements = [
     { selector: '.podium-step',                           containerSelector: '.podium-container' }
 ];
 
-// ── Season Configuration ──────────────────────────────────────────────────────
+/* Season Configuration */
 
 const SEASON_CONFIG = {
     '2025-2026': {
@@ -71,13 +77,13 @@ const SEASON_CONFIG = {
     },
 };
 
-// ── Module State ──────────────────────────────────────────────────────────────
+/* Module State */
 
 const _parsedSeasonCache = new Map();
 let archivePlayers = [];
 let archiveMatches = [];
 
-// ── Tooltip Template ──────────────────────────────────────────────────────────
+/* Tooltip Template */
 
 const getTooltipHTML = (d) => `
     <div class="archive-graph-tooltip">
@@ -97,10 +103,9 @@ const getTooltipHTML = (d) => `
     </div>
 `;
 
-// ── Page Initialization ───────────────────────────────────────────────────────
+/* Page Initialization */
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Each dropdown gets a single typed callback — no more three separate functions
     initDropdown(
         document.getElementById('season-select'),
         (value) => loadSeason(value)
@@ -114,7 +119,6 @@ document.addEventListener('DOMContentLoaded', () => {
         (value) => renderSortedMatches(value)
     );
 
-    // One global outside-click closer covers all three dropdowns above
     bindDropdownClose();
 
     initSortHeaders();
@@ -124,7 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
     loadSeason(initialSeason);
 });
 
-// ── Season Loading ────────────────────────────────────────────────────────────
+/* Season Loading */
 
 async function loadSeason(seasonString) {
     const loadingId      = 'archive-loading';
@@ -288,7 +292,7 @@ async function loadSeasonData(seasonString) {
     }
 }
 
-// ── Data Fetching ─────────────────────────────────────────────────────────────
+/* Data Fetching */
 
 async function fetchAllSeasonsData() {
     const csvText = await fetchCsvCached(SHEET_URLS.seasonRecords);
@@ -314,9 +318,8 @@ async function fetchAllSeasonsData() {
     });
 }
 
-// ── Cell Helpers ──────────────────────────────────────────────────────────────
+/* Cell Helpers */
 
-/** Converts a spreadsheet column letter (e.g. "AF") to a 0-based array index. */
 function colIndex(letters) {
     letters = letters.toUpperCase();
     let n = 0;
@@ -324,17 +327,15 @@ function colIndex(letters) {
     return n - 1;
 }
 
-/** Returns the trimmed string value of a cell, stripping quotes and `=` signs. */
 function cellText(rows, rowIdx, colIdx) {
     return rows[rowIdx]?.[colIdx]?.toString().trim().replace(/^[="]+|["+$]/g, '') || '';
 }
 
-/** Returns the absolute integer value of a cell (defaults to 0). */
 function cellInt(rows, rowIdx, colIdx) {
     return Math.abs(parseInt(cellText(rows, rowIdx, colIdx), 10)) || 0;
 }
 
-// ── Parsing ───────────────────────────────────────────────────────────────────
+/* Parsing */
 
 function parseSeasonStats(rows, config) {
     const s = config.statsCell;
@@ -427,7 +428,7 @@ function parseGoldenShoe(rows, config) {
     };
 }
 
-// ── Rendering ─────────────────────────────────────────────────────────────────
+/* Rendering */
 
 function renderGoldenShoe(shoeData) {
     const section = document.getElementById('archive-golden-shoe-section');
@@ -478,7 +479,6 @@ function renderArchivePlayers(sortBy = 'goals') {
 
     const visiblePlayers = sliceForTable(sorted, 'archive-players', 10);
 
-    // Replaced inline markup with our new helper
     visiblePlayers.forEach((player, index) => {
         const row = buildPlayerRow(player, index, 'player-row archive-player-row', 'player');
         list.appendChild(row);
@@ -499,7 +499,6 @@ function renderSeasonMatches(matches) {
     }
 
     matches.forEach(match => {
-        // resultToClass / resultToIcon replace the inline ternaries that were here
         const cls  = resultToClass(match.result);
         const icon = resultToIcon(cls);
 
@@ -510,8 +509,6 @@ function renderSeasonMatches(matches) {
         const card = document.createElement('div');
         card.className = 'match-card result';
 
-        // Archive cards use individual data-* attributes so bindArchiveMatchClicks
-        // can reconstruct the matchData without relying on a single JSON blob.
         card.setAttribute('data-match-title',  match.title);
         card.setAttribute('data-venue',        match.stadium);
         card.setAttribute('data-score',        match.score);
@@ -539,14 +536,13 @@ function renderSeasonMatches(matches) {
     });
 }
 
-// ── Match Sorting ─────────────────────────────────────────────────────────────
+/* Match Sorting */
 
 function renderSortedMatches(sortKey = 'date-asc') {
     const sorted = [...archiveMatches].sort((a, b) => {
         if (sortKey === 'date-desc') return parseDate(b.dateRaw) - parseDate(a.dateRaw);
         if (sortKey === 'date-asc')  return parseDate(a.dateRaw) - parseDate(b.dateRaw);
 
-        // calcWinMargin / calcLossMargin replace the inline getMargin closure
         if (sortKey === 'biggest-win')
             return calcWinMargin(b)  - calcWinMargin(a)  || parseDate(b.dateRaw) - parseDate(a.dateRaw);
         if (sortKey === 'biggest-loss')
@@ -563,19 +559,14 @@ function renderSortedMatches(sortKey = 'date-asc') {
     }
 }
 
-// ── Sortable Table Headers ────────────────────────────────────────────────────
+/* Sortable Table Headers */
 
 function initSortHeaders() {
     bindSortableHeaders('#archive-players-section', '#archive-player-sort', renderArchivePlayers);
 }
 
-// ── Match Interactions ────────────────────────────────────────────────────────
+/* Match Interactions */
 
-/**
- * Archive cards use multiple individual data-* attributes (not a single JSON blob)
- * because the archive data structure is parsed differently from current-season data.
- * This keeps the click handler local rather than using the shared bindMatchCardClicks.
- */
 function bindArchiveMatchClicks() {
     document.querySelectorAll('#archive-matches-grid .match-card').forEach(card => {
         card.style.cursor = 'pointer';

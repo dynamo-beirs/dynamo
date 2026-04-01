@@ -39,7 +39,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
 
-    <!-- Preload header -->
+    <!-- Preload critical assets -->
     <link rel="preload" href="/dynamo/img/logos/red-outlined-logo.png" as="image" fetchpriority="high">
     <link rel="preload" href="/dynamo/css/layout/header.css" as="style">
 
@@ -53,17 +53,20 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/dynamo/img/logos/favicon/apple-touch-icon.png">
     <link rel="manifest" href="/dynamo/img/logos/favicon/site.webmanifest">
 
-    <!-- Stylesheets -->
+    <!-- Base styles -->
     <link rel="stylesheet" href="/dynamo/css/base/tokens.css">
     <link rel="stylesheet" href="/dynamo/css/base/reset.css">
     <link rel="stylesheet" href="/dynamo/css/base/typography.css">
 
+    <!-- Core styles -->
     <link rel="stylesheet" href="/dynamo/css/core/animations.css">
     <link rel="stylesheet" href="/dynamo/css/core/helpers.css">
 
+    <!-- Layout styles -->
     <link rel="stylesheet" href="/dynamo/css/layout/header.css">
     <link rel="stylesheet" href="/dynamo/css/layout/footer.css">
 
+    <!-- Component styles -->
     <link rel="stylesheet" href="/dynamo/css/components/section-header.css">
     <link rel="stylesheet" href="/dynamo/css/components/countdown.css">
     <link rel="stylesheet" href="/dynamo/css/components/form-strip.css">
@@ -73,10 +76,12 @@
     <link rel="stylesheet" href="/dynamo/css/components/modals/modal-base.css">
     <link rel="stylesheet" href="/dynamo/css/components/modals/match-modal.css">
     <link rel="stylesheet" href="/dynamo/css/components/ticker.css">
+
+    <!-- Third-party styles -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
+    <!-- Page-specific styles -->
     <link rel="stylesheet" href="/dynamo/css/pages/matches.css">
-
 
     <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-PSK11HXBQB"></script>
@@ -96,24 +101,26 @@
 
     <title>Wedstrijden - Dynamo Beirs</title>
 </head>
+
 <body>
 
 <!-- Header -->
 <div id="header-placeholder"></div>
 
 <main>
-    <!-- Page hero -->
+
+    <!-- Page Hero -->
     <section class="page-hero">
         <div class="container">
             <h1>Wedstrijden</h1>
         </div>
     </section>
 
-    <!-- Football loader -->
+    <!-- Global Loading & Error -->
     <div id="matches-global-loader" class="loader hidden"></div>
     <div id="matches-error" class="error-message hidden"></div>
 
-    <!-- Next match countdown -->
+    <!-- Next Match Countdown -->
     <section class="countdown-section">
         <div class="container">
             <h2 class="section-title">Volgende Wedstrijd</h2>
@@ -122,7 +129,6 @@
             </div>
             <div id="home-match-sponsor" class="match-sponsor-block">
                 <p class="match-sponsor-label">Matchbalsponsor</p>
-                <!-- <p id="home-sponsor-name" class="match-sponsor-name"></p> -->
                 <a id="home-sponsor-link" href="#" target="_blank" rel="noopener" class="match-sponsor-link">
                     <img id="home-sponsor-logo" src="" alt="" loading="lazy">
                 </a>
@@ -148,7 +154,7 @@
         </div>
     </section>
 
-    <!-- Team form display -->
+    <!-- Team Form -->
     <section class="form-section">
         <div class="container">
             <div class="form-display">
@@ -161,7 +167,7 @@
         </div>
     </section>
 
-    <!-- Upcoming fixtures -->
+    <!-- Upcoming Fixtures -->
     <section class="fixtures-section">
         <div class="container">
             <h2 class="section-title">Komende Wedstrijden</h2>
@@ -171,7 +177,7 @@
         </div>
     </section>
 
-    <!-- Recent results -->
+    <!-- Recent Results -->
     <section class="matches-section" id="matches">
         <div class="container">
             <h2 class="section-title">Recente Resultaten</h2>
@@ -181,7 +187,7 @@
         </div>
     </section>
 
-    <!-- Season timeline -->
+    <!-- Season Timeline -->
     <section class="timeline-section">
         <div class="container">
             <h2 class="section-title">Seizoenstijdlijn</h2>
@@ -194,7 +200,7 @@
         </div>
     </section>
 
-    <!-- Overview Matchbal sponsors -->
+    <!-- Match Sponsors Ticker -->
     <section class="ticker-section">
         <div class="container">
             <h2 class="section-title">Onze Matchbalsponsors</h2>
@@ -205,14 +211,15 @@
         </div>
     </section>
 
-    <!-- Match modal container -->
+    <!-- Match Modal -->
     <div id="match-modal-placeholder"></div>
+
 </main>
 
 <!-- Footer -->
 <div id="footer-placeholder"></div>
 
-<!-- Structured Data (JSON-LD) -->
+<!-- Structured Data -->
 <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -243,5 +250,6 @@
         }
     }
 </script>
+
 </body>
 </html>

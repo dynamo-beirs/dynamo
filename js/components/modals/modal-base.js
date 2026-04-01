@@ -1,22 +1,20 @@
 /**
- * components/modals/modal-base.js
+ * components/modals/modal-base.js — Modal base class
+ *
  * Abstract base class for FLIP-animated overlay modals.
- * Moved from utils/ — a base class for UI components belongs with components,
- * not in a general-purpose core folder.
+ * Provides shared open/close animations, event binding, and cleanup logic.
  */
+
 export class ModalBase {
+
     constructor() {
         this.modal         = null;
         this.isInitialized = false;
         this.originEl      = null;
     }
 
-    // ── Shared Event Binding ──────────────────────────────────────────────────
+    /* Shared Event Binding */
 
-    /**
-     * Attaches close-on-backdrop-click, close-button click, and Escape key.
-     * Call once after this.modal is set.
-     */
     bindEvents() {
         if (!this.modal) return;
 
@@ -32,14 +30,8 @@ export class ModalBase {
         });
     }
 
-    // ── FLIP: Open ────────────────────────────────────────────────────────────
+    /* FLIP: Open */
 
-    /**
-     * Adds `.show` to the overlay (triggers CSS fade-in), then runs the FLIP
-     * open animation on `.modal-content`, expanding outward from `originEl`.
-     *
-     * @param {Element|null} originEl  The card/element the modal expands from.
-     */
     _animateOpen(originEl) {
         if (!this.modal) return;
 
@@ -84,12 +76,8 @@ export class ModalBase {
         );
     }
 
-    // ── FLIP: Close ───────────────────────────────────────────────────────────
+    /* FLIP: Close */
 
-    /**
-     * Runs the FLIP close animation, collapsing back toward `this.originEl`,
-     * then removes `.show` and cleans up body scroll lock.
-     */
     _animateClose() {
         if (!this.modal || !this.modal.classList.contains('show')) return;
 
@@ -135,9 +123,7 @@ export class ModalBase {
         };
     }
 
-    // ── Animation Cleanup ─────────────────────────────────────────────────────
-
-    /** Cancels all in-flight WAAPI animations on the overlay and its content panel. */
+    /* Animation Cleanup */
     _clearAnimations() {
         if (!this.modal) return;
         this.modal.getAnimations().forEach(a => a.cancel());

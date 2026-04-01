@@ -1,37 +1,31 @@
-/* ============================================================
-   core/HELPERS.CSS
-   Single-purpose display helpers, accessibility core,
-   and status message base styles.
-   ============================================================ */
+/* core/HELPERS.CSS */
 
-/* ── Visibility ─────────────────────────────────────────────── */
+/* Visibility */
 .hidden {
     display: none !important;
 }
 
-/* ── Accessibility ──────────────────────────────────────────── */
-/* Visually hidden but readable by screen readers */
+/* Accessibility */
 .sr-only {
-    position:    absolute;
-    width:       1px;
-    height:      1px;
-    padding:     0;
-    margin:      -1px;
-    overflow:    hidden;
-    clip:        rect(0, 0, 0, 0);
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
     white-space: nowrap;
-    border:      0;
+    border: 0;
 }
 
-/* ── Status Messages ────────────────────────────────────────── */
-/* Loading spinners, error states, and empty states */
+/* Status Messages */
 .loading-message,
 .error-message,
 .empty-state-message {
-    text-align:  center;
-    padding:     1rem;
-    font-size:   var(--text-body);
-    color:       var(--dark-gray);
+    padding: 1rem;
+    font-size: var(--text-body);
+    color: var(--dark-gray);
+    text-align: center;
 }
 
 .error-message.hidden,
@@ -40,6 +34,7 @@
     display: none;
 }
 
+/* Section Spacing */
 section {
     padding: var(--section-pad) 0;
 }
@@ -47,11 +42,7 @@ section {
 section.pt-0 { padding-top: 0; }
 section.pb-0 { padding-bottom: 0; }
 
-/* ── Centralized Hover Targets ─────────────────────────────── */
-/* * Group all interactive cards here. This keeps component files
- * free of redundant transform/shadow logic without requiring
- * HTML/JS utility classes.
- */
+/* Centralized Hover Targets */
 :is(
     .stat-card, .contact-card, .countdown-box,
     .match-sponsor-link, .player-card, .stat-category,
@@ -60,13 +51,13 @@ section.pb-0 { padding-bottom: 0; }
     .all-time-stats-section, .podium-block, .match-card,
     .form-result, .overview-section .stat-card
 ) {
-    transition: var(--t-interact);
     --current-hover-scale: var(--hover-scale);
     will-change: transform;
     backface-visibility: hidden;
+    transition: var(--t-interact);
 }
 
-/* ── Standard Hover State ──────────────────────────────────── */
+/* Standard Hover State */
 :is(
     .stat-card, .contact-card, .countdown-box,
     .match-sponsor-link, .player-card, .stat-category,
@@ -75,27 +66,35 @@ section.pb-0 { padding-bottom: 0; }
     .all-time-stats-section, .podium-block, .match-card,
     .form-result, .overview-section .stat-card
 ):hover {
-    transform:  scale(var(--current-hover-scale)) !important;
     box-shadow: var(--shadow-hover);
-    z-index:    10;
+    transform: scale(var(--current-hover-scale)) !important;
+    z-index: 10;
 }
 
-/* ── Responsive Display Toggles ─────────────────────────────── */
-/*
- * .desktop-only — visible by default, hidden at tablet breakpoint
- * .mobile-only  — hidden by default, shown at tablet breakpoint
- * .header-icon  — icon substitute for text labels in table headers
- */
-.desktop-only { display: inline-block; }
+/* Responsive Display Toggles */
+.desktop-only {
+    display: inline-block;
+}
 
 @media (min-width: 769px) {
-    .mobile-only { display: none !important; }
-    .header-icon { display: none; }
+    .mobile-only {
+        display: none !important;
+    }
+
+    .header-icon {
+        display: none;
+    }
 }
 
+/* Responsive: Tablet + Mobile */
 @media (max-width: 1024px) {
-    .desktop-only { display: none !important; }
-    .mobile-only  { display: inline-block !important; }
+    .desktop-only {
+        display: none !important;
+    }
+
+    .mobile-only {
+        display: inline-block !important;
+    }
 }
 
 @media (hover: none) {
@@ -107,7 +106,7 @@ section.pb-0 { padding-bottom: 0; }
         .all-time-stats-section, .podium-block, .match-card,
         .form-result, .overview-section .stat-card, .timeline-item
     ):hover {
-        transform:  none !important;
         box-shadow: var(--shadow-hover);
+        transform: none !important;
     }
 }

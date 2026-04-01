@@ -1,67 +1,61 @@
-/* ============================================================
-   COMPONENTS/GRAPH.CSS
-   ============================================================ */
+/* components/LINE-GRAPH.CSS */
 
+/* Comparison Graph */
 .comparison-graph-container {
+    position: relative;
+    width: 100%;
+    max-width: var(--content-width);
+    margin: 0 auto 3rem;
+    aspect-ratio: 800 / 460;
     background-color: white;
-    border-radius:    var(--radius-lg);
-    box-shadow:       var(--shadow-medium);
-    overflow:         visible;
-    width:            100%;
-    max-width:        800px;
-    margin:           0 auto 3rem;
-    position:         relative;
-    aspect-ratio:     800 / 460;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-medium);
+    overflow: visible;
 }
 
 .mainSVG {
-    width:    100%;
-    height:   auto;
+    width: 100%;
+    height: auto;
     overflow: visible;
 }
 
 .boxLabel {
-    text-anchor:    middle;
-    font-size:      var(--text-h3);
-    user-select:    none;
+    font-weight: 700;
+    font-size: var(--text-h3);
+    text-anchor: middle;
+    user-select: none;
     -webkit-user-select: none;
     pointer-events: none;
-    font-weight:    700;
 }
 
 .box {
     opacity: 0;
 }
 
-/* Remove tap highlight on SVG circles (mobile) */
 circle {
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
-/* ── HTML Tooltip Overlay Architecture ── */
+/* HTML Tooltip Overlay */
 .html-overlay-container {
-    position:         absolute;
-    top:              0;
-    left:             0;
-    width:            800px;
-    height:           460px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 800px;
+    height: 460px;
     transform-origin: top left;
-    pointer-events:   none;
-    z-index:          10;
+    pointer-events: none;
+    z-index: 10;
 }
 
 .custom-tooltip-overlay {
-    position:         absolute;
-    top:              0;
-    left:             0;
-    display:          none;
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
 .box-html-content {
-    position:         relative;
+    position: relative;
     transform-origin: bottom center;
-}
-
-@media (max-width: 768px) {
-    .comparison-graph-container { width: 90%; }
 }

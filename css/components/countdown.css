@@ -1,70 +1,66 @@
-/* ============================================================
-   COMPONENTS/COUNTDOWN.CSS
-   Countdown timer, upcoming match name, and match sponsor block.
-   All three appear together above fixtures on the matches page.
-   ============================================================ */
+/* components/COUNTDOWN.CSS */
 
-/* ── Countdown Section ──────────────────────────────────────── */
+/* Countdown Section */
 .countdown-section {
     padding: 1.5rem 0;
 }
 
 .countdown {
-    display:         flex;
+    display: flex;
     justify-content: center;
-    gap:             1rem;
-    font-size:       1.2rem;
+    gap: 1rem;
+    font-size: 1.2rem;
 }
 
 .countdown-block {
-    text-align:  center;
+    text-align: center;
     flex-shrink: 0;
 }
 
 .countdown-box {
-    background:    white;
-    padding:       0.8rem;
+    width: 80px;
+    padding: 0.8rem;
+    background: white;
     border-radius: var(--radius-md);
-    box-shadow:    var(--shadow-medium);
-    width:         80px;
+    box-shadow: var(--shadow-medium);
     --current-hover-scale: var(--hover-scale-sm) !important;
 }
 
 .countdown-box span {
-    display:     block;
-    font-size:   var(--text-h3);
+    display: block;
     font-weight: bold;
-    color:       var(--dynamo-red);
+    font-size: var(--text-h3);
+    color: var(--dynamo-red);
 }
 
 .countdown-block small {
-    display:        block;
-    font-size:      var(--text-sm);
-    color:          var(--medium-gray);
+    display: block;
+    margin-top: 0.4rem;
+    font-weight: 700;
+    font-size: var(--text-sm);
+    color: var(--medium-gray);
     text-transform: uppercase;
     letter-spacing: 1px;
-    margin-top:     0.4rem;
-    font-weight:    700;
 }
 
-/* ── Upcoming Match Name ────────────────────────────────────── */
+/* Upcoming Match Name */
 .upcoming-match-name {
+    margin: 1rem 0;
     text-align: center;
-    margin:     1rem 0;
 }
 
 .upcoming-match-name h3 {
-    font-size:   var(--text-lg);
-    color:       var(--dark-gray);
-    margin:      0;
+    margin: 0;
     font-weight: 600;
+    font-size: var(--text-lg);
+    color: var(--dark-gray);
 }
 
-/* ── Match Sponsor Block ────────────────────────────────────── */
+/* Match Sponsor Block */
 .match-sponsor-block {
-    margin:         1rem 0;
-    text-align:     center;
-    pointer-events: none; /* disabled until .visible is added by JS */
+    margin: 1rem 0;
+    text-align: center;
+    pointer-events: none;
 }
 
 .match-sponsor-block.animate-in,
@@ -73,24 +69,24 @@
 }
 
 .match-sponsor-label {
-    margin-bottom:  0.8rem;
-    color:          var(--medium-gray);
-    font-size:      var(--text-sm);
-    font-weight:    500;
-    letter-spacing: 0.5px;
+    display: block;
+    margin-bottom: 0.8rem;
+    font-weight: 500;
+    font-size: var(--text-sm);
+    color: var(--medium-gray);
     text-transform: uppercase;
-    display:        block;
+    letter-spacing: 0.5px;
 }
 
 .match-sponsor-name {
-    font-size:   var(--text-body);
+    max-width: var(--content-width);
+    margin: 0 auto;
     font-weight: 500;
-    text-align:  center;
-    color:       var(--dark-gray);
+    font-size: var(--text-body);
     line-height: 1.3;
-    max-width:   var(--content-width);
-    word-wrap:   break-word;
-    margin:      0 auto;
+    color: var(--dark-gray);
+    text-align: center;
+    word-wrap: break-word;
 }
 
 .match-sponsor-block:not(.visible) .match-sponsor-name {
@@ -98,28 +94,47 @@
 }
 
 .match-sponsor-link {
-    display:       inline-block;
+    display: inline-block;
     border-radius: var(--radius-md);
-    transition:    var(--t-interact);
+    transition: var(--t-interact);
     --current-hover-scale: var(--hover-scale-sm) !important;
 }
 
 .match-sponsor-link img {
-    max-height:    60px;
-    width:         auto;
-    display:       block;
+    display: block;
+    width: auto;
+    max-height: 60px;
     border-radius: var(--radius-md);
 }
 
-/* ── Responsive: Tablet (≤ 1024 px) ────────────────────────── */
+/* Responsive: Tablet */
 @media (max-width: 1024px) {
-    .countdown-section {padding: 1rem 0;}
-    .countdown     { gap: 0.8rem; flex-wrap: wrap; }
-    .countdown-box { width: 70px; padding: 0.7rem; }
+    .countdown-section {
+        padding: 1rem 0;
+    }
+
+    .countdown { flex-wrap: wrap;
+        gap: 0.8rem;
+    }
+
+    .countdown-box {
+        width: 70px;
+        padding: 0.7rem;
+    }
 }
 
+/* Responsive: Mobile */
 @media (max-width: 480px) {
-    .countdown-box          { width: 60px; padding: 0.6rem; }
-    .match-sponsor-link img { max-height: 50px; }
-    .countdown-block small {font-size: 0.6rem}
+    .countdown-box {
+        width: 60px;
+        padding: 0.6rem;
+    }
+
+    .match-sponsor-link img {
+        max-height: 50px;
+    }
+
+    .countdown-block small {
+        font-size: 0.6rem;
+    }
 }

@@ -1,9 +1,12 @@
 /**
- * components/line-graph.js
+ * components/line-graph.js — Line & stacked bar graph component
+ *
+ * Renders animated comparison graphs (single or multi-line) with GSAP-driven
+ * interactions, draggable dots, custom HTML tooltips, and staggered entrance animations.
  */
+
 export class LineGraph {
 
-    // Class Initialization
     constructor(containerSelector, options) {
         this.container = document.querySelector(containerSelector);
         if (!this.container) {
@@ -34,7 +37,8 @@ export class LineGraph {
         this.initGSAP();
     }
 
-    // Domain Calculation
+    /* Domain Calculation */
+
     calculateDomain() {
         let allValues = [];
 
@@ -74,7 +78,7 @@ export class LineGraph {
         if (niceStep < 1) niceStep = 1;
 
         this.options.yStep = niceStep;
-        this.options.yMin = Math.floor(dataMin / niceStep) * Math.floor(niceStep);
+        this.options.yMin = Math.floor(dataMin / niceStep) * niceStep;
         this.options.yMax = Math.ceil(dataMax / niceStep) * niceStep;
 
         if (this.options.yMax === dataMax) {
@@ -82,7 +86,8 @@ export class LineGraph {
         }
     }
 
-    // SVG Construction
+    /* SVG Construction */
+
     buildSVG() {
         let yLabels = '';
         let hLines = '';
@@ -181,22 +186,14 @@ export class LineGraph {
                             currentY -= h;
                             const barX = p.x - (barWidth / 2);
 
-                            // 1. Define your border radius
                             const r = 6;
-
-                            // 2. Identify if this is the bottom-most segment
                             const isLowestBar = stackIndex === 0;
-
-                            // 3. Prevent radius from breaking if a segment is extremely short.
-                            // If it curves both top and bottom, the max radius is half the height.
                             const maxRadiusY = isLowestBar ? h : h / 2;
                             const radius = Math.min(r, barWidth / 2, maxRadiusY);
 
-                            // 4. Set radii independently
                             const rTop = radius;
                             const rBottom = isLowestBar ? 0 : radius;
 
-                            // 5. Draw the path with dynamic bottom corners
                             const pathData = `
                                 M ${barX},${currentY + h - rBottom} 
                                 V ${currentY + rTop} 
@@ -255,8 +252,6 @@ export class LineGraph {
             </div>`;
         }
 
-        // HTML tooltips now live inside a dedicated .html-overlay-container
-        // that sits exactly over the SVG and perfectly matches its coordinate system.
         this.container.innerHTML = `
             <div class="comparison-graph-container">
                 <svg class="mainSVG" viewBox="0 0 800 460" preserveAspectRatio="xMidYMid meet">
@@ -291,22 +286,20 @@ export class LineGraph {
         `;
     }
 
-    // GSAP Initialization
+    /* GSAP Initialization */
+
     initGSAP() {
         if (typeof gsap === 'undefined') return;
         gsap.registerPlugin(Draggable, MotionPathPlugin);
 
         this.introTimelines = [];
 
-        // Watch the container width to seamlessly scale the HTML overlay wrapper
-        // to match the exact mathematical scale of the SVG's viewBox.
+        // Resize observer to keep HTML overlays in sync with SVG scaling
         const graphContainer = this.container.querySelector('.comparison-graph-container');
         const overlayContainer = this.container.querySelector('.html-overlay-container');
         if (graphContainer && overlayContainer) {
             const ro = new ResizeObserver(entries => {
                 for (let entry of entries) {
-                    // Mobile fix: The HTML layer scales proportionally, so tooltips
-                    // shrink gracefully on phones instead of looking gigantic.
                     const ratio = entry.contentRect.width / 800;
                     gsap.set(overlayContainer, { scale: ratio });
                 }
@@ -339,18 +332,13 @@ export class LineGraph {
                 overlayEl:    this.container.querySelector(`.custom-tooltip-overlay${suffix}`),
             };
 
-            // The tooltip's inner content handles the pop-in scale animation
             els.tooltipInner = els.overlayEl.querySelector('.box-html-content');
 
-            // Apply starting state ONLY to the inner content
             gsap.set(els.tooltipInner, {
                 opacity: 0, scale: 0,
                 transformOrigin: 'bottom center'
             });
 
-            // Because the .html-overlay-container is strictly 800x460 and scaled by
-            // the ResizeObserver, overlayPos translates directly 1:1 with SVG coordinates!
-            // No svgToPx() required anymore.
             let boxPos             = { x: 0, y: 0 };
             let overlayPos         = { x: 0, y: 0 };
             let isPressed          = false;
@@ -417,9 +405,6 @@ export class LineGraph {
 
                     boxPos.x = dX - 45;
                     boxPos.y = nearest.y - 130;
-
-                    // Absolute parity - the HTML wrapper is geometrically
-                    // identical to the SVG viewBox.
                     overlayPos.x = dX - 45;
                     overlayPos.y = Math.max(8, nearest.y - 130);
                 } else {
@@ -436,7 +421,6 @@ export class LineGraph {
                         x: boxPos.x, y: boxPos.y,
                         ease: 'elastic.out(0.7, 0.7)', overwrite: 'auto'
                     });
-                    // Only track Position on the HTML element parent
                     gsap.to(els.overlayEl, {
                         duration: isPressed ? 1 : 0.4,
                         x: overlayPos.x, y: overlayPos.y,
@@ -465,7 +449,6 @@ export class LineGraph {
                         scale: 0, opacity: 0
                     });
 
-                    // Match starting positions
                     gsap.set(els.overlayEl, {
                         x: gsap.getProperty(els.dragger, 'x'),
                         y: gsap.getProperty(els.dragger, 'y')
@@ -479,14 +462,12 @@ export class LineGraph {
                     ease: 'power2.out', overwrite: 'auto'
                 });
 
-                // 1. Move the parent (avoids matrix conflict)
                 gsap.to(els.overlayEl, {
                     duration: 0.8,
                     x: overlayPos.x, y: overlayPos.y,
                     ease: 'back.out(1.2)', overwrite: 'auto'
                 });
 
-                // 2. Scale the child (keeps perfect circle geometry)
                 gsap.to(els.tooltipInner, {
                     duration: 0.8, scale: 1, opacity: 1,
                     ease: 'back.out(1.2)', overwrite: 'auto'
@@ -510,7 +491,6 @@ export class LineGraph {
                     });
 
                     if (els.overlayEl.style.display !== 'none') {
-                        // Collapse the child back down
                         gsap.to(els.tooltipInner, {
                             duration: 0.8, scale: 0, opacity: 0,
                             ease: 'back.in(1.2)', overwrite: 'auto',

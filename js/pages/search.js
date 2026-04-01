@@ -1,6 +1,12 @@
 /**
  * search.js — Search page
+ *
+ * Handles search functionality, autocomplete, match filtering, sorting,
+ * and rendering of search results with loader and error states.
  */
+
+/* Imports */
+
 import { animateOnScroll } from '../core/animations.js';
 import { fetchSearchMatches, parseDDMMYYYY } from '../services/data-service.js';
 import { FootballLoader } from '../components/loader.js';
@@ -8,13 +14,15 @@ import { calcWinMargin, calcLossMargin } from '../core/helpers.js';
 import { buildResultCard, animateMatchCards, bindMatchCardClicks } from '../components/match-card.js';
 import { initDropdown, bindDropdownClose } from '../components/dropdown.js';
 
+/* Animation Elements Registry */
+
 const animationElements = [
     { selector: '.section-title',    containerSelector: 'section' },
     { selector: '.page-hero h1',     containerSelector: 'section' },
     { selector: '.search-container', containerSelector: 'section' }
 ];
 
-// ── Page Initialization ───────────────────────────────────────────────────────
+/* Page Initialization */
 
 document.addEventListener('DOMContentLoaded', async () => {
     try {
@@ -29,7 +37,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 });
 
-// ── Data Loading ──────────────────────────────────────────────────────────────
+/* Data Loading */
 
 async function loadMatches() {
     const loaderId      = 'search-loading';
@@ -73,7 +81,7 @@ async function loadMatches() {
     }
 }
 
-// ── Rendering ─────────────────────────────────────────────────────────────────
+/* Rendering */
 
 function renderSearchResults(matches) {
     const grid           = document.getElementById('search-results-grid');
@@ -81,7 +89,10 @@ function renderSearchResults(matches) {
     const resultsHeader  = document.getElementById('search-results-header');
     const resultsContent = document.getElementById('search-results-content');
 
-    if (!grid) { console.error('Grid element not found'); return; }
+    if (!grid) {
+        console.error('Grid element not found');
+        return;
+    }
 
     grid.innerHTML = '';
 
@@ -108,7 +119,7 @@ function renderSearchResults(matches) {
     animateMatchCards('.match-card', '#search-results-grid');
 }
 
-// ── Search & Autocomplete ─────────────────────────────────────────────────────
+/* Search & Autocomplete */
 
 function initSearch() {
     const input        = document.getElementById('search-input');
@@ -143,7 +154,10 @@ function initSearch() {
         const unique = [...new Set(window.allMatches.map(m => m.opponent))];
         const hits   = unique.filter(o => o.toLowerCase().includes(query.toLowerCase())).slice(0, 5);
 
-        if (hits.length === 0) { autocomplete.style.display = 'none'; return; }
+        if (hits.length === 0) {
+            autocomplete.style.display = 'none';
+            return;
+        }
 
         hits.forEach(opponent => {
             const li       = document.createElement('li');
@@ -185,7 +199,7 @@ function initSearch() {
     if (wrapper) wrapper.addEventListener('click', () => input.focus());
 }
 
-// ── Sorting ───────────────────────────────────────────────────────────────────
+/* Sorting */
 
 function sortSearchResults(sortKey) {
     if (!window.allMatches) return;

@@ -1,6 +1,12 @@
 /**
  * matches.js — Matches page
+ *
+ * Handles loading and rendering of all matches data (upcoming, recent, timeline, form).
+ * Includes sponsor ticker, countdown, scroll animations, and click interactions.
  */
+
+/* Imports */
+
 import { animateOnScroll } from '../core/animations.js';
 import { initCountdown, setCountdownData } from '../components/countdown.js';
 import { renderForm } from '../components/form-strip.js';
@@ -8,6 +14,8 @@ import { fetchCurrentSeasonMatches } from '../services/data-service.js';
 import { FootballLoader } from '../components/loader.js';
 import { resultToClass, resultToIcon } from '../core/helpers.js';
 import { buildResultCard, animateMatchCards, bindMatchCardClicks } from '../components/match-card.js';
+
+/* Animation Elements Registry */
 
 const animationElements = [
     { selector: '.match-card',          containerSelector: 'section' },
@@ -24,7 +32,7 @@ const animationElements = [
     { selector: '.form-description',    containerSelector: null }
 ];
 
-// ── Page Initialization ───────────────────────────────────────────────────────
+/* Page Initialization */
 
 document.addEventListener('DOMContentLoaded', async () => {
     await loadMatches();
@@ -32,7 +40,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     scrollTimelineToEnd();
 });
 
-// ── Data Loading ──────────────────────────────────────────────────────────────
+/* Data Loading */
 
 async function loadMatches() {
     const loaderId = 'matches-global-loader';
@@ -47,6 +55,7 @@ async function loadMatches() {
 
     if (knob) knob.style.opacity = '0';
 
+    // Fade out sections while loading
     document.querySelectorAll('.matches-grid, #form-results, #season-timeline').forEach(el => {
         el.style.opacity   = '0';
         el.style.transition = 'opacity 0.4s ease';
@@ -62,24 +71,25 @@ async function loadMatches() {
         renderSponsorsTicker(matches.all);
         setCountdownData(matches.upcoming);
 
-        // Wire up cards and timeline items
-        bindMatchCardClicks('.match-card');     // imported — handles upcoming & result cards
-        bindTimelineItemClicks();               // local  — handles timeline items
+        // Wire up interactions
+        bindMatchCardClicks('.match-card');
+        bindTimelineItemClicks();
 
         if (loaderEl) loaderEl.classList.add('hidden');
 
+        // Fade in sections
         document.querySelectorAll('.matches-grid, #form-results, #season-timeline').forEach(el => {
             el.style.opacity = '1';
         });
 
         if (knob) knob.style.opacity = '';
 
-        animateMatchCards('.match-card', 'section');    // imported stagger reveal
-
+        animateMatchCards('.match-card', 'section');
         initCountdown();
         scrollTimelineToEnd();
+
     } catch (error) {
-        console.error('Error fetching or parsing CSV:', error);
+        console.error('Error fetching or parsing matches:', error);
 
         if (loaderEl) loaderEl.classList.add('hidden');
         FootballLoader.showError(errorId, 'Wedstrijden konden niet worden geladen. Probeer opnieuw.');
@@ -93,7 +103,7 @@ async function loadMatches() {
     }
 }
 
-// ── Rendering ─────────────────────────────────────────────────────────────────
+/* Rendering */
 
 function renderUpcomingMatches(upcomingMatches) {
     const grid = document.getElementById('upcoming-matches-grid');
@@ -101,9 +111,9 @@ function renderUpcomingMatches(upcomingMatches) {
 
     if (upcomingMatches.length === 0) {
         grid.classList.add('no-matches');
-        const wrapper  = document.createElement('div');
+        const wrapper = document.createElement('div');
         wrapper.className = 'upcoming-match-name';
-        const heading  = document.createElement('h3');
+        const heading = document.createElement('h3');
         heading.textContent = 'Geen wedstrijden gepland in de nabije toekomst.';
         wrapper.appendChild(heading);
         grid.appendChild(wrapper);
@@ -119,6 +129,7 @@ function renderUpcomingMatches(upcomingMatches) {
         card.setAttribute('data-match-data', JSON.stringify(match));
 
         const [homeTeam, awayTeam] = match.title.split(' vs ');
+
         card.innerHTML = `
             <span class="result-icon"><i class="fas fa-hourglass-half"></i></span>
             <div class="match-body">
@@ -143,9 +154,9 @@ function renderRecentMatches(pastMatches) {
 
     if (pastMatches.length === 0) {
         grid.classList.add('no-matches');
-        const wrapper   = document.createElement('div');
+        const wrapper = document.createElement('div');
         wrapper.className = 'upcoming-match-name';
-        const heading   = document.createElement('h3');
+        const heading = document.createElement('h3');
         heading.textContent = 'Geen recente wedstrijden beschikbaar.';
         wrapper.appendChild(heading);
         grid.appendChild(wrapper);
@@ -155,7 +166,7 @@ function renderRecentMatches(pastMatches) {
 
     grid.classList.remove('no-matches');
 
-    // buildResultCard handles HTML, data attribute, cursor, resultToClass/Icon
+    // buildResultCard handles result styling and data attributes
     [...pastMatches].reverse().slice(0, 6).forEach(match => {
         grid.appendChild(buildResultCard(match));
     });
@@ -168,6 +179,7 @@ function renderSeasonTimeline(matches) {
     matches.filter(m => m.result).forEach((match, index) => {
         const cls  = resultToClass(match.result);
         const icon = resultToIcon(cls);
+
         const item = document.createElement('div');
         item.className = `timeline-item ${cls}`;
         item.setAttribute('data-match', `match${index + 1}`);
@@ -224,10 +236,7 @@ function renderSponsorsTicker(allMatches) {
             track.classList.remove('centered', 'scrolling');
 
             if (needsScroll) {
-                if (needsDouble) {
-                    track.innerHTML += logosHTML;
-                }
-
+                if (needsDouble) track.innerHTML += logosHTML;
                 track.innerHTML += logosHTML;
                 track.classList.add('scrolling');
             } else {
@@ -236,7 +245,10 @@ function renderSponsorsTicker(allMatches) {
         });
     };
 
-    if (totalImages === 0) { startTicker(); return; }
+    if (totalImages === 0) {
+        startTicker();
+        return;
+    }
 
     images.forEach(img => {
         if (img.complete) {
@@ -250,18 +262,14 @@ function renderSponsorsTicker(allMatches) {
     if (imagesLoaded === totalImages) startTicker();
 }
 
-// ── Interactions ──────────────────────────────────────────────────────────────
+/* Interactions */
 
-/**
- * Timeline items use multiple data-attributes (not a single JSON blob) and
- * fall back to constructed data when the attribute is missing, so they stay
- * as a local function rather than using the shared bindMatchCardClicks.
- */
 function bindTimelineItemClicks() {
     document.querySelectorAll('.timeline-item').forEach(item => {
         item.addEventListener('click', () => {
             const raw = item.getAttribute('data-match-data');
             let matchData;
+
             try {
                 matchData = JSON.parse(raw);
                 if (matchData.season) {
@@ -277,6 +285,7 @@ function bindTimelineItemClicks() {
                     goalscorers: []
                 };
             }
+
             matchData.isUpcoming = !matchData.score;
             window.matchModal?.show(matchData, item);
         });

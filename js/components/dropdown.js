@@ -1,18 +1,12 @@
 /**
- * utils/dropdown.js
+ * utils/dropdown.js — Custom dropdown manager
  *
- * Generic custom-dropdown manager.
+ * Provides reusable functions to initialise custom dropdowns and handle
+ * global outside-click closing.
  */
 
-// ── Single Dropdown Init ──────────────────────────────────────────────────────
+/* Single Dropdown Init */
 
-/**
- * Initialises a single custom dropdown element.
- *
- * @param {HTMLElement|null} dropdownEl  The root `.dropdown` element.
- * @param {Function}         onSelect    Called with `(value, liElement)` when
- *                                       the user picks an option.
- */
 export function initDropdown(dropdownEl, onSelect) {
     if (!dropdownEl) return;
 
@@ -25,7 +19,7 @@ export function initDropdown(dropdownEl, onSelect) {
         const isNowOpen = dropdownEl.classList.toggle('active');
         options.style.display = isNowOpen ? 'block' : 'none';
 
-        // Close every other open dropdown on the page
+        // Close all other dropdowns
         document.querySelectorAll('.dropdown').forEach(other => {
             if (other === dropdownEl) return;
             other.classList.remove('active');
@@ -37,7 +31,7 @@ export function initDropdown(dropdownEl, onSelect) {
     options.querySelectorAll('li').forEach(li => {
         li.addEventListener('click', (e) => {
             e.stopPropagation();
-            // Use innerHTML to preserve icon markup (e.g. archive match-sort arrows)
+            // Preserve any icon markup inside the selected item
             selected.innerHTML     = li.innerHTML;
             selected.dataset.value = li.dataset.value;
             dropdownEl.classList.remove('active');
@@ -47,16 +41,10 @@ export function initDropdown(dropdownEl, onSelect) {
     });
 }
 
-// ── Global Outside-Click Closer ───────────────────────────────────────────────
+/* Global Outside-Click Closer */
 
 let _globalCloseRegistered = false;
 
-/**
- * Registers a single document-level click listener that closes any `.dropdown`
- * whose subtree does not contain the clicked target.
- *
- * Idempotent — calling this more than once is harmless.
- */
 export function bindDropdownClose() {
     if (_globalCloseRegistered) return;
     _globalCloseRegistered = true;

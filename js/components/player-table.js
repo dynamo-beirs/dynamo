@@ -1,11 +1,14 @@
 /**
- * components/player-table.js
- * Handles DOM construction, toggles, and event binding for player/scorer tables.
+ * components/player-table.js — Player table component
+ *
+ * Handles DOM construction, toggle buttons, sorting, and row building
+ * for player and top-scorer tables used in statistics and archive pages.
  */
 
-import { POSITION_ICON_MAP, POSITION_LABEL_MAP} from '../core/helpers.js';
+import { POSITION_ICON_MAP, POSITION_LABEL_MAP } from '../core/helpers.js';
 
-// ── Table HTML ────────────────────────────────────────────────────────────────
+/* Table Header */
+
 export const PLAYER_TABLE_HEADER_HTML = `
     <div class="table-header">
         <div class="table-cell">Rang</div>
@@ -26,7 +29,8 @@ export const PLAYER_TABLE_HEADER_HTML = `
     </div>
 `;
 
-// ── Table Toggle Manager ──────────────────────────────────────────────────────
+/* Table Toggle Manager */
+
 export const tableStates = {};
 
 /** Resets a specific table back to its collapsed state. */
@@ -39,19 +43,20 @@ export function sliceForTable(items, tableId, limit = 10) {
     if (!(tableId in tableStates)) tableStates[tableId] = false;
     return tableStates[tableId] ? items : items.slice(0, limit);
 }
+
 /** Handles cleanup, creation, and event binding of the toggle button. */
 export function appendTableToggle(tableContainer, tableId, totalItems, limit, renderCallback) {
-    // 1. Clean up any existing button container after this table
+    // Clean up any existing toggle button
     const nextEl = tableContainer.nextElementSibling;
     if (nextEl && nextEl.classList.contains('table-toggle-container')) {
         nextEl.remove();
     }
 
-    // 2. If we have 10 or fewer items, we don't need a button
+    // No toggle needed for small tables
     if (totalItems <= limit) return;
 
-    // 3. Create the new button container
     const isExpanded = tableStates[tableId];
+
     const toggleContainer = document.createElement('div');
     toggleContainer.className = 'table-toggle-container';
 
@@ -61,7 +66,6 @@ export function appendTableToggle(tableContainer, tableId, totalItems, limit, re
         ? 'Toon minder <i class="fas fa-caret-up"></i>'
         : `Toon alle ${totalItems} spelers <i class="fas fa-caret-down"></i>`;
 
-    // 4. Bind the click event
     toggleBtn.addEventListener('click', () => {
         tableStates[tableId] = !isExpanded;
         renderCallback();
@@ -75,20 +79,13 @@ export function appendTableToggle(tableContainer, tableId, totalItems, limit, re
     tableContainer.insertAdjacentElement('afterend', toggleContainer);
 }
 
-// ── Table Sorting Manager ─────────────────────────────────────────────────────
-/**
- * Binds click events to table headers for sorting, updates the associated dropdown,
- * and triggers a re-render.
- *
- * @param {string} tableSelector - CSS selector for the table container.
- * @param {string} dropdownSelector - CSS selector for the dropdown to update.
- * @param {function} renderFn - Callback function to re-render the table, passed the sort key.
- */
+/* Table Sorting Manager */
+
 export function bindSortableHeaders(tableSelector, dropdownSelector, renderFn) {
     const keyMap = { 3: 'goals', 4: 'matches', 5: 'avg-goals' };
     const lblMap = {
-        'goals': 'Totaal Doelpunten',
-        'matches': 'Gespeelde Wedstrijden',
+        'goals':     'Totaal Doelpunten',
+        'matches':   'Gespeelde Wedstrijden',
         'avg-goals': 'Gemiddelde Doelpunten per Wedstrijd'
     };
 
@@ -108,17 +105,11 @@ export function bindSortableHeaders(tableSelector, dropdownSelector, renderFn) {
     });
 }
 
-// ── Table Row Builder ─────────────────────────────────────────────────────────
-/**
- * Builds a standardized DOM element for a player table row.
- * * @param {Object} player - The player data object { name, position, goals, matches }.
- * @param {number} index - The current index for the rank (0-based).
- * @param {string} rowClass - The full CSS class string to apply to the row wrapper.
- * @param {string} [prefix='player'] - The prefix to use for internal cell classes (e.g., 'player', 'scorer').
- * @returns {HTMLElement} The constructed row element.
- */
+/* Table Row Builder */
+
 export function buildPlayerRow(player, index, rowClass, prefix = 'player') {
     const avg = player.matches === 0 ? '0.00' : (player.goals / player.matches).toFixed(2);
+
     const row = document.createElement('div');
     row.className = rowClass;
 

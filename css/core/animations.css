@@ -1,26 +1,13 @@
-/* ============================================================
-   core/ANIMATIONS.CSS
-   All @keyframes and scroll-reveal base states.
-   JS adds .animate-in to trigger entrances via --t-reveal.
-   ============================================================ */
+/* core/ANIMATIONS.CSS */
 
-/* ── Keyframes ──────────────────────────────────────────────── */
-
-/* Page fade-in on load — referenced by body {} in base/reset.css */
+/* Keyframes */
 @keyframes fadeInPage {
-    to { opacity: 1; }
+    to {
+        opacity: 1;
+    }
 }
 
-/* ── Scroll-Reveal Base States ──────────────────────────────── */
-/*
- * Every element listed here starts invisible and offset down by
- * --reveal-lift. The JS scroll observer adds .animate-in when
- * the element enters the viewport, triggering the --t-reveal
- * transition defined in base/tokens.css.
- *
- * Add new reveal targets here rather than scattering opacity: 0
- * rules across component files.
- */
+/* Scroll-Reveal Base States */
 .page-hero h1,
 .section-title,
 .section-subtitle,
@@ -38,27 +25,18 @@
 .match-sponsor-block,
 .upcoming-match-name,
 .search-container {
-    opacity:    0;
-    transform:  translateY(var(--reveal-lift));
+    opacity: 0;
+    transform: translateY(var(--reveal-lift));
     transition: var(--t-reveal);
 }
 
-/* Triggered by JS IntersectionObserver */
 .animate-in {
-    opacity:   1 !important;
+    opacity: 1 !important;
     transform: translateY(0) !important;
 }
 
-/* ── Reduced Motion ─────────────────────────────────────────── */
-/*
- * One consolidated block rather than per-component duplicates.
- * Cancels all entrance and looping animations for users who
- * prefer reduced motion. Modal visibility transition is preserved
- * because it is a functional state change, not decorative.
- */
+/* Reduced Motion */
 @media (prefers-reduced-motion: reduce) {
-
-    /* Cancel scroll-reveal entrances */
     .stat-card, .contact-card, .countdown-block,
     .form-result, .map-container, .record-category,
     .player-card, .stat-category, .match-card, .timeline-item,
@@ -67,29 +45,24 @@
     .section-title, .section-subtitle, .page-hero h1, .filter-section,
     .carousel-container, .cta-section, .toggles-container,
     .search-container, .upcoming-match-name {
-        opacity:    1 !important;
-        transform:  none !important;
-        transition: none !important;
-        animation:  none !important;
+        opacity: 1 !important;
         visibility: visible !important;
+        transform: none !important;
+        transition: none !important;
+        animation: none !important;
     }
 
-    /* Cancel looping animations */
     .ticker-track.scrolling,
     .loader .football-loader path {
         animation: none !important;
     }
 
-    /* Cancel carousel transitions */
     .carousel,
     .slide img {
         transition: none !important;
     }
 
-    /* Preserve functional modal visibility micro-transition */
     .modal-overlay {
-        transition:
-                opacity    var(--dur-fast) var(--ease-ui),
-                visibility var(--dur-fast) var(--ease-ui);
+        transition: opacity var(--dur-fast) var(--ease-ui), visibility var(--dur-fast) var(--ease-ui);
     }
 }

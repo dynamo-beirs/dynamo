@@ -1,51 +1,34 @@
-/* ============================================================
-   COMPONENTS/STAT-CARD.CSS
-   .stat-card, .stats-grid
-   ============================================================ */
+/* components/STAT-CARD.CSS */
 
-/* ── Stat Card ──────────────────────────────────────────────── */
+/* Stat Card */
 .stat-card {
-    background:    white;
-    padding:       var(--card-pad);
+    padding: var(--card-pad);
+    background: white;
     border-radius: var(--radius-lg);
-    box-shadow:    var(--shadow-medium);
-    text-align:    center;
+    box-shadow: var(--shadow-medium);
+    text-align: center;
 }
 
 .stat-number {
-    font-size:     var(--text-h2);
-    font-weight:   800;
-    line-height:   1;
     margin-bottom: 0.5rem;
+    font-weight: 800;
+    font-size: var(--text-h2);
+    line-height: 1;
 }
 
 .stat-label {
-    color:          var(--medium-gray);
+    margin-top: 0.5rem;
+    font-weight: 600;
+    font-size: var(--text-sm);
+    color: var(--medium-gray);
     text-transform: uppercase;
-    font-weight:    600;
-    font-size:      var(--text-sm);
     letter-spacing: 1px;
-    margin-top:     0.5rem;
 }
 
-/* ── Stats Grid ─────────────────────────────────────────────── */
-/*
- * Base scaffold only. Pages set grid-template-columns:
- *   home.css       → repeat(auto-fit, minmax(180px, 1fr))
- *   archive.css    → repeat(3, 1fr)
- *   statistics.css → repeat(3, 1fr)
- *
- * gap and padding are token-driven; no responsive overrides needed here.
- */
+/* Stats Grid */
 .stats-grid {
     display: grid;
-    gap:     var(--grid-gap);
-    width:   var(--content-width);
-    margin:  0 auto;
+    gap: var(--grid-gap);
+    width: var(--content-width);
+    margin: 0 auto;
 }
-
-/*
- * Padding scales automatically via --card-pad token breakpoints
- * defined in tokens.css (≤ 768 px → 1.2rem, ≤ 480 px → 1rem).
- * No explicit @media overrides required in this file.
- */

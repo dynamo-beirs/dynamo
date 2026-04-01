@@ -39,7 +39,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
 
-    <!-- Preload Header -->
+    <!-- Preload critical assets -->
     <link rel="preload" href="/dynamo/img/logos/red-outlined-logo.png" as="image" fetchpriority="high">
     <link rel="preload" href="/dynamo/css/layout/header.css" as="style">
 
@@ -53,25 +53,31 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/dynamo/img/logos/favicon/apple-touch-icon.png">
     <link rel="manifest" href="/dynamo/img/logos/favicon/site.webmanifest">
 
-    <!-- Stylesheets -->
+    <!-- Base styles -->
     <link rel="stylesheet" href="/dynamo/css/base/tokens.css">
     <link rel="stylesheet" href="/dynamo/css/base/reset.css">
     <link rel="stylesheet" href="/dynamo/css/base/typography.css">
 
+    <!-- Core styles -->
     <link rel="stylesheet" href="/dynamo/css/core/animations.css">
     <link rel="stylesheet" href="/dynamo/css/core/helpers.css">
 
+    <!-- Layout styles -->
     <link rel="stylesheet" href="/dynamo/css/layout/header.css">
     <link rel="stylesheet" href="/dynamo/css/layout/footer.css">
 
+    <!-- Component styles -->
     <link rel="stylesheet" href="/dynamo/css/components/section-header.css">
     <link rel="stylesheet" href="/dynamo/css/components/stat-card.css">
     <link rel="stylesheet" href="/dynamo/css/components/dropdown.css">
     <link rel="stylesheet" href="/dynamo/css/components/sort-controls.css">
     <link rel="stylesheet" href="/dynamo/css/components/player-table.css">
     <link rel="stylesheet" href="/dynamo/css/components/loader.css">
+
+    <!-- Third-party styles -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
+    <!-- Page-specific styles -->
     <link rel="stylesheet" href="/dynamo/css/pages/statistics.css">
 
     <!-- Google Analytics -->
@@ -90,18 +96,22 @@
 
     <title>Statistieken - Dynamo Beirs</title>
 </head>
+
 <body>
+
 <!-- Header -->
 <div id="header-placeholder"></div>
 
-<!-- Main Content -->
 <main>
+
+    <!-- Page Hero -->
     <section class="page-hero">
         <div class="container">
             <h1>Statistieken</h1>
         </div>
     </section>
 
+    <!-- View Toggles -->
     <section class="controls-section">
         <div class="container">
             <div class="toggles-container">
@@ -135,6 +145,7 @@
         </div>
     </section>
 
+    <!-- Team Season Stats -->
     <section class="stats-section" id="team-season-stats">
         <div class="container">
             <h2 class="section-title" id="team-season-title">Overzicht ...</h2>
@@ -170,9 +181,10 @@
         </div>
     </section>
 
+    <!-- Team Detailed Stats -->
     <section class="detailed-stats" id="team-season-detailed">
         <div class="container">
-            <h2 class="section-title" id="detailed-team-stats-title"> Teamstatistieken ... </h2>
+            <h2 class="section-title" id="detailed-team-stats-title">Teamstatistieken ...</h2>
             <div id="team-season-detailed-loading" class="loader hidden"></div>
             <div id="team-season-detailed-error" class="error-message hidden"></div>
 
@@ -228,6 +240,7 @@
         </div>
     </section>
 
+    <!-- Team All-Time Performance -->
     <section class="stats-section hidden" id="team-alltime-performance">
         <div class="container">
             <h2 class="section-title">All-Time Overzicht</h2>
@@ -260,6 +273,7 @@
         </div>
     </section>
 
+    <!-- Team All-Time Records -->
     <section class="all-time-stats hidden" id="team-alltime-stats">
         <div class="container">
             <h2 class="section-title">All-Time Teamrecords</h2>
@@ -306,9 +320,10 @@
         </div>
     </section>
 
+    <!-- Player Season Stats -->
     <section class="stats-section hidden" id="player-season-stats">
         <div class="container">
-            <h2 class="section-title" id="player-season-title">Spelersstatistieken<br> ... </h2>
+            <h2 class="section-title" id="player-season-title">Spelersstatistieken ...</h2>
             <div id="player-season-content">
                 <div class="sort-controls">
                     <span>Sorteren op:</span>
@@ -328,6 +343,7 @@
         </div>
     </section>
 
+    <!-- Player All-Time Stats -->
     <section class="all-time-stats hidden" id="player-alltime-stats">
         <div class="container">
             <h2 class="section-title">All-Time Spelersstatistieken</h2>
@@ -349,12 +365,13 @@
             </div>
         </div>
     </section>
+
 </main>
 
 <!-- Footer -->
 <div id="footer-placeholder"></div>
 
-<!-- Structured Data (JSON-LD) -->
+<!-- Structured Data -->
 <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -385,5 +402,6 @@
         }
     }
 </script>
+
 </body>
 </html>

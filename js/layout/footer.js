@@ -1,12 +1,15 @@
 /**
- * layout/footer.js
+ * layout/footer.js — Footer partial loader
+ *
+ * Loads the footer HTML partial and updates the copyright year.
+ * Falls back to a static footer if the external file cannot be loaded.
  */
 
 document.addEventListener('DOMContentLoaded', () => {
     initFooter();
 });
 
-// ── Footer Loading ────────────────────────────────────────────────────────────
+/* Footer Loading */
 
 async function initFooter() {
     const footerPath = '/dynamo/html/layout/footer.html';
@@ -20,7 +23,10 @@ async function initFooter() {
         }
 
         const footerHTML = await response.text();
-        if (!footerHTML.trim()) { renderFallbackFooter(); return; }
+        if (!footerHTML.trim()) {
+            renderFallbackFooter();
+            return;
+        }
 
         const placeholder = document.getElementById('footer-placeholder');
         if (placeholder) {
@@ -90,7 +96,8 @@ function renderFallbackFooter() {
     }
 }
 
-/** Sets the copyright year span to the current year. */
+/* Footer Year Update */
+
 function updateFooterYear() {
     const yearSpan = document.getElementById('year');
     if (yearSpan) yearSpan.textContent = new Date().getFullYear();

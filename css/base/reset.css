@@ -1,34 +1,29 @@
-/* ============================================================
-   BASE/RESET.CSS
-   HTML/body foundation and layout primitives.
-   No class selectors except .container and scrollbar core.
-   Note: body references @keyframes fadeInPage, defined in
-         core/animations.css — load that file after this one.
-   ============================================================ */
+/* base/RESET.CSS */
 
-/* ── Universal Box Model ────────────────────────────────────── */
+/* Universal Box Model */
 * {
-    margin:     0;
-    padding:    0;
+    margin: 0;
+    padding: 0;
     box-sizing: border-box;
 }
 
-/* ── Document Root ──────────────────────────────────────────── */
+/* Document Root */
 html {
-    scrollbar-gutter:   stable;
-    scroll-behavior:    smooth;
+    scroll-behavior: smooth;
     scroll-padding-top: 68px;
+    scrollbar-gutter: stable;
 }
 
-/* ── Body Base ──────────────────────────────────────────────── */
+/* Body Base */
 body {
     font-family: 'Poppins', sans-serif;
-    background:  var(--off-white);
-    color:       var(--dark-gray);
+    font-size: var(--text-body);
     line-height: 1.6;
-    overflow-x:  hidden;
-    opacity:     0;
-    animation:   fadeInPage var(--dur-slow) var(--ease-out) forwards;
+    color: var(--dark-gray);
+    background: var(--off-white);
+    overflow-x: hidden;
+    opacity: 0;
+    animation: fadeInPage var(--dur-slow) var(--ease-out) forwards;
 }
 
 input, button, textarea, select {
@@ -36,56 +31,73 @@ input, button, textarea, select {
     font-size: inherit;
 }
 
-/* ── Layout Container ───────────────────────────────────────── */
+/* Layout Container */
 .container {
     max-width: 1200px;
-    margin:    0 auto;
-    padding:   0 15px;
+    margin: 0 auto;
+    padding: 0 15px;
 }
 
-/* ── Custom Scrollbars ──────────────────────────────────────── */
-/* Only applied on devices that support hover (non-touch) */
+/* Custom Scrollbars */
 @media (hover: hover) and (pointer: fine) {
-
-    /* Vertical — transparent track */
     .scrollbar-y {
         scrollbar-width: thin;
         scrollbar-color: var(--light-gray) transparent;
     }
-    .scrollbar-y::-webkit-scrollbar { width: 6px; }
-    .scrollbar-y::-webkit-scrollbar-track {
-        background:    transparent;
-        border-radius: var(--radius-sm);
-        margin:        16px 0;
-    }
-    .scrollbar-y::-webkit-scrollbar-thumb {
-        background:    var(--light-gray);
-        border-radius: var(--radius-sm);
-    }
-    .scrollbar-y::-webkit-scrollbar-thumb:hover { background: var(--medium-gray); }
 
-    /* Horizontal — silver track */
+    .scrollbar-y::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .scrollbar-y::-webkit-scrollbar-track {
+        margin: 16px 0;
+        background: transparent;
+        border-radius: var(--radius-sm);
+    }
+
+    .scrollbar-y::-webkit-scrollbar-thumb {
+        background: var(--light-gray);
+        border-radius: var(--radius-sm);
+    }
+
+    .scrollbar-y::-webkit-scrollbar-thumb:hover {
+        background: var(--medium-gray);
+    }
+
     .scrollbar-x {
         scrollbar-width: thin;
         scrollbar-color: var(--light-gray) var(--silver-mist);
     }
-    .scrollbar-x::-webkit-scrollbar { height: 8px; }
+
+    .scrollbar-x::-webkit-scrollbar {
+        height: 8px;
+    }
+
     .scrollbar-x::-webkit-scrollbar-track {
-        background:    var(--silver-mist);
+        background: var(--silver-mist);
         border-radius: var(--radius-sm);
     }
+
     .scrollbar-x::-webkit-scrollbar-thumb {
-        background:    var(--light-gray);
+        background: var(--light-gray);
         border-radius: var(--radius-sm);
     }
-    .scrollbar-x::-webkit-scrollbar-thumb:hover { background: var(--medium-gray); }
+
+    .scrollbar-x::-webkit-scrollbar-thumb:hover {
+        background: var(--medium-gray);
+    }
 }
 
-/* ── Responsive ─────────────────────────────────────────────── */
+/* Responsive: Tablet */
 @media (max-width: 1024px) {
-    .container { padding: 0 10px; }
+    .container {
+        padding: 0 10px;
+    }
 }
 
+/* Responsive: Mobile */
 @media (max-width: 480px) {
-    .container { padding: 0 8px; }
+    .container {
+        padding: 0 8px;
+    }
 }

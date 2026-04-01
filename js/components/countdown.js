@@ -1,23 +1,20 @@
 /**
- * components/countdown.js
- * Countdown timer and upcoming-match data sync.
- * Extracted from general.js — initCountdown and setCountdownData are kept
- * together because they share internal module state and drive the same
- * DOM block (#countdown, #next-match-title, #home-match-sponsor).
+ * components/countdown.js — Countdown timer
+ *
+ * Manages the countdown to the next upcoming match and updates
+ * related DOM elements (#countdown, #next-match-title, #home-match-sponsor).
+ * Shares internal state between initCountdown and setCountdownData.
  */
+
 import { MONTH_INDEX_MAP } from '../core/helpers.js';
 
-// ── Internal Module State ─────────────────────────────────────────────────────
+/* Internal Module State */
+
 let _upcomingMatches = [];
 let _countdownInterval = null;
 
-// ── Countdown Timer ───────────────────────────────────────────────────────────
+/* Countdown Timer */
 
-/**
- * Starts the countdown timer towards the next upcoming match.
- * Reads match data from `_upcomingMatches` (set by setCountdownData).
- * If called while a timer is already running it cleanly restarts.
- */
 export function initCountdown() {
     const countdownEl  = document.getElementById('countdown');
     const titleEl      = document.getElementById('next-match-title');
@@ -40,7 +37,13 @@ export function initCountdown() {
         const monthIndex = MONTH_INDEX_MAP[dateParts[1].toLowerCase()];
         if (monthIndex === undefined) return NaN;
 
-        return new Date(dateParts[2], monthIndex, dateParts[0], timeParts[0], timeParts[1]).getTime();
+        return new Date(
+            dateParts[2],
+            monthIndex,
+            dateParts[0],
+            timeParts[0],
+            timeParts[1]
+        ).getTime();
     };
 
     const now = Date.now();
@@ -57,8 +60,8 @@ export function initCountdown() {
     }
 
     if (!targetMatch || isNaN(targetDate)) {
-        titleEl.textContent       = 'Geen wedstrijden gepland in de nabije toekomst.';
-        countdownEl.style.display = 'none';
+        if (titleEl)      titleEl.textContent       = 'Geen wedstrijden gepland in de nabije toekomst.';
+        if (countdownEl)  countdownEl.style.display = 'none';
         if (sponsorBlock) sponsorBlock.style.display = 'none';
         return;
     }
@@ -66,11 +69,11 @@ export function initCountdown() {
     titleEl.textContent = targetMatch.title;
 
     if (targetMatch.sponsor && sponsorBlock) {
-        sponsorLink.href              = targetMatch.sponsor.url;
-        sponsorLogo.src               = targetMatch.sponsor.logo;
-        sponsorLogo.alt               = `Logo ${targetMatch.sponsor.name}`;
-        sponsorLink.title             = `Bezoek website van ${targetMatch.sponsor.name} - Matchbalsponsor`;
-        sponsorBlock.style.display    = 'block';
+        sponsorLink.href   = targetMatch.sponsor.url;
+        sponsorLogo.src    = targetMatch.sponsor.logo;
+        sponsorLogo.alt    = `Logo ${targetMatch.sponsor.name}`;
+        sponsorLink.title  = `Bezoek website van ${targetMatch.sponsor.name} - Matchbalsponsor`;
+        sponsorBlock.style.display = 'block';
     } else if (sponsorBlock) {
         sponsorBlock.style.display = 'none';
     }
@@ -90,7 +93,6 @@ export function initCountdown() {
         const distance = targetDate - Date.now();
 
         if (distance < 0) {
-            // Clear interval using internal state
             clearInterval(_countdownInterval);
             initCountdown();
             return;
@@ -114,14 +116,8 @@ export function initCountdown() {
     _countdownInterval = setInterval(tickCountdown, 1000);
 }
 
-// ── Upcoming Match Data Sync ──────────────────────────────────────────────────
+/* Upcoming Match Data Sync */
 
-/**
- * Stores upcoming match data internally and syncs the countdown UI.
- * Called by page loaders (home.js, matches.js) once match data arrives.
- *
- * @param {Object[]} upcomingMatches - Array of upcoming match objects.
- */
 export function setCountdownData(upcomingMatches) {
     _upcomingMatches = upcomingMatches;
 
@@ -142,8 +138,8 @@ export function setCountdownData(upcomingMatches) {
     if (nextMatch.sponsor && sponsorBlock) {
         document.getElementById('home-sponsor-link').href = nextMatch.sponsor.url;
         const logo = document.getElementById('home-sponsor-logo');
-        logo.src               = nextMatch.sponsor.logo;
-        logo.alt               = `Logo ${nextMatch.sponsor.name}`;
+        logo.src  = nextMatch.sponsor.logo;
+        logo.alt  = `Logo ${nextMatch.sponsor.name}`;
         sponsorBlock.style.display = 'block';
     } else if (sponsorBlock) {
         sponsorBlock.style.display = 'none';

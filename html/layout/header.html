@@ -1,26 +1,38 @@
-<!-- Header Component -->
+<!-- Header -->
 <header class="header" id="header">
     <nav class="nav-container">
-        <div class="mobile-menu-toggle" id="mobile-menu-toggle" tabindex="0" role="button" aria-label="Toggle mobile menu">
+
+        <!-- Mobile Menu Toggle -->
+        <div class="mobile-menu-toggle"
+             id="mobile-menu-toggle"
+             tabindex="0"
+             role="button"
+             aria-label="Toggle mobile menu">
             <span></span>
             <span></span>
             <span></span>
         </div>
+
+        <!-- Logo -->
         <div class="header-logo-container" id="header-logo-container">
-            <a href="/dynamo/index.html" aria-label="Dynamo Beirs Homepage" class="header-logo-link" id="header-logo-link">
+            <a href="/dynamo/index.html"
+               aria-label="Dynamo Beirs Homepage"
+               class="header-logo-link"
+               id="header-logo-link">
                 <div class="logo-container">
-                    <img
-                            src="/dynamo/img/logos/red-outlined-logo.png"
-                            alt="Dynamo Beirs Logo"
-                            class="header-logo header-logo-red"
-                            id="header-logo-red"
-                            loading="eager"
-                            width="60"
-                            height="60"
-                            fetchpriority="high">
+                    <img src="/dynamo/img/logos/red-outlined-logo.png"
+                         alt="Dynamo Beirs Logo"
+                         class="header-logo header-logo-red"
+                         id="header-logo-red"
+                         loading="eager"
+                         width="60"
+                         height="60"
+                         fetchpriority="high">
                 </div>
             </a>
         </div>
+
+        <!-- Desktop Navigation -->
         <ul class="nav-links" id="nav-links">
             <li>
                 <a href="/dynamo/index.html" class="nav-link" data-page="home">
@@ -41,18 +53,27 @@
                 <a href="/dynamo/html/archive.html" class="nav-link" data-page="archive">Archief</a>
             </li>
             <li>
-                <a href="/dynamo/html/search.html" class="nav-link search-link" data-page="search">
+                <a href="/dynamo/html/search.html"
+                   class="nav-link search-link"
+                   data-page="search">
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </a>
             </li>
-        </ul>        <div class="mobile-search-container">
-            <a href="/dynamo/html/search.html" class="mobile-search-link" aria-label="Search">
+        </ul>
+
+        <!-- Mobile Search -->
+        <div class="mobile-search-container">
+            <a href="/dynamo/html/search.html"
+               class="mobile-search-link"
+               aria-label="Search">
                 <i class="fa-solid fa-magnifying-glass"></i>
             </a>
         </div>
+
     </nav>
 </header>
 
+<!-- Scroll Progress Bar -->
 <div class="scroll-progress-container">
     <div class="scroll-progress-bar"></div>
 </div>

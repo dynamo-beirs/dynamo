@@ -1,172 +1,147 @@
-/* ============================================================
-   ARCHIVE.CSS
-   ============================================================ */
+/* ARCHIVE.CSS */
 
-/* ── Content Section ────────────────────────────────────────── */
-/*
- * FIXED: was `padding: 2rem 0 4rem` — the bottom was 2× the top,
- * causing a large dead zone before the footer on archive pages.
- * Now uniform via --section-pad.
- */
-/* ── Hero Pipe / Underline Overrides ────────────────────────── */
+/* Hero Overrides */
 .archive-page .page-hero h1::before,
 .archive-page .page-hero h1::after {
     color: var(--dynamo-red);
 }
 
+/* Season Selector */
+.picker-section {
+    position: relative;
+    margin-bottom: 0;
+    padding-bottom: 0;
+    --dropdown-border-color: var(--dynamo-red);
+    z-index: var(--z-dropdown);
+}
+
+.season-picker {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    gap: var(--grid-gap);
+    max-width: 100%;
+    margin-bottom: 0;
+    padding-bottom: 0;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(var(--reveal-lift));
+    transition: var(--t-reveal);
+    z-index: 101;
+}
+
+.season-picker.reveal,
+.season-picker.animate-in {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.season-picker span {
+    font-weight: 600;
+    color: var(--dark-gray);
+}
+
+#season-select {
+    min-width: 180px;
+    z-index: 102;
+}
+
+/* Content Section Header */
 .archive-page #archive-season-title::after {
     background: var(--dark-blue);
+}
+
+/* Stats Overview Grid */
+#archive-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--grid-gap);
+    margin-top: var(--section-pad);
 }
 
 #archive-stats-grid .stat-number {
     color: var(--dark-blue);
 }
 
-/* ── Subsections ────────────────────────────────────────────── */
+/* Golden Shoe Podium */
 .archive-subsection {
     margin-top: var(--section-pad);
 }
 
-/* ── Season Selector Dropdown ───────────────────────────────── */
-#season-select {
-    min-width: 180px;
-    z-index: 102;
-}
-
-.picker-section {
-    position:  relative;
-    z-index:   var(--z-dropdown);
-    --dropdown-border-color: var(--dynamo-red);
-}
-
-.picker-section,
-.season-picker {
-    margin-bottom:  0;
-    padding-bottom: 0;
-}
-
-.season-picker {
-    display:         flex;
-    justify-content: center;
-    align-items:     center;
-    gap:             var(--grid-gap);
-    max-width:       100%;
-    position:        relative;
-    z-index:         101;
-    opacity:         0;
-    transform:       translateY(var(--reveal-lift));
-    transition:      var(--t-reveal);
-    visibility:      hidden;
-}
-
-.season-picker.reveal,
-.season-picker.animate-in {
-    opacity:    1;
-    transform:  translateY(0);
-    visibility: visible;
-}
-
-.season-picker span {
-    font-weight: 600;
-    color:       var(--dark-gray);
-}
-
-/* ── Archive Stats Grid ─────────────────────────────────────── */
-#archive-stats-grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap:                   var(--grid-gap);
-    margin-top:            var(--section-pad);
-}
-
-/* ── Players Section Colour Overrides ───────────────────────── */
-#archive-players-section .sort-controls {
-    justify-content: flex-end;
-}
-
-#archive-players-section {
-    --dropdown-border-color: var(--dark-green);
-    --primary-theme-color:   var(--dark-green);
-}
-
-#archive-players-section .section-title::after {
-    background-color: var(--dark-green);
-}
-
-/* ── Golden Shoe ────────────────────────────────────────────── */
 #archive-golden-shoe-section .section-subtitle::after {
     background: var(--dynamo-red);
 }
 
 .podium-container {
-    display:         flex;
-    align-items:     flex-end;
+    display: flex;
+    align-items: flex-end;
     justify-content: center;
-    gap:             var(--grid-gap);
-    margin:          var(--grid-gap) auto 0;
-    padding:         var(--grid-gap) 0;
-    width:           var(--content-width);
+    gap: var(--grid-gap);
+    width: var(--content-width);
+    margin: var(--grid-gap) auto 0;
+    padding: var(--grid-gap) 0;
 }
 
 .podium-step {
-    flex:           1;
-    max-width:      160px;
-    display:        flex;
+    display: flex;
     flex-direction: column;
-    align-items:    center;
-    opacity:        0;
-    transform:      translateY(30px);
-    transition:     var(--t-reveal);
+    align-items: center;
+    flex: 1;
+    max-width: 160px;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: var(--t-reveal);
 }
 
 .podium-step.animate-in {
-    opacity:   1;
+    opacity: 1;
     transform: translateY(0);
 }
 
-/* Stagger entrances natively in CSS */
 .podium-step.silver { transition-delay: 0.1s; }
 .podium-step.gold   { transition-delay: 0.2s; }
 .podium-step.bronze { transition-delay: 0.3s; }
 
 .podium-player {
-    font-size:     var(--text-body);
-    font-weight:   700;
-    color:         var(--dark-gray);
-    text-align:    center;
     margin-bottom: 0.4rem;
-    line-height:   1.2;
+    font-weight: 700;
+    font-size: var(--text-body);
+    line-height: 1.2;
+    color: var(--dark-gray);
+    text-align: center;
 }
 
 .podium-block {
-    width:           100%;
-    background:      white;
-    box-shadow:      var(--shadow-medium);
-    border-radius:   var(--radius-md) var(--radius-md) 0 0;
-    display:         flex;
-    flex-direction:  column;
-    align-items:     center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     justify-content: flex-end;
-    gap:             var(--grid-gap);
-    padding:         var(--grid-gap) 0.5rem;
-    position:        relative;
+    position: relative;
+    gap: var(--grid-gap);
+    width: 100%;
+    padding: var(--grid-gap) 0.5rem;
+    background: white;
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+    box-shadow: var(--shadow-medium);
 }
 
 .podium-block i {
     font-size: 1.8rem;
-    opacity:   0.9;
+    opacity: 0.9;
 }
 
 .podium-shoe-name {
-    font-size:      0.75rem;
-    font-weight:    800;
+    font-weight: 800;
+    font-size: 0.75rem;
+    line-height: 1.2;
     text-transform: uppercase;
-    text-align:     center;
-    line-height:    1.2;
+    text-align: center;
 }
 
-/* Podium Heights & Accent Colors */
 .podium-step.gold .podium-block {
-    height:     160px;
+    height: 160px;
     border-top: 6px solid #D4AF37;
 }
 .podium-step.gold .podium-block i,
@@ -175,7 +150,7 @@
 }
 
 .podium-step.silver .podium-block {
-    height:     130px;
+    height: 130px;
     border-top: 6px solid #C0C0C0;
 }
 .podium-step.silver .podium-block i,
@@ -184,7 +159,7 @@
 }
 
 .podium-step.bronze .podium-block {
-    height:     100px;
+    height: 100px;
     border-top: 6px solid #CD7F32;
 }
 .podium-step.bronze .podium-block i,
@@ -192,50 +167,64 @@
     color: #CD7F32;
 }
 
-/* ── Matches Section ────────────────────────────────────────── */
-#archive-matches-section .section-title::after {
-    background: var(--dark-yellow);
+/* Player Statistics Section */
+#archive-players-section {
+    --dropdown-border-color: var(--dark-green);
+    --primary-theme-color: var(--dark-green);
 }
 
+#archive-players-section .section-title::after {
+    background-color: var(--dark-green);
+}
+
+#archive-players-section .sort-controls {
+    justify-content: flex-end;
+}
+
+/* Matches Section */
 #archive-matches-section {
     --dropdown-border-color: var(--dark-yellow);
 }
 
+#archive-matches-section .section-title::after {
+    background: var(--dark-yellow);
+}
+
 #archive-matches-section .sort-controls {
     justify-content: center;
-    margin-bottom:   var(--section-pad);
+    margin-bottom: var(--section-pad);
 }
 
 .dropdown .options {
     width: max-content;
 }
 
-/* ── Archive Graph Tooltip ──────────────────────────────────── */
+/* Tooltip (Graph UI) */
 .archive-graph-tooltip {
-    background:    white;
-    border:        3px solid var(--dark-blue);
+    width: 90px;
+    padding: 0.625rem 0.5rem;
+    box-sizing: border-box;
+    background: white;
+    border: 3px solid var(--dark-blue);
     border-radius: var(--radius-md);
-    padding:       0.625rem 0.5rem;
-    box-shadow:    var(--shadow-small);
-    width:         90px;
-    box-sizing:    border-box;
-    text-align:    center;
+    box-shadow: var(--shadow-small);
+    text-align: center;
 }
 
 .archive-graph-tooltip-title {
-    margin:      0 0 6px;
-    font-size:   var(--text-lg);
+    margin: 0 0 6px;
     font-weight: 800;
-    color:       var(--dark-blue);
+    font-size: var(--text-lg);
     line-height: 1;
+    color: var(--dark-blue);
 }
 
 .archive-graph-tooltip-row {
-    display:         flex;
+    display: flex;
+    align-items: center;
     justify-content: center;
-    align-items:     center;
-    gap:             0.5rem;
-    margin-bottom:   6px;
+    gap: 0.5rem;
+    margin-bottom: 6px;
 }
 
 .archive-graph-tooltip-row:last-child {
@@ -248,41 +237,43 @@
 
 .archive-graph-tooltip .result-icon i {
     line-height: 1;
-    transform:   translateY(1px) translateX(0.5px);
+    transform: translateY(1px) translateX(0.5px);
 }
 
 .archive-graph-tooltip-value {
-    font-size:   var(--text-body);
+    width: 16px;
     font-weight: 600;
-    color:       var(--dark-gray);
-    width:       16px;
-    text-align:  left;
+    font-size: var(--text-body);
+    color: var(--dark-gray);
+    text-align: left;
 }
 
-/* ── Responsive: Tablet (≤ 768 px) ─────────────────────────── */
-/*
- * --section-pad → 1.5rem, --grid-gap → 0.8rem at ≤ 768 px.
- * All paddings, margins, and gaps update automatically.
- * Only structural layout overrides are listed here.
- */
+/* Responsive: Tablet */
 @media (max-width: 768px) {
-    .season-picker { flex-direction: column; }
+    .season-picker {
+        flex-direction: column;
+    }
 
     #archive-stats-grid {
         grid-template-columns: repeat(2, 1fr);
     }
 }
 
-/* ── Responsive: Mobile (≤ 480 px) ─────────────────────────── */
-/*
- * --section-pad → 1rem, --grid-gap → 0.8rem at ≤ 480 px.
- */
+/* Responsive: Mobile */
 @media (max-width: 480px) {
-    .podium-player    { font-size: var(--text-sm); }
-    .podium-block i   { font-size: 1.4rem; }
-    .podium-shoe-name { font-size: 0.65rem; }
+    .podium-player {
+        font-size: var(--text-sm);
+    }
 
-    .podium-step.gold   .podium-block { height: 130px; }
+    .podium-block i {
+        font-size: 1.4rem;
+    }
+
+    .podium-shoe-name {
+        font-size: 0.65rem;
+    }
+
+    .podium-step.gold .podium-block { height: 130px; }
     .podium-step.silver .podium-block { height: 105px; }
     .podium-step.bronze .podium-block { height: 80px; }
 }

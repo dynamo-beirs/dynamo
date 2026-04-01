@@ -1,10 +1,19 @@
 /**
  * players.js — Players page
+ *
+ * Main entry point for the players page. Handles loading player data,
+ * rendering player cards, position filtering, search functionality,
+ * keyboard navigation, and scroll animations.
  */
+
+/* Imports */
+
 import { animateOnScroll, animatePlayerCards } from '../core/animations.js';
 import { POSITION_LABEL_MAP } from '../core/helpers.js';
 import { fetchSeasonPlayers } from '../services/data-service.js';
 import { FootballLoader } from '../components/loader.js';
+
+/* Animation Elements Registry */
 
 const animationElements = [
     { selector: '.section-title',    containerSelector: 'section' },
@@ -26,7 +35,7 @@ const DOM = {
     get emptyState()    { return document.getElementById('players-empty-state'); }
 };
 
-// ── Page Initialization ───────────────────────────────────────────────────────
+/* Page Initialization */
 
 document.addEventListener('DOMContentLoaded', async () => {
     await loadPlayers();
@@ -38,7 +47,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     setTimeout(applyHashFilter, 100);
 });
 
-// ── Data Loading ──────────────────────────────────────────────────────────────
+/* Data Loading */
 
 async function loadPlayers() {
     const loaderId = 'players-loading';
@@ -70,7 +79,7 @@ async function loadPlayers() {
     }
 }
 
-// ── Rendering ─────────────────────────────────────────────────────────────────
+/* Rendering */
 
 function renderPlayerCards(players) {
     const grid = document.querySelector('.players-grid');
@@ -113,7 +122,7 @@ function renderPlayerCards(players) {
     });
 }
 
-// ── Filters ───────────────────────────────────────────────────────────────────
+/* Filters */
 
 function initFilters() {
     const buttons = DOM.filterButtons;
@@ -136,7 +145,7 @@ function initFilters() {
 function filterPlayers(position) {
     globalPlayers.forEach(player => {
         const show = position === 'all' || player.position === position;
-        player.element.classList.toggle('filter-hidden',  !show);
+        player.element.classList.toggle('filter-hidden', !show);
     });
     toggleEmptyState();
 }
@@ -150,7 +159,7 @@ function applyHashFilter() {
     }
 }
 
-// ── Search ────────────────────────────────────────────────────────────────────
+/* Search */
 
 function initSearch() {
     const input = document.querySelector('.search-input');
@@ -165,12 +174,12 @@ function onSearch(e) {
         const matchesFilter = currentFilter === 'all' || player.position === currentFilter;
         const show          = matchesSearch && matchesFilter;
 
-        player.element.classList.toggle('filter-hidden',  !show);
+        player.element.classList.toggle('filter-hidden', !show);
     });
     toggleEmptyState();
 }
 
-// ── Keyboard Navigation ───────────────────────────────────────────────────────
+/* Keyboard Navigation */
 
 function initKeyboardNav() {
     const buttons = Array.from(DOM.filterButtons);
@@ -190,7 +199,7 @@ function initKeyboardNav() {
     });
 }
 
-// ── Theme ─────────────────────────────────────────────────────────────────────
+/* Theme */
 
 function setPositionTheme(position) {
     const valid    = ['goalkeeper', 'defender', 'midfielder', 'attacker', 'all'];
@@ -200,7 +209,7 @@ function setPositionTheme(position) {
     document.body.classList.add(newClass);
 }
 
-// ── Empty State ───────────────────────────────────────────────────────────────
+/* Empty State */
 
 function toggleEmptyState() {
     const visible = globalPlayers.filter(p => !p.element?.classList.contains('filter-hidden'));

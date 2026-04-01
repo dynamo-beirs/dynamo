@@ -1,14 +1,11 @@
 /**
- * components/loader.js
+ * components/loader.js — Football loader component
+ *
+ * Provides reusable methods to show an animated football loader
+ * and error messages across the application.
  */
 
 export const FootballLoader = {
-    /**
-     * Injects the animated football loader into a container and makes it visible.
-     *
-     * @param {string} containerId - ID of the parent element to inject into.
-     * @param {string} [loadingText="Laden..."] - Text displayed above the animation.
-     */
     show(containerId, loadingText = 'Laden...') {
         const container = document.getElementById(containerId);
         if (!container) return;
@@ -34,12 +31,6 @@ export const FootballLoader = {
         `;
     },
 
-    /**
-     * Displays an error message in the element identified by `errorId`.
-     *
-     * @param {string} errorId - ID of the error message element.
-     * @param {string} [errorText="Fout bij het laden."] - Message to display.
-     */
     showError(errorId, errorText = 'Fout bij het laden.') {
         const errorEl = document.getElementById(errorId);
         if (errorEl) {

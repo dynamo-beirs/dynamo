@@ -1,13 +1,23 @@
+<!-- Player Modal -->
 <div id="playerModal" class="modal-overlay" style="opacity: 0; visibility: hidden; pointer-events: none;">
     <div class="modal-content scrollbar-y">
-        <button class="close-modal"><i class="fas fa-times"></i></button>
 
+        <!-- Close Button -->
+        <button class="close-modal">
+            <i class="fas fa-times"></i>
+        </button>
+
+        <!-- Player Header -->
         <div class="player-header">
             <h2 id="modalPlayerName">...</h2>
             <div class="player-position" id="playerPosition">...</div>
-            <img id="nationalityFlag" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="Flag" class="flag-icon">
+            <img id="nationalityFlag"
+                 src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+                 alt="Flag"
+                 class="flag-icon">
         </div>
 
+        <!-- This Season Stats -->
         <div class="season-stats-section">
             <h3>Dit Seizoen</h3>
             <div class="stats-container">
@@ -20,6 +30,7 @@
             </div>
         </div>
 
+        <!-- All-Time Stats -->
         <div class="all-time-stats-section">
             <h3>All Time</h3>
             <div class="stats-container">
@@ -31,5 +42,6 @@
                 </div>
             </div>
         </div>
+
     </div>
 </div>

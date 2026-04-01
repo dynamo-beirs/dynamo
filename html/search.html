@@ -39,7 +39,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
 
-    <!-- Preload header -->
+    <!-- Preload critical assets -->
     <link rel="preload" href="/dynamo/img/logos/red-outlined-logo.png" as="image" fetchpriority="high">
     <link rel="preload" href="/dynamo/css/layout/header.css" as="style">
 
@@ -53,17 +53,20 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/dynamo/img/logos/favicon/apple-touch-icon.png">
     <link rel="manifest" href="/dynamo/img/logos/favicon/site.webmanifest">
 
-    <!-- Stylesheets -->
+    <!-- Base styles -->
     <link rel="stylesheet" href="/dynamo/css/base/tokens.css">
     <link rel="stylesheet" href="/dynamo/css/base/reset.css">
     <link rel="stylesheet" href="/dynamo/css/base/typography.css">
 
+    <!-- Core styles -->
     <link rel="stylesheet" href="/dynamo/css/core/animations.css">
     <link rel="stylesheet" href="/dynamo/css/core/helpers.css">
 
+    <!-- Layout styles -->
     <link rel="stylesheet" href="/dynamo/css/layout/header.css">
     <link rel="stylesheet" href="/dynamo/css/layout/footer.css">
 
+    <!-- Component styles -->
     <link rel="stylesheet" href="/dynamo/css/components/section-header.css">
     <link rel="stylesheet" href="/dynamo/css/components/search-input.css">
     <link rel="stylesheet" href="/dynamo/css/components/match-card.css">
@@ -73,8 +76,11 @@
     <link rel="stylesheet" href="/dynamo/css/components/loader.css">
     <link rel="stylesheet" href="/dynamo/css/components/modals/modal-base.css">
     <link rel="stylesheet" href="/dynamo/css/components/modals/match-modal.css">
+
+    <!-- Third-party styles -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
+    <!-- Page-specific styles -->
     <link rel="stylesheet" href="/dynamo/css/pages/search.css">
 
     <!-- Google Analytics -->
@@ -95,12 +101,14 @@
 
     <title>Zoek Wedstrijden - Dynamo Beirs</title>
 </head>
+
 <body>
+
 <!-- Header -->
 <div id="header-placeholder"></div>
 
-<!-- Main Content -->
 <main>
+
     <!-- Page Hero -->
     <section class="page-hero">
         <div class="container">
@@ -108,7 +116,7 @@
         </div>
     </section>
 
-    <!-- Search Section -->
+    <!-- Search Input -->
     <section class="search-section">
         <div class="container">
             <div class="search-container">
@@ -150,6 +158,7 @@
             </div>
         </div>
     </section>
+
 </main>
 
 <!-- Match Modal -->
@@ -158,7 +167,7 @@
 <!-- Footer -->
 <div id="footer-placeholder"></div>
 
-<!-- Structured Data (JSON-LD) -->
+<!-- Structured Data -->
 <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -195,5 +204,6 @@
         }
     }
 </script>
+
 </body>
 </html>

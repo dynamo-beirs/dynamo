@@ -1,67 +1,83 @@
-/* ============================================================
-   COMPONENTS/TICKER.CSS
-   Sponsor ticker carousel for displaying partner logos.
-   ============================================================ */
+/* components/TICKER.CSS */
 
+/* Ticker Section */
 .ticker-section {
-    padding:  1rem 0;
+    padding-bottom: var(--section-pad);
     overflow: hidden;
 }
 
 .ticker-wrapper {
-    width:                  var(--content-width);
-    margin:                 0 auto;
-    overflow:               hidden;
-    position:               relative;
-    padding:                1rem 0;
-    mask-image:             linear-gradient(to right, transparent, black 10%, black 90%, transparent);
-    -webkit-mask-image:     linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    display: flex;
+    position: relative;
+    width: 100%;
+    margin: 0 auto;
+    padding: 1.5rem 0;
+    background: white;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-medium);
+    overflow: hidden;
 }
 
 .ticker-track {
-    display:     flex;
-    gap:         3rem;
-    width:       max-content;
+    display: flex;
     align-items: center;
+    gap: 4rem;
+    width: max-content;
+    padding-left: 4rem;
+    will-change: transform;
 }
 
-.ticker-track.centered  { width: 100%; justify-content: center; }
-.ticker-track.scrolling { animation: scroll-ticker var(--dur-ticker) linear infinite; }
-
-@keyframes scroll-ticker {
-    from { transform: translateX(0); }
-    to   { transform: translateX(-50%); }
+.ticker-track.scrolling {
+    animation: ticker-scroll 40s linear infinite;
 }
 
-.sponsor-item {
-    display:         flex;
-    align-items:     center;
+.ticker-item {
+    display: flex;
+    align-items: center;
     justify-content: center;
-    flex-shrink:     0;
-    transition:      transform var(--dur-base) var(--ease-ui);
+    flex-shrink: 0;
+    min-width: 120px;
+    height: 60px;
 }
 
-.sponsor-item:hover { transform: scale(var(--hover-scale-sm)); }
-
-.sponsor-logo {
-    height:     70px;
-    width:      auto;
-    max-width:  180px;
-    object-fit: contain;
-    filter:     grayscale(100%);
-    opacity:    0.7;
-    transition: filter var(--dur-base) var(--ease-ui), opacity var(--dur-base) var(--ease-ui);
+.ticker-item img {
+    display: block;
+    width: auto;
+    height: auto;
+    max-width: 150px;
+    max-height: 100%;
+    filter: grayscale(1);
+    opacity: 0.6;
+    transition: filter var(--dur-base) var(--ease-ui), opacity var(--dur-base) var(--ease-ui), transform var(--dur-base) var(--ease-ui);
 }
 
-.sponsor-item:hover .sponsor-logo { filter: none; opacity: 1; }
+.ticker-item:hover img {
+    filter: grayscale(0);
+    opacity: 1;
+    transform: scale(1.05);
+}
 
-/* ── Responsive ────────────────────────────────────────────── */
+/* Animations */
+@keyframes ticker-scroll {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+/* Responsive: Tablet */
 @media (max-width: 768px) {
-    .ticker-wrapper { padding: 1rem 0 0; }
-    .ticker-track   { gap: 2rem; }
-    .sponsor-logo   { height: 60px; }
+    .ticker-wrapper { padding: 1rem 0; }
+    .ticker-track { gap: 2.5rem; padding-left: 2.5rem; }
+    .ticker-item { min-width: 100px; height: 50px; }
+    .ticker-item img { max-width: 120px; }
 }
 
+/* Responsive: Mobile */
 @media (max-width: 480px) {
-    .sponsor-logo { height: 50px; }
+    .ticker-track { gap: 2rem; padding-left: 2rem; }
+    .ticker-item { min-width: 80px; height: 40px; }
+    .ticker-item img { max-width: 100px; }
 }

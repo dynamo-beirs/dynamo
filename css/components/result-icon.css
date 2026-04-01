@@ -1,44 +1,38 @@
-/* ============================================================
-   COMPONENTS/RESULT-ICON.CSS
-   Win / draw / loss badge — used in match cards,
-   the timeline, and match modals.
-   ============================================================ */
+/* components/RESULT-ICON.CSS */
 
 .result-icon {
-    font-size:       1.6rem;
-    width:           2em;
-    height:          2em;
-    display:         flex;
+    display: flex;
+    align-items: center;
     justify-content: center;
-    align-items:     center;
-    border-radius:   50%;
-    color:           white;
-    box-shadow:      var(--shadow-medium);
-    transition:      var(--t-reveal);
-    position:        relative;
-    z-index:         3;
+    position: relative;
+    width: 2em;
+    height: 2em;
+    font-size: 1.6rem;
+    color: white;
+    border-radius: 50%;
+    box-shadow: var(--shadow-medium);
+    transition: var(--t-reveal);
+    z-index: 3;
 }
 
-/* Bolder inner glyph via text-stroke */
 .result-icon.win i,
 .result-icon.draw i,
 .result-icon.loss i,
-.win  .result-icon i,
+.win .result-icon i,
 .draw .result-icon i,
 .loss .result-icon i,
 .form-result i {
     -webkit-text-stroke: 0.08em currentColor;
 }
 
-/* ── Result Colours ─────────────────────────────────────────── */
-.win  .result-icon,
-.result-icon.win  { background: var(--light-green)   !important; }
+/* Result Colours */
+.win .result-icon,
+.result-icon.win { background: var(--light-green) !important; }
 
 .draw .result-icon,
 .result-icon.draw { background: var(--golden-yellow) !important; }
 
 .loss .result-icon,
-.result-icon.loss { background: var(--soft-coral)    !important; }
+.result-icon.loss { background: var(--soft-coral) !important; }
 
-/* Upcoming / unresolved */
 .result-icon:not(.win):not(.draw):not(.loss) { background: var(--dusty-blue); }

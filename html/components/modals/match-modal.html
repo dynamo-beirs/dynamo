@@ -1,15 +1,23 @@
+<!-- Match Modal -->
 <div id="matchCenterModal" class="modal-overlay" style="opacity: 0; visibility: hidden; pointer-events: none;">
     <div class="modal-content scrollbar-y">
-        <button class="close-modal"><i class="fas fa-times"></i></button>
 
+        <!-- Close Button -->
+        <button class="close-modal">
+            <i class="fas fa-times"></i>
+        </button>
+
+        <!-- Match Title -->
         <div id="modalMatchTitle" class="match-title-container">
             <div class="team-name home-team">...</div>
             <div class="vs-text">vs</div>
             <div class="team-name away-team">...</div>
         </div>
 
+        <!-- Season -->
         <div class="season" id="matchSeason">...</div>
 
+        <!-- Match Sponsor -->
         <div id="modalMatchSponsor" class="modal-sponsor-container" style="display: none;">
             <h3>Matchbalsponsor</h3>
             <a id="modalSponsorLink" href="#" target="_blank" rel="noopener">
@@ -17,32 +25,43 @@
             </a>
         </div>
 
+        <!-- Match Score -->
         <div class="modal-match-score" id="modalMatchScore" style="display: none;">
             <div class="score-display">--</div>
         </div>
 
+        <!-- Goalscorers -->
         <div class="goalscorers-section">
             <h3>Doelpuntenmakers</h3>
             <ul class="goalscorers-list" id="goalscorersList">
+                <!-- Dynamic goalscorers inserted here -->
             </ul>
         </div>
 
+        <!-- Match Details -->
         <div class="modal-details">
+            <!-- Date & Time -->
             <div class="modal-section date-time-section">
                 <h3>Datum & Tijd</h3>
                 <div class="date-time-container">
                     <div class="date-box">
-                        <p id="matchDate">-- ---</p> </div>
+                        <p id="matchDate">-- ---</p>
+                    </div>
                     <div class="time-box">
-                        <p id="matchTime">--:--</p> </div>
+                        <p id="matchTime">--:--</p>
+                    </div>
                 </div>
             </div>
+
+            <!-- Stadium -->
             <div class="modal-section stadium-section">
                 <h3>Stadion</h3>
                 <p class="stadium-name" id="stadiumName">
                     <i class="fas fa-map-marker-alt"></i>
-                    ... </p>
+                    ...
+                </p>
             </div>
         </div>
+
     </div>
 </div>

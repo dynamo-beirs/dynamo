@@ -39,7 +39,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
 
-    <!-- Preload header -->
+    <!-- Preload critical assets -->
     <link rel="preload" href="/dynamo/img/logos/red-outlined-logo.png" as="image" fetchpriority="high">
     <link rel="preload" href="/dynamo/css/layout/header.css" as="style">
 
@@ -53,24 +53,30 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/dynamo/img/logos/favicon/apple-touch-icon.png">
     <link rel="manifest" href="/dynamo/img/logos/favicon/site.webmanifest">
 
-    <!-- Stylesheets -->
+    <!-- Base styles -->
     <link rel="stylesheet" href="/dynamo/css/base/tokens.css">
     <link rel="stylesheet" href="/dynamo/css/base/reset.css">
     <link rel="stylesheet" href="/dynamo/css/base/typography.css">
 
+    <!-- Core styles -->
     <link rel="stylesheet" href="/dynamo/css/core/animations.css">
     <link rel="stylesheet" href="/dynamo/css/core/helpers.css">
 
+    <!-- Layout styles -->
     <link rel="stylesheet" href="/dynamo/css/layout/header.css">
     <link rel="stylesheet" href="/dynamo/css/layout/footer.css">
 
+    <!-- Component styles -->
     <link rel="stylesheet" href="/dynamo/css/components/section-header.css">
     <link rel="stylesheet" href="/dynamo/css/components/search-input.css">
     <link rel="stylesheet" href="/dynamo/css/components/loader.css">
     <link rel="stylesheet" href="/dynamo/css/components/modals/modal-base.css">
     <link rel="stylesheet" href="/dynamo/css/components/modals/player-modal.css">
+
+    <!-- Third-party styles -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
+    <!-- Page-specific styles -->
     <link rel="stylesheet" href="/dynamo/css/pages/players.css">
 
     <!-- Google Analytics -->
@@ -91,20 +97,22 @@
 
     <title>Spelers - Dynamo Beirs</title>
 </head>
+
 <body>
 
 <!-- Header -->
 <div id="header-placeholder"></div>
 
 <main>
-    <!-- Page Header Section -->
+
+    <!-- Page Hero -->
     <section class="page-hero">
         <div class="container">
             <h1>Spelers</h1>
         </div>
     </section>
 
-    <!-- Filter Controls -->
+    <!-- Player Filters -->
     <section class="filter-section">
         <div class="container">
             <div class="filter-controls">
@@ -132,7 +140,7 @@
         </div>
     </section>
 
-    <!-- Search Section -->
+    <!-- Player Search -->
     <section class="search-section" aria-labelledby="search-heading">
         <h2 id="search-heading" class="sr-only">Spelers zoeken</h2>
 
@@ -149,26 +157,28 @@
     <!-- Players Grid -->
     <section class="players-section" id="players">
         <div class="container">
-            <!-- Loading Indicator -->
+            <!-- Loading & Error States -->
             <div id="players-loading" class="loader hidden"></div>
             <div id="players-error" class="error-message hidden"></div>
             <div id="players-empty-state" class="empty-state-message hidden">
                 <p>Geen spelers gevonden die aan je zoekopdracht voldoen.</p>
             </div>
+
             <div class="players-grid">
                 <!-- Dynamic insertion of player cards -->
             </div>
         </div>
     </section>
 
-    <!-- Player Modal Container -->
+    <!-- Player Modal -->
     <div id="player-modal-placeholder"></div>
+
 </main>
 
 <!-- Footer -->
 <div id="footer-placeholder"></div>
 
-<!-- Structured Data (JSON-LD) -->
+<!-- Structured Data -->
 <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -199,5 +209,6 @@
         }
     }
 </script>
+
 </body>
 </html>

@@ -1,16 +1,19 @@
 /**
- * components/modals/match-modal.js
- * Renamed from matchModal.js (camelCase → kebab-case).
- * Moved from components/ into components/modals/ alongside its base class.
+ * components/modals/match-modal.js — Match modal
+ *
+ * Displays detailed match information in a modal with FLIP animation.
+ * Extends ModalBase and is exposed globally as window.matchModal.
  */
-import { ModalBase } from './modal-base.js';       // was: '../utils/modal-base.js'
+
+import { ModalBase } from './modal-base.js';
 
 class MatchModal extends ModalBase {
+
     constructor() {
         super();
     }
 
-    // ── Initialization ────────────────────────────────────────────────────────
+    /* Initialization */
 
     async init() {
         if (this.isInitialized) return;
@@ -32,7 +35,7 @@ class MatchModal extends ModalBase {
         }
     }
 
-    // ── Modal Control ─────────────────────────────────────────────────────────
+    /* Modal Control */
 
     show(matchData = {}, originEl = null) {
         if (!this.modal) return;
@@ -53,6 +56,7 @@ class MatchModal extends ModalBase {
         const resultClass = !isUpcoming && result
             ? (result === 'winst' ? 'win' : result === 'gelijk' ? 'draw' : 'loss')
             : '';
+
         this.modal.classList.remove('win', 'draw', 'loss');
         if (resultClass) this.modal.classList.add(resultClass);
 
@@ -82,7 +86,7 @@ class MatchModal extends ModalBase {
         this._animateClose();
     }
 
-    // ── Content Population ────────────────────────────────────────────────────
+    /* Content Population */
 
     renderContent(title, dateTime, season, stadium, goalscorers, score, isUpcoming, isHome, sponsor) {
         const titleEl = this.modal.querySelector('#modalMatchTitle');
@@ -128,10 +132,16 @@ class MatchModal extends ModalBase {
                 sponsorSection.style.display = 'block';
 
                 const sponsorLogo = this.modal.querySelector('#modalSponsorLogo');
-                if (sponsorLogo) { sponsorLogo.src = sponsor.logo; sponsorLogo.alt = `Sponsor: ${sponsor.name}`; }
+                if (sponsorLogo) {
+                    sponsorLogo.src = sponsor.logo;
+                    sponsorLogo.alt = `Sponsor: ${sponsor.name}`;
+                }
 
                 const sponsorLink = this.modal.querySelector('#modalSponsorLink');
-                if (sponsorLink) { sponsorLink.href = sponsor.url || '#'; sponsorLink.title = `Bezoek ${sponsor.name}`; }
+                if (sponsorLink) {
+                    sponsorLink.href = sponsor.url || '#';
+                    sponsorLink.title = `Bezoek ${sponsor.name}`;
+                }
 
                 const sponsorName = this.modal.querySelector('#modalSponsorName');
                 if (sponsorName) sponsorName.textContent = sponsor.name;
@@ -159,7 +169,9 @@ class MatchModal extends ModalBase {
                 counts[name] = (counts[name] || 0) + (s.goals || 1);
             });
         } else {
-            goalscorers.forEach(name => { counts[name] = (counts[name] || 0) + 1; });
+            goalscorers.forEach(name => {
+                counts[name] = (counts[name] || 0) + 1;
+            });
         }
 
         Object.entries(counts).forEach(([player, goals]) => {
@@ -171,7 +183,7 @@ class MatchModal extends ModalBase {
     }
 }
 
-// ── Global Instance ───────────────────────────────────────────────────────────
+/* Global Instance */
 
 window.matchModal = new MatchModal();
 

@@ -1,17 +1,20 @@
 /**
- * components/modals/player-modal.js
- * Renamed from playerModal.js (camelCase → kebab-case).
- * Moved from components/ into components/modals/ alongside its base class.
+ * components/modals/player-modal.js — Player modal
+ *
+ * Displays detailed player information in a modal with FLIP animation.
+ * Extends ModalBase and is exposed globally as window.playerModal.
  */
+
 import { ModalBase } from './modal-base.js';
 import { POSITION_LABEL_MAP } from '../../core/helpers.js';
 
 class PlayerModal extends ModalBase {
+
     constructor() {
         super();
     }
 
-    // ── Initialization ────────────────────────────────────────────────────────
+    /* Initialization */
 
     async init() {
         if (this.isInitialized) return;
@@ -32,14 +35,8 @@ class PlayerModal extends ModalBase {
         }
     }
 
-    // ── Modal Control ─────────────────────────────────────────────────────────
+    /* Modal Control */
 
-    /**
-     * Opens the modal, animating the content outward from `originEl` (FLIP).
-     *
-     * @param {Object}       playerData  Player data object.
-     * @param {Element|null} originEl    The card that was clicked.
-     */
     show(playerData = {}, originEl = null) {
         if (!this.modal) return;
 
@@ -68,7 +65,7 @@ class PlayerModal extends ModalBase {
         this._animateClose();
     }
 
-    // ── Content Population ────────────────────────────────────────────────────
+    /* Content Population */
 
     renderContent(name, position, flagSrc, gamesThisSeason, gamesTotal, goalsThisSeason, goalsTotal) {
         const nameEl = this.modal.querySelector('#modalPlayerName');
@@ -78,7 +75,10 @@ class PlayerModal extends ModalBase {
         if (positionEl) positionEl.textContent = POSITION_LABEL_MAP[position.toLowerCase()] || position;
 
         const flagEl = this.modal.querySelector('#nationalityFlag');
-        if (flagEl) { flagEl.src = flagSrc; flagEl.alt = 'Nationality Flag'; }
+        if (flagEl) {
+            flagEl.src = flagSrc;
+            flagEl.alt = 'Nationality Flag';
+        }
 
         const gamesThisSeasonEl = this.modal.querySelector('#gamesThisSeason');
         if (gamesThisSeasonEl) gamesThisSeasonEl.textContent = gamesThisSeason;
@@ -94,7 +94,7 @@ class PlayerModal extends ModalBase {
     }
 }
 
-// ── Global Instance ───────────────────────────────────────────────────────────
+/* Global Instance */
 
 window.playerModal = new PlayerModal();
 

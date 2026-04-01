@@ -1,99 +1,108 @@
-/* ============================================================
-   COMPONENTS/DROPDOWN.CSS
-   Colour-agnostic custom dropdown.
-   Set --dropdown-border-color on a parent scope to theme it:
-     default (body)              → var(--dark-blue)
-     statistics.css              → var(--underline-color)
-     #archive-players-section    → var(--dark-green)
-     #archive-matches-section    → var(--dark-yellow)
-   ============================================================ */
+/* components/DROPDOWN.CSS */
 
 .dropdown {
-    position:      relative;
-    border:        3px solid var(--dropdown-border-color, var(--dark-blue));
+    position: relative;
+    font-weight: 500;
+    font-size: var(--text-body);
+    color: var(--dark-gray);
+    background: white;
+    border: 3px solid var(--dropdown-border-color, var(--dark-blue));
     border-radius: var(--radius-pill);
-    background:    white;
-    cursor:        pointer;
-    box-shadow:    var(--shadow-small);
-    user-select:   none;
-    font-weight:   500;
-    color:         var(--dark-gray);
-    transition:    var(--t-interact);
-    font-size:     var(--text-body);
+    box-shadow: var(--shadow-small);
+    cursor: pointer;
+    user-select: none;
+    transition: var(--t-interact);
 }
 
-/* ── Selected Display ───────────────────────────────────────── */
+/* Selected Display */
 .dropdown .selected {
-    padding:       0.6rem 2rem 0.6rem 1rem;
+    position: relative;
+    padding: 0.6rem 2rem 0.6rem 1rem;
     border-radius: var(--radius-pill);
-    box-sizing:    border-box;
-    text-align:    center;
-    position:      relative;
-    transition:    var(--t-color);
+    box-sizing: border-box;
+    text-align: center;
+    transition: var(--t-color);
 }
 
 .dropdown .selected::after {
-    content:     '\f0d7';
-    font-family: 'Font Awesome 6 Free', serif;
+    content: '\f0d7';
+    position: absolute;
+    top: 50%;
+    right: 0.6rem;
     font-weight: 900;
-    position:    absolute;
-    right:       0.6rem;
-    top:         50%;
-    transform:   translateY(-55%);
-    font-size:   var(--text-lg);
-    color:       var(--dropdown-border-color);
-    transition:  transform var(--dur-base) var(--ease-ui);
+    font-size: var(--text-lg);
+    font-family: 'Font Awesome 6 Free', serif;
+    color: var(--dropdown-border-color);
+    transform: translateY(-55%);
+    transition: transform var(--dur-base) var(--ease-ui);
 }
 
 .dropdown.active .selected::after {
-    content:   '\f0d8';
+    content: '\f0d8';
     transform: translateY(-50%);
 }
 
-/* ── Options Panel ──────────────────────────────────────────── */
+/* Options Panel */
 .dropdown .options {
-    position:      absolute;
-    top:           100%;
-    left:          50%;
-    transform:     translateX(-50%);
-    background:    white;
-    border:        3px solid var(--dropdown-border-color, var(--dark-blue));
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    min-width: 101%;
+    margin: 5px 0 0;
+    padding: 0;
+    background: white;
+    border: 3px solid var(--dropdown-border-color, var(--dark-blue));
     border-radius: var(--radius-md);
-    box-shadow:    var(--shadow-medium);
-    list-style:    none;
-    margin:        5px 0 0;
-    padding:       0;
-    display:       none;
-    z-index:       var(--z-dropdown);
-    min-width:     101%;
-    box-sizing:    border-box;
-    overflow:      hidden;
+    box-shadow: var(--shadow-medium);
+    list-style: none;
+    box-sizing: border-box;
+    overflow: hidden;
+    transform: translateX(-50%);
+    z-index: var(--z-dropdown);
 }
 
 .dropdown .options li {
-    padding:    0.6rem 1rem;
+    padding: 0.6rem 1rem;
     text-align: center;
     transition: var(--t-color);
 }
 
 .dropdown .options li:hover {
-    color:       var(--dropdown-border-color, var(--dark-blue));
     font-weight: 700;
+    color: var(--dropdown-border-color, var(--dark-blue));
 }
 
 .dropdown.active .options {
     display: block;
 }
 
-/* ── Responsive: Tablet (≤ 1024 px) ────────────────────────── */
+/* Responsive: Tablet */
 @media (max-width: 1024px) {
-    .dropdown .selected   { padding: 0.5rem 1.8rem 0.5rem 0.8rem; }
-    .dropdown .options    { width: 200px; }
-    .dropdown .options li { padding: 0.5rem 0.8rem; }
+    .dropdown .selected {
+        padding: 0.5rem 1.8rem 0.5rem 0.8rem;
+    }
+
+    .dropdown .options {
+        width: 200px;
+    }
+
+    .dropdown .options li {
+        padding: 0.5rem 0.8rem;
+    }
 }
 
+/* Responsive: Mobile */
 @media (max-width: 480px) {
-    .dropdown .selected   { padding: 0.4rem 1.6rem 0.4rem 0.7rem; }
-    .dropdown .options    { width: 180px; }
-    .dropdown .options li { padding: 0.4rem 0.7rem; }
+    .dropdown .selected {
+        padding: 0.4rem 1.6rem 0.4rem 0.7rem;
+    }
+
+    .dropdown .options {
+        width: 180px;
+    }
+
+    .dropdown .options li {
+        padding: 0.4rem 0.7rem;
+    }
 }

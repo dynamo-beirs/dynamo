@@ -1,165 +1,166 @@
-/* ============================================================
-   COMPONENTS/MODALS/PLAYER-MODAL.CSS
-   Requires: modal-base.css
-   ============================================================ */
+/* components/modals/PLAYER-MODAL.CSS */
 
-/* Width constraint for this modal specifically */
-.modal-content {
-    max-width: 500px;
-    border: 3px solid var(--modal-theme);
-}
-
-/* ── Position-based Theme Variables ─────────────────────────── */
+/* Position-based Theme Variables */
 .modal-content.goalkeeper { --modal-theme: var(--dark-blue); }
 .modal-content.defender   { --modal-theme: var(--dark-green); }
 .modal-content.midfielder { --modal-theme: var(--dark-yellow); }
 .modal-content.attacker   { --modal-theme: var(--dynamo-red); }
 
-/* ── Player Header ──────────────────────────────────────────── */
+/* Modal Content Base */
+.modal-content {
+    max-width: 500px;
+    border: 3px solid var(--modal-theme);
+}
+
+/* Player Header */
 .player-header {
-    text-align:    center;
     margin-bottom: var(--modal-pad);
+    text-align: center;
+}
+
+#modalPlayerName {
+    position: relative;
+    margin: 0.5rem 0 0.3rem;
+    font-weight: 800;
+    font-size: var(--text-h3);
+    color: var(--dark-gray);
+}
+
+#modalPlayerName::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 50px;
+    height: 3px;
+    background: var(--modal-theme, var(--dynamo-red));
+    border-radius: var(--radius-sm);
+    transform: translateX(-50%);
+}
+
+#playerPosition {
+    margin: var(--grid-gap) auto;
+    font-weight: 600;
+    font-size: var(--text-body);
+    color: var(--modal-theme, var(--dynamo-red));
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .player-header .flag-icon {
     display: block;
-    margin:  var(--grid-gap) auto;
-    width:   40px;
-    height:  auto;
+    width: 40px;
+    height: auto;
+    margin: var(--grid-gap) auto;
 }
 
-#modalPlayerName {
-    margin:      0.5rem 0 0.3rem;
-    font-size:   var(--text-h3);
-    font-weight: 800;
-    color:       var(--dark-gray);
-    position:    relative;
-}
-
-#modalPlayerName::after {
-    content:       '';
-    position:      absolute;
-    bottom:        0;
-    left:          50%;
-    transform:     translateX(-50%);
-    width:         50px;
-    height:        3px;
-    border-radius: var(--radius-sm);
-    background:    var(--modal-theme, var(--dynamo-red));
-}
-
-#playerPosition {
-    margin:         var(--grid-gap) auto;
-    font-weight:    600;
-    font-size:      var(--text-body);
-    text-align:     center;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    color:          var(--modal-theme, var(--dynamo-red));
-}
-
-/* ── Stats Sections ─────────────────────────────────────────── */
+/* Shared Stats Sections */
 .season-stats-section,
 .all-time-stats-section {
+    padding: var(--card-pad);
     margin-bottom: var(--modal-pad);
-    padding:       var(--card-pad);
-    background:    white;
+    background: white;
+    border: 1px solid transparent;
     border-radius: var(--radius-lg);
-    border:        1px solid transparent;
-    box-shadow:    var(--shadow-medium);
+    box-shadow: var(--shadow-medium);
 }
 
-/* Remove bottom margin from last stat section */
 .modal-content > .all-time-stats-section:last-of-type,
 .modal-content > .season-stats-section:last-child {
     margin-bottom: 0;
 }
 
-/* ── Section Headings ───────────────────────────────────────── */
+/* Section Headings */
 .season-stats-section h3,
 .all-time-stats-section h3 {
+    position: relative;
     margin-bottom: 0.8rem;
-    color:         var(--dark-gray);
-    font-size:     var(--text-lg);
-    text-align:    center;
-    font-weight:   700;
-    position:      relative;
+    font-weight: 700;
+    font-size: var(--text-lg);
+    color: var(--dark-gray);
+    text-align: center;
 }
 
 .season-stats-section h3::after,
 .all-time-stats-section h3::after {
-    content:       '';
-    position:      absolute;
-    bottom:        -4px;
-    left:          50%;
-    transform:     translateX(-50%);
-    width:         35px;
-    height:        2px;
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 50%;
+    width: 35px;
+    height: 2px;
+    background: var(--modal-theme, var(--dynamo-red));
     border-radius: var(--radius-sm);
-    background:    var(--modal-theme, var(--dynamo-red));
+    transform: translateX(-50%);
 }
 
-/* ── Stat Boxes ─────────────────────────────────────────────── */
+/* Stat Boxes */
 .stats-container {
-    display:         flex;
-    flex-wrap:       wrap;
+    display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
-    gap:             0.5rem;
+    gap: 0.5rem;
 }
 
 .stat-box {
-    flex:       1;
-    min-width:  120px;
+    flex: 1;
+    min-width: 120px;
     text-align: center;
 }
 
 .stat-box p {
-    text-align:      center;
-    font-size:       var(--text-sm);
-    color:           var(--dark-gray);
-    font-weight:     600;
-    line-height:     1.4;
-    margin:          0;
-    padding:         0.8rem;
-    background:      var(--nested-box);
-    border-radius:   var(--radius-md);
-    border:          1px solid transparent;
-    box-shadow:      var(--shadow-medium);
-    display:         flex;
-    align-items:     center;
+    display: flex;
+    align-items: center;
     justify-content: center;
-    gap:             4px;
+    gap: 4px;
+    margin: 0;
+    padding: 0.8rem;
+    background: var(--nested-box);
+    color: var(--dark-gray);
+    font-weight: 600;
+    font-size: var(--text-sm);
+    line-height: 1.4;
+    text-align: center;
+    border: 1px solid transparent;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-medium);
 }
 
 .stat-box i {
-    color:        var(--medium-gray);
     margin-right: 8px;
-    font-size:    1.1em;
+    font-size: 1.1em;
+    color: var(--medium-gray);
 }
 
-/* ── Responsive: Tablet (≤ 768 px) ─────────────────────────── */
-/*
- * --modal-pad → 1.2rem and --card-pad → 1.2rem at ≤ 768 px.
- * Margin and padding on sections track automatically.
- */
+/* Responsive: Tablet */
 @media (max-width: 768px) {
-    .player-header .flag-icon { width: 35px; }
+    .player-header .flag-icon {
+        width: 35px;
+    }
 
-    .stats-container { flex-direction: row; flex-wrap: wrap; }
+    .stats-container {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
 
     .stat-box {
-        flex:      1 1 calc(50% - 0.5rem);
+        flex: 1 1 calc(50% - 0.5rem);
         min-width: calc(50% - 0.5rem);
     }
 }
 
-/* ── Responsive: Mobile (≤ 480 px) ─────────────────────────── */
-/*
- * --modal-pad → 1rem and --card-pad → 1rem at ≤ 480 px.
- */
+/* Responsive: Mobile */
 @media (max-width: 480px) {
-    .player-header .flag-icon { width: 30px; }
+    .player-header .flag-icon {
+        width: 30px;
+    }
 
-    .stat-box p { padding: 0.6rem 0.8rem; }
-    .stat-box i { margin-right: 2px; }
+    .stat-box p {
+        padding: 0.6rem 0.8rem;
+    }
+
+    .stat-box i {
+        margin-right: 2px;
+    }
 }

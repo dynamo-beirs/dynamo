@@ -1,101 +1,90 @@
-/* ============================================================
-   COMPONENTS/SECTION-HEADER.CSS
-   .page-hero, .section-title, .section-subtitle
-   ============================================================ */
+/* components/SECTION-HEADER.CSS */
 
-/* ── Page Hero ──────────────────────────────────────────────── */
+/* Page Hero */
 .page-hero {
-    padding:    var(--hero-pad-v) var(--hero-pad-h);
+    margin-top: 20px;
+    padding: var(--hero-pad-v) var(--hero-pad-h);
     text-align: center;
     background: transparent;
-    margin-top: 20px;
 }
 
 .page-hero h1 {
-    font-size:   var(--text-h1);
+    display: inline-block;
+    position: relative;
     font-weight: 900;
-    color:       var(--dark-gray);
-    position:    relative;
-    display:     inline-block;
+    font-size: var(--text-h1);
+    color: var(--dark-gray);
 }
 
-/*
- * Pipe decorators — colour driven by --hero-pipe-color.
- * Override that token per-page to change the accent
- * (players.css sets it dynamically via body.filter-* classes).
- */
 .page-hero h1::before,
 .page-hero h1::after {
-    content:          '|';
-    margin:           8px;
-    display:          inline-block;
-    position:         relative;
-    top:              1px;
-    height:           100%;
-    font-size:        1.2em;
-    color:            var(--hero-pipe-color);
-    opacity:          0;
-    transform:        scaleY(0);
+    content: '|';
+    display: inline-block;
+    position: relative;
+    top: 1px;
+    height: 100%;
+    margin: 8px;
+    font-size: 1.2em;
+    color: var(--hero-pipe-color);
+    opacity: 0;
+    transform: scaleY(0);
     transform-origin: center center;
-    transition:
-            opacity   var(--dur-slow) var(--ease-out)   var(--delay-stagger),
-            transform var(--dur-slow) var(--ease-spring) var(--delay-stagger),
-            color     var(--dur-base) var(--ease-ui);
+    transition: opacity var(--dur-slow) var(--ease-out) var(--delay-stagger), transform var(--dur-slow) var(--ease-spring) var(--delay-stagger), color var(--dur-base) var(--ease-ui);
 }
 
 .page-hero h1.animate-in {
-    opacity:   1;
+    opacity: 1;
     transform: translateY(0);
 }
 
 .page-hero h1.animate-in::before,
 .page-hero h1.animate-in::after {
-    opacity:   1;
+    opacity: 1;
     transform: scaleY(1);
 }
 
-/* ── Section Titles ─────────────────────────────────────────── */
+/* Section Titles */
 .section-title,
 .section-subtitle {
-    text-align:  center;
+    position: relative;
     font-weight: 800;
-    color:       var(--dark-gray);
-    position:    relative;
+    color: var(--dark-gray);
+    text-align: center;
 }
 
 .section-title {
-    font-size: var(--text-h2);
     margin: 0 0 var(--section-pad);
+    font-size: var(--text-h2);
 }
 
 .section-subtitle {
-    font-size:     var(--text-h3);
     margin-bottom: calc(var(--section-pad) * 0.75);
+    font-size: var(--text-h3);
 }
 
-/* Animated underline — scales in from left on .animate-in */
+/* Animated Underline */
 .section-title::after,
 .section-subtitle::after {
-    content:          '';
-    position:         absolute;
-    left:             50%;
-    transform:        translateX(-50%) scaleX(0);
+    content: '';
+    position: absolute;
+    left: 50%;
+    background: var(--dynamo-red);
+    border-radius: var(--radius-sm);
+    transform: translateX(-50%) scaleX(0);
     transform-origin: left center;
-    background:       var(--dynamo-red);
-    border-radius:    var(--radius-sm);
-    transition:       transform var(--dur-slow) var(--ease-out) var(--delay-stagger);
+    transition: transform var(--dur-slow) var(--ease-out) var(--delay-stagger);
 }
 
 .section-title::after {
     bottom: -8px;
-    width:  60px;
+    width: 60px;
     height: 4px;
     margin: 0 0 calc(var(--section-pad) - 1.5rem);
 }
 
 .section-subtitle::after {
     bottom: -6px;
-    width:  40px;
+    width: 40px;
     height: 3px;
     margin-bottom: calc((var(--section-pad) * 0.75) - 1rem);
 }
@@ -105,17 +94,20 @@
     transform: translateX(-50%) scaleX(1);
 }
 
-/* ── Responsive: Tablet (≤ 1024 px) ────────────────────────── */
-/*
- * --hero-pad-v and --hero-pad-h are already reduced via tokens.css
- * at ≤ 480 px. The 1024 px step only adjusts the pipe margins and
- * underline dimensions — no padding override needed here.
- */
+/* Responsive: Tablet + Mobile */
 @media (max-width: 1024px) {
-    .page-hero h1::before,
-    .page-hero h1::after { margin: 6px; }
+    .page-hero h1::before, .page-hero h1::after {
+        margin: 6px;
+    }
 
-    .section-title::after    { width: 50px; height: 3px; margin: 0 0 calc(var(--section-pad) - 1.2rem);}
-    .section-subtitle::after { width: 35px; height: 2px; }
+    .section-title::after {
+        width: 50px;
+        height: 3px;
+        margin: 0 0 calc(var(--section-pad) - 1.2rem);
+    }
 
+    .section-subtitle::after {
+        width: 35px;
+        height: 2px;
+    }
 }

@@ -39,7 +39,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
 
-    <!-- Preload header -->
+    <!-- Preload critical assets -->
     <link rel="preload" href="/dynamo/img/logos/red-outlined-logo.png" as="image" fetchpriority="high">
     <link rel="preload" href="/dynamo/css/layout/header.css" as="style">
 
@@ -50,20 +50,26 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/dynamo/img/logos/favicon/apple-touch-icon.png">
     <link rel="manifest" href="/dynamo/img/logos/favicon/site.webmanifest">
 
-    <!-- Stylesheets -->
+    <!-- Base styles -->
     <link rel="stylesheet" href="/dynamo/css/base/tokens.css">
     <link rel="stylesheet" href="/dynamo/css/base/reset.css">
     <link rel="stylesheet" href="/dynamo/css/base/typography.css">
 
+    <!-- Core styles -->
     <link rel="stylesheet" href="/dynamo/css/core/animations.css">
     <link rel="stylesheet" href="/dynamo/css/core/helpers.css">
 
+    <!-- Layout styles -->
     <link rel="stylesheet" href="/dynamo/css/layout/header.css">
     <link rel="stylesheet" href="/dynamo/css/layout/footer.css">
 
+    <!-- Component styles -->
     <link rel="stylesheet" href="/dynamo/css/components/section-header.css">
+
+    <!-- Third-party styles -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
+    <!-- Page-specific styles -->
     <link rel="stylesheet" href="/dynamo/css/pages/404.css">
 
     <!-- Google Analytics -->
@@ -86,11 +92,13 @@
 
     <title>Buitenspel! - Dynamo Beirs</title>
 </head>
+
 <body>
+
 <!-- Header -->
 <div id="header-placeholder"></div>
 
-<!-- Error Section -->
+<!-- 404 Error Section -->
 <section class="error-section">
     <div class="container">
         <h1 class="error-title section-title animate-in">Buitenspel!</h1>
@@ -107,7 +115,7 @@
 <!-- Footer -->
 <div id="footer-placeholder"></div>
 
-<!-- Structured Data (JSON-LD) -->
+<!-- Structured Data -->
 <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -138,5 +146,6 @@
         }
     }
 </script>
+
 </body>
 </html>

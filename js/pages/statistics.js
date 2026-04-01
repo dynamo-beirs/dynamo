@@ -1,6 +1,13 @@
 /**
  * statistics.js — Statistics page
+ *
+ * Main entry point for the statistics page. Handles loading and rendering of
+ * team season/all-time stats, player tables, records, toggles between views,
+ * and scroll animations.
  */
+
+/* Imports */
+
 import { animateOnScroll } from '../core/animations.js';
 import { debounce } from '../core/helpers.js';
 import { PLAYER_TABLE_HEADER_HTML, sliceForTable, buildPlayerRow, appendTableToggle, bindSortableHeaders } from '../components/player-table.js';
@@ -8,7 +15,7 @@ import { fetchTeamSeasonStats, fetchTeamAllTimeStats, fetchSeasonRecords, fetchS
 import { FootballLoader } from '../components/loader.js';
 import { initDropdown, bindDropdownClose } from '../components/dropdown.js';
 
-// ── Module State ──────────────────────────────────────────────────────────────
+/* Module State */
 
 let seasonPlayers    = [];
 let allTimePlayers   = [];
@@ -17,7 +24,7 @@ let teamAllTimeStats = {};
 let seasonRecords    = {};
 let isLoading        = false;
 
-// ── Animation Registry ────────────────────────────────────────────────────────
+/* Animation Elements Registry */
 
 const animationElements = [
     { selector: '.stat-card',         containerSelector: 'section' },
@@ -31,13 +38,12 @@ const animationElements = [
     { selector: '.toggles-container', containerSelector: null }
 ];
 
-// ── Page Initialization ───────────────────────────────────────────────────────
+/* Page Initialization */
 
 document.addEventListener('DOMContentLoaded', () => {
     initToggle();
     loadStats();
 
-    // Replace the old monolithic initDropdowns() with two typed calls
     initDropdown(
         document.getElementById('season-sort'),
         (value) => renderSeasonPlayers(value)
@@ -46,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('alltime-sort'),
         (value) => renderAllTimePlayers(value)
     );
-    bindDropdownClose();    // one global outside-click closer for both dropdowns
+    bindDropdownClose();
 
     const staticElements = animationElements.filter(el =>
         !['.player-row', '.scorer-row'].includes(el.selector)
@@ -55,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initRowObserver();
 });
 
-// ── Data Loading ──────────────────────────────────────────────────────────────
+/* Data Loading */
 
 async function loadStats() {
     isLoading = true;
@@ -69,7 +75,10 @@ async function loadStats() {
 
     loaders.forEach(({ id, text }) => {
         const el = document.getElementById(id);
-        if (el) { el.classList.remove('hidden'); FootballLoader.show(id, text); }
+        if (el) {
+            el.classList.remove('hidden');
+            FootballLoader.show(id, text);
+        }
     });
 
     errorIds.forEach(id => document.getElementById(id)?.classList.add('hidden'));
@@ -82,12 +91,19 @@ async function loadStats() {
 
     try {
         const [sStats, atStats, records, sPlayers, atPlayers] = await Promise.all([
-            fetchTeamSeasonStats(), fetchTeamAllTimeStats(), fetchSeasonRecords(),
-            fetchSeasonPlayers(), fetchAllTimePlayers()
+            fetchTeamSeasonStats(),
+            fetchTeamAllTimeStats(),
+            fetchSeasonRecords(),
+            fetchSeasonPlayers(),
+            fetchAllTimePlayers()
         ]);
 
         const season   = "'25-'26";
-        const setTitle = (id, text) => { const el = document.getElementById(id); if (el) el.innerHTML = text; };
+        const setTitle = (id, text) => {
+            const el = document.getElementById(id);
+            if (el) el.innerHTML = text;
+        };
+
         setTitle('team-season-title',        `Overzicht ${season}`);
         setTitle('detailed-team-stats-title', `Teamstatistieken ${season}`);
         setTitle('player-season-title', `Spelersstatistieken ${season}`);
@@ -122,10 +138,13 @@ async function loadStats() {
     }
 }
 
-// ── Stat Display Renderers ────────────────────────────────────────────────────
+/* Stat Display Renderers */
 
 function renderSeasonStats() {
-    const setText = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+    const setText = (id, val) => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = val;
+    };
 
     setText('team-matches-played', teamSeasonStats.matchesPlayed || 0);
     setText('team-wins',           teamSeasonStats.wins           || 0);
@@ -153,8 +172,14 @@ function renderSeasonStats() {
 }
 
 function renderAllTimeStats() {
-    const setText = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
-    const setHTML = (id, val) => { const el = document.getElementById(id); if (el) el.innerHTML  = val; };
+    const setText = (id, val) => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = val;
+    };
+    const setHTML = (id, val) => {
+        const el = document.getElementById(id);
+        if (el) el.innerHTML = val;
+    };
     const recHTML = (rec) => `${rec.value} <small>(${rec.season})</small>`;
 
     setText('team-alltime-matches-played', teamAllTimeStats.matchesPlayed     || 0);
@@ -182,7 +207,7 @@ function renderAllTimeStats() {
     ]);
 }
 
-// ── Player Table Shared core ─────────────────────────────────────────────
+/* Player Table Core */
 
 function sortPlayers(players, sortBy) {
     return [...players].sort((a, b) => {
@@ -239,9 +264,9 @@ function renderSeasonPlayers(sortBy = document.querySelector('#season-sort .sele
         '.player-stats-list',
         'player-row',
         sortBy,
-        '#player-season-stats', // tableSelector
-        '#season-sort',         // dropdownSelector
-        renderSeasonPlayers     // renderFn
+        '#player-season-stats',
+        '#season-sort',
+        renderSeasonPlayers
     );
 }
 
@@ -251,13 +276,13 @@ function renderAllTimePlayers(sortBy = document.querySelector('#alltime-sort .se
         '.top-scorers-list',
         'scorer-row',
         sortBy,
-        '#player-alltime-stats', // tableSelector
-        '#alltime-sort',         // dropdownSelector
-        renderAllTimePlayers     // renderFn
+        '#player-alltime-stats',
+        '#alltime-sort',
+        renderAllTimePlayers
     );
 }
 
-// ── Toggle ────────────────────────────────────────────────────────────────────
+/* Toggle */
 
 function initToggle() {
     const toggles = {
@@ -338,7 +363,7 @@ function initToggle() {
     toggles.seasonAlltime?.addEventListener('change', updateView);
 }
 
-// ── Row Animation Observer ────────────────────────────────────────────────────
+/* Row Animation Observer */
 
 function initRowObserver() {
     const observer = new IntersectionObserver((entries) => {

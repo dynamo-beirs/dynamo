@@ -1,14 +1,16 @@
 /**
- * layout/header.js
- * Loads the header partial, sets the active nav link, and initialises all
- * header-related interactions.
+ * layout/header.js — Header partial loader
+ *
+ * Loads the header HTML partial, sets the active navigation link,
+ * and initialises all header interactions (mobile menu, scroll progress bar,
+ * and hide-on-scroll effect).
  */
 
 document.addEventListener('DOMContentLoaded', () => {
     initHeader();
 });
 
-// ── Header Loading ────────────────────────────────────────────────────────────
+/* Header Loading */
 
 async function initHeader() {
     const headerPath = '/dynamo/html/layout/header.html';
@@ -92,7 +94,7 @@ function renderFallbackHeader() {
     initScrollEffect();
 }
 
-// ── Active Nav Link ───────────────────────────────────────────────────────────
+/* Active Nav Link */
 
 function setActiveNavLink() {
     const currentPath = window.location.pathname;
@@ -106,7 +108,7 @@ function setActiveNavLink() {
     });
 }
 
-// ── Mobile Menu ───────────────────────────────────────────────────────────────
+/* Mobile Menu */
 
 function initMobileMenu() {
     const toggle   = document.querySelector('.mobile-menu-toggle');
@@ -120,7 +122,7 @@ function initMobileMenu() {
     }
 }
 
-// ── Scroll Progress Bar ───────────────────────────────────────────────────────
+/* Scroll Progress Bar */
 
 function initScrollProgress() {
     const progressBar = document.querySelector('.scroll-progress-bar');
@@ -141,7 +143,10 @@ function initScrollProgress() {
     }
 
     function updateProgress() {
-        if (cachedMaxScroll <= 0) { progressBar.style.width = '0%'; return; }
+        if (cachedMaxScroll <= 0) {
+            progressBar.style.width = '0%';
+            return;
+        }
         const scrollTop = window.scrollY;
         const pct       = Math.min(100, Math.max(0, (scrollTop / cachedMaxScroll) * 100));
         progressBar.style.width = pct + '%';
@@ -150,7 +155,10 @@ function initScrollProgress() {
     let ticking = false;
     function onScroll() {
         if (!ticking) {
-            requestAnimationFrame(() => { updateProgress(); ticking = false; });
+            requestAnimationFrame(() => {
+                updateProgress();
+                ticking = false;
+            });
             ticking = true;
         }
     }
@@ -159,20 +167,29 @@ function initScrollProgress() {
     updateProgress();
 
     if (window.ResizeObserver) {
-        const ro = new ResizeObserver(() => { calcScrollMax(); updateProgress(); });
+        const ro = new ResizeObserver(() => {
+            calcScrollMax();
+            updateProgress();
+        });
         ro.observe(document.body);
     } else {
-        window.addEventListener('resize', () => { calcScrollMax(); updateProgress(); });
+        window.addEventListener('resize', () => {
+            calcScrollMax();
+            updateProgress();
+        });
     }
 
     window.addEventListener('scroll', onScroll, { passive: true });
 }
 
-// ── Header Scroll Effect ──────────────────────────────────────────────────────
+/* Header Scroll Effect */
 
 function initScrollEffect() {
     const header = document.querySelector('.header');
-    if (!header) { console.warn('Header element not found for scroll effect'); return; }
+    if (!header) {
+        console.warn('Header element not found for scroll effect');
+        return;
+    }
 
     const SCROLL_THRESHOLD = 100;
     let lastScrollTop = 0;
