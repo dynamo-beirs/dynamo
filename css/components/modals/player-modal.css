@@ -10,7 +10,6 @@
 }
 
 /* ── Position-based Theme Variables ─────────────────────────── */
-/* Set on .modal-content; consumed by ::after underlines and position label */
 .modal-content.goalkeeper { --modal-theme: var(--dark-blue); }
 .modal-content.defender   { --modal-theme: var(--dark-green); }
 .modal-content.midfielder { --modal-theme: var(--dark-yellow); }
@@ -19,12 +18,12 @@
 /* ── Player Header ──────────────────────────────────────────── */
 .player-header {
     text-align:    center;
-    margin-bottom: 1.5rem;
+    margin-bottom: var(--modal-pad);
 }
 
 .player-header .flag-icon {
     display: block;
-    margin:  1rem auto;
+    margin:  var(--grid-gap) auto;
     width:   40px;
     height:  auto;
 }
@@ -50,7 +49,7 @@
 }
 
 #playerPosition {
-    margin:         1rem auto;
+    margin:         var(--grid-gap) auto;
     font-weight:    600;
     font-size:      var(--text-body);
     text-align:     center;
@@ -62,8 +61,8 @@
 /* ── Stats Sections ─────────────────────────────────────────── */
 .season-stats-section,
 .all-time-stats-section {
-    margin-bottom: 1.5rem;
-    padding:       1.2rem;
+    margin-bottom: var(--modal-pad);
+    padding:       var(--card-pad);
     background:    white;
     border-radius: var(--radius-lg);
     border:        1px solid transparent;
@@ -133,22 +132,18 @@
 }
 
 .stat-box i {
-    color:       var(--medium-gray);
+    color:        var(--medium-gray);
     margin-right: 8px;
-    font-size:   1.1em;
+    font-size:    1.1em;
 }
 
 /* ── Responsive: Tablet (≤ 768 px) ─────────────────────────── */
+/*
+ * --modal-pad → 1.2rem and --card-pad → 1.2rem at ≤ 768 px.
+ * Margin and padding on sections track automatically.
+ */
 @media (max-width: 768px) {
     .player-header .flag-icon { width: 35px; }
-
-    #modalPlayerName { margin-bottom: 1.2rem; }
-
-    .season-stats-section,
-    .all-time-stats-section {
-        padding:       1rem;
-        margin-bottom: 1.2rem;
-    }
 
     .stats-container { flex-direction: row; flex-wrap: wrap; }
 
@@ -159,6 +154,9 @@
 }
 
 /* ── Responsive: Mobile (≤ 480 px) ─────────────────────────── */
+/*
+ * --modal-pad → 1rem and --card-pad → 1rem at ≤ 480 px.
+ */
 @media (max-width: 480px) {
     .player-header .flag-icon { width: 30px; }
 

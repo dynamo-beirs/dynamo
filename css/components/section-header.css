@@ -5,7 +5,7 @@
 
 /* ── Page Hero ──────────────────────────────────────────────── */
 .page-hero {
-    padding:    1.5rem 1rem;
+    padding:    var(--hero-pad-v) var(--hero-pad-h);
     text-align: center;
     background: transparent;
     margin-top: 20px;
@@ -65,12 +65,12 @@
 
 .section-title {
     font-size: var(--text-h2);
-    margin:    1.5rem 0 2rem;
+    margin: 0 0 var(--section-pad);
 }
 
 .section-subtitle {
     font-size:     var(--text-h3);
-    margin-bottom: 1.5rem;
+    margin-bottom: calc(var(--section-pad) * 0.75);
 }
 
 /* Animated underline — scales in from left on .animate-in */
@@ -104,9 +104,12 @@
 }
 
 /* ── Responsive: Tablet (≤ 1024 px) ────────────────────────── */
+/*
+ * --hero-pad-v and --hero-pad-h are already reduced via tokens.css
+ * at ≤ 480 px. The 1024 px step only adjusts the pipe margins and
+ * underline dimensions — no padding override needed here.
+ */
 @media (max-width: 1024px) {
-    .page-hero { padding: 1rem 0.5rem; }
-
     .page-hero h1::before,
     .page-hero h1::after { margin: 6px; }
 

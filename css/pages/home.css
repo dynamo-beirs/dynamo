@@ -3,6 +3,12 @@
    ============================================================ */
 
 /* ── Hero Section ───────────────────────────────────────────── */
+/*
+ * The home hero is deliberately generous — it is the first thing
+ * visitors see and uses a large vertical padding by design.
+ * The 7rem top/bottom is intentional; only the horizontal
+ * and the mobile fallback use spacing tokens.
+ */
 .hero {
     height:          20vh;
     display:         flex;
@@ -12,7 +18,7 @@
     background-size: cover;
     width:           var(--content-width);
     margin:          0 auto;
-    padding:         7rem 1rem;
+    padding:         7rem var(--hero-pad-h);
 }
 
 .hero-content {
@@ -51,10 +57,6 @@
 .hero.animate-in .hero-content::after { transform: translateX(-50%) scaleX(1); }
 
 /* ── Carousel Section ───────────────────────────────────────── */
-.carousel-section {
-    padding: 1rem 0;
-}
-
 .carousel-container {
     position:      relative;
     width:         100%;
@@ -156,10 +158,6 @@
 }
 
 /* ── Stats Overview ─────────────────────────────────────────── */
-.overview-section {
-    padding: 1.5rem 0 2rem;
-}
-
 .overview-section .section-title::after {
     background: var(--dark-blue);
 }
@@ -177,7 +175,6 @@
 
 /* ── Sponsor CTA Section ────────────────────────────────────── */
 .cta-section {
-    padding:    2rem 0;
     background: var(--off-white);
     text-align: center;
     width:      var(--content-width);
@@ -196,7 +193,6 @@
 }
 
 /* Internal children also animate in with parent */
-.cta-section .section-title,
 .cta-section p,
 .cta-section .btn-primary {
     opacity:    0;
@@ -205,7 +201,6 @@
 }
 
 .cta-section.animate-in,
-.cta-section.animate-in .section-title,
 .cta-section.animate-in p,
 .cta-section.animate-in .btn-primary {
     opacity:   1;
@@ -214,16 +209,16 @@
 
 /* ── Primary Button ─────────────────────────────────────────── */
 .btn-primary {
-    display:        inline-block;
-    padding:        0.8rem 2rem;
-    background:     var(--dark-green);
-    color:          white;
-    border-radius:  var(--radius-pill);
+    display:         inline-block;
+    padding:         0.8rem 2rem;
+    background:      var(--dark-green);
+    color:           white;
+    border-radius:   var(--radius-pill);
     text-decoration: none;
-    font-weight:    600;
-    font-size:      var(--text-body);
-    border:         3px solid var(--dark-green);
-    transition:     var(--t-color);
+    font-weight:     600;
+    font-size:       var(--text-body);
+    border:          3px solid var(--dark-green);
+    transition:      var(--t-color);
 }
 
 .btn-primary:hover {
@@ -232,16 +227,12 @@
 }
 
 /* ── Contact Section ────────────────────────────────────────── */
-.contact-section {
-    padding: 0.5rem 0;
-}
-
 .contact-section .section-title::after { background: var(--dark-yellow); }
 
 .contact-grid {
     display:               grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap:                   1rem;
+    gap:                   var(--grid-gap);
     width:                 var(--content-width);
     margin:                0 auto;
 }
@@ -249,7 +240,7 @@
 .contact-card {
     text-align:      center;
     background:      white;
-    padding:         1.5rem;
+    padding:         var(--card-pad);
     border-radius:   var(--radius-lg);
     box-shadow:      var(--shadow-medium);
     text-decoration: none;
@@ -281,20 +272,17 @@
     line-height: 1.6;
 }
 
-/* ── Map Section ────────────────────────────────────────────── */
-.map-section {
-    padding: 0.5rem 0;
-}
-
+/* ── Map Container ─────────────────────────────────────────── */
 .map-container {
+    margin-top:    var(--grid-gap);
     border-radius: var(--radius-lg);
     overflow:      hidden;
     box-shadow:    var(--shadow-medium);
     height:        350px;
     position:      relative;
     width:         var(--content-width);
-    margin:        0 auto;
-    /* Entrance animation handled by general.css .map-container rule */
+    margin-left:   auto;
+    margin-right:  auto;
 }
 
 .map-container iframe {
@@ -313,19 +301,15 @@
         max-width: 90vw;
     }
 
-    .slide:hover img           { transform: scale(1) !important; }
-    .nav-btn:hover             { transform: translateY(-50%) scale(1) !important; }
+    .slide:hover img  { transform: scale(1) !important; }
+    .nav-btn:hover    { transform: translateY(-50%) scale(1) !important; }
 
-    .carousel-section    { padding: 1.5rem 0; }
     .carousel-container  { max-width: 320px; }
-
-    .overview-section { padding: 1.3rem 0 1.8rem; }
 
     .overview-section .stats-grid {
         grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
     }
 
-    .contact-card   { padding: 1.2rem; }
     .contact-card i { font-size: 1.6rem; }
 
     .map-container { height: 300px; }
@@ -334,7 +318,7 @@
 /* ── Responsive: Mobile (≤ 480 px) ─────────────────────────── */
 @media (max-width: 480px) {
     .hero {
-        padding:         1rem 0.6rem;
+        padding:         1rem var(--hero-pad-h);
         justify-content: center;
     }
 
@@ -355,7 +339,6 @@
         height: 6px;
     }
 
-    .carousel-section   { padding: 1rem 0; }
     .carousel-container { max-width: 280px; }
 
     .nav-btn {
@@ -364,18 +347,15 @@
         font-size: 0.9rem;
     }
 
-    .prev-btn      { left: 12px; }
-    .next-btn      { right: 12px; }
+    .prev-btn { left: 12px; }
+    .next-btn { right: 12px; }
 
     .dots-container { bottom: 16px; gap: 6px; }
     .dot            { width: 6px; height: 6px; }
     .dot.active     { width: 20px; }
 
-    .overview-section { padding: 1rem 0 1.8rem; }
-
     .overview-section .stats-grid {
         grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-        gap: 0.6rem;
     }
 
     .stat-card {
@@ -383,20 +363,15 @@
         min-width:  150px;
     }
 
-    .contact-section { padding: 0.3rem 0; }
-
     .contact-grid {
         grid-template-columns: 1fr;
-        gap:                   0.6rem;
     }
 
     .contact-card {
-        padding:    0.8rem;
         min-height: 44px;
     }
 
     .contact-card i { font-size: 1.4rem; }
 
-    .map-section   { padding: 0.3rem 0; }
     .map-container { height: 200px; }
 }

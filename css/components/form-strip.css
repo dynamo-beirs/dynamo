@@ -5,7 +5,8 @@
 
 /* ── Section Shell ──────────────────────────────────────────── */
 .form-section {
-    padding: 1.5rem 0;
+    padding-top:    calc(var(--grid-gap)*0.5);
+    padding-bottom: var(--section-pad);
 }
 
 .form-display {
@@ -17,7 +18,6 @@
     display:         flex;
     justify-content: center;
     gap:             0.8rem;
-    margin-bottom:   1rem;
 }
 
 .form-result {
@@ -65,13 +65,17 @@
     color:          var(--medium-gray);
     text-transform: uppercase;
     letter-spacing: 1px;
-    margin-bottom:  1rem;
+    margin-bottom:  var(--grid-gap);
     font-weight:    700;
 }
 
 /* ── Responsive: Tablet (≤ 1024 px) ────────────────────────── */
+/*
+ * --section-pad steps to 1.5rem at ≤ 768 px via tokens.css.
+ * The old rule used `padding: 0 0 1rem 0` which removed the
+ * top padding entirely — now consistent via the token.
+ */
 @media (max-width: 1024px) {
-    .form-section { padding: 0 0 1rem 0;}
     .form-results { gap: 0.6rem; }
 
     .form-result {
@@ -86,6 +90,7 @@
     }
 }
 
+/* ── Responsive: Mobile (≤ 480 px) ─────────────────────────── */
 @media (max-width: 480px) {
     .form-result { width: 30px; height: 30px; }
 

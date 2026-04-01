@@ -8,23 +8,21 @@
    ============================================================ */
 
 .sort-controls {
-    display:     flex;
-    align-items: center;
-    gap:         1rem;
-    max-width:   var(--content-width);
-    margin:      0 auto 1.5rem;
+    display:       flex;
+    align-items:   center;
+    gap:           var(--grid-gap);
+    max-width:     var(--content-width);
+    margin:        0 auto var(--section-pad);
 }
 
 /* ── Responsive: Tablet (≤ 1024 px) ────────────────────────── */
+/*
+ * --section-pad steps to 1.5rem at ≤ 768 px and 1rem at ≤ 480 px
+ * via tokens.css — margin-bottom stays proportional automatically.
+ */
 @media (max-width: 1024px) {
     .sort-controls {
         flex-direction: column;
         align-items:    center;
-        gap:            0.8rem;
-        margin-bottom:  1rem;
     }
-}
-
-@media (max-width: 480px) {
-    .sort-controls { gap: 0.6rem; }
 }

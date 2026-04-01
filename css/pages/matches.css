@@ -3,10 +3,6 @@
    ============================================================ */
 
 /* ── Section Headers ────────────────────────────────────────── */
-.fixtures-section {
-    margin-top: 4rem;
-}
-
 .fixtures-section .section-title::after {
     background-color: var(--dusty-blue);
 }
@@ -23,7 +19,7 @@
     border-radius: var(--radius-lg);
     min-height:    220px;
     max-width:     var(--content-width);
-    margin:        0 auto;
+    margin:        var(--grid-gap) auto;
     transform:     translateX(0.3rem);
 }
 
@@ -109,7 +105,7 @@
     z-index:       4;
 }
 
-.timeline-item.win::before { background: var(--light-green); }
+.timeline-item.win::before  { background: var(--light-green); }
 .timeline-item.draw::before { background: var(--golden-yellow); }
 .timeline-item.loss::before { background: var(--soft-coral); }
 
@@ -149,28 +145,35 @@
 }
 
 /* ── Responsive: Tablet (≤ 768 px) ─────────────────────────── */
+/*
+ * --section-pad → 1.5rem and --grid-gap → 0.8rem at ≤ 768 px.
+ * .fixtures-section margin-top and .timeline-wrapper margin
+ * update automatically.
+ */
 @media (max-width: 768px) {
-    .timeline-wrapper { min-height: 160px; margin: 0.8rem auto; }
+    .timeline-wrapper { min-height: 160px; }
     .timeline { min-height: 160px; padding: 0; }
     .timeline-start-knob { width: 10px; height: 10px; }
     .timeline::before { height: 3px; right: 0.8rem; }
     .timeline::after  { font-size: 20px; top: 49.7%; transform: translate(50%, -49%); }
 
     .timeline-item { min-width: 100px; padding: 0 8px; }
-    .timeline-item .result-icon { font-size: 0.85rem; margin-bottom: 0rem; }
+    .timeline-item .result-icon { font-size: 0.85rem; margin-bottom: 0; }
     .timeline-item small { padding: 0.25rem 0.5rem; }
     .timeline-item::before { width: 16px; height: 16px; }
 
-    .fixtures-section { margin-top: 0.8rem; }
     .upcoming-match-name h3 { margin: 0.5rem 0; }
 }
 
 /* ── Responsive: Mobile (≤ 480 px) ─────────────────────────── */
+/*
+ * --section-pad → 1rem and --grid-gap → 0.8rem at ≤ 480 px.
+ */
 @media (max-width: 480px) {
     .form-results  { margin-bottom: -1.5rem; }
     .form-display  { margin-bottom: 0; }
 
-    .timeline-wrapper { min-height: 140px; margin: 0.6rem auto; transform: translateX(0.3rem); }
+    .timeline-wrapper { min-height: 140px; transform: translateX(0.3rem); }
     .timeline { min-height: 140px; transform: translateY(10px); }
     .timeline-start-knob { width: 8px; height: 8px; }
     .timeline::before { top: 50.5%; height: 2px; right: 0.6rem; }

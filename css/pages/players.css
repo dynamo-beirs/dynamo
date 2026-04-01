@@ -11,7 +11,6 @@ body.filter-attacker    { --hero-pipe-color: var(--dynamo-red); }
 
 /* ── Filter Section ─────────────────────────────────────────── */
 .filter-section {
-    padding:    1.5rem 0 0.8rem;
     background: var(--off-white);
     opacity:    0;
     transform:  translateY(var(--reveal-lift));
@@ -26,7 +25,7 @@ body.filter-attacker    { --hero-pipe-color: var(--dynamo-red); }
 .filter-controls {
     display:         flex;
     justify-content: space-between;
-    gap:             1rem;
+    gap:             var(--grid-gap);
     flex-wrap:       nowrap;
     width:           100%;
     max-width:       var(--content-width);
@@ -35,42 +34,37 @@ body.filter-attacker    { --hero-pipe-color: var(--dynamo-red); }
 }
 
 /* ── Filter Buttons ─────────────────────────────────────────── */
-
-/* 1. Assign position-specific colors to a local variable */
 .filter-btn[data-position="all"]        { --btn-color: var(--medium-gray); }
 .filter-btn[data-position="goalkeeper"] { --btn-color: var(--dark-blue); }
 .filter-btn[data-position="defender"]   { --btn-color: var(--dark-green); }
 .filter-btn[data-position="midfielder"] { --btn-color: var(--dark-yellow); }
 .filter-btn[data-position="attacker"]   { --btn-color: var(--dynamo-red); }
 
-/* 2. Base Button Styling */
-/* 2. Base Button Styling */
 .filter-btn {
-    flex:           auto;
-    white-space:    nowrap;
-    background:     white;
-    border:         3px solid var(--btn-color);
-    color:          var(--btn-color);
-    padding:        0.5rem clamp(0.3rem, 1.5vw, 0.988rem);
-    border-radius:  var(--radius-pill);
-    font-weight:    700;
-    letter-spacing: 1px;
-    font-size:      var(--text-sm);
-    cursor:         pointer;
-    transition:     var(--t-color);
-    display:        flex;
-    align-items:    center;
+    flex:            auto;
+    white-space:     nowrap;
+    background:      white;
+    border:          3px solid var(--btn-color);
+    color:           var(--btn-color);
+    padding:         0.5rem clamp(0.3rem, 1.5vw, 0.988rem);
+    border-radius:   var(--radius-pill);
+    font-weight:     700;
+    letter-spacing:  1px;
+    font-size:       var(--text-sm);
+    cursor:          pointer;
+    transition:      var(--t-color);
+    display:         flex;
+    align-items:     center;
     justify-content: center;
-    gap:            clamp(0.3rem, 1vw, 0.5rem);
-    box-shadow:     var(--shadow-small);
-    min-height:     44px;
+    gap:             clamp(0.3rem, 1vw, 0.5rem);
+    box-shadow:      var(--shadow-small);
+    min-height:      44px;
 }
 
 .filter-btn i {
     font-size: 0.9rem;
 }
 
-/* 3. Hover & Active States */
 .filter-btn:hover,
 .filter-btn.active {
     background: var(--btn-color);
@@ -78,11 +72,8 @@ body.filter-attacker    { --hero-pipe-color: var(--dynamo-red); }
 }
 
 /* ── Search Bar ─────────────────────────────────────────────── */
-/* Forces the search bar to have exactly the same width as one player card */
-/* (matches the `minmax(250px, 1fr)` of .players-grid + responsive adjustments) */
-
 .search-section {
-    padding: 1.2rem 0 0;
+    padding: 0;
 }
 
 .search-container {
@@ -91,37 +82,33 @@ body.filter-attacker    { --hero-pipe-color: var(--dynamo-red); }
 }
 
 .search-wrapper {
-    width:           100%;
-    max-width:       264px;
-    margin:          0 auto;
+    width:     100%;
+    max-width: 264px;
+    margin:    0 auto;
 }
 
 /* ── Players Grid ───────────────────────────────────────────── */
-.players-section {
-    padding: 2rem 0;
-}
-
 .players-grid {
     display:               grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap:                   1rem;
+    gap:                   var(--grid-gap);
     max-width:             var(--content-width);
     margin:                0 auto;
 }
 
 /* ── Player Card ────────────────────────────────────────────── */
 .player-card {
-    background:    white;
-    border-radius: var(--radius-lg);
-    padding:       1.5rem;
-    box-shadow:    var(--shadow-medium);
-    cursor:        pointer;
-    border:        3px solid transparent;
-    position:      relative;
-    overflow:      visible;
-    transition:    var(--t-reveal);
-    will-change:   transform, box-shadow, border-color;
-    display:       flex;
+    background:     white;
+    border-radius:  var(--radius-lg);
+    padding:        var(--card-pad);
+    box-shadow:     var(--shadow-medium);
+    cursor:         pointer;
+    border:         3px solid transparent;
+    position:       relative;
+    overflow:       visible;
+    transition:     var(--t-reveal);
+    will-change:    transform, box-shadow, border-color;
+    display:        flex;
     flex-direction: column;
 }
 
@@ -131,15 +118,14 @@ body.filter-attacker    { --hero-pipe-color: var(--dynamo-red); }
 .player-card[data-position="midfielder"]:hover { border-color: var(--dark-yellow); }
 .player-card[data-position="attacker"]:hover   { border-color: var(--dynamo-red); }
 
-/* Filter state helpers */
-.player-card.filter-hidden   { display: none; }
+.player-card.filter-hidden { display: none; }
 
 /* ── Player Info ────────────────────────────────────────────── */
 .player-info {
-    text-align: center;
-    display: flex;
+    text-align:     center;
+    display:        flex;
     flex-direction: column;
-    flex-grow: 1;
+    flex-grow:      1;
 }
 
 .player-name {
@@ -212,14 +198,14 @@ body.filter-attacker    { --hero-pipe-color: var(--dynamo-red); }
 
 .garland-left,
 .garland-right {
-    position:          absolute;
-    top:               -8px;
-    width:             70px;
-    height:            70px;
-    background:        url('/dynamo/img/icons/birthday/garland.png') no-repeat center / contain;
-    pointer-events:    none;
-    z-index:           2;
-    opacity:           0.5;
+    position:       absolute;
+    top:            -8px;
+    width:          70px;
+    height:         70px;
+    background:     url('/dynamo/img/icons/birthday/garland.png') no-repeat center / contain;
+    pointer-events: none;
+    z-index:        2;
+    opacity:        0.5;
 }
 
 .garland-left  { left:  0; transform: rotate(-30deg); }
@@ -227,37 +213,36 @@ body.filter-attacker    { --hero-pipe-color: var(--dynamo-red); }
 
 /* Crown above player name */
 .player-card.birthday .player-name::before {
-    content:           '';
-    position:          absolute;
-    top:               -25px;
-    left:              50%;
-    transform:         translateX(-50%);
-    width:             30px;
-    height:            30px;
-    background:        url('/dynamo/img/icons/birthday/crown.png') no-repeat center / contain;
-    pointer-events:    none;
-    z-index:           3;
+    content:        '';
+    position:       absolute;
+    top:            -25px;
+    left:           50%;
+    transform:      translateX(-50%);
+    width:          30px;
+    height:         30px;
+    background:     url('/dynamo/img/icons/birthday/crown.png') no-repeat center / contain;
+    pointer-events: none;
+    z-index:        3;
 }
 
 /* ── Responsive: Tablet (≤ 768 px) ─────────────────────────── */
+/*
+ * --section-pad → 1.5rem, --card-pad → 1.2rem, --grid-gap → 0.8rem
+ * at ≤ 768 px via tokens.css. Section paddings and card paddings
+ * update automatically — only structural overrides listed here.
+ */
 @media (max-width: 768px) {
-    .filter-section {
-        padding: 1rem 0 0.5rem;
-    }
-
-    .filter-controls { gap: 0.6rem; flex-wrap: wrap; }
+    .filter-controls { flex-wrap: wrap; }
 
     .filter-btn {
-        padding:      0.5rem 1rem;
-        max-width:    none;
+        padding:         0.5rem 1rem;
+        max-width:       none;
         justify-content: center;
     }
 
     .players-grid {
         grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
     }
-
-    .player-card { padding: 1.2rem; }
 
     .player-nationality { padding: 0.3rem 0.6rem; }
     .flag-icon          { width: 30px; }
@@ -269,16 +254,15 @@ body.filter-attacker    { --hero-pipe-color: var(--dynamo-red); }
 }
 
 /* ── Responsive: Mobile (≤ 480 px) ─────────────────────────── */
+/*
+ * --section-pad → 1rem, --card-pad → 1rem, --grid-gap → 0.8rem
+ * at ≤ 480 px via tokens.css.
+ */
 @media (max-width: 480px) {
-    .filter-section {
-        padding: 0.8rem 0 0;
-    }
-
     /* Switch to 2-column grid for filters on mobile */
     .filter-controls {
         display:               grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap:                   0.8rem;
         padding:               0;
         margin-bottom:         0;
         min-width:             0;
@@ -287,7 +271,7 @@ body.filter-attacker    { --hero-pipe-color: var(--dynamo-red); }
 
     .filter-btn {
         padding:    0.5rem 0.9rem;
-        max-width:  none;      /* Removed max-width so they span full column */
+        max-width:  none;
         min-height: 40px;
         width:      100%;
         box-sizing: border-box;
@@ -303,21 +287,18 @@ body.filter-attacker    { --hero-pipe-color: var(--dynamo-red); }
 
     .players-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap:     0.8rem;
         padding: 0;
-        width: 100%
+        width:   100%;
     }
 
     .player-name {
         margin-bottom: 0.3rem;
-        word-break: break-word; /* Prevent long names from breaking the grid */
+        word-break:    break-word;
     }
 
-    .player-card     { padding: 0.9rem; }
-    .player-name     { margin-bottom: 0.3rem; }
-    .player-position { margin-bottom: 0.6rem; }
+    .player-position    { margin-bottom: 0.6rem; }
     .player-nationality { padding: 0.25rem 0.5rem; }
-    .flag-icon       { width: 24px; }
+    .flag-icon          { width: 24px; }
 
     .garland-left,
     .garland-right { width: 40px; height: 40px; top: -5px; }
@@ -325,16 +306,8 @@ body.filter-attacker    { --hero-pipe-color: var(--dynamo-red); }
     .player-card.birthday .player-name::before { width: 18px; height: 18px; top: -15px; }
 
     /* ── Search bar on mobile ───────────────────────────────── */
-    .search-section {
-        padding: 0.8rem 0 0;
-    }
-
     .search-wrapper {
         width:     calc(45% - 0.4rem);
         max-width: none;
-    }
-
-    .players-section {
-        padding: 0.8rem 0 2rem;
     }
 }

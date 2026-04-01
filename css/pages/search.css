@@ -6,35 +6,40 @@
    ============================================================ */
 
 /* ── Search Section ─────────────────────────────────────────── */
+/*
+ * FIXED: tablet was `padding: 2rem 0 1rem` — the top was larger
+ * on tablet than on desktop (1.5rem), making the section grow as
+ * the viewport shrank. Now uses --section-pad which only goes down.
+ */
 .search-section {
-    padding:  1.5rem 0;
+    padding: 0;
     position: relative;
     z-index:  var(--z-dropdown);
 }
 
 /* ── Autocomplete List ──────────────────────────────────────── */
 .autocomplete-list {
-    position:    absolute;
-    top:         100%;
-    left:        0;
-    right:       0;
-    background:  white;
+    position:      absolute;
+    top:           100%;
+    left:          0;
+    right:         0;
+    background:    white;
     border-radius: var(--radius-md);
-    border:      3px solid var(--medium-gray);
-    box-shadow:  var(--shadow-medium);
-    list-style:  none;
-    margin:      0.2rem 0 0;
-    z-index:     var(--z-dropdown);
-    display:     none;
-    max-height:  200px;
-    overflow-y:  auto;
+    border:        3px solid var(--medium-gray);
+    box-shadow:    var(--shadow-medium);
+    list-style:    none;
+    margin:        0.2rem 0 0;
+    z-index:       var(--z-dropdown);
+    display:       none;
+    max-height:    200px;
+    overflow-y:    auto;
 }
 
 .autocomplete-item {
-    padding:     0.5rem 1rem;
-    font-size:   var(--text-sm);
-    color:       var(--dark-gray);
-    cursor:      pointer;
+    padding:    0.5rem var(--grid-gap);
+    font-size:  var(--text-sm);
+    color:      var(--dark-gray);
+    cursor:     pointer;
     transition: var(--t-color);
 }
 
@@ -65,28 +70,9 @@
 .match-season i { font-size: 0.9em; opacity: 0.8; }
 
 /* ── Match Card (search context) ────────────────────────────── */
-/*
- * .match-card base animation (opacity: 0, translateY) is handled
- * by general.css. Only search-specific overrides live here.
- */
-.matches-section .section-title::after{
+.matches-section .section-title::after {
     background-color: var(--dark-blue);
 }
 .match-card {
     cursor: default;
-}
-
-/* ── Responsive: Tablet (≤ 768 px) ─────────────────────────── */
-@media (max-width: 768px) {
-    .search-section { padding: 2rem 0 1rem; }
-
-    .autocomplete-item { padding: 0.4rem 0.9rem; }
-
-    .match-season { gap: 5px; }
-}
-
-/* ── Responsive: Mobile (≤ 480 px) ─────────────────────────── */
-@media (max-width: 480px) {
-    .search-section    { padding: 1rem 0 0.8rem; }
-    .autocomplete-item { padding: 0.4rem 0.8rem; }
 }

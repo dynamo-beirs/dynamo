@@ -40,6 +40,13 @@
     display: none;
 }
 
+section {
+    padding: var(--section-pad) 0;
+}
+
+section.pt-0 { padding-top: 0; }
+section.pb-0 { padding-bottom: 0; }
+
 /* ── Centralized Hover Targets ─────────────────────────────── */
 /* * Group all interactive cards here. This keeps component files
  * free of redundant transform/shadow logic without requiring

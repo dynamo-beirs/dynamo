@@ -51,6 +51,26 @@
     /* ── Layout ─────────────────────────────────────────────── */
     --content-width: 70%;
 
+    /* ── Spacing Scale ──────────────────────────────────────── */
+    /*
+     * Single source of truth for all vertical/horizontal rhythm.
+     * Components and pages must reference these tokens instead of
+     * hard-coding padding, margin, or gap values.
+     *
+     * --section-pad   vertical padding on every page section
+     * --card-pad      padding inside card / box components
+     * --modal-pad     padding inside modal content areas
+     * --grid-gap      gap between grid and flex children
+     * --hero-pad-v    vertical padding for .page-hero
+     * --hero-pad-h    horizontal padding for .page-hero
+     */
+    --section-pad:  2rem;
+    --card-pad:     1.5rem;
+    --modal-pad:    1.5rem;
+    --grid-gap:     1rem;
+    --hero-pad-v:   1.5rem;
+    --hero-pad-h:   1rem;
+
     /* ── Z-Index Stack ──────────────────────────────────────── */
     --z-dropdown:  100;
     --z-header:    200;
@@ -65,14 +85,6 @@
     --dur-ticker: 30s;     /* Sponsor ticker loop */
 
     /* ── Easing ─────────────────────────────────────────────── */
-    /*
-     * --ease-spring  snappy spring with slight overshoot; ideal for scale
-     *                hovers and button presses.
-     * --ease-out     expo-style deceleration; ideal for elements arriving
-     *                on screen (scroll reveals, modals, hero text).
-     * --ease-ui      symmetric Material-style curve; ideal for colour/bg
-     *                state changes and toggles.
-     */
     --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
     --ease-out:    cubic-bezier(0.16, 1, 0.30, 1);
     --ease-ui:     cubic-bezier(0.40, 0, 0.20, 1);
@@ -87,53 +99,38 @@
     --delay-stagger: 0.10s;
 
     /* ── Compound Transition Shorthands ─────────────────────── */
-
-    /* Scale + shadow for card/button hover states */
     --t-interact:
             transform  var(--dur-base) var(--ease-spring),
             box-shadow var(--dur-base) var(--ease-out);
 
-    /* Colour & background state changes */
     --t-color:
             color            var(--dur-base) var(--ease-ui),
             background-color var(--dur-base) var(--ease-ui);
 
-    /* Scroll-triggered entrances */
     --t-reveal:
             opacity   var(--dur-slow) var(--ease-out),
             transform var(--dur-slow) var(--ease-out);
 
-    /* Modal overlay show/hide */
     --t-modal:
             opacity    var(--dur-base) var(--ease-ui),
             visibility var(--dur-base) var(--ease-ui);
 
-    /* Tooltip show/hide */
     --t-tooltip:
             opacity    var(--dur-fast) var(--ease-ui),
             visibility var(--dur-fast) var(--ease-ui);
 
     /* ── Contextual Tokens ──────────────────────────────────── */
-    /*
-     * --hero-pipe-color: colour of the | pipe decorators in .page-hero h1.
-     *   Override per-page to change accent (players.css sets this
-     *   dynamically via body.filter-* classes).
-     */
-    --hero-pipe-color: var(--dynamo-red);
-
-    /*
-     * --dropdown-border-color: border/accent colour for .dropdown.
-     *   Set on a parent scope (body, section) to theme dropdowns per-page.
-     */
+    --hero-pipe-color:       var(--dynamo-red);
     --dropdown-border-color: var(--dark-blue);
 }
 
 /* ── Responsive Token Scaling ───────────────────────────────── */
 /*
- * Radius and typography scale down at smaller viewports.
- * These are still tokens, not component rules — they belong here.
+ * Radius, typography, and spacing all scale down at smaller
+ * viewports. These are still tokens — not component rules.
  */
 
+/* Tablet (≤ 1024 px) — radius + typography */
 @media (max-width: 1024px) {
     :root {
         --radius-sm:     6px;
@@ -149,6 +146,17 @@
     }
 }
 
+/* Tablet (≤ 768 px) — spacing scale steps down */
+@media (max-width: 768px) {
+    :root {
+        --section-pad: 1.5rem;
+        --card-pad:    1.2rem;
+        --modal-pad:   1.2rem;
+        --grid-gap:    0.8rem;
+    }
+}
+
+/* Mobile (≤ 480 px) — full reduction */
 @media (max-width: 480px) {
     :root {
         --radius-sm:     4px;
@@ -163,5 +171,11 @@
         --text-lg:       1rem;
         --text-body:     0.95rem;
         --text-sm:       0.8rem;
+        --section-pad:   1rem;
+        --card-pad:      1rem;
+        --modal-pad:     1rem;
+        --grid-gap:      0.8rem;
+        --hero-pad-v:    1rem;
+        --hero-pad-h:    0.6rem;
     }
 }

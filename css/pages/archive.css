@@ -3,10 +3,11 @@
    ============================================================ */
 
 /* ── Content Section ────────────────────────────────────────── */
-.archive-section {
-    padding: 2rem 0 4rem;
-}
-
+/*
+ * FIXED: was `padding: 2rem 0 4rem` — the bottom was 2× the top,
+ * causing a large dead zone before the footer on archive pages.
+ * Now uniform via --section-pad.
+ */
 /* ── Hero Pipe / Underline Overrides ────────────────────────── */
 .archive-page .page-hero h1::before,
 .archive-page .page-hero h1::after {
@@ -23,7 +24,7 @@
 
 /* ── Subsections ────────────────────────────────────────────── */
 .archive-subsection {
-    margin-top: 3.5rem;
+    margin-top: var(--section-pad);
 }
 
 /* ── Season Selector Dropdown ───────────────────────────────── */
@@ -33,7 +34,6 @@
 }
 
 .picker-section {
-    padding:   1rem 0;
     position:  relative;
     z-index:   var(--z-dropdown);
     --dropdown-border-color: var(--dynamo-red);
@@ -41,7 +41,7 @@
 
 .picker-section,
 .season-picker {
-    margin-bottom: 0;
+    margin-bottom:  0;
     padding-bottom: 0;
 }
 
@@ -49,7 +49,7 @@
     display:         flex;
     justify-content: center;
     align-items:     center;
-    gap:             1rem;
+    gap:             var(--grid-gap);
     max-width:       100%;
     position:        relative;
     z-index:         101;
@@ -74,12 +74,11 @@
 /* ── Archive Stats Grid ─────────────────────────────────────── */
 #archive-stats-grid {
     grid-template-columns: repeat(3, 1fr);
-    gap:                   1.5rem;
-    margin-top:            2rem;
+    gap:                   var(--grid-gap);
+    margin-top:            var(--section-pad);
 }
 
 /* ── Players Section Colour Overrides ───────────────────────── */
-
 #archive-players-section .sort-controls {
     justify-content: flex-end;
 }
@@ -93,7 +92,7 @@
     background-color: var(--dark-green);
 }
 
-/* ── Golden Shoe ───────────────────────────────────── */
+/* ── Golden Shoe ────────────────────────────────────────────── */
 #archive-golden-shoe-section .section-subtitle::after {
     background: var(--dynamo-red);
 }
@@ -102,9 +101,9 @@
     display:         flex;
     align-items:     flex-end;
     justify-content: center;
-    gap:             1rem;
-    margin:          1rem auto 0;
-    padding:         1rem 0;
+    gap:             var(--grid-gap);
+    margin:          var(--grid-gap) auto 0;
+    padding:         var(--grid-gap) 0;
     width:           var(--content-width);
 }
 
@@ -124,7 +123,7 @@
     transform: translateY(0);
 }
 
-/* Stagger entrances natively in CSS based on standard class additions */
+/* Stagger entrances natively in CSS */
 .podium-step.silver { transition-delay: 0.1s; }
 .podium-step.gold   { transition-delay: 0.2s; }
 .podium-step.bronze { transition-delay: 0.3s; }
@@ -139,17 +138,17 @@
 }
 
 .podium-block {
-    width:            100%;
-    background:       white;
-    box-shadow:       var(--shadow-medium);
-    border-radius:    var(--radius-md) var(--radius-md) 0 0;
-    display:          flex;
-    flex-direction:   column;
-    align-items:      center;
-    justify-content:  flex-end;
-    gap:              1rem;
-    padding:          1rem 0.5rem;
-    position:         relative;
+    width:           100%;
+    background:      white;
+    box-shadow:      var(--shadow-medium);
+    border-radius:   var(--radius-md) var(--radius-md) 0 0;
+    display:         flex;
+    flex-direction:  column;
+    align-items:     center;
+    justify-content: flex-end;
+    gap:             var(--grid-gap);
+    padding:         var(--grid-gap) 0.5rem;
+    position:        relative;
 }
 
 .podium-block i {
@@ -158,11 +157,11 @@
 }
 
 .podium-shoe-name {
-    font-size: 0.75rem;
-    font-weight: 800;
+    font-size:      0.75rem;
+    font-weight:    800;
     text-transform: uppercase;
-    text-align: center;
-    line-height: 1.2;
+    text-align:     center;
+    line-height:    1.2;
 }
 
 /* Podium Heights & Accent Colors */
@@ -193,19 +192,18 @@
     color: #CD7F32;
 }
 
-/* ── Matches Section ─────────────────────────────────────────── */
+/* ── Matches Section ────────────────────────────────────────── */
 #archive-matches-section .section-title::after {
     background: var(--dark-yellow);
 }
 
-/* Theme the dropdown in the archive matches section */
 #archive-matches-section {
     --dropdown-border-color: var(--dark-yellow);
 }
 
 #archive-matches-section .sort-controls {
     justify-content: center;
-    margin-bottom:   2rem;
+    margin-bottom:   var(--section-pad);
 }
 
 .dropdown .options {
@@ -217,7 +215,7 @@
     background:    white;
     border:        3px solid var(--dark-blue);
     border-radius: var(--radius-md);
-    padding:       10px 8px;
+    padding:       0.625rem 0.5rem;
     box-shadow:    var(--shadow-small);
     width:         90px;
     box-sizing:    border-box;
@@ -236,7 +234,7 @@
     display:         flex;
     justify-content: center;
     align-items:     center;
-    gap:             8px;
+    gap:             0.5rem;
     margin-bottom:   6px;
 }
 
@@ -245,7 +243,7 @@
 }
 
 .archive-graph-tooltip .result-icon {
-    font-size:  11px;
+    font-size: 11px;
 }
 
 .archive-graph-tooltip .result-icon i {
@@ -262,26 +260,29 @@
 }
 
 /* ── Responsive: Tablet (≤ 768 px) ─────────────────────────── */
+/*
+ * --section-pad → 1.5rem, --grid-gap → 0.8rem at ≤ 768 px.
+ * All paddings, margins, and gaps update automatically.
+ * Only structural layout overrides are listed here.
+ */
 @media (max-width: 768px) {
-    .season-picker { flex-direction: column; gap: 0.5rem; }
+    .season-picker { flex-direction: column; }
 
     #archive-stats-grid {
         grid-template-columns: repeat(2, 1fr);
-        gap:                   1rem;
     }
 }
 
-/* Responsive tweaks for mobile */
+/* ── Responsive: Mobile (≤ 480 px) ─────────────────────────── */
+/*
+ * --section-pad → 1rem, --grid-gap → 0.8rem at ≤ 480 px.
+ */
 @media (max-width: 480px) {
-    .podium-container { gap: 0.5rem; }
-    .podium-player { font-size: var(--text-sm); }
-    .podium-block { padding: 0.8rem 0.3rem; }
-    .podium-block i { font-size: 1.4rem; }
+    .podium-player    { font-size: var(--text-sm); }
+    .podium-block i   { font-size: 1.4rem; }
     .podium-shoe-name { font-size: 0.65rem; }
 
-    .podium-step.gold .podium-block { height: 130px; }
+    .podium-step.gold   .podium-block { height: 130px; }
     .podium-step.silver .podium-block { height: 105px; }
     .podium-step.bronze .podium-block { height: 80px; }
-
-    #archive-stats-grid { gap: 0.8rem; }
 }

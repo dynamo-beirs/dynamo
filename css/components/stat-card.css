@@ -6,7 +6,7 @@
 /* ── Stat Card ──────────────────────────────────────────────── */
 .stat-card {
     background:    white;
-    padding:       2rem;
+    padding:       var(--card-pad);
     border-radius: var(--radius-lg);
     box-shadow:    var(--shadow-medium);
     text-align:    center;
@@ -34,19 +34,18 @@
  *   home.css       → repeat(auto-fit, minmax(180px, 1fr))
  *   archive.css    → repeat(3, 1fr)
  *   statistics.css → repeat(3, 1fr)
+ *
+ * gap and padding are token-driven; no responsive overrides needed here.
  */
 .stats-grid {
     display: grid;
-    gap:     1rem;
+    gap:     var(--grid-gap);
     width:   var(--content-width);
     margin:  0 auto;
 }
 
-/* ── Responsive: Tablet (≤ 1024 px) ────────────────────────── */
-@media (max-width: 1024px) {
-    .stat-card { padding: 1.2rem; }
-}
-
-@media (max-width: 480px) {
-    .stat-card { padding: 1rem; }
-}
+/*
+ * Padding scales automatically via --card-pad token breakpoints
+ * defined in tokens.css (≤ 768 px → 1.2rem, ≤ 480 px → 1rem).
+ * No explicit @media overrides required in this file.
+ */
