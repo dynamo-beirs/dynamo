@@ -273,7 +273,7 @@ body {
 }
 
 /* Responsive: Tablet */
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
     .header {
         top: 15px;
         width: 90%;

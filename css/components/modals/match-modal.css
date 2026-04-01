@@ -295,7 +295,7 @@
 }
 
 /* Responsive: Tablet */
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
     .match-title-container::after {
         width: 40px;
         height: 3px;

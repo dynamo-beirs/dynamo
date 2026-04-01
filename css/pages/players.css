@@ -220,7 +220,7 @@ body.filter-attacker { --hero-pipe-color: var(--dynamo-red); }
 }
 
 /* Responsive: Tablet */
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
     .filter-controls {
         flex-wrap: wrap;
     }

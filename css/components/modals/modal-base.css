@@ -82,7 +82,7 @@ body.modal-open {
 }
 
 /* Responsive: Tablet */
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
     .modal-content {
         max-width: none;
         max-height: 85dvh;

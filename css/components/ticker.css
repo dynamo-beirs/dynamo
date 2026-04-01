@@ -68,7 +68,7 @@
 }
 
 /* Responsive: Tablet */
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
     .ticker-wrapper { padding: 1rem 0; }
     .ticker-track { gap: 2.5rem; padding-left: 2.5rem; }
     .ticker-item { min-width: 100px; height: 50px; }

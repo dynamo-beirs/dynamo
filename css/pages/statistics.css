@@ -338,7 +338,7 @@ body.player-alltime .player-rank {
 }
 
 /* Responsive: Tablet */
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
     .stats-section .stats-grid {
         grid-template-columns: repeat(2, 1fr);
     }
