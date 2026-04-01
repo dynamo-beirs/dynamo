@@ -86,11 +86,11 @@ async function loadStats() {
             fetchSeasonPlayers(), fetchAllTimePlayers()
         ]);
 
-        const season   = '2025-2026';
+        const season   = "'25-'26";
         const setTitle = (id, text) => { const el = document.getElementById(id); if (el) el.innerHTML = text; };
-        setTitle('team-season-title',        `Teamprestaties ${season}`);
-        setTitle('detailed-team-stats-title', `Gedetailleerde <br>Teamstatistieken<br> ${season}`);
-        setTitle('player-season-title',      `Spelersstatistieken<br> ${season}`);
+        setTitle('team-season-title',        `Overzicht ${season}`);
+        setTitle('detailed-team-stats-title', `Teamstatistieken ${season}`);
+        setTitle('player-season-title', `Spelersstatistieken ${season}`);
 
         teamSeasonStats  = sStats;
         teamAllTimeStats = atStats;

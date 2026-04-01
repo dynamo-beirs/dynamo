@@ -101,7 +101,7 @@ function parseMatchesCsv(csvText, layout) {
         const match = {
             title,
             dateTime: { date, time, displayDate },
-            season: '2025-2026',
+            season: detectSeason(date),
             stadium,
             isHome,
             sponsor: hasSponsor ? { name: sponsorName, logo: sponsorLogo, url: sponsorUrl } : null
@@ -313,9 +313,7 @@ export async function fetchSearchMatches() {
             if (new Date(year, month - 1, day) > now) continue;
 
             displayDate = `${day} ${DUTCH_MONTH_NAMES[month - 1]}`;
-
-            const seasonStart = month >= 8 ? year : year - 1;
-            season = `${seasonStart}-${seasonStart + 1}`;
+            season = detectSeason(dateRaw);
         } catch (e) {
             console.warn('Failed to parse date/season for match:', opponent, dateRaw);
         }
@@ -353,4 +351,38 @@ export function parseDDMMYYYY(d) {
     return parts.length === 3
         ? new Date(parts[2], parts[1] - 1, parts[0]).getTime()
         : 0;
+}
+
+
+/**
+ * Detects the season label (e.g., '25-'26) based on a date string "DD Month" or "DD-MM-YYYY"
+ */
+/**
+ * Detects the season label (e.g., '25-'26) based on a date string.
+ * Supports "DD Month" (Current Season) and "DD-MM-YYYY" (Historical).
+ */
+function detectSeason(dateStr) {
+    let year, month;
+
+    // Handle "DD-MM-YYYY" (Historical Search Data)
+    if (dateStr.includes('-')) {
+        const parts = dateStr.split('-');
+        if (parts.length === 3) {
+            month = parseInt(parts[1], 10);
+            year = parseInt(parts[2], 10);
+        }
+    }
+
+    // Fallback for "DD Month" or if year couldn't be parsed (Current Season)
+    if (!year) {
+        const now = new Date();
+        year = now.getFullYear();
+        month = now.getMonth() + 1;
+    }
+
+    // Standard Sporting Season Logic:
+    const seasonStartYear = month >= 8 ? year : year - 1;
+    const seasonEndYear = seasonStartYear + 1;
+
+    return `'${String(seasonStartYear).slice(-2)}-'${String(seasonEndYear).slice(-2)}`;
 }

@@ -25,7 +25,7 @@ const animationElements = [
 
 const SEASON_CONFIG = {
     '2025-2026': {
-        label: '2025-2026', url: SHEET_URLS.currentSeason,
+        label: "'25-'26", url: SHEET_URLS.currentSeason,
         matchCols:  { first: colIndex('F'), last: colIndex('AA') },
         matchRows:  { opponent: 1, date: 2, time: 3, stadium: 4, homeAway: 5, goalsFor: 74, goalsAgainst: 75, goalscorers: 77 },
         playerRows: { first: 4, last: 51 },
@@ -34,7 +34,7 @@ const SEASON_CONFIG = {
         goldenShoe: { col: colIndex('AD'), gold: 84, silver: 85, bronze: 86 }
     },
     '2024-2025': {
-        label: '2024-2025', url: SHEET_URLS.season2425,
+        label: "'24-'25", url: SHEET_URLS.season2425,
         matchCols:  { first: colIndex('F'), last: colIndex('AA') },
         matchRows:  { opponent: 1, date: 2, time: 3, stadium: 4, homeAway: 5, goalsFor: 75, goalsAgainst: 76, goalscorers: 78 },
         playerRows: { first: 7, last: 51 },
@@ -43,7 +43,7 @@ const SEASON_CONFIG = {
         goldenShoe: { col: colIndex('AD'), gold: 84, silver: 85, bronze: 86 }
     },
     '2023-2024': {
-        label: '2023-2024', url: SHEET_URLS.season2324,
+        label: "'23-'24", url: SHEET_URLS.season2324,
         matchCols:  { first: colIndex('F'), last: colIndex('Z') },
         matchRows:  { opponent: 1, date: 2, time: 3, stadium: 4, homeAway: 5, goalsFor: 64, goalsAgainst: 65, goalscorers: 67 },
         playerRows: { first: 7, last: 50 },
@@ -52,7 +52,7 @@ const SEASON_CONFIG = {
         goldenShoe: { col: colIndex('AC'), gold: 70, silver: 71, bronze: 72 }
     },
     '2022-2023': {
-        label: '2022-2023', url: SHEET_URLS.season2223,
+        label: "'22-'23", url: SHEET_URLS.season2223,
         matchCols:  { first: colIndex('F'), last: colIndex('W') },
         matchRows:  { opponent: 1, date: 2, time: 3, stadium: 4, homeAway: 5, goalsFor: 73, goalsAgainst: 74, goalscorers: 76 },
         playerRows: { first: 7, last: 52 },
@@ -61,7 +61,7 @@ const SEASON_CONFIG = {
         goldenShoe: { col: colIndex('Z'), gold: 79, silver: 80, bronze: 81 }
     },
     '2021-2022': {
-        label: '2021-2022', url: SHEET_URLS.season2122,
+        label: "'21-'22", url: SHEET_URLS.season2122,
         matchCols:  { first: colIndex('F'), last: colIndex('X') },
         matchRows:  { opponent: 1, date: 2, time: 3, stadium: 4, homeAway: 5, goalsFor: 56, goalsAgainst: 57, goalscorers: 59 },
         playerRows: { first: 7, last: 47 },
@@ -135,10 +135,11 @@ async function loadSeason(seasonString) {
     const titleEl        = document.getElementById('archive-season-title');
     const comparisonView = document.getElementById('archive-comparison-view');
     const seasonView     = document.getElementById('archive-season-view');
+    const displayLabel = SEASON_CONFIG[seasonString]?.label || seasonString;
 
     titleEl.textContent = seasonString === 'Vergelijking'
         ? 'Seizoenen Vergelijken'
-        : `Overzicht ${seasonString}`;
+        : `Overzicht ${displayLabel}`;
     titleEl.classList.remove('animate-in');
 
     contentEl.style.display = 'none';

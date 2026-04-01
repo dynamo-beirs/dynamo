@@ -184,8 +184,8 @@ body {
     padding:         8px 10px;
     backdrop-filter: blur(10px);
     transition:
-        background var(--dur-base) var(--ease-ui),
-        transform  var(--dur-base) var(--ease-ui);
+            background var(--dur-base) var(--ease-ui),
+            transform  var(--dur-base) var(--ease-ui);
     display:         flex;
     align-items:     center;
     text-decoration: none;
@@ -210,8 +210,8 @@ body {
     border-radius:   var(--radius-pill);
     backdrop-filter: blur(10px);
     transition:
-        background var(--dur-base) var(--ease-ui),
-        transform  var(--dur-base) var(--ease-ui);
+            background var(--dur-base) var(--ease-ui),
+            transform  var(--dur-base) var(--ease-ui);
     isolation:       isolate;
 }
 
@@ -227,8 +227,8 @@ body {
     margin:           2px 0;
     border-radius:    var(--radius-sm);
     transition:
-        transform var(--dur-fast) var(--ease-ui),
-        opacity   var(--dur-fast) var(--ease-ui);
+            transform var(--dur-fast) var(--ease-ui),
+            opacity   var(--dur-fast) var(--ease-ui);
     transform-origin: center center;
     will-change:      transform, opacity;
 }

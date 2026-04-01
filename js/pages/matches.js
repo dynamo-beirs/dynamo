@@ -264,11 +264,14 @@ function bindTimelineItemClicks() {
             let matchData;
             try {
                 matchData = JSON.parse(raw);
+                if (matchData.season) {
+                    matchData.season = matchData.season.replace(/^20(\d{2})-20(\d{2})$/, "'$1-'$2");
+                }
             } catch (err) {
                 matchData = {
                     title:       `Match ${item.dataset.match}`,
                     dateTime:    { date: item.querySelector('small')?.textContent || 'TBD', time: 'TBD' },
-                    season:      '2025-2026',
+                    season:      "'25-'26",
                     stadium:     'Onbekend Stadion',
                     score:       null,
                     goalscorers: []
