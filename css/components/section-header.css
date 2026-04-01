@@ -90,12 +90,14 @@
     bottom: -8px;
     width:  60px;
     height: 4px;
+    margin: 0 0 calc(var(--section-pad) - 1.5rem);
 }
 
 .section-subtitle::after {
     bottom: -6px;
     width:  40px;
     height: 3px;
+    margin-bottom: calc((var(--section-pad) * 0.75) - 1rem);
 }
 
 .section-title.animate-in::after,
@@ -113,6 +115,7 @@
     .page-hero h1::before,
     .page-hero h1::after { margin: 6px; }
 
-    .section-title::after    { width: 50px; height: 3px; }
-    .section-subtitle::after { width: 35px; }
+    .section-title::after    { width: 50px; height: 3px; margin: 0 0 calc(var(--section-pad) - 1.2rem);}
+    .section-subtitle::after { width: 35px; height: 2px; }
+
 }

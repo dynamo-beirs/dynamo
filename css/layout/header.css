@@ -341,7 +341,7 @@ body {
     }
 
     .nav-link {
-        padding: 8px 8px;
+        padding: 0 16px;
         width:   100%;
         justify-content: center;
     }
@@ -430,8 +430,8 @@ body {
     }
 
     .nav-link {
-        padding:         8px 8px;
-        background:      transparent; /* Subtle inset look */
+        padding:         0 12px;
+        background:      transparent;
         border-radius:   var(--radius-pill);
         font-weight:     700;
         justify-content: flex-start;
