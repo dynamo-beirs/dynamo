@@ -202,7 +202,7 @@ body {
     color: var(--dark-gray);
     text-decoration: none;
     backdrop-filter: blur(10px);
-    border-radius: var(--radius-sm);
+    border-radius: var(--radius-pill);
     transition: background var(--dur-base) var(--ease-ui), transform var(--dur-base) var(--ease-ui);
 }
 

@@ -64,8 +64,19 @@ async function loadPlayers() {
 
     try {
         globalPlayers = await fetchSeasonPlayers(true);
-        renderPlayerCards(globalPlayers);
 
+        const positionOrder = { 'goalkeeper': 1, 'defender': 2, 'midfielder': 3, 'attacker': 4 };
+
+        globalPlayers.sort((a, b) => {
+            const posA = positionOrder[a.position] || 99;
+            const posB = positionOrder[b.position] || 99;
+
+            if (posA !== posB) {
+                return posA - posB;
+            }
+            return a.name.localeCompare(b.name);
+        });
+        renderPlayerCards(globalPlayers);
         if (loadingEl) loadingEl.classList.add('hidden');
 
         if (gridEl) {

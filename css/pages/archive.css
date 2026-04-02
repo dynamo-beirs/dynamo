@@ -121,7 +121,7 @@
     position: relative;
     gap: var(--grid-gap);
     width: 100%;
-    padding: var(--grid-gap) 0.5rem;
+    padding: var(--grid-gap) 0.5rem 0.4rem;
     background: white;
     border-radius: var(--radius-md) var(--radius-md) 0 0;
     box-shadow: var(--shadow-medium);
@@ -265,8 +265,13 @@
         font-size: var(--text-sm);
     }
 
+    .podium-container{
+        padding-bottom: 0.3rem;
+    }
+
     .podium-block i {
         font-size: 1.4rem;
+        transform: translateY(5px);
     }
 
     .podium-shoe-name {
