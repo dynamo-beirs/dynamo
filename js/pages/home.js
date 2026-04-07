@@ -10,7 +10,7 @@
 import { animateOnScroll, setupSmoothScrolling } from '../core/animations.js';
 import { initCountdown, setCountdownData } from '../components/countdown.js';
 import { renderForm } from '../components/form-strip.js';
-import { fetchCurrentSeasonMatches, fetchTeamSeasonStats } from '../services/data-service.js';
+import { fetchCurrentSeasonMatches, fetchTeamSeasonStats, fetchAllMatches } from '../services/data-service.js';
 
 /* Animation Elements Registry */
 
@@ -39,6 +39,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     initCarousel();
     setupSmoothScrolling();
 
+    if (window.matchModal?.init) {
+        await window.matchModal.init();
+    }
+
     // Trigger initial hero entrance animation
     const hero = document.querySelector('.hero');
     if (hero) hero.classList.add('animate-in');
@@ -46,7 +50,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     animateOnScroll(animationElements);
 });
 
-/* ====================== Data Loading ====================== */
+/* Data Loading */
 
 async function loadPageData() {
     try {
@@ -62,9 +66,20 @@ async function loadPageData() {
 
 async function loadMatches() {
     try {
-        const matches = await fetchCurrentSeasonMatches();
-        renderForm(matches.form);
-        setCountdownData(matches.upcoming);
+        const [currentSeason, searchMatches] = await Promise.all([
+            fetchCurrentSeasonMatches(),
+            fetchAllMatches()
+        ]);
+
+        // Stel de countdown in met de aankomende wedstrijden
+        setCountdownData(currentSeason.upcoming);
+
+        const playedMatches = searchMatches.filter(m => m.result && m.score);
+
+        const last5Matches = playedMatches.slice(0, 5).reverse();
+
+        renderForm(last5Matches);
+
     } catch (error) {
         console.error('Error fetching matches:', error);
         renderErrorState();
@@ -81,7 +96,7 @@ async function loadTeamStats() {
     }
 }
 
-/* ====================== Rendering ====================== */
+/* Rendering */
 
 function renderTeamStats(stats) {
     document.getElementById('team-matches-played').textContent = stats.matchesPlayed || 0;
@@ -97,7 +112,7 @@ function renderErrorState() {
     renderTeamStats({});
 }
 
-/* ====================== Carousel ====================== */
+/* Carousel */
 
 function initCarousel() {
     const carousel  = document.getElementById('carousel');

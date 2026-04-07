@@ -24,12 +24,13 @@
     width: 50px;
     height: 50px;
     font-weight: 900;
-    font-size: 1.6rem;
+    font-size: var(--text-h3);
     color: var(--off-white);
     border-radius: var(--radius-circle);
     box-shadow: var(--shadow-medium);
-    cursor: default;
+    cursor: pointer;
     --current-hover-scale: var(--hover-scale-sm) !important;
+    position: relative;
 }
 
 .form-result:last-child {
@@ -40,9 +41,13 @@
 }
 
 /* Colours */
-.form-result.win { background: var(--light-green); }
-.form-result.draw { background: var(--golden-yellow); }
-.form-result.loss { background: var(--soft-coral); }
+.form-result.win, .form-result.win::after { background: var(--light-green); }
+.form-result.draw, .form-result.draw::after { background: var(--golden-yellow); }
+.form-result.loss, .form-result.loss::after { background: var(--soft-coral); }
+
+.form-result.win::before { border-color: var(--light-green) transparent transparent transparent; }
+.form-result.draw::before { border-color: var(--golden-yellow) transparent transparent transparent; }
+.form-result.loss::before { border-color: var(--soft-coral) transparent transparent transparent; }
 
 .form-result.win:last-child { box-shadow: 0 0 0 3px var(--light-green); }
 .form-result.draw:last-child { box-shadow: 0 0 0 3px var(--golden-yellow); }
@@ -64,6 +69,53 @@
     letter-spacing: 1px;
 }
 
+/* Custom Tooltip for Form Strip */
+.form-result::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    background-color: var(--dark-gray);
+    color: var(--off-white);
+    padding: 0.4rem 0.8rem;
+    border-radius: var(--radius-sm);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    box-shadow: var(--shadow-small);
+    transition: all var(--dur-base) var(--ease-out);
+    z-index: var(--z-dropdown);
+}
+
+/* Tooltip Pijltje (optioneel) */
+.form-result::before {
+    content: '';
+    position: absolute;
+    bottom: 105%;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    border-width: 6px;
+    border-style: solid;
+    border-color: var(--dark-gray) transparent transparent transparent;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: all var(--dur-base) var(--ease-out);
+    z-index: var(--z-dropdown);
+}
+
+/* Toon tooltip bij hover */
+.form-result:hover::after,
+.form-result:hover::before {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+}
+
 /* Responsive: Tablet */
 @media (max-width: 1024px) {
     .form-results {
@@ -71,7 +123,7 @@
     }
 
     .form-result {
-        width: 35px; height: 35px; font-size: 1rem;
+        width: 35px; height: 35px; font-size: var(--text-body);
     }
 
     .form-result:last-child {

@@ -10,7 +10,7 @@
 import { animateOnScroll } from '../core/animations.js';
 import { initCountdown, setCountdownData } from '../components/countdown.js';
 import { renderForm } from '../components/form-strip.js';
-import { fetchCurrentSeasonMatches } from '../services/data-service.js';
+import { fetchCurrentSeasonMatches, fetchAllMatches } from '../services/data-service.js';
 import { FootballLoader } from '../components/loader.js';
 import { resultToClass, resultToIcon } from '../core/helpers.js';
 import { buildResultCard, animateMatchCards, bindMatchCardClicks } from '../components/match-card.js';
@@ -35,6 +35,9 @@ const animationElements = [
 /* Page Initialization */
 
 document.addEventListener('DOMContentLoaded', async () => {
+    if (window.matchModal?.init) {
+        await window.matchModal.init();
+    }
     await loadMatches();
     animateOnScroll(animationElements);
     scrollTimelineToEnd();
@@ -55,19 +58,25 @@ async function loadMatches() {
 
     if (knob) knob.style.opacity = '0';
 
-    // Fade out sections while loading
     document.querySelectorAll('.matches-grid, #form-results, #season-timeline').forEach(el => {
         el.style.opacity   = '0';
         el.style.transition = 'opacity 0.4s ease';
     });
 
     try {
-        const matches = await fetchCurrentSeasonMatches();
+        const [matches, searchMatches] = await Promise.all([
+            fetchCurrentSeasonMatches(),
+            fetchAllMatches()
+        ]);
 
         renderUpcomingMatches(matches.upcoming);
         renderRecentMatches(matches.past);
         renderSeasonTimeline(matches.all);
-        renderForm(matches.form);
+
+        const playedMatches = searchMatches.filter(m => m.result && m.score);
+        const last5Matches = playedMatches.slice(0, 5).reverse();
+        renderForm(last5Matches);
+
         renderSponsorsTicker(matches.all);
         setCountdownData(matches.upcoming);
 

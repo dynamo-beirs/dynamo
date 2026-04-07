@@ -8,7 +8,7 @@
 /* Imports */
 
 import { animateOnScroll } from '../core/animations.js';
-import { fetchSearchMatches, parseDDMMYYYY } from '../services/data-service.js';
+import { fetchAllMatches, parseDDMMYYYY } from '../services/data-service.js';
 import { FootballLoader } from '../components/loader.js';
 import { calcWinMargin, calcLossMargin } from '../core/helpers.js';
 import { buildResultCard, animateMatchCards, bindMatchCardClicks } from '../components/match-card.js';
@@ -58,7 +58,7 @@ async function loadMatches() {
     resultsHeader?.classList.add('hidden');
 
     try {
-        window.allMatches = await fetchSearchMatches();
+        window.allMatches = await fetchAllMatches();
 
         if (loadingEl) loadingEl.classList.add('hidden');
         contentEl?.classList.remove('hidden');

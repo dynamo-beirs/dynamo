@@ -167,6 +167,11 @@ async function loadSeason(seasonString) {
                 {
                     id: '#matches-graph', title: 'Aantal gespeelde wedstrijden',
                     color: '#7B96B7', dotColor: '#3D5A80', hideLine: true,
+                    legend: [
+                        { label: 'Winst', color: '#648F5F' },
+                        { label: 'Gelijk', color: '#E8B04B' },
+                        { label: 'Verlies', color: '#E07A5F' }
+                    ],
                     mapFn: d => ({
                         label: d.seasonLabel, value: d.matches, tooltipHTML: getTooltipHTML(d),
                         stacked: [
@@ -182,13 +187,14 @@ async function loadSeason(seasonString) {
                 { id: '#avg-tegen-graph',   title: 'Gemiddeld aantal tegendoelpunten per wedstrijd',     color: '#E07A5F', dotColor: '#B90A0A', mapFn: d => ({ label: d.seasonLabel, value: d.avgTegen   }) }
             ];
 
-            graphConfigs.forEach(({ id, title, color, dotColor, hideLine, mapFn }) => {
+            graphConfigs.forEach(({ id, title, color, dotColor, hideLine, legend, mapFn }) => {
                 const el = document.querySelector(id);
                 if (el) {
                     el.innerHTML = '';
                     new LineGraph(id, {
                         title, color, dotColor,
                         hideLineAndDots: hideLine || false,
+                        legend: legend || null,
                         data: allData.map(mapFn)
                     });
                 }

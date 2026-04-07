@@ -18,6 +18,7 @@ export class LineGraph {
             title: 'Grafiek',
             data: [],
             color: '#B90A0A',
+            legend: null,
             dotColor: '#800000',
             hideLineAndDots: false,
             yBase: 415,
@@ -107,6 +108,24 @@ export class LineGraph {
         let xLabels      = '';
         let barsSVG      = '';
         let barLabelsSVG = '';
+
+        let legendSVG = '';
+        if (this.options.legend && Array.isArray(this.options.legend)) {
+            // 1. INCREASED itemWidth so the words don't overlap
+            const itemWidth = 100;
+            const totalWidth = this.options.legend.length * itemWidth;
+            const startX = 400 - (totalWidth / 2) + 15;
+
+            this.options.legend.forEach((item, i) => {
+                legendSVG += `
+                    <g class="graph-legend" transform="translate(${startX + (i * itemWidth)}, 85)">
+                        <rect x="0" y="-12" width="16" height="16" rx="2" fill="${item.color}" opacity="0.85" stroke="#FFF" stroke-width="1" />
+                        
+                        <text x="24" y="2" font-size="14" font-family="Poppins" font-weight="600" fill="#666">${item.label}</text>
+                    </g>
+                `;
+            });
+        }
 
         if (this.isMultiLine) {
             let firstDataset = true;
@@ -268,6 +287,7 @@ export class LineGraph {
                     </defs>
         
                     <text x="400" y="50" font-size="25" fill="#333" font-family="Poppins" font-weight="700" text-anchor="middle">${this.options.title}</text>
+                    ${legendSVG} <g opacity="0.7" font-size="15" fill="#333" font-family="Poppins" font-weight="700" text-anchor="start">${yLabels}</g>
                     <g opacity="0.7" font-size="15" fill="#333" font-family="Poppins" font-weight="700" text-anchor="start">${yLabels}</g>
                     <g opacity="0.7" font-size="15" fill="#333" font-family="Poppins" font-weight="700" text-anchor="middle">${xLabels}</g>
         

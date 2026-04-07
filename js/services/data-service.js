@@ -59,8 +59,7 @@ export const CURRENT_SEASON_LAYOUT = {
         opponent: 1, date: 2, time: 3, stadium: 4, homeAway: 5,
         result: 73, goalsFor: 74, goalsAgainst: 75, goalscorers: 77,
         sponsorName: 84, sponsorLogo: 85, sponsorUrl: 86,
-    },
-    form: { row: 82, startCol: 28, count: 5 }
+    }
 };
 
 /* CSV Parser Wrapper */
@@ -79,7 +78,7 @@ export async function fetchCurrentSeasonMatches() {
 function parseMatchesCsv(csvText, layout) {
     const parsed  = parseCsv(csvText, { skipEmptyLines: true });
     const rows    = parsed.data;
-    const matches = { upcoming: [], past: [], all: [], form: [] };
+    const matches = { upcoming: [], past: [], all: [] };
 
     for (let colIdx = layout.matchCols.first; colIdx <= layout.matchCols.last; colIdx++) {
         const opponent = rows[layout.rows.opponent]?.[colIdx]?.trim();
@@ -135,12 +134,6 @@ function parseMatchesCsv(csvText, layout) {
     matches.all.sort(sortByDate);
     matches.past.sort(sortByDate);
     matches.upcoming.sort(sortByDate);
-
-    const resultMap = { 'w': 'winst', 'd': 'gelijk', 'l': 'verlies' };
-    for (let i = 0; i < layout.form.count; i++) {
-        const cell = rows[layout.form.row]?.[layout.form.startCol + i]?.trim().toLowerCase();
-        if (cell && resultMap[cell]) matches.form.push(resultMap[cell]);
-    }
 
     return matches;
 }
@@ -296,7 +289,7 @@ export async function fetchAllTimePlayers() {
 
 /* Search Matches */
 
-export async function fetchSearchMatches() {
+export async function fetchAllMatches() {
     const csvText = await fetchCsvCached(SHEET_URLS.searchAll);
     const parsed  = parseCsv(csvText, { skipEmptyLines: true });
     const rows    = parsed.data;
