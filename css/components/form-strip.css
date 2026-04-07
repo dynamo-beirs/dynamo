@@ -109,11 +109,13 @@
 }
 
 /* Toon tooltip bij hover */
-.form-result:hover::after,
-.form-result:hover::before {
-    opacity: 1;
-    visibility: visible;
-    transform: translateX(-50%) translateY(0);
+@media (hover: hover) {
+    .form-result:hover::after,
+    .form-result:hover::before {
+        opacity: 1;
+        visibility: visible;
+        transform: translateX(-50%) translateY(0);
+    }
 }
 
 /* Responsive: Tablet */
