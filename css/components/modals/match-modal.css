@@ -7,7 +7,7 @@
     background: white;
     border: 3px solid var(--dusty-blue);
     border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-xl);
+    box-shadow: var(--shadow-hover);
     transform-origin: center center;
 }
 

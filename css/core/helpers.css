@@ -46,7 +46,7 @@ section.pb-0 { padding-bottom: 0; }
 :is(
     .stat-card, .contact-card, .countdown-box,
     .match-sponsor-link, .player-card, .stat-category,
-    .record-category, .modal-section, .goalscorers-section,
+    .record-category, .modal-section, .stat-modal-item, .goalscorers-section,
     .score-display, #modalSponsorLink, .season-stats-section,
     .all-time-stats-section, .podium-block, .match-card,
     .form-result, .overview-section .stat-card
@@ -61,7 +61,7 @@ section.pb-0 { padding-bottom: 0; }
 :is(
     .stat-card, .contact-card, .countdown-box,
     .match-sponsor-link, .player-card, .stat-category,
-    .record-category, .modal-section, .goalscorers-section,
+    .record-category, .modal-section, .stat-modal-item, .goalscorers-section,
     .score-display, #modalSponsorLink, .season-stats-section,
     .all-time-stats-section, .podium-block, .match-card,
     .form-result, .overview-section .stat-card
@@ -101,7 +101,7 @@ section.pb-0 { padding-bottom: 0; }
     :is(
         .stat-card, .contact-card, .countdown-box,
         .match-sponsor-link, .player-card, .stat-category,
-        .record-category, .modal-section, .goalscorers-section,
+        .record-category, .modal-section, .stat-modal-item, .goalscorers-section,
         .score-display, #modalSponsorLink, .season-stats-section,
         .all-time-stats-section, .podium-block, .match-card,
         .form-result, .overview-section .stat-card, .timeline-item

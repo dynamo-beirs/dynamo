@@ -1,0 +1,127 @@
+/* components/modals/STAT-MODAL.CSS */
+
+#statModal .modal-content {
+    max-width: 500px;
+    background: var(--off-white);
+    padding: var(--modal-pad);
+    border: 3px solid var(--theme-color, var(--dark-blue));
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-medium);
+    transform-origin: center center;
+}
+
+/* Header Container */
+.stat-modal-header {
+    text-align: center;
+    margin-bottom: var(--modal-pad);
+}
+
+.stat-modal-header h3 {
+    position: relative;
+    margin: 0 0 0.8rem;
+    font-weight: 800;
+    font-size: var(--text-h3);
+    line-height: 1.2;
+    color: var(--dark-gray);
+}
+
+/* De gekleurde lijn direct onder de titel */
+.stat-modal-header h3::after {
+    content: '';
+    position: absolute;
+    bottom: -0.5rem;
+    left: 50%;
+    width: 50px;
+    height: 4px;
+    background: var(--theme-color, var(--dark-blue));
+    border-radius: var(--radius-sm);
+    transform: translateX(-50%);
+}
+
+#statModalIconContainer {
+    margin: 1rem 0 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--text-h3);
+    color: var(--theme-color, var(--dark-blue));
+}
+
+/* List container matching .goalscorers-list */
+.stat-modal-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+/* Clean, white list items matching .goalscorer-item */
+.stat-modal-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.8rem;
+    background: white;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-medium);
+}
+
+.stat-item-left {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.stat-item-info strong {
+    font-weight: 700;
+    font-size: var(--text-body);
+    color: var(--dark-gray);
+    line-height: 1.2;
+}
+
+.stat-item-info small {
+    font-weight: 600;
+    font-size: var(--text-sm);
+    color: var(--medium-gray);
+    margin-top: 0.1rem;
+}
+
+/* Default badge */
+.stat-badge {
+    min-width: 40px;
+    padding: 0.4rem 0.8rem;
+    background: var(--nested-box);
+    border: 3px solid var(--theme-color, var(--dark-blue));
+    border-radius: var(--radius-pill);
+    box-shadow: var(--shadow-small);
+    font-weight: 700;
+    font-size: var(--text-body);
+    line-height: 1.2;
+    color: var(--dark-gray);
+    text-align: center;
+}
+
+/* Responsive: Tablet */
+@media (max-width: 1024px) {
+    .stat-modal-header h3::after {
+        width: 40px;
+        height: 3px;
+    }
+
+    .stat-modal-item {
+        padding: 0.6rem;
+    }
+}
+
+/* Responsive: Mobile */
+@media (max-width: 480px) {
+    .stat-modal-header h3::after {
+        width: 35px;
+    }
+
+    .stat-modal-item {
+        padding: 0.5rem;
+    }
+}

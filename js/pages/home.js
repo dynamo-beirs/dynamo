@@ -10,8 +10,7 @@
 import { animateOnScroll, setupSmoothScrolling } from '../core/animations.js';
 import { initCountdown, setCountdownData } from '../components/countdown.js';
 import { renderForm } from '../components/form-strip.js';
-import { fetchCurrentSeasonMatches, fetchTeamSeasonStats, fetchAllMatches } from '../services/data-service.js';
-
+import { fetchCurrentSeasonMatches, fetchTeamSeasonStats, fetchAllMatches, fetchSeasonPlayers } from '../services/data-service.js';
 /* Animation Elements Registry */
 
 const animationElements = [
@@ -52,12 +51,18 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 /* Data Loading */
 
+let currentSeasonData = null;
+let currentPlayersData = null;
+
 async function loadPageData() {
     try {
         await Promise.all([
             loadMatches(),
             loadTeamStats()
         ]);
+
+        // Setup the interactive stat cards after data is loaded
+        setupStatCardInteractions();
     } catch (error) {
         console.error('Error fetching page data:', error);
         renderErrorState();
@@ -66,18 +71,18 @@ async function loadPageData() {
 
 async function loadMatches() {
     try {
-        const [currentSeason, searchMatches] = await Promise.all([
+        const [currentSeason, searchMatches, players] = await Promise.all([
             fetchCurrentSeasonMatches(),
-            fetchAllMatches()
+            fetchAllMatches(),
+            fetchSeasonPlayers()
         ]);
 
-        // Stel de countdown in met de aankomende wedstrijden
+        currentSeasonData = currentSeason;
+        currentPlayersData = players;
+
         setCountdownData(currentSeason.upcoming);
-
         const playedMatches = searchMatches.filter(m => m.result && m.score);
-
         const last5Matches = playedMatches.slice(0, 5).reverse();
-
         renderForm(last5Matches);
 
     } catch (error) {
@@ -94,6 +99,97 @@ async function loadTeamStats() {
         console.error('Error loading team season stats:', error);
         renderTeamStats({});
     }
+}
+
+function setupStatCardInteractions() {
+    if (!currentSeasonData || !currentPlayersData || !window.statModal) return;
+
+    const pastMatches = currentSeasonData.past;
+    const cards = document.querySelectorAll('.stat-card');
+
+    // Helper to get opponent name
+    const getOpponent = (match) => match.isHome ? match.title.split(' vs ')[1] : match.title.split(' vs ')[0];
+
+    // 1. Wedstrijden
+    cards[0]?.addEventListener('click', () => {
+        const counts = {};
+        pastMatches.forEach(m => {
+            const opp = getOpponent(m);
+            counts[opp] = (counts[opp] || 0) + 1;
+        });
+
+        const data = Object.entries(counts)
+            .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+            .map(([opp, count]) => ({ title: opp, badge: `${count}x` }));
+
+        window.statModal.show({
+            title: 'Tegenstanders',
+            headerIconHtml: '<i class="fas fa-handshake"></i>',
+            theme: 'var(--dark-blue)',
+            data
+        }, cards[0]);
+    });
+
+    // 2. Overwinningen
+    cards[1]?.addEventListener('click', () => {
+        const wins = pastMatches.filter(m => m.result === 'winst').sort((a, b) => {
+            const marginA = parseInt(a.score.split('-')[0]) - parseInt(a.score.split('-')[1]);
+            const marginB = parseInt(b.score.split('-')[0]) - parseInt(b.score.split('-')[1]);
+            return marginB - marginA;
+        });
+
+        const data = wins.map(m => ({
+            title: getOpponent(m), subtitle: m.dateTime.displayDate, badge: m.score
+        }));
+
+        window.statModal.show({
+            title: 'Overwinningen',
+            headerIconHtml: '<i class="fas fa-trophy"></i>',
+            theme: 'var(--light-green)',
+            data
+        }, cards[1]);
+    });
+
+    // 3. Doelpunten
+    cards[2]?.addEventListener('click', () => {
+        const scorers = currentPlayersData.filter(p => p.goals > 0).sort((a, b) => b.goals - a.goals);
+
+        const formatName = (name) => {
+            return name.toLowerCase().replace(/\b\w/g, char => char.toUpperCase());
+        };
+
+        const data = scorers.map(p => ({
+            title: formatName(p.name),
+            badge: p.goals
+        }));
+
+        window.statModal.show({
+            title: 'Doelpunten',
+            headerIconHtml: '<i class="fas fa-futbol"></i>',
+            theme: 'var(--dynamo-red)',
+            data
+        }, cards[2]);
+    });
+
+    // 4. Clean Sheets
+    cards[3]?.addEventListener('click', () => {
+        const cleanSheets = pastMatches.filter(m => parseInt(m.score.split('-')[1]) === 0).sort((a, b) => {
+            const marginA = parseInt(a.score.split('-')[0]) - parseInt(a.score.split('-')[1]);
+            const marginB = parseInt(b.score.split('-')[0]) - parseInt(b.score.split('-')[1]);
+            return marginB - marginA;
+        });
+
+        const data = cleanSheets.map(m => ({
+            title: getOpponent(m), subtitle: m.dateTime.displayDate, badge: m.score
+        }));
+
+        window.statModal.show({
+            title: 'Clean sheets',
+            headerIconHtml: '<i class="fas fa-shield-alt"></i>',
+            theme: 'var(--golden-yellow)',
+            data
+        }, cards[3]);
+    });
 }
 
 /* Rendering */
