@@ -73,6 +73,9 @@
     <link rel="stylesheet" href="/dynamo/css/components/sort-controls.css">
     <link rel="stylesheet" href="/dynamo/css/components/player-table.css">
     <link rel="stylesheet" href="/dynamo/css/components/loader.css">
+    <link rel="stylesheet" href="/dynamo/css/components/modals/modal-base.css">
+    <link rel="stylesheet" href="/dynamo/css/components/modals/stat-modal.css">
+    <link rel="stylesheet" href="/dynamo/css/components/result-icon.css">
 
     <!-- Third-party styles -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -90,7 +93,9 @@
     </script>
 
     <!-- Scripts -->
+    <script src="/dynamo/js/vendor/papaparse.min.js" defer></script>
     <script type="module" src="/dynamo/js/pages/statistics.js"></script>
+    <script type="module" src="/dynamo/js/components/modals/stat-modal.js"></script>
     <script type="module" src="/dynamo/js/layout/header.js"></script>
     <script type="module" src="/dynamo/js/layout/footer.js"></script>
 
@@ -365,6 +370,8 @@
             </div>
         </div>
     </section>
+
+    <div id="stat-modal-placeholder"></div>
 
 </main>
 

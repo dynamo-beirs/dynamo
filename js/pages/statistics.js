@@ -11,18 +11,20 @@
 import { animateOnScroll } from '../core/animations.js';
 import { debounce } from '../core/helpers.js';
 import { PLAYER_TABLE_HEADER_HTML, sliceForTable, buildPlayerRow, appendTableToggle, bindSortableHeaders } from '../components/player-table.js';
-import { fetchTeamSeasonStats, fetchTeamAllTimeStats, fetchSeasonRecords, fetchSeasonPlayers, fetchAllTimePlayers } from '../services/data-service.js';
+import { fetchTeamSeasonStats, fetchTeamAllTimeStats, fetchSeasonRecords, fetchSeasonPlayers, fetchAllTimePlayers, fetchCurrentSeasonMatches, fetchAllMatches } from '../services/data-service.js';
 import { FootballLoader } from '../components/loader.js';
 import { initDropdown, bindDropdownClose } from '../components/dropdown.js';
 
 /* Module State */
 
-let seasonPlayers    = [];
-let allTimePlayers   = [];
-let teamSeasonStats  = {};
-let teamAllTimeStats = {};
-let seasonRecords    = {};
-let isLoading        = false;
+let seasonPlayers      = [];
+let allTimePlayers     = [];
+let teamSeasonStats    = {};
+let teamAllTimeStats   = {};
+let seasonRecords      = {};
+let currentSeasonData  = null;
+let allMatchesData     = [];
+let isLoading          = false;
 
 /* Animation Elements Registry */
 
@@ -118,6 +120,21 @@ async function loadStats() {
         renderAllTimeStats();
         renderSeasonPlayers();
         renderAllTimePlayers();
+
+        // Fetch match data for stat-card modals independently — a failure here
+        // must never break the main page load.
+        Promise.allSettled([
+            fetchCurrentSeasonMatches(),
+            fetchAllMatches()
+        ]).then(([csResult, allResult]) => {
+            if (csResult.status === 'fulfilled') currentSeasonData = csResult.value;
+            else console.warn('Could not load current season matches for stat cards:', csResult.reason);
+
+            if (allResult.status === 'fulfilled') allMatchesData = allResult.value;
+            else console.warn('Could not load all matches for stat cards:', allResult.reason);
+
+            setupStatCardInteractions();
+        });
 
         loaders.forEach(({ id }) => document.getElementById(id)?.classList.add('hidden'));
         contentIds.forEach(id => document.getElementById(id)?.classList.remove('hidden'));
@@ -280,6 +297,234 @@ function renderAllTimePlayers(sortBy = document.querySelector('#alltime-sort .se
         '#alltime-sort',
         renderAllTimePlayers
     );
+}
+
+/* Stat Card Interactions */
+
+function setupStatCardInteractions() {
+    setupSeasonStatCards();
+    setupAllTimeStatCards();
+}
+
+function getOpponent(match) {
+    if (match.opponent) return match.opponent;
+    return match.isHome ? match.title.split(' vs ')[1] : match.title.split(' vs ')[0];
+}
+
+function formatName(name) {
+    return name.toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
+}
+
+// Score is stored as dynamo-opponent (home) or opponent-dynamo (away).
+function getDynamoGoals(match) {
+    const [a, b] = match.score.split('-').map(Number);
+    return match.isHome ? a : b;
+}
+function getOpponentGoals(match) {
+    const [a, b] = match.score.split('-').map(Number);
+    return match.isHome ? b : a;
+}
+
+function goalsConcededByTeam(matches) {
+    const map = {};
+    matches.forEach(m => {
+        const opp      = getOpponent(m);
+        const conceded = getOpponentGoals(m);
+        if (!isNaN(conceded)) map[opp] = (map[opp] || 0) + conceded;
+    });
+    return Object.entries(map)
+        .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+        .map(([opp, count]) => ({ title: opp, badge: count }));
+}
+
+function setupSeasonStatCards() {
+    if (!window.statModal) return;
+    const past  = currentSeasonData?.past ?? [];
+    const cards = document.querySelectorAll('#team-season-grid .stat-card');
+    if (!cards.length) return;
+
+    // 0 — Wedstrijden
+    cards[0]?.addEventListener('click', () => {
+        const counts = {};
+        past.forEach(m => {
+            const opp = getOpponent(m);
+            counts[opp] = (counts[opp] || 0) + 1;
+        });
+        const data = Object.entries(counts)
+            .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+            .map(([opp, count]) => ({ title: opp, badge: `${count}x` }));
+        window.statModal.show({
+            title: 'Tegenstanders',
+            headerIconHtml: '<i class="fas fa-handshake"></i>',
+            theme: 'var(--dark-blue)',
+            data
+        }, cards[0]);
+    });
+
+    // 1 — Overwinningen
+    cards[1]?.addEventListener('click', () => {
+        const data = past
+            .filter(m => m.result === 'winst')
+            .sort((a, b) => (getDynamoGoals(b) - getOpponentGoals(b)) - (getDynamoGoals(a) - getOpponentGoals(a)))
+            .map(m => ({ title: getOpponent(m), subtitle: m.dateTime.displayDate, badge: m.score }));
+        window.statModal.show({
+            title: 'Overwinningen',
+            headerIconHtml: '<div class="result-icon win"><i class="fas fa-check"></i></div>',
+            theme: 'var(--light-green)',
+            data
+        }, cards[1]);
+    });
+
+    // 2 — Gelijkspelen
+    cards[2]?.addEventListener('click', () => {
+        const data = past
+            .filter(m => m.result === 'gelijk')
+            .sort((a, b) => getDynamoGoals(b) - getDynamoGoals(a))
+            .map(m => ({ title: getOpponent(m), subtitle: m.dateTime.displayDate, badge: m.score }));
+        window.statModal.show({
+            title: 'Gelijkspelen',
+            headerIconHtml: '<div class="result-icon draw"><i class="fas fa-minus"></i></div>',
+            theme: 'var(--golden-yellow)',
+            data
+        }, cards[2]);
+    });
+
+    // 3 — Nederlagen
+    cards[3]?.addEventListener('click', () => {
+        const data = past
+            .filter(m => m.result === 'verlies')
+            .sort((a, b) => (getOpponentGoals(b) - getDynamoGoals(b)) - (getOpponentGoals(a) - getDynamoGoals(a)))
+            .map(m => ({ title: getOpponent(m), subtitle: m.dateTime.displayDate, badge: m.score }));
+        window.statModal.show({
+            title: 'Nederlagen',
+            headerIconHtml: '<div class="result-icon loss"><i class="fas fa-times"></i></div>',
+            theme: 'var(--soft-coral)',
+            data
+        }, cards[3]);
+    });
+
+    // 4 — Doelpunten
+    cards[4]?.addEventListener('click', () => {
+        const data = seasonPlayers
+            .filter(p => p.goals > 0)
+            .sort((a, b) => b.goals - a.goals)
+            .map(p => ({ title: formatName(p.name), badge: p.goals }));
+        window.statModal.show({
+            title: 'Doelpunten',
+            headerIconHtml: '<i class="fas fa-futbol"></i>',
+            theme: 'var(--dynamo-red)',
+            data
+        }, cards[4]);
+    });
+
+    // 5 — Tegendoelpunten
+    cards[5]?.addEventListener('click', () => {
+        const data = goalsConcededByTeam(past);
+        window.statModal.show({
+            title: 'Tegendoelpunten',
+            headerIconHtml: '<i class="fas fa-futbol"></i>',
+            theme: 'var(--dynamo-red)',
+            data
+        }, cards[5]);
+    });
+}
+
+function setupAllTimeStatCards() {
+    if (!window.statModal) return;
+    const past  = allMatchesData.filter(m => m.result && m.score);
+    const cards = document.querySelectorAll('#team-alltime-performance-grid .stat-card');
+    if (!cards.length) return;
+
+    // Helper: Haalt het jaar uit "DD-MM-YYYY" en plakt dit achter de displayDate ("12 mei" -> "12 mei 2023")
+    const getFullDate = (m) => {
+        const year = m.dateTime.date.split('-')[2];
+        return `${m.dateTime.displayDate} ${year}`;
+    };
+
+    // 0 — Wedstrijden (all-time)
+    cards[0]?.addEventListener('click', () => {
+        const counts = {};
+        past.forEach(m => {
+            const opp = getOpponent(m);
+            counts[opp] = (counts[opp] || 0) + 1;
+        });
+        const data = Object.entries(counts)
+            .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+            .map(([opp, count]) => ({ title: opp, badge: `${count}x` }));
+        window.statModal.show({
+            title: 'Tegenstanders',
+            headerIconHtml: '<i class="fas fa-handshake"></i>',
+            theme: 'var(--dark-blue)',
+            data
+        }, cards[0]);
+    });
+
+    // 1 — Overwinningen (all-time)
+    cards[1]?.addEventListener('click', () => {
+        const data = past
+            .filter(m => m.result === 'winst')
+            .sort((a, b) => (getDynamoGoals(b) - getOpponentGoals(b)) - (getDynamoGoals(a) - getOpponentGoals(a)))
+            .map(m => ({ title: getOpponent(m), subtitle: getFullDate(m), badge: m.score })); // <-- getFullDate toegepast
+        window.statModal.show({
+            title: 'Overwinningen',
+            headerIconHtml: '<div class="result-icon win"><i class="fas fa-check"></i></div>',
+            theme: 'var(--light-green)',
+            data
+        }, cards[1]);
+    });
+
+    // 2 — Gelijkspelen (all-time)
+    cards[2]?.addEventListener('click', () => {
+        const data = past
+            .filter(m => m.result === 'gelijk')
+            .sort((a, b) => getDynamoGoals(b) - getDynamoGoals(a))
+            .map(m => ({ title: getOpponent(m), subtitle: getFullDate(m), badge: m.score })); // <-- getFullDate toegepast
+        window.statModal.show({
+            title: 'Gelijkspelen',
+            headerIconHtml: '<div class="result-icon draw"><i class="fas fa-minus"></i></div>',
+            theme: 'var(--golden-yellow)',
+            data
+        }, cards[2]);
+    });
+
+    // 3 — Nederlagen (all-time)
+    cards[3]?.addEventListener('click', () => {
+        const data = past
+            .filter(m => m.result === 'verlies')
+            .sort((a, b) => (getOpponentGoals(b) - getDynamoGoals(b)) - (getOpponentGoals(a) - getDynamoGoals(a)))
+            .map(m => ({ title: getOpponent(m), subtitle: getFullDate(m), badge: m.score })); // <-- getFullDate toegepast
+        window.statModal.show({
+            title: 'Nederlagen',
+            headerIconHtml: '<div class="result-icon loss"><i class="fas fa-times"></i></div>',
+            theme: 'var(--soft-coral)',
+            data
+        }, cards[3]);
+    });
+
+    // 4 — Doelpunten (all-time)
+    cards[4]?.addEventListener('click', () => {
+        const data = allTimePlayers
+            .filter(p => p.goals > 0)
+            .sort((a, b) => b.goals - a.goals)
+            .map(p => ({ title: formatName(p.name), badge: p.goals }));
+        window.statModal.show({
+            title: 'Doelpunten',
+            headerIconHtml: '<i class="fas fa-futbol"></i>',
+            theme: 'var(--dynamo-red)',
+            data
+        }, cards[4]);
+    });
+
+    // 5 — Tegendoelpunten (all-time)
+    cards[5]?.addEventListener('click', () => {
+        const data = goalsConcededByTeam(past);
+        window.statModal.show({
+            title: 'Tegendoelpunten',
+            headerIconHtml: '<i class="fas fa-futbol"></i>',
+            theme: 'var(--dynamo-red)',
+            data
+        }, cards[5]);
+    });
 }
 
 /* Toggle */

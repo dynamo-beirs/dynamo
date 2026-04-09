@@ -82,6 +82,7 @@ const SEASON_CONFIG = {
 const _parsedSeasonCache = new Map();
 let archivePlayers = [];
 let archiveMatches = [];
+let statCardsBound = false;
 
 /* Tooltip Template */
 
@@ -251,6 +252,7 @@ async function loadSeasonData(seasonString) {
             renderArchivePlayers('goals');
             archiveMatches = cached.matches;
             renderSortedMatches('date-asc');
+            setupStatCardInteractions();
 
             if (innerLoader)  innerLoader.classList.add('hidden');
             if (innerContent) innerContent.classList.remove('hidden');
@@ -281,6 +283,7 @@ async function loadSeasonData(seasonString) {
         renderArchivePlayers('goals');
         archiveMatches = matches;
         renderSortedMatches('date-asc');
+        setupStatCardInteractions();
 
         if (innerLoader)  innerLoader.classList.add('hidden');
         if (innerContent) innerContent.classList.remove('hidden');
@@ -607,4 +610,154 @@ function bindArchiveMatchClicks() {
             }
         });
     });
+}
+
+/* Stat Card Interactions */
+
+function getOpponent(match) {
+    if (match.opponent) return match.opponent;
+    return match.isHome ? match.title.split(' vs ')[1] : match.title.split(' vs ')[0];
+}
+
+function formatName(name) {
+    return name.toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
+}
+
+function getDynamoGoals(match) {
+    const [a, b] = match.score.split('-').map(Number);
+    return match.isHome ? a : b;
+}
+
+function getOpponentGoals(match) {
+    const [a, b] = match.score.split('-').map(Number);
+    return match.isHome ? b : a;
+}
+
+function goalsConcededByTeam(matches) {
+    const map = {};
+    matches.forEach(m => {
+        const opp      = getOpponent(m);
+        const conceded = getOpponentGoals(m);
+        if (!isNaN(conceded)) map[opp] = (map[opp] || 0) + conceded;
+    });
+    return Object.entries(map)
+        .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+        .map(([opp, count]) => ({ title: opp, badge: count }));
+}
+
+function setupStatCardInteractions() {
+    if (statCardsBound || !window.statModal) return;
+
+    // Haal de specifieke kaarten op via de unieke IDs in de archive pagina
+    const cards = [
+        document.getElementById('arch-stat-matches')?.closest('.stat-card'),
+        document.getElementById('arch-stat-wins')?.closest('.stat-card'),
+        document.getElementById('arch-stat-draws')?.closest('.stat-card'),
+        document.getElementById('arch-stat-losses')?.closest('.stat-card'),
+        document.getElementById('arch-stat-goals-for')?.closest('.stat-card'),
+        document.getElementById('arch-stat-goals-against')?.closest('.stat-card')
+    ];
+
+    if (!cards[0]) return; // Veiligheidscheck
+
+    // Helper: Haalt het actieve seizoen op voor in de titel
+    const getSeasonLabel = () => archiveMatches.length > 0 ? ` (${archiveMatches[0].season})` : '';
+
+    // Helper: Combineer de vertaalde displayDate ("15 mei") met het jaar uit dateRaw ("15 may 2023")
+    const getFullDate = (m) => {
+        const year = m.dateRaw.split(' ')[2] || '';
+        return `${m.displayDate} ${year}`.trim();
+    };
+
+    // 0 — Wedstrijden
+    cards[0]?.addEventListener('click', () => {
+        const counts = {};
+        archiveMatches.forEach(m => {
+            const opp = getOpponent(m);
+            counts[opp] = (counts[opp] || 0) + 1;
+        });
+        const data = Object.entries(counts)
+            .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+            .map(([opp, count]) => ({ title: opp, badge: `${count}x` }));
+
+        window.statModal.show({
+            title: `Tegenstanders`,
+            headerIconHtml: '<i class="fas fa-handshake"></i>',
+            theme: 'var(--dark-blue)',
+            data
+        }, cards[0]);
+    });
+
+    // 1 — Overwinningen
+    cards[1]?.addEventListener('click', () => {
+        const data = archiveMatches
+            .filter(m => m.result === 'winst')
+            .sort((a, b) => (getDynamoGoals(b) - getOpponentGoals(b)) - (getDynamoGoals(a) - getOpponentGoals(a)))
+            .map(m => ({ title: getOpponent(m), subtitle: getFullDate(m), badge: m.score })); // <-- getFullDate toegepast
+
+        window.statModal.show({
+            title: 'Overwinningen',
+            headerIconHtml: '<div class="result-icon win"><i class="fas fa-trophy"></i></div>',
+            theme: 'var(--light-green)',
+            data
+        }, cards[1]);
+    });
+
+    // 2 — Gelijkspelen
+    cards[2]?.addEventListener('click', () => {
+        const data = archiveMatches
+            .filter(m => m.result === 'gelijk')
+            .sort((a, b) => getDynamoGoals(b) - getDynamoGoals(a))
+            .map(m => ({ title: getOpponent(m), subtitle: getFullDate(m), badge: m.score })); // <-- getFullDate toegepast
+
+        window.statModal.show({
+            title: 'Gelijkspelen',
+            headerIconHtml: '<div class="result-icon draw"><i class="fas fa-minus"></i></div>',
+            theme: 'var(--golden-yellow)',
+            data
+        }, cards[2]);
+    });
+
+    // 3 — Nederlagen
+    cards[3]?.addEventListener('click', () => {
+        const data = archiveMatches
+            .filter(m => m.result === 'verlies')
+            .sort((a, b) => (getOpponentGoals(b) - getDynamoGoals(b)) - (getOpponentGoals(a) - getDynamoGoals(a)))
+            .map(m => ({ title: getOpponent(m), subtitle: getFullDate(m), badge: m.score })); // <-- getFullDate toegepast
+
+        window.statModal.show({
+            title: 'Nederlagen',
+            headerIconHtml: '<div class="result-icon loss"><i class="fas fa-times"></i></div>',
+            theme: 'var(--soft-coral)',
+            data
+        }, cards[3]);
+    });
+
+    // 4 — Doelpunten
+    cards[4]?.addEventListener('click', () => {
+        const data = archivePlayers
+            .filter(p => p.goals > 0)
+            .sort((a, b) => b.goals - a.goals)
+            .map(p => ({ title: formatName(p.name), badge: p.goals }));
+
+        window.statModal.show({
+            title: 'Doelpunten',
+            headerIconHtml: '<i class="fas fa-futbol"></i>',
+            theme: 'var(--dynamo-red)',
+            data
+        }, cards[4]);
+    });
+
+    // 5 — Tegendoelpunten
+    cards[5]?.addEventListener('click', () => {
+        const data = goalsConcededByTeam(archiveMatches);
+        window.statModal.show({
+            title: 'Tegendoelpunten',
+            headerIconHtml: '<i class="fas fa-shield-halved"></i>',
+            theme: 'var(--golden-yellow)',
+            data
+        }, cards[5]);
+    });
+
+    statCardsBound = true;
 }

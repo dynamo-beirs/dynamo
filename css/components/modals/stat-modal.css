@@ -47,6 +47,10 @@
     color: var(--theme-color, var(--dark-blue));
 }
 
+#statModalIconContainer .result-icon {
+    font-size: var(--text-body);
+}
+
 /* List container matching .goalscorers-list */
 .stat-modal-list {
     list-style: none;

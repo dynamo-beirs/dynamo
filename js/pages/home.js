@@ -144,7 +144,7 @@ function setupStatCardInteractions() {
 
         window.statModal.show({
             title: 'Overwinningen',
-            headerIconHtml: '<i class="fas fa-trophy"></i>',
+            headerIconHtml: '<div class="result-icon win"><i class="fas fa-check"></i></div>',
             theme: 'var(--light-green)',
             data
         }, cards[1]);
