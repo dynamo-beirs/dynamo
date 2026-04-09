@@ -681,7 +681,7 @@ function setupStatCardInteractions() {
             .map(([opp, count]) => ({ title: opp, badge: `${count}x` }));
 
         window.statModal.show({
-            title: `Tegenstanders`,
+            title: 'Tegenstanders',
             headerIconHtml: '<i class="fas fa-handshake"></i>',
             theme: 'var(--dark-blue)',
             data
@@ -697,7 +697,7 @@ function setupStatCardInteractions() {
 
         window.statModal.show({
             title: 'Overwinningen',
-            headerIconHtml: '<div class="result-icon win"><i class="fas fa-trophy"></i></div>',
+            headerIconHtml: '<div class="result-icon win"><i class="fas fa-check"></i></div>',
             theme: 'var(--light-green)',
             data
         }, cards[1]);
@@ -753,8 +753,8 @@ function setupStatCardInteractions() {
         const data = goalsConcededByTeam(archiveMatches);
         window.statModal.show({
             title: 'Tegendoelpunten',
-            headerIconHtml: '<i class="fas fa-shield-halved"></i>',
-            theme: 'var(--golden-yellow)',
+            headerIconHtml: '<i class="fas fa-futbol"></i>',
+            theme: 'var(--dynamo-red)',
             data
         }, cards[5]);
     });
