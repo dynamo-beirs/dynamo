@@ -20,6 +20,11 @@
     --off-white:   #FAF9F5;
     --nested-box:  #EFF2F7;
 
+    /* Podium Colors */
+    --gold-medal:   #D4AF37;
+    --silver-medal: #C0C0C0;
+    --bronze-medal: #CD7F32;
+
     /* Shadows */
     --shadow-small:  0 8px 20px rgba(0,0,0,0.10);
     --shadow-medium: 0 8px 20px rgba(0,0,0,0.20);
