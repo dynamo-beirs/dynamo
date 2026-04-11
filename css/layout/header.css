@@ -252,6 +252,10 @@ body {
     z-index: 1;
 }
 
+.dynamo-logo path {
+    fill: var(--dynamo-red);
+}
+
 /* Animations */
 @keyframes slideDown {
     from {

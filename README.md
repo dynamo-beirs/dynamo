@@ -38,8 +38,7 @@ dynamo/
 ├── css/
 │   ├── base/
 │   │   ├── reset.css               # Browser reset / normalise
-│   │   ├── tokens.css              # Design tokens (colours, spacing, typography, breakpoints)
-│   │   └── typography.css          # Google Fonts import & type rules
+│   │   └── tokens.css              # Design tokens (colours, spacing, typography, breakpoints)
 │   │
 │   ├── core/
 │   │   ├── animations.css          # Scroll-reveal & entrance animation classes
