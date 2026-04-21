@@ -22,6 +22,12 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-facebook-solid:before {
+    content: "\e91a";
+}
+.icon-instagram-solid:before {
+    content: "\e91b";
+}
 .icon-futbol-solid:before {
     content: "\e919";
 }
