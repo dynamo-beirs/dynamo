@@ -80,7 +80,7 @@
     position: absolute;
     top: 38.5%;
     right: 0.85rem;
-    font-family: 'icomoon' !important;
+    font-family: 'icomoon', serif !important;
     font-weight: normal;
     font-size: 32px;
     color: var(--light-gray);
@@ -128,6 +128,12 @@
     margin-bottom: 1.5rem;
     font-size: 1.3rem;
     z-index: 4;
+}
+
+.timeline-item .result-icon i {
+    display: block;
+    line-height: 1;
+    transform: translateY(1px);
 }
 
 .timeline-item small {

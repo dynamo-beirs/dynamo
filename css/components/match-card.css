@@ -61,7 +61,6 @@
 .match-card .result-icon i {
     display: block;
     line-height: 1;
-    transform: translateY(1px);
 }
 
 /* Card Body */
@@ -184,6 +183,10 @@
     }
 
     .match-date, .match-venue { gap: 5px; }
+
+    .match-date i {
+        transform: translateY(-1px);
+    }
 }
 
 /* Responsive: Mobile */
