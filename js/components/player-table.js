@@ -16,7 +16,7 @@ export const PLAYER_TABLE_HEADER_HTML = `
         <div class="table-cell">Speler</div>
         <div class="table-cell sort-header" data-column="goals">
             <span class="desktop-only">Doelpunten</span>
-            <i class="icon-medal-solid mobile-only"></i>
+            <i class="icon-futbol-solid mobile-only"></i>
         </div>
         <div class="table-cell sort-header" data-column="matches">
             <span class="desktop-only">Wedstrijden</span>
@@ -24,7 +24,7 @@ export const PLAYER_TABLE_HEADER_HTML = `
         </div>
         <div class="table-cell sort-header" data-column="avg-goals">
             <span class="desktop-only">Gem. D/W</span>
-            <span class="mobile-only"><i class="icon-medal-solid"></i> / <i class="icon-shirt-solid"></i></span>
+            <span class="mobile-only"><i class="icon-futbol-solid"></i> / <i class="icon-shirt-solid"></i></span>
         </div>
     </div>
 `;
