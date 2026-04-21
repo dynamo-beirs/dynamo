@@ -37,15 +37,16 @@
     <!-- DNS Preconnect -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://doc-0k-7g-sheets.googleusercontent.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
     <!-- Preload critical assets -->
-    <link rel="preload" href="/dynamo/img/carousel/1.jpg" as="image" fetchpriority="high">
+    <link rel="preload" as="image" imagesrcset="/dynamo/img/carousel/mobile/1-mobile.webp 600w, /dynamo/img/carousel/desktop/1.webp 1000w" imagesizes="(min-width: 768px) 1000px, 600px" fetchpriority="high">
     <link rel="preload" href="/dynamo/css/layout/header.css" as="style">
 
     <!-- Prefetch subsequent assets -->
-    <link rel="prefetch" href="/dynamo/img/carousel/2.jpg" as="image">
-    <link rel="prefetch" href="/dynamo/img/carousel/7.jpg" as="image">
+    <link rel="prefetch" as="image" imagesrcset="/dynamo/img/carousel/mobile/2-mobile.webp 600w, /dynamo/img/carousel/desktop/2.webp 1000w" imagesizes="(min-width: 768px) 1000px, 600px">
+    <link rel="prefetch" as="image" imagesrcset="/dynamo/img/carousel/mobile/7-mobile.webp 600w, /dynamo/img/carousel/desktop/7.webp 1000w" imagesizes="(min-width: 768px) 1000px, 600px">
 
     <!-- Favicon -->
     <link rel="preload" href="/dynamo/img/logos/favicon/favicon.svg" as="image">
@@ -85,15 +86,6 @@
     <!-- Page-specific styles -->
     <link rel="stylesheet" href="/dynamo/css/pages/home.css">
 
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PSK11HXBQB"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-PSK11HXBQB');
-    </script>
-
     <!-- Scripts -->
     <script src="/dynamo/js/vendor/papaparse.min.js" defer></script>
     <script type="module" src="/dynamo/js/pages/home.js"></script>
@@ -126,29 +118,63 @@
         <div class="container">
             <div class="carousel-container">
                 <div class="carousel" id="carousel">
+
                     <div class="slide">
-                        <img src="/dynamo/img/carousel/1.jpg" alt="Dynamo Beirs 1" fetchpriority="high">
+                        <picture>
+                            <source media="(min-width: 768px)" srcset="/dynamo/img/carousel/desktop/1-desktop.webp" type="image/webp">
+                            <source srcset="/dynamo/img/carousel/mobile/1-mobile.webp" type="image/webp">
+                            <img src="/dynamo/img/carousel/mobile/1-mobile.jpg" alt="Dynamo Beirs 1" fetchpriority="high" width="380" height="570" style="width: 100%; height: auto;">
+                        </picture>
                     </div>
+
                     <div class="slide">
-                        <img src="/dynamo/img/carousel/2.jpg" alt="Dynamo Beirs 2" loading="lazy">
+                        <picture>
+                            <source media="(min-width: 768px)" srcset="/dynamo/img/carousel/desktop/2-desktop.webp" type="image/webp">
+                            <source srcset="/dynamo/img/carousel/mobile/2-mobile.webp" type="image/webp">
+                            <img src="/dynamo/img/carousel/mobile/2-mobile.jpg" alt="Dynamo Beirs 2" loading="lazy" width="380" height="570" style="width: 100%; height: auto;">
+                        </picture>
                     </div>
+
                     <div class="slide">
-                        <img src="/dynamo/img/carousel/3.jpg" alt="Dynamo Beirs 3" loading="lazy">
+                        <picture>
+                            <source media="(min-width: 768px)" srcset="/dynamo/img/carousel/desktop/3-desktop.webp" type="image/webp">
+                            <source srcset="/dynamo/img/carousel/mobile/3-mobile.webp" type="image/webp">
+                            <img src="/dynamo/img/carousel/mobile/3-mobile.jpg" alt="Dynamo Beirs 3" loading="lazy" width="380" height="570" style="width: 100%; height: auto;">
+                        </picture>
                     </div>
+
                     <div class="slide">
-                        <img src="/dynamo/img/carousel/4.jpg" alt="Dynamo Beirs 4" loading="lazy">
+                        <picture>
+                            <source media="(min-width: 768px)" srcset="/dynamo/img/carousel/desktop/4-desktop.webp" type="image/webp">
+                            <source srcset="/dynamo/img/carousel/mobile/4-mobile.webp" type="image/webp">
+                            <img src="/dynamo/img/carousel/mobile/4-mobile.jpg" alt="Dynamo Beirs 4" loading="lazy" width="380" height="570" style="width: 100%; height: auto;">
+                        </picture>
                     </div>
+
                     <div class="slide">
-                        <img src="/dynamo/img/carousel/5.jpg" alt="Dynamo Beirs 5" loading="lazy">
+                        <picture>
+                            <source media="(min-width: 768px)" srcset="/dynamo/img/carousel/desktop/5-desktop.webp" type="image/webp">
+                            <source srcset="/dynamo/img/carousel/mobile/5-mobile.webp" type="image/webp">
+                            <img src="/dynamo/img/carousel/mobile/5-mobile.jpg" alt="Dynamo Beirs 5" loading="lazy" width="380" height="570" style="width: 100%; height: auto;">
+                        </picture>
                     </div>
+
                     <div class="slide">
-                        <img src="/dynamo/img/carousel/6.jpg" alt="Dynamo Beirs 6" loading="lazy">
+                        <picture>
+                            <source media="(min-width: 768px)" srcset="/dynamo/img/carousel/desktop/6-desktop.webp" type="image/webp">
+                            <source srcset="/dynamo/img/carousel/mobile/6-mobile.webp" type="image/webp">
+                            <img src="/dynamo/img/carousel/mobile/6-mobile.jpg" alt="Dynamo Beirs 6" loading="lazy" width="380" height="570" style="width: 100%; height: auto;">
+                        </picture>
                     </div>
+
                     <div class="slide">
-                        <img src="/dynamo/img/carousel/7.jpg" alt="Dynamo Beirs 7" loading="lazy">
+                        <picture>
+                            <source media="(min-width: 768px)" srcset="/dynamo/img/carousel/desktop/7-desktop.webp" type="image/webp">
+                            <source srcset="/dynamo/img/carousel/mobile/7-mobile.webp" type="image/webp">
+                            <img src="/dynamo/img/carousel/mobile/7-mobile.jpg" alt="Dynamo Beirs 7" loading="lazy" width="380" height="570" style="width: 100%; height: auto;">
+                        </picture>
                     </div>
-                </div>
-                <button class="nav-btn prev-btn" id="prevBtn" aria-label="Previous slide">
+                </div>                <button class="nav-btn prev-btn" id="prevBtn" aria-label="Previous slide">
                     <i class="icon-chevron-left-solid"></i>
                 </button>
                 <button class="nav-btn next-btn" id="nextBtn" aria-label="Next slide">
@@ -296,6 +322,16 @@
         "telephone": "+32471603962",
         "email": "dynamobeirs@gmail.com"
     }
+</script>
+
+<!-- Google Analytics -->
+<script async defer src="https://www.googletagmanager.com/gtag/js?id=G-PSK11HXBQB"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-PSK11HXBQB', { 'send_page_view': false });
+    window.addEventListener('load', () => gtag('event', 'page_view'));
 </script>
 
 </body>

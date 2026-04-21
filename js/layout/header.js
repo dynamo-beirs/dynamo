@@ -149,7 +149,7 @@ function initScrollProgress() {
         }
         const scrollTop = window.scrollY;
         const pct       = Math.min(100, Math.max(0, (scrollTop / cachedMaxScroll) * 100));
-        progressBar.style.width = pct + '%';
+        progressBar.style.transform = `scaleX(${pct / 100})`;
     }
 
     let ticking = false;

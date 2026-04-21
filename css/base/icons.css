@@ -1,13 +1,10 @@
 @font-face {
     font-family: 'icomoon';
-    src:  url('/dynamo/fonts/fontawesome.eot?ze5vsy');
     src:  url('/dynamo/fonts/fontawesome.eot?ze5vsy#iefix') format('embedded-opentype'),
-    url('/dynamo/fonts/fontawesome.ttf?ze5vsy') format('truetype'),
-    url('/dynamo/fonts/fontawesome.woff?ze5vsy') format('woff'),
-    url('/dynamo/fonts/fontawesome.svg?ze5vsy#icomoon') format('svg');
+    url('/dynamo/fonts/fontawesome.woff?ze5vsy') format('woff');
     font-weight: normal;
     font-style: normal;
-    font-display: block;
+    font-display: swap;
 }
 
 [class^="icon-"], [class*=" icon-"] {

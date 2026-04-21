@@ -68,19 +68,6 @@
     <!-- Page-specific styles -->
     <link rel="stylesheet" href="/dynamo/css/pages/404.css">
 
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PSK11HXBQB"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-PSK11HXBQB');
-        gtag('event', 'page_view', {
-            page_title: '404 - Buitenspel',
-            page_location: window.location.href
-        });
-    </script>
-
     <!-- Scripts -->
     <script type="module" src="/dynamo/js/pages/404.js"></script>
     <script type="module" src="/dynamo/js/layout/header.js"></script>
@@ -141,6 +128,19 @@
             "name": "Dynamo Beirs"
         }
     }
+</script>
+
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-PSK11HXBQB"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-PSK11HXBQB');
+    gtag('event', 'page_view', {
+        page_title: '404 - Buitenspel',
+        page_location: window.location.href
+    });
 </script>
 
 </body>
