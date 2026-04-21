@@ -124,7 +124,7 @@ function setupStatCardInteractions() {
 
         window.statModal.show({
             title: 'Tegenstanders',
-            headerIconHtml: '<i class="fas fa-handshake"></i>',
+            headerIconHtml: '<i class="icon-handshake-solid"></i>',
             theme: 'var(--dark-blue)',
             data
         }, cards[0]);
@@ -144,7 +144,7 @@ function setupStatCardInteractions() {
 
         window.statModal.show({
             title: 'Overwinningen',
-            headerIconHtml: '<div class="result-icon win"><i class="fas fa-check"></i></div>',
+            headerIconHtml: '<div class="result-icon win"><i class="icon-check-solid"></i></div>',
             theme: 'var(--light-green)',
             data
         }, cards[1]);
@@ -165,7 +165,7 @@ function setupStatCardInteractions() {
 
         window.statModal.show({
             title: 'Doelpunten',
-            headerIconHtml: '<i class="fas fa-futbol"></i>',
+            headerIconHtml: '<i class="icon-futbol-solid"></i>',
             theme: 'var(--dynamo-red)',
             data
         }, cards[2]);
@@ -185,7 +185,7 @@ function setupStatCardInteractions() {
 
         window.statModal.show({
             title: 'Clean sheets',
-            headerIconHtml: '<i class="fas fa-shield-alt"></i>',
+            headerIconHtml: '<i class="icon-shield-halved-solid"></i>',
             theme: 'var(--golden-yellow)',
             data
         }, cards[3]);

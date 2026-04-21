@@ -56,6 +56,7 @@
     <!-- Base styles -->
     <link rel="stylesheet" href="/dynamo/css/base/tokens.css">
     <link rel="stylesheet" href="/dynamo/css/base/reset.css">
+    <link rel="stylesheet" href="/dynamo/css/base/icons.css">
 
     <!-- Core styles -->
     <link rel="stylesheet" href="/dynamo/css/core/animations.css">
@@ -75,9 +76,6 @@
     <link rel="stylesheet" href="/dynamo/css/components/loader.css">
     <link rel="stylesheet" href="/dynamo/css/components/modals/modal-base.css">
     <link rel="stylesheet" href="/dynamo/css/components/modals/match-modal.css">
-
-    <!-- Third-party styles -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
     <!-- Page-specific styles -->
     <link rel="stylesheet" href="/dynamo/css/pages/search.css">
@@ -120,7 +118,7 @@
         <div class="container">
             <div class="search-container">
                 <div class="search-wrapper">
-                    <i class="fas fa-search search-icon"></i>
+                    <i class="icon-magnifying-glass-solid search-icon"></i>
                     <input type="text" id="search-input" class="search-input" placeholder="Zoek op tegenstander" aria-label="Zoek wedstrijden op tegenstander">
                     <ul id="autocomplete-list" class="autocomplete-list"></ul>
                 </div>
@@ -137,10 +135,10 @@
                 <div class="sort-controls">
                     <span>Sorteren op:</span>
                     <div class="dropdown" id="results-sort">
-                        <div class="selected" data-value="date-desc">Datum (nieuw <i class="fas fa-arrow-right-long"></i> oud)</div>
+                        <div class="selected" data-value="date-desc">Datum (nieuw <i class="icon-arrow-right-long-solid"></i> oud)</div>
                         <ul class="options">
-                            <li data-value="date-desc">Datum (nieuw <i class="fas fa-arrow-right-long"></i> oud)</li>
-                            <li data-value="date-asc">Datum (oud <i class="fas fa-arrow-right-long"></i> nieuw)</li>
+                            <li data-value="date-desc">Datum (nieuw <i class="icon-arrow-right-long-solid"></i> oud)</li>
+                            <li data-value="date-asc">Datum (oud <i class="icon-arrow-right-long-solid"></i> nieuw)</li>
                             <li data-value="biggest-win">Grootste overwinning</li>
                             <li data-value="biggest-loss">Grootste nederlaag</li>
                         </ul>

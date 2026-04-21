@@ -140,7 +140,7 @@ function renderUpcomingMatches(upcomingMatches) {
         const [homeTeam, awayTeam] = match.title.split(' vs ');
 
         card.innerHTML = `
-            <span class="result-icon"><i class="fas fa-hourglass-half"></i></span>
+            <span class="result-icon"><i class="icon-hourglass-half-solid"></i></span>
             <div class="match-body">
                 <div class="match-teams">
                     <div class="home-team">${homeTeam}</div>
@@ -149,7 +149,7 @@ function renderUpcomingMatches(upcomingMatches) {
                 </div>
                 <div class="match-score">${match.dateTime.displayDate} — ${match.dateTime.time}</div>
                 <div class="match-details">
-                    <div class="match-venue"><i class="fas fa-map-marker-alt"></i> ${match.stadium}</div>
+                    <div class="match-venue"><i class="icon-location-dot-solid"></i> ${match.stadium}</div>
                 </div>
             </div>
         `;
@@ -194,7 +194,7 @@ function renderSeasonTimeline(matches) {
         item.setAttribute('data-match', `match${index + 1}`);
         item.setAttribute('data-match-data', JSON.stringify(match));
         item.innerHTML = `
-            <span class="result-icon"><i class="fas fa-${icon}"></i></span>
+            <span class="result-icon"><i class="${icon}"></i></span>
             <small>${match.dateTime.displayDate}</small>
         `;
         timeline.appendChild(item);

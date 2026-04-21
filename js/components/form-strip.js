@@ -5,6 +5,8 @@
  * of win/draw/loss icons. Now clickable to open the match modal.
  */
 
+import {resultToIcon} from "../core/helpers.js";
+
 export function renderForm(formMatches) {
     const formResults = document.getElementById('form-results');
     if (!formResults) return;
@@ -16,10 +18,10 @@ export function renderForm(formMatches) {
         const span     = document.createElement('span');
         const result   = match.result; // 'winst', 'gelijk', or 'verlies'
         const cls      = result === 'winst' ? 'win' : result === 'gelijk' ? 'draw' : 'loss';
-        const icon     = cls === 'win' ? 'check' : cls === 'draw' ? 'minus' : 'times';
+        const iconClass = resultToIcon(cls);
 
         span.className = `form-result ${cls}`;
-        span.innerHTML = `<i class="fas fa-${icon}"></i>`;
+        span.innerHTML = `<i class="${iconClass}"></i>`;
         span.setAttribute('data-tooltip', `${match.title} (${match.score})`);
 
         // Bind the modal click event

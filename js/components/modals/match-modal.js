@@ -110,15 +110,15 @@ class MatchModal extends ModalBase {
         const dateEl = this.modal.querySelector('#matchDate');
         const timeEl = this.modal.querySelector('#matchTime');
         if (dateEl && timeEl) {
-            dateEl.innerHTML = `<i class="fas fa-calendar"></i> ${dateTime.displayDate || 'TBD'}`;
-            timeEl.innerHTML = `<i class="fas fa-clock"></i> ${dateTime.time || 'TBD'}`;
+            dateEl.innerHTML = `<i class="icon-calendar-solid"></i> ${dateTime.displayDate || 'TBD'}`;
+            timeEl.innerHTML = `<i class="icon-clock-solid"></i> ${dateTime.time || 'TBD'}`;
         }
 
         const seasonEl = this.modal.querySelector('#matchSeason');
         if (seasonEl) seasonEl.textContent = season;
 
         const stadiumEl = this.modal.querySelector('#stadiumName');
-        if (stadiumEl) stadiumEl.innerHTML = `<i class="fas fa-map-marker-alt"></i> ${stadium}`;
+        if (stadiumEl) stadiumEl.innerHTML = `<i class="icon-location-dot-solid"></i> ${stadium}`;
 
         const goalscorersSection = this.modal.querySelector('.goalscorers-section');
         if (goalscorersSection) {
@@ -177,7 +177,7 @@ class MatchModal extends ModalBase {
         Object.entries(counts).forEach(([player, goals]) => {
             const li     = document.createElement('li');
             li.className = 'goalscorer-item';
-            li.innerHTML = `${'<i class="fas fa-futbol"></i> '.repeat(goals)}${player}`;
+            li.innerHTML = `${'<i class="icon-futbol-solid"></i> '.repeat(goals)}${player}`;
             list.appendChild(li);
         });
     }

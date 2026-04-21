@@ -76,12 +76,12 @@
 }
 
 .timeline::after {
-    content: '\f054';
+    content: '\e912';
     position: absolute;
     top: 38.5%;
     right: 0.85rem;
-    font-family: 'Font Awesome 6 Free', serif;
-    font-weight: 900;
+    font-family: 'icomoon' !important;
+    font-weight: normal;
     font-size: 32px;
     color: var(--light-gray);
     pointer-events: none;

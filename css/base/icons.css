@@ -1,0 +1,105 @@
+@font-face {
+    font-family: 'icomoon';
+    src:  url('/dynamo/fonts/fontawesome.eot?ze5vsy');
+    src:  url('/dynamo/fonts/fontawesome.eot?ze5vsy#iefix') format('embedded-opentype'),
+    url('/dynamo/fonts/fontawesome.ttf?ze5vsy') format('truetype'),
+    url('/dynamo/fonts/fontawesome.woff?ze5vsy') format('woff'),
+    url('/dynamo/fonts/fontawesome.svg?ze5vsy#icomoon') format('svg');
+    font-weight: normal;
+    font-style: normal;
+    font-display: block;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+    /* use !important to prevent issues with browser extensions that change fonts */
+    font-family: 'icomoon' !important;
+    speak: never;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-futbol-solid:before {
+    content: "\e919";
+}
+.icon-xmark-solid:before {
+    content: "\e900";
+}
+.icon-users-solid:before {
+    content: "\e901";
+}
+.icon-trophy-solid:before {
+    content: "\e902";
+}
+.icon-shirt-solid:before {
+    content: "\e903";
+}
+.icon-shield-halved-solid:before {
+    content: "\e904";
+}
+.icon-phone-solid:before {
+    content: "\e905";
+}
+.icon-person-running-solid:before {
+    content: "\e906";
+}
+.icon-minus-solid:before {
+    content: "\e907";
+}
+.icon-medal-solid:before {
+    content: "\e908";
+}
+.icon-magnifying-glass-solid:before {
+    content: "\e909";
+}
+.icon-location-dot-solid:before {
+    content: "\e90a";
+}
+.icon-house-solid:before {
+    content: "\e90b";
+}
+.icon-hourglass-half-solid:before {
+    content: "\e90c";
+}
+.icon-hand-solid:before {
+    content: "\e90d";
+}
+.icon-handshake-solid:before {
+    content: "\e90e";
+}
+.icon-envelope-solid:before {
+    content: "\e90f";
+}
+.icon-crosshairs-solid:before {
+    content: "\e910";
+}
+.icon-clock-solid:before {
+    content: "\e911";
+}
+.icon-chevron-right-solid:before {
+    content: "\e912";
+}
+.icon-chevron-left-solid:before {
+    content: "\e913";
+}
+.icon-check-solid:before {
+    content: "\e914";
+}
+.icon-caret-up-solid:before {
+    content: "\e915";
+}
+.icon-caret-down-solid:before {
+    content: "\e916";
+}
+.icon-calendar-solid:before {
+    content: "\e917";
+}
+.icon-arrow-right-long-solid:before {
+    content: "\e918";
+}

@@ -90,15 +90,15 @@ const getTooltipHTML = (d) => `
     <div class="archive-graph-tooltip">
         <h4 class="archive-graph-tooltip-title">${d.matches}</h4>
         <div class="archive-graph-tooltip-row">
-            <span class="result-icon win"><i class="fas fa-check"></i></span>
+            <span class="result-icon win"><i class="icon-check-solid"></i></span>
             <span class="archive-graph-tooltip-value">${d.winst}</span>
         </div>
         <div class="archive-graph-tooltip-row">
-            <span class="result-icon draw"><i class="fas fa-minus"></i></span>
+            <span class="result-icon draw"><i class="icon-minus-solid"></i></span>
             <span class="archive-graph-tooltip-value">${d.gelijk}</span>
         </div>
         <div class="archive-graph-tooltip-row">
-            <span class="result-icon loss"><i class="fas fa-times"></i></span>
+            <span class="result-icon loss"><i class="icon-xmark-solid"></i></span>
             <span class="archive-graph-tooltip-value">${d.verlies}</span>
         </div>
     </div>
@@ -237,7 +237,7 @@ async function loadSeasonData(seasonString) {
 
     const matchSortSel = document.querySelector('#archive-match-sort .selected');
     if (matchSortSel) {
-        matchSortSel.innerHTML    = 'Datum (oud <i class="fas fa-arrow-right-long"></i> nieuw)';
+        matchSortSel.innerHTML    = 'Datum (oud <i class="icon-arrow-right-long-solid"></i> nieuw)';
         matchSortSel.dataset.value = 'date-asc';
     }
 
@@ -528,7 +528,7 @@ function renderSeasonMatches(matches) {
         card.setAttribute('data-result',       match.result);
 
         card.innerHTML = `
-            <div class="result-icon ${cls}"><span><i class="fas fa-${icon}"></i></span></div>
+            <div class="result-icon ${cls}"><span><i class="${icon}"></i></span></div>
             <div class="match-body">
                 <div class="match-teams">
                     <div class="home-team">${homeTeam}</div>
@@ -537,7 +537,7 @@ function renderSeasonMatches(matches) {
                 </div>
                 <div class="match-score">${match.score}</div>
                 <div class="match-details">
-                    <span class="match-date"><i class="fas fa-calendar"></i> ${match.displayDate}</span>
+                    <span class="match-date"><i class="icon-calendar-solid"></i> ${match.displayDate}</span>
                 </div>
             </div>
         `;
@@ -682,7 +682,7 @@ function setupStatCardInteractions() {
 
         window.statModal.show({
             title: 'Tegenstanders',
-            headerIconHtml: '<i class="fas fa-handshake"></i>',
+            headerIconHtml: '<i class="icon-handshake-solid"></i>',
             theme: 'var(--dark-blue)',
             data
         }, cards[0]);
@@ -697,7 +697,7 @@ function setupStatCardInteractions() {
 
         window.statModal.show({
             title: 'Overwinningen',
-            headerIconHtml: '<div class="result-icon win"><i class="fas fa-check"></i></div>',
+            headerIconHtml: '<div class="result-icon win"><i class="icon-check-solid"></i></div>',
             theme: 'var(--light-green)',
             data
         }, cards[1]);
@@ -712,7 +712,7 @@ function setupStatCardInteractions() {
 
         window.statModal.show({
             title: 'Gelijkspelen',
-            headerIconHtml: '<div class="result-icon draw"><i class="fas fa-minus"></i></div>',
+            headerIconHtml: '<div class="result-icon draw"><i class="icon-minus-solid"></i></div>',
             theme: 'var(--golden-yellow)',
             data
         }, cards[2]);
@@ -727,7 +727,7 @@ function setupStatCardInteractions() {
 
         window.statModal.show({
             title: 'Nederlagen',
-            headerIconHtml: '<div class="result-icon loss"><i class="fas fa-times"></i></div>',
+            headerIconHtml: '<div class="result-icon loss"><i class="icon-xmark-solid"></i></div>',
             theme: 'var(--soft-coral)',
             data
         }, cards[3]);
@@ -742,7 +742,7 @@ function setupStatCardInteractions() {
 
         window.statModal.show({
             title: 'Doelpunten',
-            headerIconHtml: '<i class="fas fa-futbol"></i>',
+            headerIconHtml: '<i class="icon-futbol-solid"></i>',
             theme: 'var(--dynamo-red)',
             data
         }, cards[4]);
@@ -753,7 +753,7 @@ function setupStatCardInteractions() {
         const data = goalsConcededByTeam(archiveMatches);
         window.statModal.show({
             title: 'Tegendoelpunten',
-            headerIconHtml: '<i class="fas fa-futbol"></i>',
+            headerIconHtml: '<i class="icon-futbol-solid"></i>',
             theme: 'var(--dynamo-red)',
             data
         }, cards[5]);

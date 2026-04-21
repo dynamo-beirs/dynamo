@@ -355,7 +355,7 @@ function setupSeasonStatCards() {
             .map(([opp, count]) => ({ title: opp, badge: `${count}x` }));
         window.statModal.show({
             title: 'Tegenstanders',
-            headerIconHtml: '<i class="fas fa-handshake"></i>',
+            headerIconHtml: '<i class="icon-handshake-solid"></i>',
             theme: 'var(--dark-blue)',
             data
         }, cards[0]);
@@ -369,7 +369,7 @@ function setupSeasonStatCards() {
             .map(m => ({ title: getOpponent(m), subtitle: m.dateTime.displayDate, badge: m.score }));
         window.statModal.show({
             title: 'Overwinningen',
-            headerIconHtml: '<div class="result-icon win"><i class="fas fa-check"></i></div>',
+            headerIconHtml: '<div class="result-icon win"><i class="icon-check-solid"></i></div>',
             theme: 'var(--light-green)',
             data
         }, cards[1]);
@@ -383,7 +383,7 @@ function setupSeasonStatCards() {
             .map(m => ({ title: getOpponent(m), subtitle: m.dateTime.displayDate, badge: m.score }));
         window.statModal.show({
             title: 'Gelijkspelen',
-            headerIconHtml: '<div class="result-icon draw"><i class="fas fa-minus"></i></div>',
+            headerIconHtml: '<div class="result-icon draw"><i class="icon-minus-solid"></i></div>',
             theme: 'var(--golden-yellow)',
             data
         }, cards[2]);
@@ -397,7 +397,7 @@ function setupSeasonStatCards() {
             .map(m => ({ title: getOpponent(m), subtitle: m.dateTime.displayDate, badge: m.score }));
         window.statModal.show({
             title: 'Nederlagen',
-            headerIconHtml: '<div class="result-icon loss"><i class="fas fa-times"></i></div>',
+            headerIconHtml: '<div class="result-icon loss"><i class="icon-xmark-solid"></i></div>',
             theme: 'var(--soft-coral)',
             data
         }, cards[3]);
@@ -411,7 +411,7 @@ function setupSeasonStatCards() {
             .map(p => ({ title: formatName(p.name), badge: p.goals }));
         window.statModal.show({
             title: 'Doelpunten',
-            headerIconHtml: '<i class="fas fa-futbol"></i>',
+            headerIconHtml: '<i class="icon-futbol-solid"></i>',
             theme: 'var(--dynamo-red)',
             data
         }, cards[4]);
@@ -422,7 +422,7 @@ function setupSeasonStatCards() {
         const data = goalsConcededByTeam(past);
         window.statModal.show({
             title: 'Tegendoelpunten',
-            headerIconHtml: '<i class="fas fa-futbol"></i>',
+            headerIconHtml: '<i class="icon-futbol-solid"></i>',
             theme: 'var(--dynamo-red)',
             data
         }, cards[5]);
@@ -453,7 +453,7 @@ function setupAllTimeStatCards() {
             .map(([opp, count]) => ({ title: opp, badge: `${count}x` }));
         window.statModal.show({
             title: 'Tegenstanders',
-            headerIconHtml: '<i class="fas fa-handshake"></i>',
+            headerIconHtml: '<i class="icon-handshake-solid"></i>',
             theme: 'var(--dark-blue)',
             data
         }, cards[0]);
@@ -467,7 +467,7 @@ function setupAllTimeStatCards() {
             .map(m => ({ title: getOpponent(m), subtitle: getFullDate(m), badge: m.score })); // <-- getFullDate toegepast
         window.statModal.show({
             title: 'Overwinningen',
-            headerIconHtml: '<div class="result-icon win"><i class="fas fa-check"></i></div>',
+            headerIconHtml: '<div class="result-icon win"><i class="icon-check-solid"></i></div>',
             theme: 'var(--light-green)',
             data
         }, cards[1]);
@@ -481,7 +481,7 @@ function setupAllTimeStatCards() {
             .map(m => ({ title: getOpponent(m), subtitle: getFullDate(m), badge: m.score })); // <-- getFullDate toegepast
         window.statModal.show({
             title: 'Gelijkspelen',
-            headerIconHtml: '<div class="result-icon draw"><i class="fas fa-minus"></i></div>',
+            headerIconHtml: '<div class="result-icon draw"><i class="icon-minus-solid"></i></div>',
             theme: 'var(--golden-yellow)',
             data
         }, cards[2]);
@@ -495,7 +495,7 @@ function setupAllTimeStatCards() {
             .map(m => ({ title: getOpponent(m), subtitle: getFullDate(m), badge: m.score })); // <-- getFullDate toegepast
         window.statModal.show({
             title: 'Nederlagen',
-            headerIconHtml: '<div class="result-icon loss"><i class="fas fa-times"></i></div>',
+            headerIconHtml: '<div class="result-icon loss"><i class="icon-xmark-solid"></i></div>',
             theme: 'var(--soft-coral)',
             data
         }, cards[3]);
@@ -509,7 +509,7 @@ function setupAllTimeStatCards() {
             .map(p => ({ title: formatName(p.name), badge: p.goals }));
         window.statModal.show({
             title: 'Doelpunten',
-            headerIconHtml: '<i class="fas fa-futbol"></i>',
+            headerIconHtml: '<i class="icon-futbol-solid"></i>',
             theme: 'var(--dynamo-red)',
             data
         }, cards[4]);
@@ -520,7 +520,7 @@ function setupAllTimeStatCards() {
         const data = goalsConcededByTeam(past);
         window.statModal.show({
             title: 'Tegendoelpunten',
-            headerIconHtml: '<i class="fas fa-futbol"></i>',
+            headerIconHtml: '<i class="icon-futbol-solid"></i>',
             theme: 'var(--dynamo-red)',
             data
         }, cards[5]);

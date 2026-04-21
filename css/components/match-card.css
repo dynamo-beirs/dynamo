@@ -144,7 +144,7 @@
     line-height: 1;
     color: inherit;
     opacity: 0.8;
-    transform: translateY(-1px);
+    transform: translateY(1px);
 }
 
 /* Responsive: Tablet */

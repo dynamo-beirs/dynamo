@@ -21,7 +21,7 @@ export function buildResultCard(match, { extraClass = '', showSeason = false } =
 
     card.innerHTML = `
         <div class="result-icon ${cls}">
-            <span><i class="fas fa-${icon}"></i></span>
+            <span><i class="${icon}"></i></span>
         </div>
         <div class="match-body">
             <div class="match-teams">
@@ -32,10 +32,10 @@ export function buildResultCard(match, { extraClass = '', showSeason = false } =
             <div class="match-score">${match.score}</div>
             <div class="match-details">
                 <span class="match-date">
-                    <i class="fas fa-calendar"></i> ${match.dateTime.displayDate}
+                    <i class="icon-calendar-solid"></i> ${match.dateTime.displayDate}
                 </span>
                 ${showSeason && match.season
-        ? `<span class="match-season"><i class="fas fa-trophy"></i> ${match.season}</span>`
+        ? `<span class="match-season"><i class="icon-trophy-solid"></i> ${match.season}</span>`
         : ''}
             </div>
         </div>

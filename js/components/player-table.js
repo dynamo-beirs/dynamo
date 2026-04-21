@@ -16,15 +16,15 @@ export const PLAYER_TABLE_HEADER_HTML = `
         <div class="table-cell">Speler</div>
         <div class="table-cell sort-header" data-column="goals">
             <span class="desktop-only">Doelpunten</span>
-            <i class="fas fa-futbol mobile-only"></i>
+            <i class="icon-medal-solid mobile-only"></i>
         </div>
         <div class="table-cell sort-header" data-column="matches">
             <span class="desktop-only">Wedstrijden</span>
-            <i class="fas fa-shirt mobile-only"></i>
+            <i class="icon-shirt-solid mobile-only"></i>
         </div>
         <div class="table-cell sort-header" data-column="avg-goals">
             <span class="desktop-only">Gem. D/W</span>
-            <span class="mobile-only"><i class="fas fa-futbol"></i> / <i class="fas fa-shirt"></i></span>
+            <span class="mobile-only"><i class="icon-medal-solid"></i> / <i class="icon-shirt-solid"></i></span>
         </div>
     </div>
 `;
@@ -63,8 +63,8 @@ export function appendTableToggle(tableContainer, tableId, totalItems, limit, re
     const toggleBtn = document.createElement('button');
     toggleBtn.className = 'btn-toggle-table';
     toggleBtn.innerHTML = isExpanded
-        ? 'Toon minder <i class="fas fa-caret-up"></i>'
-        : `Toon alle ${totalItems} spelers <i class="fas fa-caret-down"></i>`;
+        ? 'Toon minder <i class="icon-caret-up-solid"></i>'
+        : `Toon alle ${totalItems} spelers <i class="icon-caret-down-solid"></i>`;
 
     toggleBtn.addEventListener('click', () => {
         tableStates[tableId] = !isExpanded;

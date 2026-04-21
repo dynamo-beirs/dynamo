@@ -25,20 +25,20 @@
 }
 
 .dropdown .selected::after {
-    content: '\f0d7';
+    content: '\e916'; /* Unicode for icon-caret-down-solid */
     position: absolute;
     top: 50%;
     right: 0.6rem;
-    font-weight: 900;
+    font-weight: normal;
     font-size: var(--text-lg);
-    font-family: 'Font Awesome 6 Free', serif;
+    font-family: 'icomoon' !important;
     color: var(--dropdown-border-color);
     transform: translateY(-55%);
     transition: transform var(--dur-base) var(--ease-ui);
 }
 
 .dropdown.active .selected::after {
-    content: '\f0d8';
+    content: '\e915';
     transform: translateY(-50%);
 }
 

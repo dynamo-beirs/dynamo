@@ -62,16 +62,16 @@ function renderFallbackHeader() {
                     </a>
                 </div>
                 <ul class="nav-links" id="nav-links">
-                    <li><a href="/dynamo/index.html" class="nav-link" data-page="home"><i class="fa-solid fa-house"></i><span class="nav-text">Home</span></a></li>
+                    <li><a href="/dynamo/index.html" class="nav-link" data-page="home"><i class="icon-house-solid"></i><span class="nav-text">Home</span></a></li>
                     <li><a href="/dynamo/html/players.html" class="nav-link" data-page="players">Spelers</a></li>
                     <li><a href="/dynamo/html/statistics.html" class="nav-link" data-page="statistics">Statistieken</a></li>
                     <li><a href="/dynamo/html/matches.html" class="nav-link" data-page="matches">Wedstrijden</a></li>
                     <li><a href="/dynamo/html/archive.html" class="nav-link" data-page="archive">Archief</a></li>
-                    <li><a href="/dynamo/html/search.html" class="nav-link search-link" data-page="search"><i class="fa-solid fa-magnifying-glass"></i></a></li>
+                    <li><a href="/dynamo/html/search.html" class="nav-link search-link" data-page="search"><i class="icon-magnifying-glass-solid"></i></a></li>
                 </ul>
                 <div class="mobile-search-container">
                     <a href="/dynamo/html/search.html" class="mobile-search-link" aria-label="Search">
-                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <i class="icon-magnifying-glass-solid"></i>
                     </a>
                 </div>
             </nav>

@@ -34,10 +34,10 @@ export const POSITION_LABEL_MAP = {
 };
 
 export const POSITION_ICON_MAP = {
-    'goalkeeper': '<i class="fas fa-hand-paper"></i>',
-    'defender':   '<i class="fas fa-shield-alt"></i>',
-    'midfielder': '<i class="fas fa-person-running"></i>',
-    'attacker':   '<i class="fas fa-crosshairs"></i>'
+    'goalkeeper': '<i class="icon-hand-solid"></i>',
+    'defender':   '<i class="icon-shield-halved-solid"></i>',
+    'midfielder': '<i class="icon-person-running-solid"></i>',
+    'attacker':   '<i class="icon-crosshairs-solid"></i>'
 };
 
 /* Result Helpers */
@@ -49,9 +49,9 @@ export function resultToClass(result) {
 }
 
 export function resultToIcon(cls) {
-    if (cls === 'win')  return 'check';
-    if (cls === 'draw') return 'minus';
-    return 'times';
+    if (cls === 'win')  return 'icon-check-solid';
+    if (cls === 'draw') return 'icon-minus-solid';
+    return 'icon-xmark-solid';
 }
 
 /* Date Parsing */
@@ -89,28 +89,6 @@ export function parseGoalscorers(raw) {
     }
     return scorers;
 }
-
-/* Table Header */
-
-export const PLAYER_TABLE_HEADER_HTML = `
-    <div class="table-header">
-        <div class="table-cell">Rang</div>
-        <div class="table-cell">Positie</div>
-        <div class="table-cell">Speler</div>
-        <div class="table-cell sort-header" data-column="goals">
-            <span class="desktop-only">Doelpunten</span>
-            <i class="fas fa-futbol mobile-only"></i>
-        </div>
-        <div class="table-cell sort-header" data-column="matches">
-            <span class="desktop-only">Wedstrijden</span>
-            <i class="fas fa-shirt mobile-only"></i>
-        </div>
-        <div class="table-cell sort-header" data-column="avg-goals">
-            <span class="desktop-only">Gem. D/W</span>
-            <span class="mobile-only"><i class="fas fa-futbol"></i> / <i class="fas fa-shirt"></i></span>
-        </div>
-    </div>
-`;
 
 /* Match Sort Margin Helpers */
 
