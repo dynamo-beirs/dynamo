@@ -187,6 +187,10 @@
     .match-date i {
         transform: translateY(0px);
     }
+
+    .match-venue i {
+        transform: translateY(-1px);
+    }
 }
 
 /* Responsive: Mobile */

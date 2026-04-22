@@ -248,7 +248,7 @@
     }
 
     .timeline::after {
-        top: 50%;
+        top: 50.5%;
         font-size: 18px;
     }
 
