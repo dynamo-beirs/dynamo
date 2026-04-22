@@ -185,7 +185,7 @@
     .match-date, .match-venue { gap: 5px; }
 
     .match-date i {
-        transform: translateY(-1px);
+        transform: translateY(0px);
     }
 }
 

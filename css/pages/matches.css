@@ -242,13 +242,13 @@
     }
 
     .timeline::before {
-        top: 50.5%;
+        top: 51%;
         right: 0.6rem;
         height: 2px;
     }
 
     .timeline::after {
-        top: 49.5%;
+        top: 50%;
         font-size: 18px;
     }
 
