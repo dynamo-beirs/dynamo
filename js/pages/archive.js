@@ -30,8 +30,17 @@ const animationElements = [
 /* Season Configuration */
 
 const SEASON_CONFIG = {
+    '2026-2027': {
+        label: "'26-'27", url: SHEET_URLS.currentSeason,
+        matchCols:  { first: colIndex('F'), last: colIndex('AA') },
+        matchRows:  { opponent: 1, date: 2, time: 3, stadium: 4, homeAway: 5, goalsFor: 74, goalsAgainst: 75, goalscorers: 77 },
+        playerRows: { first: 4, last: 51 },
+        playerCols: { name: colIndex('B'), position: colIndex('D'), goals: colIndex('AD'), matches: colIndex('AE') },
+        statsCell:  { played: [77, colIndex('AE')], wins: [75, colIndex('AG')], draws: [76, colIndex('AG')], losses: [77, colIndex('AG')], goalsFor: [74, colIndex('AE')], goalsAgainst: [75, colIndex('AE')] },
+        goldenShoe: { col: colIndex('AD'), gold: 84, silver: 85, bronze: 86 }
+    },
     '2025-2026': {
-        label: "'25-'26", url: SHEET_URLS.currentSeason,
+        label: "'25-'26", url: SHEET_URLS.season2526,
         matchCols:  { first: colIndex('F'), last: colIndex('AA') },
         matchRows:  { opponent: 1, date: 2, time: 3, stadium: 4, homeAway: 5, goalsFor: 74, goalsAgainst: 75, goalscorers: 77 },
         playerRows: { first: 4, last: 51 },
@@ -311,7 +320,7 @@ async function fetchAllSeasonsData() {
     const toDecimal  = (val, abs = false) => { let n = parseFloat(val); if (isNaN(n)) return 0; if (abs) n = Math.abs(n); return parseFloat(n.toFixed(2)); };
     const toInt      = (val, abs = false) => { let n = parseInt(val);   if (isNaN(n)) return 0; return abs ? Math.abs(n) : n; };
 
-    return [3, 5, 7, 9, 11].map(rowIndex => {
+    return [3, 5, 7, 9, 11, 13].map(rowIndex => {
         const row = rows[rowIndex];
         return {
             seasonLabel: cleanLabel(row[1]),

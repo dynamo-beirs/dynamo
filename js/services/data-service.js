@@ -39,12 +39,13 @@ const POSITION_RANK = {
 /* Sheet URLs */
 
 export const SHEET_URLS = {
-    currentSeason:   `${BASE_URL}/pub?gid=300017481&single=true&output=csv`,
-    teamSeasonStats: `${BASE_URL}/pub?gid=241725037&single=true&output=csv`,
+    currentSeason:   `${BASE_URL}/pub?gid=227845182&single=true&output=csv`,
+    teamSeasonStats: `${BASE_URL}/pub?gid=1823179258&single=true&output=csv`,
     teamAllTime:     `${BASE_URL}/pub?gid=1146719775&single=true&output=csv`,
     allTimePlayers:  `${BASE_URL}/pub?gid=1401992067&single=true&output=csv`,
     seasonRecords:   `${BASE_URL}/pub?gid=39583142&single=true&output=csv`,
     searchAll:       `${BASE_URL}/pub?gid=890518549&single=true&output=csv`,
+    season2526:      `${BASE_URL}/pub?gid=300017481&single=true&output=csv`,
     season2425:      `${BASE_URL}/pub?gid=560088310&single=true&output=csv`,
     season2324:      `${BASE_URL}/pub?gid=183840910&single=true&output=csv`,
     season2223:      `${BASE_URL}/pub?gid=49161181&single=true&output=csv`,
@@ -196,8 +197,8 @@ export async function fetchSeasonRecords() {
     const rows    = csvText.split('\n').map(row => row.split(',').map(c => c.trim().replace(/"/g, '')));
     if (rows.length < 18) throw new Error('Insufficient rows in season records CSV');
 
-    const recordRow = rows[15];
-    const seasonRow = rows[17];
+    const recordRow = rows[17];
+    const seasonRow = rows[19];
 
     return {
         mostWins:           { value: parseInt(recordRow[3])  || 0, season: seasonRow[3]  || 'Unknown' },

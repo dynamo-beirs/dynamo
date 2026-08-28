@@ -26,6 +26,8 @@
     font-size: var(--text-body);
     color: var(--dark-gray);
     text-align: center;
+    grid-column: 1 / -1;
+    width: 100%;
 }
 
 .error-message.hidden,
