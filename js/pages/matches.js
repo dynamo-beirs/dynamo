@@ -14,6 +14,7 @@ import { fetchCurrentSeasonMatches, fetchAllMatches } from '../services/data-ser
 import { FootballLoader } from '../components/loader.js';
 import { resultToClass, resultToIcon } from '../core/helpers.js';
 import { buildResultCard, animateMatchCards, bindMatchCardClicks } from '../components/match-card.js';
+import { sliceForTable, appendTableToggle } from '../components/player-table.js';
 
 /* Animation Elements Registry */
 
@@ -132,7 +133,9 @@ function renderUpcomingMatches(upcomingMatches) {
 
     grid.classList.remove('no-matches');
 
-    upcomingMatches.slice(0, 6).forEach(match => {
+    const visibleMatches = sliceForTable(upcomingMatches, 'upcoming-matches', 6);
+
+    visibleMatches.forEach(match => {
         const card = document.createElement('div');
         card.className = 'match-card';
         card.setAttribute('data-match-data', JSON.stringify(match));
@@ -155,6 +158,12 @@ function renderUpcomingMatches(upcomingMatches) {
         `;
         grid.appendChild(card);
     });
+
+    appendTableToggle(grid, 'upcoming-matches', upcomingMatches.length, 6, () => {
+        renderUpcomingMatches(upcomingMatches);
+        bindMatchCardClicks('#upcoming-matches-grid .match-card');
+        animateMatchCards('#upcoming-matches-grid .match-card', 'section');
+    }, 'wedstrijden', 'var(--dusty-blue)');
 }
 
 function renderRecentMatches(pastMatches) {
@@ -175,10 +184,19 @@ function renderRecentMatches(pastMatches) {
 
     grid.classList.remove('no-matches');
 
-    // buildResultCard handles result styling and data attributes
-    [...pastMatches].reverse().slice(0, 6).forEach(match => {
+    const reversedPast = [...pastMatches].reverse();
+    const visibleMatches = sliceForTable(reversedPast, 'recent-matches', 6);
+
+    visibleMatches.forEach(match => {
         grid.appendChild(buildResultCard(match));
     });
+
+// In renderRecentMatches:
+    appendTableToggle(grid, 'recent-matches', reversedPast.length, 6, () => {
+        renderRecentMatches(pastMatches);
+        bindMatchCardClicks('#recent-matches-grid .match-card');
+        animateMatchCards('#recent-matches-grid .match-card', 'section');
+    }, 'wedstrijden', 'var(--dark-yellow)');
 }
 
 function renderSeasonTimeline(matches) {

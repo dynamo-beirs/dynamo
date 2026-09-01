@@ -122,34 +122,6 @@
     opacity: 1;
 }
 
-/* Table Toggle Button */
-.table-toggle-container {
-    display: flex;
-    justify-content: center;
-    padding-top: 1.5rem;
-    background: transparent;
-}
-
-.btn-toggle-table {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.6rem 1.5rem;
-    font-weight: 600;
-    font-size: var(--text-body);
-    color: var(--dark-green);
-    background: white;
-    border: 3px solid var(--dark-green);
-    border-radius: var(--radius-pill);
-    cursor: pointer;
-    transition: var(--t-color);
-}
-
-.btn-toggle-table:hover {
-    color: white;
-    background: var(--dark-green);
-}
-
 /* Responsive: Tablet */
 @media (max-width: 1024px) {
     .table-header,
@@ -168,10 +140,6 @@
     .scorer-name,
     .player-name {
         font-size: 0.85rem;
-    }
-
-    .btn-toggle-table {
-        padding: 0.5rem 1rem 0.5rem 0.8rem;
     }
 
     .scorer-rank,
@@ -196,10 +164,6 @@
         grid-template-columns: 35px 1fr 45px 45px 45px;
         gap: 0.2rem;
         padding: 0.6rem;
-    }
-
-    .btn-toggle-table {
-        padding: 0.4rem 0.8rem 0.4rem 0.8rem;
     }
 
     .scorer-rank,

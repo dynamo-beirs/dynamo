@@ -45,7 +45,7 @@ export function sliceForTable(items, tableId, limit = 10) {
 }
 
 /** Handles cleanup, creation, and event binding of the toggle button. */
-export function appendTableToggle(tableContainer, tableId, totalItems, limit, renderCallback) {
+export function appendTableToggle(tableContainer, tableId, totalItems, limit, renderCallback, entityName = 'spelers', themeColor = null) {
     // Clean up any existing toggle button
     const nextEl = tableContainer.nextElementSibling;
     if (nextEl && nextEl.classList.contains('table-toggle-container')) {
@@ -62,9 +62,14 @@ export function appendTableToggle(tableContainer, tableId, totalItems, limit, re
 
     const toggleBtn = document.createElement('button');
     toggleBtn.className = 'btn-toggle-table';
+
+    if (themeColor) {
+        toggleBtn.style.setProperty('--toggle-color', themeColor);
+    }
+
     toggleBtn.innerHTML = isExpanded
         ? 'Toon minder <i class="icon-caret-up-solid"></i>'
-        : `Toon alle ${totalItems} spelers <i class="icon-caret-down-solid"></i>`;
+        : `Toon alle ${totalItems} ${entityName} <i class="icon-caret-down-solid"></i>`;
 
     toggleBtn.addEventListener('click', () => {
         tableStates[tableId] = !isExpanded;

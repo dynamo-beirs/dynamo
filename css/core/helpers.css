@@ -18,6 +18,35 @@
     border: 0;
 }
 
+/* Table Toggle Button (Global) */
+.table-toggle-container {
+    display: flex;
+    justify-content: center;
+    padding-top: 1.5rem;
+    background: transparent;
+}
+
+.btn-toggle-table {
+    --toggle-color: var(--dark-green);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.5rem;
+    font-weight: 600;
+    font-size: var(--text-body);
+    color: var(--toggle-color);
+    background: white;
+    border: 3px solid var(--toggle-color);
+    border-radius: var(--radius-pill);
+    cursor: pointer;
+    transition: var(--t-color);
+}
+
+.btn-toggle-table:hover {
+    color: white;
+    background: var(--toggle-color);
+}
+
 /* Status Messages */
 .loading-message,
 .error-message,
@@ -96,6 +125,17 @@ section.pb-0 { padding-bottom: 0; }
 
     .mobile-only {
         display: inline-block !important;
+    }
+
+    .btn-toggle-table {
+        padding: 0.5rem 1rem 0.5rem 0.8rem;
+    }
+}
+
+/* Responsive: Mobile */
+@media (max-width: 480px) {
+    .btn-toggle-table {
+        padding: 0.4rem 0.8rem 0.4rem 0.8rem;
     }
 }
 
